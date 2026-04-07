@@ -7,7 +7,7 @@ It is based on:
 - `srchybrid/Preferences.cpp`
 - `srchybrid/Preferences.h`
 - the `PPg*.cpp` preference pages
-- [DEFECTS.md](/C:/prj/p2p/eMulebb/eMule/DEFECTS.md)
+- [`AUDIT-DEFECTS.md`](AUDIT-DEFECTS.md)
 
 ## Table of Contents
 
@@ -422,7 +422,8 @@ Categories are saved under their own numbered sections rather than as one flat p
 
 ## TODO
 
-The unresolved issues from [DEFECTS.md](/C:/prj/p2p/eMulebb/eMule/DEFECTS.md) that matter most for the preference system are:
+The unresolved issues from [`AUDIT-DEFECTS.md`](AUDIT-DEFECTS.md) that matter
+most for the preference system are:
 
 | Item | Why it matters | Suggested follow-up |
 | --- | --- | --- |

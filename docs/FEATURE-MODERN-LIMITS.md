@@ -108,8 +108,8 @@ The remaining design choice here is deliberate conservatism on total connections
 
 Current code:
 
-- `UPLOAD_CLIENT_MAXDATARATE` is fixed at `1 * 1024 * 1024` bytes/s in [`Opcodes.h`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Opcodes.h#L109)
-- this still caps the fallback per-slot target path in [`UploadQueue.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/UploadQueue.cpp#L518)
+- `UPLOAD_CLIENT_MAXDATARATE` is fixed at `1 * 1024 * 1024` bytes/s in `srchybrid/Opcodes.h`
+- this still caps the fallback per-slot target path in `srchybrid/UploadQueue.cpp`
 
 For a broadband branch, `1 MB/s` per client is an obsolete ceiling.
 
@@ -145,7 +145,7 @@ This feature area is complete for the current branch target.
 
 ### 6. Several Timeouts Are Long And Old (FEAT_018)
 
-Current code in [`Opcodes.h`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Opcodes.h):
+Current code in `srchybrid/Opcodes.h`:
 
 - `CONNECTION_TIMEOUT = 40s`
 - `DOWNLOADTIMEOUT = 100s`
@@ -159,7 +159,7 @@ These defaults now use the shorter broadband values while staying fixed-value ba
 
 Current code:
 
-- deprecated source-exchange and misc capability notes are still visible in [`BaseClient.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/BaseClient.cpp#L972)
+- deprecated source-exchange and misc capability notes are still visible in `srchybrid/BaseClient.cpp`
 - the code still advertises older capability structures for compatibility
 
 That does not mean the wire values should be changed, but internal compatibility baggage should be reviewed and documented before further network modernization.
@@ -254,9 +254,9 @@ Do first:
 
 Files likely involved:
 
-- [`srchybrid/Opcodes.h`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Opcodes.h)
-- [`srchybrid/Preferences.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Preferences.cpp)
-- [`srchybrid/PPgTweaks.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/PPgTweaks.cpp)
+- `srchybrid/Opcodes.h`
+- `srchybrid/Preferences.cpp`
+- `srchybrid/PPgTweaks.cpp`
 
 ### Phase 2: Replace Compile-Time Magic With Preferences Where Practical (FEAT_019)
 
@@ -279,7 +279,7 @@ Keep compatibility-safe boundaries:
 
 Not to change opcodes, but to clean up stale assumptions:
 
-- review old comments and compatibility branches in [`BaseClient.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/BaseClient.cpp)
+- review old comments and compatibility branches in `srchybrid/BaseClient.cpp`
 - document which compatibility flags are still required
 - remove wrappers and dead compatibility scaffolding if it no longer materially helps
 
@@ -291,7 +291,7 @@ This phase is optional relative to the pure limits work, but should be considere
 
 Current:
 
-- recommended by [`CPreferences::GetRecommendedMaxConnections()`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Preferences.cpp#L1631)
+- recommended by `CPreferences::GetRecommendedMaxConnections()` in `srchybrid/Preferences.cpp`
 
 Action:
 
@@ -307,7 +307,7 @@ Risk:
 
 Current:
 
-- default `9` in [`Preferences.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Preferences.cpp#L2142)
+- default `9` in `srchybrid/Preferences.cpp`
 - old XP SP2 compatibility logic still resets between `9` and `50`
 
 Action:
@@ -323,8 +323,8 @@ Risk:
 
 Current:
 
-- compile-time fallback `20` in [`Opcodes.h`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Opcodes.h#L106)
-- Tweaks fallback also `20` in [`PPgTweaks.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/PPgTweaks.cpp#L41)
+- compile-time fallback `20` in `srchybrid/Opcodes.h`
+- Tweaks fallback also `20` in `srchybrid/PPgTweaks.cpp`
 
 Action:
 
@@ -339,7 +339,7 @@ Risk:
 
 Current:
 
-- `UPLOAD_CLIENT_MAXDATARATE` is `1 MB/s` in [`Opcodes.h`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Opcodes.h#L109)
+- `UPLOAD_CLIENT_MAXDATARATE` is `1 MB/s` in `srchybrid/Opcodes.h`
 
 Action:
 
@@ -358,7 +358,7 @@ Reason:
 
 Current:
 
-- `64 KiB` in [`ClientUDPSocket.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/ClientUDPSocket.cpp#L533)
+- `64 KiB` in `srchybrid/ClientUDPSocket.cpp`
 
 Action:
 
@@ -373,7 +373,7 @@ Risk:
 
 Current:
 
-- `128 KiB` in [`EMSocket.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/EMSocket.cpp#L1092)
+- `128 KiB` in `srchybrid/EMSocket.cpp`
 
 Action:
 
@@ -388,7 +388,7 @@ Risk:
 
 Current:
 
-- `512 KiB` default in [`Preferences.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Preferences.cpp#L2388)
+- `512 KiB` default in `srchybrid/Preferences.cpp`
 
 Action:
 
@@ -404,7 +404,7 @@ Risk:
 
 Current:
 
-- `60s` in [`Preferences.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Preferences.cpp#L2393)
+- `60s` in `srchybrid/Preferences.cpp`
 
 Action:
 
@@ -418,7 +418,7 @@ Risk:
 
 Current:
 
-- old compatibility path still maps to an effective `5000`-style default in [`Preferences.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Preferences.cpp#L2396)
+- old compatibility path still maps to an effective `5000`-style default in `srchybrid/Preferences.cpp`
 
 Action:
 
@@ -433,8 +433,8 @@ Risk:
 
 Current:
 
-- default `MaxSourcesPerFile = 600` in [`Preferences.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Preferences.cpp#L2187)
-- soft/UDP caps in [`PartFile.cpp`](/C:/prj/p2p/eMulebb/eMule/srchybrid/PartFile.cpp#L5362) and [`Opcodes.h`](/C:/prj/p2p/eMulebb/eMule/srchybrid/Opcodes.h#L96)
+- default `MaxSourcesPerFile = 600` in `srchybrid/Preferences.cpp`
+- soft/UDP caps in `srchybrid/PartFile.cpp` and `srchybrid/Opcodes.h`
 
 Action:
 
