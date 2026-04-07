@@ -14,6 +14,9 @@ a full dump if the UI stops responding.
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $false)]
+    [string]$EmuleWorkspaceRoot = '',
+
+    [Parameter(Mandatory = $false)]
     [string]$ProfileRoot = 'C:\tmp\emule-testing',
 
     [Parameter(Mandatory = $false)]
@@ -2121,10 +2124,20 @@ function Save-HangDump {
 }
 
 $helperDir = Split-Path -Parent $PSCommandPath
-$repoRoot = Get-NormalizedPath -Path (Join-Path $helperDir '..')
-$workspaceRoot = Get-NormalizedPath -Path (Join-Path $repoRoot '..')
-$testsRoot = Get-NormalizedPath -Path (Join-Path $workspaceRoot '..\eMule-build-tests')
-$remoteRoot = Get-NormalizedPath -Path (Join-Path $workspaceRoot '..\eMule-remote')
+$toolingRepoRoot = Get-NormalizedPath -Path (Join-Path $helperDir '..')
+$emuleWorkspaceRoot = if ([string]::IsNullOrWhiteSpace($EmuleWorkspaceRoot)) {
+    if (-not [string]::IsNullOrWhiteSpace($env:EMULE_WORKSPACE_ROOT)) {
+        Get-NormalizedPath -Path $env:EMULE_WORKSPACE_ROOT
+    } else {
+        Get-NormalizedPath -Path (Join-Path $toolingRepoRoot '..\..')
+    }
+} else {
+    Get-NormalizedPath -Path $EmuleWorkspaceRoot
+}
+$workspaceRoot = Get-NormalizedPath -Path (Join-Path $emuleWorkspaceRoot 'workspaces\v0.72a')
+$repoRoot = Get-NormalizedPath -Path (Join-Path $workspaceRoot 'app\eMule-v0.72a-bugfix')
+$testsRoot = Get-NormalizedPath -Path (Join-Path $emuleWorkspaceRoot 'repos\eMule-build-tests')
+$remoteRoot = Get-NormalizedPath -Path (Join-Path $emuleWorkspaceRoot 'repos\eMule-remote')
 $buildScriptPath = Join-Path $workspaceRoot '23-build-emule-debug-incremental.cmd'
 $buildExePath = Join-Path $repoRoot 'srchybrid\x64\Debug\emule.exe'
 $launchedExePath = Join-Path $repoRoot 'srchybrid\x64\Debug\eMule_v072_harness.exe'
