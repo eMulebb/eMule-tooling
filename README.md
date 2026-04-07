@@ -11,14 +11,18 @@ is:
 - remote companion app: `repos\eMule-remote`
 - tooling docs and helpers: this repo
 
-## Key Documents
+## What This Repo Owns
 
 - doc index: [`docs/INDEX.md`](docs/INDEX.md)
 - broadband feature notes: [`docs/FEATURE-BROADBAND.md`](docs/FEATURE-BROADBAND.md)
 - API server contract: [`docs/PLAN-API-SERVER.md`](docs/PLAN-API-SERVER.md)
 - modernization roadmap: [`docs/PLAN-MODERNIZATION-2026.md`](docs/PLAN-MODERNIZATION-2026.md)
 
-## Workspace Model
+This repo does not own workspace materialization, app source, or build/test
+execution contracts. It is the place for deeper engineering notes and helper
+scripts that operate inside the canonical workspace.
+
+## Workspace Convention
 
 Canonical paths are expressed through `EMULE_WORKSPACE_ROOT`:
 
@@ -27,6 +31,8 @@ Canonical paths are expressed through `EMULE_WORKSPACE_ROOT`:
 
 Helper scripts in this repo should follow that model and should not encode old
 fixed `eMulebb` workspace paths.
+
+For the full workspace topology, use `eMulebb-setup\README.md`.
 
 ## Notes
 

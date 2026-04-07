@@ -1,12 +1,8 @@
 # eMule Documentation Index
 
-**Branch:** `v0.72a-broadband-dev`
-**Last updated:** 2026-04-02
-
----
-
 ## Table of Contents
 
+- [Authoritative Docs](#authoritative-docs)
 - [Architecture](#architecture)
 - [Audits](#audits)
 - [Dependencies](#dependencies)
@@ -16,6 +12,25 @@
 - [Plans](#plans)
 - [Refactoring](#refactoring)
 - [Consolidated Item Index](#consolidated-item-index)
+
+---
+
+## Authoritative Docs
+
+Use these files as the primary entrypoints before diving into planning and audit
+material:
+
+| Repo / Area | Primary Doc | Purpose |
+|---|---|---|
+| Workspace layout and materialization | `eMulebb-setup\README.md` | Source of truth for the canonical workspace topology and setup flow |
+| Build and test orchestration | `repos\eMule-build\README.md` | Supported build commands, parameters, validation, and test flow |
+| Shared test harness | `repos\eMule-build-tests\README.md` | Harness ownership, suite model, and test scripts |
+| Tooling and audits | [`README.md`](../README.md) | Purpose of this repo and how to use this index |
+| Remote companion app | `repos\eMule-remote\README.md` | Runtime surface, install, and API/UI entrypoints |
+| App repo editing rules | `repos\eMule\AGENTS.md` | Repo-local agent editing constraints |
+
+The documents below are deeper reference material. They should not duplicate the
+full workspace contract that belongs in `eMulebb-setup`.
 
 ---
 

@@ -1,9 +1,9 @@
 # Rules
 - canonical roots are expressed through `EMULE_WORKSPACE_ROOT` or `-EmuleWorkspaceRoot`
-- the canonical layout is `EMULE_WORKSPACE_ROOT\repos\...` plus `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\...`
 - the canonical tests repo is `EMULE_WORKSPACE_ROOT\repos\eMule-build-tests`
 - the canonical remote repo is `EMULE_WORKSPACE_ROOT\repos\eMule-remote`
 - the canonical app worktrees live under `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\...`
+- do not restate the full workspace contract here; that belongs in `eMulebb-setup\README.md`
 - keep a consistent code style with the existing code base
 - comment added code only when the purpose is not obvious
 - use Doxygen-style comments for new or clarified code comments
