@@ -98,6 +98,54 @@ extended for it.
 - Direct commits to `main` are acceptable only for very small administrative or
   policy corrections.
 
+## Development Workflow
+
+- Normal development starts from `main` on short-lived branches.
+- Recommended branch families are:
+  - `feature/<topic>` for new behavior
+  - `fix/<topic>` for bug fixes
+  - `chore/<topic>` for tooling, docs, or repo hygiene
+- The normal path back to `main` is feature branch plus squash merge.
+- One working branch should pursue one coherent outcome.
+- Avoid mixing unrelated behavior changes, dependency churn, tooling churn, and
+  large cleanup in one branch unless they are inseparable.
+- Frozen release branches are not normal development targets.
+- Frozen release branches may receive only selective backports from already
+  reviewed work on `main`.
+
+## Validation Expectations
+
+- The default merge bar is scoped validation, not full-matrix validation for
+  every change.
+- Every development change should pass `validate`.
+- After `validate`, run the smallest relevant build and test set for the area
+  being changed.
+- Full matrix validation is expected for:
+  - build-system changes
+  - dependency pin or dependency project changes
+  - compiler or toolchain policy changes
+  - broad integration changes that span multiple repos or architectures
+- Docs-only or policy-only changes may use a lighter validation path when they
+  do not alter the build contract.
+- Cleanliness checks like `check-clean-worktree.ps1` are appropriate for CI,
+  release prep, or explicit hygiene passes, but are not the default requirement
+  for every in-progress feature branch.
+
+## Backport Rules
+
+- `release/v0.72a-build` and `release/v0.72a-bugfix` are frozen maintenance
+  lines.
+- Acceptable backports are narrow and selective:
+  - buildability fixes
+  - important low-risk fixes
+  - narrowly scoped release maintenance
+- Unacceptable backports include:
+  - normal feature work
+  - broad refactors
+  - speculative cleanup
+  - changes that have not already been reviewed on `main`
+- Prefer cherry-picks or tightly scoped merge work over branch drift.
+
 ## Setup and Dependency Authority
 
 - `eMulebb-setup` owns materialization, managed app worktrees, and repo pinning.
@@ -119,6 +167,18 @@ extended for it.
 - `check-clean-worktree.ps1` is an explicit cleanliness guard for CI or
   pre-release verification; it is not part of routine `validate` because local
   feature work may legitimately leave tracked changes in progress.
+
+## Documentation Discipline
+
+- Workspace-wide development rules belong only in this document.
+- Repo-local `AGENTS.md` files should stay thin and repo-specific.
+- Repo-local docs must point to this policy rather than restating workspace
+  branch, worktree, setup, or dependency authority.
+- Use `EMULE_WORKSPACE_ROOT` style references instead of machine-specific
+  absolute paths in active docs.
+- Backlog and planning docs are not authoritative by themselves.
+- Before implementing a backlog item, revalidate it against current `main`,
+  current dependency pins, and the current workspace policy.
 
 ## Active Build Policy
 
@@ -159,6 +219,19 @@ extended for it.
     through wrapper/CMake orchestration
   - `cryptopp` toolset enforcement remains in workspace build orchestration to
     avoid unnecessary fork delta
+
+## Implementation Discipline
+
+- Put changes at the earliest layer where they are true, then let later layers
+  inherit them.
+- Prefer narrow, build-level fixes over source edits in third-party dependency
+  forks when the issue is build policy, warning policy, or orchestration.
+- Do not revive `stale/*` branches or historical workflows as active solutions.
+- Do not reintroduce workspace orchestration, dependency pin policy, or branch
+  policy into app-repo docs or ad hoc notes.
+- Keep commits and reviewed outcomes behavior-focused and easy to explain.
+- If an exception to these defaults is necessary, record it clearly in the
+  change itself rather than relying on local habit.
 
 ## Tags
 
