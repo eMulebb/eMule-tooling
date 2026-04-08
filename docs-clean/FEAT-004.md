@@ -1,0 +1,71 @@
+---
+id: FEAT-004
+title: Kad — Generalise KadPublishGuard abuse budget beyond PUBLISH_SOURCE
+status: Open
+priority: Minor
+category: feature
+labels: [kad, abuse-prevention, throttling, resource-budget]
+milestone: ~
+created: 2026-04-08
+source: AUDIT-KAD.md (AUD_KAD_011, AUD_KAD_020)
+---
+
+## Summary
+
+The `KadPublishGuard` throttle in the target tree does an excellent job of
+protecting the `PUBLISH_SOURCE` path against abuse. The same budget model
+should be extended to all other expensive Kad operations.
+
+## Current State
+
+`KadPublishGuard` provides:
+- Per-IP source-publish throttling
+- Drop and ban escalation for abusive publish rates
+- Rejection of malformed publish metadata
+
+This is strong local policy. But other expensive Kad paths (search responses
+sending large contact sets, store operations, index key lookups under load)
+have no equivalent protection.
+
+## Proposed Generalisation (AUD_KAD_011, libtorrent AUD_KAD_020)
+
+### Per-Opcode Token Buckets
+
+For each expensive Kad opcode, maintain a token bucket:
+- Token refill rate = maximum acceptable request rate per source IP.
+- Each incoming request consumes one token.
+- When the bucket empties: drop + log, escalate to temp ban after N drops.
+
+### Byte-Based Quotas
+
+In addition to request-count quotas:
+- Track bytes consumed per IP per time window.
+- Enforce a per-IP byte budget for expensive-response generation.
+
+### Per-Prefix Budgets
+
+- In addition to per-IP: track per `/24` prefix.
+- Useful when multiple clients behind CGNAT share an IP.
+
+### Explicit Memory Ceilings
+
+- Add hard per-index memory ceilings (contacts stored, keywords indexed).
+- Make eviction policy visible in logs.
+- Evict low-trust and stale publishers first.
+
+### Counters
+
+Track and expose:
+- Dropped expensive requests (by opcode, by reason).
+- Malformed expensive requests (by opcode).
+- Escalated abusive senders.
+
+## Protocol Compatibility
+
+All changes are local resource governance — no wire format or protocol changes.
+
+## Files
+
+- `srchybrid/kademlia/utils/KadPublishGuard.h` / `KadPublishGuard.cpp` — extend
+- `srchybrid/kademlia/net/KademliaUDPListener.h` / `.cpp` — opcode dispatch hooks
+- `srchybrid/kademlia/kademlia/Indexed.h` / `.cpp` — memory ceiling hooks
