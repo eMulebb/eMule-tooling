@@ -22,8 +22,8 @@ material:
 
 | Repo / Area | Primary Doc | Purpose |
 |---|---|---|
-| Workspace layout and materialization | `eMulebb-setup\README.md` | Source of truth for the canonical workspace topology and setup flow |
-| Branching and promotion strategy | `eMulebb-setup\BRANCHING.md` | Active branch classes, merge policy, promotion flow, and release tags |
+| Workspace policy | [WORKSPACE_POLICY](WORKSPACE_POLICY.md) | Source of truth for workspace roles, active branches, worktrees, setup authority, and dependency-pin authority |
+| Workspace layout and materialization | `eMulebb-setup\README.md` | Operational guide for canonical workspace topology and setup flow |
 | Build and test orchestration | `repos\eMule-build\README.md` | Supported build commands, parameters, validation, and test flow |
 | Shared test harness | `repos\eMule-build-tests\README.md` | Harness ownership, suite model, and test scripts |
 | Tooling and audits | [`README.md`](../README.md) | Purpose of this repo and how to use this index |
@@ -31,7 +31,7 @@ material:
 | App repo editing rules | `repos\eMule\AGENTS.md` | Repo-local agent editing constraints |
 
 The documents below are deeper reference material. They should not duplicate the
-full workspace contract that belongs in `eMulebb-setup`.
+workspace contract documented in [WORKSPACE_POLICY](WORKSPACE_POLICY.md).
 
 Some historical design and audit documents still mention older branch names such
 as `v0.72a-broadband-dev`. Treat those as historical context, not as the active

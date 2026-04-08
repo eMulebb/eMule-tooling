@@ -1,7 +1,7 @@
 # eMule Tooling
 
-This repo contains the supporting documentation, helper scripts, and audit
-material for the current eMule workspace.
+This repo contains the supporting documentation, helper scripts, audit
+material, and central workspace policy for the current eMule workspace.
 
 It is not the app repo and it is not the build orchestrator. The current split
 is:
@@ -13,13 +13,15 @@ is:
 
 ## What This Repo Owns
 
+- central workspace policy: [`docs/WORKSPACE_POLICY.md`](docs/WORKSPACE_POLICY.md)
 - doc index: [`docs/INDEX.md`](docs/INDEX.md)
 - broadband feature notes: [`docs/FEATURE-BROADBAND.md`](docs/FEATURE-BROADBAND.md)
 - API server contract: [`docs/PLAN-API-SERVER.md`](docs/PLAN-API-SERVER.md)
 - modernization roadmap: [`docs/PLAN-MODERNIZATION-2026.md`](docs/PLAN-MODERNIZATION-2026.md)
 
 This repo does not own workspace materialization, app source, or build/test
-execution contracts. It is the place for deeper engineering notes and helper
+execution contracts. It is the authoritative documentation home for
+workspace-wide policy and the place for deeper engineering notes and helper
 scripts that operate inside the canonical workspace.
 
 ## Workspace Convention
@@ -32,7 +34,8 @@ Canonical paths are expressed through `EMULE_WORKSPACE_ROOT`:
 Helper scripts in this repo should follow that model and should not encode old
 fixed `eMulebb` workspace paths.
 
-For the full workspace topology, use `eMulebb-setup\README.md`.
+For the full workspace operating contract, use
+`EMULE_WORKSPACE_ROOT\repos\eMule-tooling\docs\WORKSPACE_POLICY.md`.
 
 ## Notes
 
