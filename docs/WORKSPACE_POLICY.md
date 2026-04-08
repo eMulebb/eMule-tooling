@@ -120,6 +120,11 @@ extended for it.
 - Every development change should pass `validate`.
 - After `validate`, run the smallest relevant build and test set for the area
   being changed.
+- For feature and fix work on `main`, targeted regression checks are the
+  default expectation.
+- When a change affects observable behavior, compare `main` against
+  `release/v0.72a-build` as the oracle baseline where the existing targeted
+  test or live-diff flow makes that comparison meaningful.
 - Full matrix validation is expected for:
   - build-system changes
   - dependency pin or dependency project changes
@@ -127,6 +132,8 @@ extended for it.
   - broad integration changes that span multiple repos or architectures
 - Docs-only or policy-only changes may use a lighter validation path when they
   do not alter the build contract.
+- An exception to targeted regression work is acceptable only when the change
+  has no meaningful runtime or observable behavior surface.
 - Cleanliness checks like `check-clean-worktree.ps1` are appropriate for CI,
   release prep, or explicit hygiene passes, but are not the default requirement
   for every in-progress feature branch.

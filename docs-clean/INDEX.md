@@ -10,6 +10,9 @@ The current `eMule-main` branch has none of those changes. Every issue here is g
 open against main.
 **Revalidation rule:** branch/build/dependency hygiene landed after this backlog rebuild.
 Before implementing any item, re-check it against current `main` and current dependency pins.
+**Regression rule:** new feature/fix work from this backlog should include targeted
+regression checks. When behavior changes, compare `main` against the `build`
+release branch as the oracle baseline where that comparison is meaningful.
 
 ---
 
