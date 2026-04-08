@@ -37,6 +37,8 @@ repo-local docs.
   - `chore/<topic>`
 - `release/v0.72a-build` and `release/v0.72a-bugfix` are frozen historical
   stabilization lines.
+- `oracle/v0.72a-build` is the sanctioned seam-enabled oracle branch derived
+  from `release/v0.72a-build`.
 - Small merge work on frozen release branches is allowed only to backport
   reviewed fixes or keep those branches buildable.
 - Future release work should branch from reviewed commits already present on
@@ -73,6 +75,7 @@ repo-local docs.
 The canonical workspace currently materializes these app worktrees:
 
 - `eMule-main` -> `main`
+- `eMule-v0.72a-oracle` -> `oracle/v0.72a-build`
 - `eMule-v0.72a-build` -> `release/v0.72a-build`
 - `eMule-v0.72a-bugfix` -> `release/v0.72a-bugfix`
 
@@ -123,8 +126,8 @@ extended for it.
 - For feature and fix work on `main`, targeted regression checks are the
   default expectation.
 - When a change affects observable behavior, compare `main` against
-  `release/v0.72a-build` as the oracle baseline where the existing targeted
-  test or live-diff flow makes that comparison meaningful.
+  `oracle/v0.72a-build` as the seam-enabled oracle baseline where the existing
+  targeted test or live-diff flow makes that comparison meaningful.
 - Full matrix validation is expected for:
   - build-system changes
   - dependency pin or dependency project changes
@@ -152,6 +155,24 @@ extended for it.
   - speculative cleanup
   - changes that have not already been reviewed on `main`
 - Prefer cherry-picks or tightly scoped merge work over branch drift.
+
+## Oracle Branch Rules
+
+- `oracle/v0.72a-build` is not a product release line and not a normal
+  development target.
+- The real product-history baseline remains `release/v0.72a-build`.
+- `oracle/v0.72a-build` exists only to support targeted regression testing
+  against a seam-enabled baseline derived from that release line.
+- Allowed oracle changes are limited to:
+  - test seams
+  - deterministic probes or adapters
+  - narrow logging or tracing needed by the test harness
+- Oracle seams must be inert unless explicitly exercised by the test harness.
+- Oracle changes must not alter normal runtime behavior, persistence semantics,
+  network behavior, or default control flow relative to
+  `release/v0.72a-build`.
+- Oracle seams may lag `main`; backport only the minimal common seam surface
+  required to compile and run the intended comparison tests.
 
 ## Setup and Dependency Authority
 

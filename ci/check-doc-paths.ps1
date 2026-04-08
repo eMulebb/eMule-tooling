@@ -49,6 +49,10 @@ $scanScopes = @(
         Paths = @('AGENTS.md')
     }
     @{
+        RepoRoot = Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-oracle'
+        Paths = @('AGENTS.md')
+    }
+    @{
         RepoRoot = Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-build'
         Paths = @('AGENTS.md')
     }

@@ -50,6 +50,7 @@ function Assert-FileNotContains([string]$PathToCheck, [string]$Pattern, [string]
 
 foreach ($variantRelativeRoot in @(
     'workspaces\v0.72a\app\eMule-main',
+    'workspaces\v0.72a\app\eMule-v0.72a-oracle',
     'workspaces\v0.72a\app\eMule-v0.72a-build',
     'workspaces\v0.72a\app\eMule-v0.72a-bugfix'
 )) {

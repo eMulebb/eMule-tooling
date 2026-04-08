@@ -49,6 +49,7 @@ $reposToCheck = @(
     (Resolve-WorkspacePath 'repos\third_party\eMule-ResizableLib'),
     (Resolve-WorkspacePath 'repos\third_party\eMule-zlib'),
     (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-main'),
+    (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-oracle'),
     (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-build'),
     (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-bugfix')
 )
