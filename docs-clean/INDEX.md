@@ -1,6 +1,6 @@
 # eMule Clean Backlog — Issue Index
 
-**Source of truth:** `c:\prj\p2p\eMuleaz01\workspaces\v0.72a\app\eMule-main\` (main branch)  
+**Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
 **Rebuilt:** 2026-04-08 — clean slate from git log + old docs salvage + fresh code audit  
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
@@ -8,6 +8,8 @@
 stale experimental branch (`archive/v0.72a-experimental-clean-provisional-20260404`) only.
 The current `eMule-main` branch has none of those changes. Every issue here is genuinely
 open against main.
+**Revalidation rule:** branch/build/dependency hygiene landed after this backlog rebuild.
+Before implementing any item, re-check it against current `main` and current dependency pins.
 
 ---
 
