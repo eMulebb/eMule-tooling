@@ -37,6 +37,8 @@ repo-local docs.
   - `chore/<topic>`
 - `release/v0.72a-build` and `release/v0.72a-bugfix` are frozen historical
   stabilization lines.
+- Small merge work on frozen release branches is allowed only to backport
+  reviewed fixes or keep those branches buildable.
 - Future release work should branch from reviewed commits already present on
   `main`.
 - Release branches are downstream stabilization lines:
@@ -103,6 +105,20 @@ extended for it.
   branches used by the canonical workspace.
 - Repo-local docs must not redefine dependency pin authority or workspace
   topology.
+
+## Shared CI Policy
+
+- Shared workspace policy audits live under `repos\eMule-tooling\ci\`.
+- Routine `validate` in `repos\eMule-build` must run the active static audits:
+  - build policy
+  - branch policy
+  - dependency pin policy
+  - active documentation path policy
+  - project entrypoint policy
+  - warning policy
+- `check-clean-worktree.ps1` is an explicit cleanliness guard for CI or
+  pre-release verification; it is not part of routine `validate` because local
+  feature work may legitimately leave tracked changes in progress.
 
 ## Active Build Policy
 
