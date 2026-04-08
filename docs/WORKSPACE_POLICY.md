@@ -35,10 +35,16 @@ repo-local docs.
   - `feature/<topic>`
   - `fix/<topic>`
   - `chore/<topic>`
+- `release/v0.72a-build` and `release/v0.72a-bugfix` are frozen historical
+  stabilization lines.
+- Future release work should branch from reviewed commits already present on
+  `main`.
 - Release branches are downstream stabilization lines:
   - `release/v0.72a-build`
   - `release/v0.72a-bugfix`
   - `release/v0.72a-broadband`
+- `release/v0.72a-broadband` is the intended next active release line when it
+  is created.
 - Promotion flows from reviewed commits already present on `main`.
 - Do not start normal feature work directly on release branches.
 
@@ -77,8 +83,9 @@ extended for it.
 - `repos\eMule` exists to hold history, remotes, and worktrees.
 - It should be treated as the branch store and maintenance checkout.
 - It is not the normal editing location for app work.
-- The setup helper may leave it on a detached app-anchor commit; that is the
-  intended neutral state.
+- Its intended neutral state is detached `HEAD` at `origin/main`.
+- The setup helper may leave it detached on that app-anchor commit; that is the
+  correct state, not a problem to "fix" by checking out a local branch.
 
 ## Merge and History Hygiene
 
