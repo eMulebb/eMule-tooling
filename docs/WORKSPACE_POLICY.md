@@ -240,6 +240,19 @@ extended for it.
   repos or canonical app worktrees drift from their declared normalization
   policy.
 
+## PowerShell Runtime Policy
+
+- Workspace-wide PowerShell policy is centralized in `repos\eMule-tooling`.
+- All tracked `*.ps1` scripts in workspace-owned repos must require `pwsh`
+  `7.6` with an explicit `#Requires -Version 7.6` header.
+- The only exception is `repos\eMule-tooling\scripts\`, where scripts must stay
+  compatible with Windows PowerShell `5.1` and must declare
+  `#Requires -Version 5.1`.
+- New or updated PowerShell scripts must not rely on weaker or implicit runtime
+  assumptions.
+- Workspace hygiene checks must fail when a tracked PowerShell script declares
+  the wrong required version or omits the required `#Requires` header.
+
 ## Active Build Policy
 
 - Active compiler baseline for workspace-owned C++ builds is `C++17`

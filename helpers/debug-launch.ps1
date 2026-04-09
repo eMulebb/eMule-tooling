@@ -1,3 +1,4 @@
+#Requires -Version 7.6
 <#
 .SYNOPSIS
 Builds and launches the repo debug eMule with reproducible diagnostics.

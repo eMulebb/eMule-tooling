@@ -6,5 +6,5 @@ hook_runner="$hook_dir/../helpers/git-pre-commit-editorconfig.ps1"
 if command -v pwsh >/dev/null 2>&1; then
   exec pwsh -NoLogo -NoProfile -ExecutionPolicy Bypass -File "$hook_runner" -RepoRoot "$repo_root"
 fi
-echo "pwsh 7.2+ is required for the eMule-tooling editorconfig hook." >&2
+echo "pwsh 7.6+ is required for the eMule-tooling editorconfig hook." >&2
 exit 1

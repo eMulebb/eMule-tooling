@@ -1,3 +1,4 @@
+#Requires -Version 7.6
 <#
 .SYNOPSIS
 Runs a clean end-to-end debug launch against the repo eMule build.

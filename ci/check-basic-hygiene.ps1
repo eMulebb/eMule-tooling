@@ -1,4 +1,4 @@
-#Requires -Version 7.2
+#Requires -Version 7.6
 <#
 .SYNOPSIS
 Runs cheap cross-repo hygiene checks against tracked files.
@@ -75,6 +75,46 @@ function Test-PowerShellSyntax {
     return @($errors)
 }
 
+function Get-ExpectedPowerShellVersion {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$RepoRoot,
+
+        [Parameter(Mandatory = $true)]
+        [string]$RelativePath
+    )
+
+    $repoName = Split-Path -Leaf $RepoRoot
+    $normalizedRelativePath = $RelativePath.Replace('/', '\')
+    if ($repoName -eq 'eMule-tooling' -and $normalizedRelativePath -like 'scripts\*.ps1') {
+        return '5.1'
+    }
+
+    return '7.6'
+}
+
+function Test-PowerShellVersionHeader {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+
+        [Parameter(Mandatory = $true)]
+        [string]$ExpectedVersion
+    )
+
+    $firstNonEmptyLine = Get-Content -LiteralPath $Path -TotalCount 8 | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Select-Object -First 1
+    $expectedHeader = "#Requires -Version $ExpectedVersion"
+    if ($firstNonEmptyLine -eq $expectedHeader) {
+        return $null
+    }
+
+    if ([string]::IsNullOrWhiteSpace($firstNonEmptyLine)) {
+        return "Missing required PowerShell version header '$expectedHeader'."
+    }
+
+    return "Expected PowerShell version header '$expectedHeader' but found '$firstNonEmptyLine'."
+}
+
 function Test-YamlTextShape {
     param(
         [Parameter(Mandatory = $true)]
@@ -134,6 +174,10 @@ foreach ($relativePath in $trackedFiles) {
         }
         '\.ps1$' {
             $summaryCounts.powershell++
+            $headerIssue = Test-PowerShellVersionHeader -Path $fullPath -ExpectedVersion (Get-ExpectedPowerShellVersion -RepoRoot $repoRootPath -RelativePath $relativePath)
+            if ($headerIssue) {
+                Add-Issue -Issues $issues -Kind 'powershell-version' -Path $relativePath -Reason $headerIssue
+            }
             $errors = Test-PowerShellSyntax -Path $fullPath
             foreach ($error in $errors) {
                 Add-Issue -Issues $issues -Kind 'powershell-parse' -Path $relativePath -Reason $error.Message

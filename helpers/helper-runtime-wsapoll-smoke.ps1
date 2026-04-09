@@ -1,3 +1,4 @@
+#Requires -Version 7.6
 <#
 .SYNOPSIS
 Runs a bounded WSAPoll TCP backend smoke session against the repo debug build.

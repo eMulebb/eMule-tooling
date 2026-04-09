@@ -1,3 +1,4 @@
+#Requires -Version 7.6
 <#
 .SYNOPSIS
 Runs a live eMule session driven through the local pipe API and monitors for hangs.

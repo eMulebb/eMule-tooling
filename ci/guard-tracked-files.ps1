@@ -1,4 +1,4 @@
-#Requires -Version 7.2
+#Requires -Version 7.6
 <#
 .SYNOPSIS
 Fails when tracked files contain local user-home paths or configured personal identifier leaks.
