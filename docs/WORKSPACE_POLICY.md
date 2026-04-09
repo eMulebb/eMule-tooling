@@ -116,6 +116,8 @@ extended for it.
   - `feature/<topic>` for new behavior
   - `fix/<topic>` for bug fixes
   - `chore/<topic>` for tooling, docs, or repo hygiene
+- Keep working branches such as `feature/*`, `fix/*`, and `chore/*` after
+  merge until there is an explicit later decision to delete or retire them.
 - The normal path back to `main` is feature branch plus squash merge.
 - One working branch should pursue one coherent outcome.
 - Avoid mixing unrelated behavior changes, dependency churn, tooling churn, and

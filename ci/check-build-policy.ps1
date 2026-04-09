@@ -98,13 +98,32 @@ function Assert-NoProjectConfigurationPlatform($ProjectXml, [string]$ProjectLabe
     }
 }
 
+function Assert-NoProjectConfigurationName($ProjectXml, [string]$ProjectLabel, [string]$ConfigurationName) {
+    $matches = @()
+    foreach ($itemGroup in @($ProjectXml.Project.ItemGroup)) {
+        if ($itemGroup.PSObject.Properties.Match('ProjectConfiguration').Count -eq 0) {
+            continue
+        }
+
+        foreach ($projectConfiguration in @($itemGroup.ProjectConfiguration)) {
+            if ($projectConfiguration -and $projectConfiguration.Configuration -eq $ConfigurationName) {
+                $matches += $projectConfiguration
+            }
+        }
+    }
+    if ($matches.Count -gt 0) {
+        throw "$ProjectLabel still declares $ConfigurationName project configurations"
+    }
+}
+
 $appDebugCondition = "'`$(Configuration)'=='Debug'"
 $appReleaseCondition = "'`$(Configuration)'=='Release'"
 $testsDebugCondition = "'`$(Configuration)|`$(Platform)'=='Debug|x64'"
 $testsReleaseCondition = "'`$(Configuration)|`$(Platform)'=='Release|x64'"
 $testsDebugArm64Condition = "'`$(Configuration)|`$(Platform)'=='Debug|ARM64'"
 $testsReleaseArm64Condition = "'`$(Configuration)|`$(Platform)'=='Release|ARM64'"
-$testsBootstrapCondition = "'`$(Configuration)'=='Debug' or '`$(Configuration)'=='_SpecialBootstrapNodes'"
+$testsDebugBuildCondition = "'`$(Configuration)'=='Debug'"
+$testsReleaseBuildCondition = "'`$(Configuration)'=='Release'"
 $id3libDebugX64Condition = "'`$(Configuration)|`$(Platform)'=='Debug|x64'"
 $id3libDebugArm64Condition = "'`$(Configuration)|`$(Platform)'=='Debug|ARM64'"
 $id3libReleaseX64Condition = "'`$(Configuration)|`$(Platform)'=='Release|x64'"
@@ -122,6 +141,7 @@ $cryptoppReleaseCondition = "'`$(Configuration)'=='Release' Or '`$(Configuration
 
 $appXml = Get-ProjectXml 'workspaces\v0.72a\app\eMule-main\srchybrid\emule.vcxproj'
 Assert-NoProjectConfigurationPlatform $appXml 'emule.vcxproj' 'Win32'
+Assert-NoProjectConfigurationName $appXml 'emule.vcxproj' '_SpecialBootstrapNodes'
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appDebugCondition 'LanguageStandard' 'stdcpp17'
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appDebugCondition 'Optimization' 'Disabled'
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appDebugCondition 'RuntimeLibrary' 'MultiThreadedDebug'
@@ -140,25 +160,26 @@ Assert-LinkValue $appXml 'emule.vcxproj' $appReleaseCondition 'IncrementalLink' 
 
 $testsXml = Get-ProjectXml 'repos\eMule-build-tests\emule-tests.vcxproj'
 Assert-NoProjectConfigurationPlatform $testsXml 'emule-tests.vcxproj' 'Win32'
+Assert-NoProjectConfigurationName $testsXml 'emule-tests.vcxproj' '_SpecialBootstrapNodes'
 Assert-PropertyGroupValue $testsXml 'emule-tests.vcxproj' $testsDebugCondition 'PlatformToolset' 'v143'
 Assert-PropertyGroupValue $testsXml 'emule-tests.vcxproj' $testsReleaseCondition 'PlatformToolset' 'v143'
 Assert-PropertyGroupValue $testsXml 'emule-tests.vcxproj' $testsDebugArm64Condition 'PlatformToolset' 'v143'
 Assert-PropertyGroupValue $testsXml 'emule-tests.vcxproj' $testsReleaseArm64Condition 'PlatformToolset' 'v143'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsBootstrapCondition 'LanguageStandard' 'stdcpp17'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsBootstrapCondition 'Optimization' 'Disabled'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsBootstrapCondition 'RuntimeLibrary' 'MultiThreadedDebug'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsBootstrapCondition 'BufferSecurityCheck' 'true'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsBootstrapCondition 'DebugInformationFormat' 'ProgramDatabase'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsBootstrapCondition 'MultiProcessorCompilation' 'true'
-Assert-LinkValue $testsXml 'emule-tests.vcxproj' $testsBootstrapCondition 'IncrementalLink' 'true'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $appReleaseCondition 'LanguageStandard' 'stdcpp17'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $appReleaseCondition 'Optimization' 'MaxSpeed'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $appReleaseCondition 'RuntimeLibrary' 'MultiThreaded'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $appReleaseCondition 'BufferSecurityCheck' 'true'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $appReleaseCondition 'FunctionLevelLinking' 'true'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $appReleaseCondition 'IntrinsicFunctions' 'true'
-Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $appReleaseCondition 'MultiProcessorCompilation' 'true'
-Assert-LinkValue $testsXml 'emule-tests.vcxproj' $appReleaseCondition 'IncrementalLink' 'false'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsDebugBuildCondition 'LanguageStandard' 'stdcpp17'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsDebugBuildCondition 'Optimization' 'Disabled'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsDebugBuildCondition 'RuntimeLibrary' 'MultiThreadedDebug'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsDebugBuildCondition 'BufferSecurityCheck' 'true'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsDebugBuildCondition 'DebugInformationFormat' 'ProgramDatabase'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsDebugBuildCondition 'MultiProcessorCompilation' 'true'
+Assert-LinkValue $testsXml 'emule-tests.vcxproj' $testsDebugBuildCondition 'IncrementalLink' 'true'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsReleaseBuildCondition 'LanguageStandard' 'stdcpp17'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsReleaseBuildCondition 'Optimization' 'MaxSpeed'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsReleaseBuildCondition 'RuntimeLibrary' 'MultiThreaded'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsReleaseBuildCondition 'BufferSecurityCheck' 'true'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsReleaseBuildCondition 'FunctionLevelLinking' 'true'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsReleaseBuildCondition 'IntrinsicFunctions' 'true'
+Assert-ClCompileValue $testsXml 'emule-tests.vcxproj' $testsReleaseBuildCondition 'MultiProcessorCompilation' 'true'
+Assert-LinkValue $testsXml 'emule-tests.vcxproj' $testsReleaseBuildCondition 'IncrementalLink' 'false'
 
 $id3libXml = Get-ProjectXml 'repos\third_party\eMule-id3lib\libprj\id3lib.vcxproj'
 foreach ($condition in @($id3libDebugX64Condition, $id3libDebugArm64Condition)) {
