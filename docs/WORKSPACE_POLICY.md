@@ -66,9 +66,17 @@ repo-local docs.
 
 - `stale/*` branches are retired historical references only.
 - Never use them as active development targets.
-- Never use them as setup materialization targets.
 - Never treat them as current validation baselines unless a task explicitly
   calls for historical comparison.
+- The only setup-materialization exception is
+  `stale/v0.72a-experimental-clean`, which may be cloned under
+  `analysis\stale-v0.72a-experimental-clean` as a historical reference checkout
+  only.
+- `analysis\stale-v0.72a-experimental-clean` is not a managed app worktree, not
+  an active branch target, and not a default validation baseline.
+- This branch contains a large body of unmerged fixes, features, and
+  improvements, so it is a preferred code-reference source when re-implementing
+  ideas on current `main`.
 
 ## Worktree Mapping
 
@@ -222,6 +230,13 @@ extended for it.
 - Backlog and planning docs are not authoritative by themselves.
 - Before implementing a backlog item, revalidate it against current `main`,
   current dependency pins, and the current workspace policy.
+- Newly generated code should include succinct Doxygen-style documentation for
+  new functions, classes, structs, enums, namespaces, and other reusable
+  surfaces introduced by the change.
+- The expectation applies to app code, tooling, and shared test/support code
+  when the new code is intended to be read, reused, extended, or audited later.
+- Short private glue code may stay undocumented when it is truly trivial, but
+  new helper layers and reusable test fixtures should not be left comment-free.
 
 ## File Normalization Policy
 
