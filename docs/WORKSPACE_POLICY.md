@@ -90,19 +90,21 @@ The canonical workspace currently materializes these app worktrees:
 - `eMule-v0.72a-oracle` -> `oracle/v0.72a-build`
 - `eMule-v0.72a-build` -> `release/v0.72a-build`
 - `eMule-v0.72a-bugfix` -> `release/v0.72a-bugfix`
-
-The branch/worktree roles below are also reserved:
-
 - `eMule-v0.72a-tracing` -> `tracing/v0.72a`
 - `eMule-v0.72a-tracing-harness` -> `tracing-harness/v0.72a`
-
-Those tracing worktrees are intentionally inactive until setup pins and remote
-branches are ready. They are part of the sanctioned topology, but not part of
-the default active materialization set yet.
 
 `release/v0.72a-broadband` is part of the active branch strategy but is not a
 managed canonical worktree unless setup/build orchestration is explicitly
 extended for it.
+
+## Workspace Manifest Contract
+
+- `workspaces\v0.72a\deps.psd1` is a required generated contract file.
+- `eMulebb-setup` owns that contract and must regenerate it on topology changes.
+- `eMulebb-setup validate` must fail if the generated contract drifts from the
+  current setup topology.
+- `eMule-build` and `eMule-tooling` may consume the generated contract, but they
+  must not become an independent second source of truth for workspace topology.
 
 ## Canonical App Checkout
 
