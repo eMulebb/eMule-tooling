@@ -28,6 +28,12 @@ The following are no longer backlog items:
 
 The remaining long-path backlog is now shell/UI oriented:
 
+Branch status on `fix/partfile-longpath-hardening`:
+
+- `Ini2.cpp` path-helper cleanup is done; module/current-directory INI path construction no longer depends on fixed `_MAX_*` buffers or `MAX_PATH`-sized `GetModuleFileName` / `GetCurrentDirectory` calls.
+- `Emule.cpp` skin resource path assembly is intentionally deferred as `TODO:MINOR`.
+- `MuleListCtrl.cpp` background skin image path assembly is intentionally deferred as `TODO:MINOR`.
+
 1. **Shell icon lookup**
    Centralize direct `SHGetFileInfo` usage and define fallback behavior for overlong paths.
 
@@ -56,7 +62,6 @@ The remaining long-path backlog is now shell/UI oriented:
 
    Primary files:
    - `FileInfoDialog.cpp`
-   - `Ini2.cpp`
    - `OtherFunctions.cpp`
    - `SecRunAsUser.cpp`
    - `MiniMule.cpp`
