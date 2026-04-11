@@ -96,6 +96,10 @@ The items here are different in kind:
   - low-ratio bonus
   - LowID divisor
   - cooldown state
+- Broadband Tweaks labels now reflect the implemented semantics directly:
+  - low-ratio settings refer to queue/effective score
+  - LowID divisor is labeled as an effective-score divisor
+  - cooldown is labeled as effective-score suppression duration
 
 Web UI and queue protocol behavior remain out of scope for this feature branch.
 
