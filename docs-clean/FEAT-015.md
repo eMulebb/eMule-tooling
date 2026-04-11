@@ -14,7 +14,7 @@ source: FEATURE-BROADBAND.md (FEAT_001 — stale branch, not yet on main)
 
 The stock upload controller scales slot count linearly with bandwidth using a hard-coded 25 KiB/s per-slot target (`UPLOAD_CLIENT_MAXDATARATE`). On a modern broadband link (50+ Mbit/s) this drives slot count toward 100, filling the pipe by accumulation rather than by keeping a small set of strong slots. This feature replaces that model with a budget-based controller: a configurable steady-state slot target, per-slot rate derived from actual upload budget, and proactive slow-slot reclamation.
 
-**Status:** Full design exists in `docs/FEATURE-BROADBAND.md`. Implementation was done on the stale experimental branch (`archive/v0.72a-experimental-clean-provisional-20260404`) and never merged to main. Must be re-implemented on top of current main.
+**Status:** Full design exists in `docs/FEATURE-BROADBAND.md`. The active stabilization line on `feature/broadband-stabilization` now intentionally narrows this into a strict fixed-slot controller: default cap `8`, no temporary overflow above the configured cap, and underfill used only to justify weak-slot recycling.
 
 ## The Problem (stock v0.72a behavior)
 
@@ -43,7 +43,7 @@ A modern link works better with 12 strong slots at ~500 KiB/s each.
 
 | Key | Type | Default | Meaning |
 |-----|------|---------|---------|
-| `BBMaxUpClientsAllowed` | int | 12 | Steady-state slot target (soft cap) |
+| `BBMaxUpClientsAllowed` | int | 8 | Steady-state slot target |
 | `BBSessionMaxTrans` | uint64 | `SESSIONMAXTRANS` | Session transfer limit (0=off, 1–100=% of file size, >100=absolute bytes) |
 | `BBSessionMaxTime` | uint64 | `SESSIONMAXTIME` | Session time limit in seconds (0=off) |
 | `BBBoostLowRatioFiles` | float | 0 | All-time ratio threshold for queue score bonus (0=off) |
@@ -68,16 +68,13 @@ uint32 targetPerSlot = max(3u, effectiveBudget / BBMaxUpClientsAllowed);  // KiB
 
 Existing 75% admission threshold applies to `targetPerSlot`.
 
-### Slot admission (replaces `UploadQueue.cpp` slot-count logic)
+### Slot admission (current stabilization branch)
 
-- Fill freely while upload budget is underfilled
-- Stop opening new slots once upload is satisfying the effective budget, even if below `BBMaxUpClientsAllowed`
+- Fill until `BBMaxUpClientsAllowed` is reached
+- Do not open temporary overflow slots above the configured cap
 - `MAX_UP_CLIENTS_ALLOWED = 100` kept as absolute ceiling only
-- Temporary overflow: `ceil(softMaxSlots / 6)` extra slots allowed when:
-  - queue is non-empty
-  - upload underfilled by `max(targetPerSlot / 2, effectiveBudget * 5%)` 
-  - underfill persists ≥ 2 seconds
-  - throttler reported wanting another productive slot
+- Underfill is still evaluated, but only to justify reclaiming weak slots
+- Slow-slot recycling only activates after underfill persists ≥ 2 seconds
 
 ### Slow/stuck slot reclamation (`UpdownClient.h` + `UploadClient.cpp`)
 
@@ -172,7 +169,8 @@ Add to shared files, upload list, and queue list:
 
 ## Acceptance Criteria
 
-- [ ] `BBMaxUpClientsAllowed=12` holds slot count near 12 on a 50 Mbit/s link (does not grow to 100)
+- [ ] Default `BBMaxUpClientsAllowed=8` holds slot count near 8 on a 50 Mbit/s link (does not grow to 100)
+- [ ] Manually setting `BBMaxUpClientsAllowed=12` holds slot count at or below 12 on a 50 Mbit/s link
 - [ ] Slow uploaders (< `targetPerSlot / 3` for 15 s) are evicted and enter cooldown
 - [ ] Zero-rate slots evicted after 3 s
 - [ ] Cooldown prevents immediate slot re-entry; column shows remaining time
@@ -181,7 +179,6 @@ Add to shared files, upload list, and queue list:
 - [ ] `BBSessionMaxTrans` / `BBSessionMaxTime` override stock session rotation
 - [ ] All-Time Ratio / Session Ratio columns sortable in Upload, Queue, Shared lists
 - [ ] `Preferences > Tweaks > Broadband` page loads, saves, applies without restart
-- [ ] `BBMaxUpClientsAllowed=0` falls back to legacy behavior (no regression)
 - [ ] Upload works correctly when `GetMaxGraphUploadRate(true)` returns 0 (no real budget configured)
 
 ## Reference

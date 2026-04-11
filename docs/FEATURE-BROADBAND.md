@@ -24,7 +24,7 @@ The implementation is intentionally narrow:
 - keep `BBMaxUpClientsAllowed` as the steady-state slot target
 - override the legacy session rotation defaults with `BBSessionMaxTrans` and `BBSessionMaxTime`
 - base slot decisions on the actual upload budget
-- allow only small temporary overflow when the upload pipe is still not full
+- treat the configured broadband slot target as the normal ceiling for upload slots
 - reclaim obviously weak upload slots instead of compensating by opening many more
 
 It does not attempt to replay the whole historic broadband branch.
@@ -124,11 +124,11 @@ the patch maintainable on top of `v0.72a`.
 `BBMaxUpClientsAllowed=<int>`
 
 - stored in `preferences.ini`
-- defaults to `12`
+- defaults to `8`
 - clamped to `[MIN_UP_CLIENTS_ALLOWED, MAX_UP_CLIENTS_ALLOWED]`
 
-This value is the normal broadband slot target. It is a soft cap, not a hard
-ban on any temporary overflow.
+This value is the normal broadband slot target and, on the stabilization branch,
+the effective ceiling for normal upload slots.
 
 `BBSessionMaxTrans=<uint64>`
 
@@ -227,24 +227,24 @@ On a `50 Mbit/s` uplink with `BBMaxUpClientsAllowed=12`:
 
 ### Slot admission
 
-Normal behavior:
+Normal behavior on the stabilization branch:
 
-- fill freely only while the upload budget is still underfilled
-- stop opening slots once the current upload is already satisfying the effective budget, even below `BBMaxUpClientsAllowed`
+- fill until the configured broadband slot target is reached
+- stop opening slots once `BBMaxUpClientsAllowed` is already occupied by normal upload slots
 - keep `MAX_UP_CLIENTS_ALLOWED = 100` only as an absolute safety ceiling
 
-Temporary overflow:
+Underfill handling:
 
-- allow a derived overflow allowance of roughly `ceil(softMaxSlots / 6)`
-- only while the waiting queue is non-empty
+- underfill does not open temporary overflow slots beyond the configured cap
+- underfill is instead used to justify reclaiming weak slots
+- slow-slot recycling only activates while the waiting queue is non-empty
 - only while upload is underfilled by at least the larger of:
   - half of one target slot, or
   - `5%` of the effective budget
 - only after that underfill persists for at least `2 seconds`
-- only if the throttler explicitly reported that it still wanted another productive slot
 
-That gives the controller a small escape hatch for edge cases without returning
-to unbounded growth.
+That keeps slot count fixed while still allowing the queue to replace clearly bad
+uploaders.
 
 ### Slow/stuck slot reclamation
 
@@ -343,8 +343,8 @@ using the old fixed `75 KiB/s` and `100 KiB/s` thresholds.
 With `BBMaxUpClientsAllowed=12` on a `50 Mbit/s` link, the expected steady state
 is roughly:
 
-- normal operation around `12` slots
-- brief expansion to `13..14` only when the link remains underfilled
+- normal operation at `12` slots
+- no temporary expansion above the configured cap
 - no long-term drift toward `100`
 - better fill retention by replacing weak uploaders instead of stacking more slots
 
