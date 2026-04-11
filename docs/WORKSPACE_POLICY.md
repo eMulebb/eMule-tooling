@@ -141,6 +141,33 @@ extended for it.
 - Frozen release branches may receive only selective backports from already
   reviewed work on `main`.
 
+## Change Intent And Drift Control
+
+- The default direction for active work is:
+  - hardening
+  - bug fixing
+  - compatibility-preserving cleanup
+  - maintainability improvements with minimal behavioral drift
+- Minimum drift from eMule community behavior is a hard default rule when
+  choosing among technically valid implementations.
+- Prefer local safety, correctness, and diagnostics improvements that preserve
+  established runtime semantics over broad behavioral rewrites.
+- Major behavioral changes are not default maintenance work.
+- A major behavioral change must be explicitly justified in the change itself
+  and tracked as intentional behavior work rather than blended into hardening,
+  cleanup, or routine modernization.
+- Major behavioral changes include, for example:
+  - broad scheduling or policy rewrites
+  - feature additions that materially change default runtime behavior
+  - protocol-adjacent behavior changes
+  - large UI or workflow changes that alter default user-visible semantics
+- Allowed default work includes, for example:
+  - defensive checks
+  - parser and lifetime hardening
+  - race fixes
+  - compatibility-preserving refactors
+  - narrow logging or diagnostics that do not change default behavior
+
 ## Validation Expectations
 
 - The default merge bar is scoped validation, not full-matrix validation for
@@ -268,6 +295,10 @@ extended for it.
 - Backlog and planning docs are not authoritative by themselves.
 - Before implementing a backlog item, revalidate it against current `main`,
   current dependency pins, and the current workspace policy.
+- The documentation and normalization requirements in this policy are mandatory
+  completion criteria, not optional style guidance.
+- Lack of a dedicated automated audit for a policy requirement does not waive
+  that requirement.
 - Newly generated code should include succinct Doxygen-style documentation for
   new functions, classes, structs, enums, namespaces, and other reusable
   surfaces introduced by the change.
@@ -275,6 +306,9 @@ extended for it.
   when the new code is intended to be read, reused, extended, or audited later.
 - Short private glue code may stay undocumented when it is truly trivial, but
   new helper layers and reusable test fixtures should not be left comment-free.
+- Routine workspace validation currently enforces normalization policy, but it
+  does not yet provide a general Doxygen audit. Doxygen coverage therefore
+  remains mandatory through authoring and review discipline.
 
 ## File Normalization Policy
 
@@ -352,6 +386,8 @@ extended for it.
   inherit them.
 - Prefer narrow, build-level fixes over source edits in third-party dependency
   forks when the issue is build policy, warning policy, or orchestration.
+- When several valid implementations exist, prefer the one that improves safety
+  or maintainability with the least drift from eMule community behavior.
 - Do not revive `stale/*` branches or historical workflows as active solutions.
 - Do not reintroduce workspace orchestration, dependency pin policy, or branch
   policy into app-repo docs or ad hoc notes.

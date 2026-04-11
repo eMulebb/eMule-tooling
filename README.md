@@ -24,6 +24,10 @@ execution contracts. It is the authoritative documentation home for
 workspace-wide policy and the place for deeper engineering notes and helper
 scripts that operate inside the canonical workspace.
 
+The central policy defaults to low-drift hardening and bug-fix work. Major
+behavioral changes are exception work and must be explicitly justified rather
+than blended into routine cleanup or modernization.
+
 Normalization helpers live here too:
 
 - `helpers\source-normalizer.py` checks or rewrites tracked text files to match
