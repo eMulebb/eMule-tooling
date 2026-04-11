@@ -74,6 +74,7 @@ regression checks. When behavior changes, compare `main` against
 | [REF-028](REF-028.md) | Minor | Open | Upgrade MbedTLS to 4.0 — API rename + TLS 1.3 readiness (community ref) |
 | [REF-029](REF-029.md) | Major | Open | Move UDP sockets to WSAPoll backend — AsyncDatagramSocket (experimental ref) |
 | [REF-030](REF-030.md) | Minor | Open | Replace WSAAsyncGetHostByName with worker-thread resolver in DownloadQueue (experimental ref) |
+| [REF-031](REF-031.md) | Minor | **Done** | Review upload queue scoring against community and stale baselines |
 
 ---
 

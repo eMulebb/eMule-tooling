@@ -21,6 +21,9 @@ This follow-up item keeps those pieces explicit so FEAT-015 can close as the
 slot-allocation story without pretending the remaining branch baggage has been
 removed.
 
+Detailed baseline review of the current queue-scoring path is captured in
+`REF-031`.
+
 ## Current Branch Extras
 
 - `BBLowRatioBoostEnabled`, `BBLowRatioThreshold`, and `BBLowRatioBonus` add a
@@ -47,6 +50,8 @@ The items here are different in kind:
 - they tune queue score rather than slot count
 - they expose extra state in UI lists
 - they are not required for the fixed-cap broadband uploader to work correctly
+- the main open design question after review is low-ratio bonus placement in the
+  score pipeline; see `REF-031`
 
 ## Acceptance Criteria
 
