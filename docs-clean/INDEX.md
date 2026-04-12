@@ -6,7 +6,7 @@
 **Revalidated:** 2026-04-10 — full cross-variant analysis pass: eMule-main new commits (06eaefe/4a02669/0300a9d), community-0.72 (irwir, 10 commits through 2026-01-05), eMuleAI (2026 release), stale-v0.72a-experimental-clean (378 commits, deep FIX/BUG CPP pass). BUG-001/BUG-016 confirmed Done in main; BUG-017 through BUG-021 new from experimental; REF-027 through REF-030 new from community+experimental; FEAT-018 through FEAT-022 new from eMuleAI+experimental.  
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
-**Important:** Items marked Done below are verified in `eMule-main`. Experimental-only work (see individual docs) is NOT in main — those files carry reference implementation notes.  
+**Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
 **Revalidation rule:** Before implementing any item, re-check it against current `main` and current dependency pins.  
 **Regression rule:** new feature/fix work from this backlog should include targeted
 regression checks. When behavior changes, compare `main` against
@@ -29,7 +29,7 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-004](BUG-004.md) | Minor | Open | IPFilter overlapping IP ranges not handled — acknowledged correctness gap |
 | [BUG-005](BUG-005.md) | Minor | Open | Kad buddy connections broken when RequireCrypt is enabled |
 | [BUG-006](BUG-006.md) | Minor | Open | Weak RNG for crypto challenge — rand() seeded with time(NULL) (accepted risk) |
-| [BUG-007](BUG-007.md) | Minor | Open | Ring.h — three UB + correctness bugs in CRing\<T\> (CODEREV_003, 004, 011) |
+| [BUG-007](BUG-007.md) | Minor | **Done** | Ring.h — three UB + correctness bugs in CRing\<T\> (CODEREV_003, 004, 011) |
 | [BUG-008](BUG-008.md) | Minor | Open | CaptchaGenerator — rand() & 8 bimodal jitter (only 0 or 8, never 1-7) *(resolved if REF-027 lands)* |
 | [BUG-009](BUG-009.md) | Minor | **Done** | PartFile — non-atomic part.met replacement (_tremove + _trename crash window) |
 | [BUG-010](BUG-010.md) | Minor | **Done** | PartFile — part.met write on low disk space risks truncation/corruption |
@@ -39,11 +39,11 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-014](BUG-014.md) | Minor | Open | ZIPFile.cpp — WriteFile return value silently discarded on two paths |
 | [BUG-015](BUG-015.md) | Minor | **Done** | GetTickCount() 49-day overflow in ban expiry and download timeout checks |
 | [BUG-016](BUG-016.md) | Minor | **Done** | UDP obfuscation applied when crypt layer is disabled — IsCryptLayerEnabled() guard missing |
-| [BUG-017](BUG-017.md) | Minor | Open | UDP throttler deadlock — sendLocker held when signaling QueueForSendingControlPacket |
+| [BUG-017](BUG-017.md) | Minor | **Done** | UDP throttler deadlock — sendLocker held when signaling QueueForSendingControlPacket |
 | [BUG-018](BUG-018.md) | Minor | Open | Part-file hash layout drift — hash tree can mutate during concurrent hashing |
-| [BUG-019](BUG-019.md) | Minor | Open | AICH sync thread concurrency — UI deadlocks, starvation, incomplete/duplicate nodes |
-| [BUG-020](BUG-020.md) | Minor | In Progress | Client socket teardown ordering — cross-link not cleared before Safe_Delete |
-| [BUG-021](BUG-021.md) | Minor | In Progress | Upload queue lock inversion + socket I/O result mishandling + inflate buffer aliasing |
+| [BUG-019](BUG-019.md) | Minor | In Progress | AICH sync thread concurrency — UI deadlocks, starvation, incomplete/duplicate nodes |
+| [BUG-020](BUG-020.md) | Minor | **Done** | Client socket teardown ordering — cross-link not cleared before Safe_Delete |
+| [BUG-021](BUG-021.md) | Minor | **Done** | Upload queue lock inversion + socket I/O result mishandling + inflate buffer aliasing |
 
 ---
 
@@ -115,15 +115,15 @@ regression checks. When behavior changes, compare `main` against
 | [FEAT-012](FEAT-012.md) | Minor | Open | PR_TCPERRORFLOODER — TCP listen-socket flood defense |
 | [FEAT-013](FEAT-013.md) | Minor | Open | REST API — CPipeApiServer (C++ named pipe IPC server) |
 | [FEAT-014](FEAT-014.md) | Minor | Open | REST API — emule-sidecar (Node.js/TypeScript HTTP sidecar) |
-| [FEAT-015](FEAT-015.md) | Major | Open | Broadband upload slot controller — budget-based cap + slow-slot reclamation |
-| [FEAT-016](FEAT-016.md) | Major | Open | Modern limits — update stale hard-coded defaults for broadband/modern hardware |
+| [FEAT-015](FEAT-015.md) | Major | **Done** | Broadband upload slot controller — budget-based cap + slow-slot reclamation |
+| [FEAT-016](FEAT-016.md) | Major | **Done** | Modern limits — update stale hard-coded defaults for broadband/modern hardware |
 | [FEAT-017](FEAT-017.md) | Major | Open | DPI awareness — Per-Monitor V2 manifest + hardcoded pixel audit |
 | [FEAT-018](FEAT-018.md) | Minor | Open | µTP transport layer — CUtpSocket / libutp (eMuleAI ref) |
 | [FEAT-019](FEAT-019.md) | Minor | Open | Dark mode UI — system-aware Windows 10 dark theme (eMuleAI ref) |
 | [FEAT-020](FEAT-020.md) | Trivial | Open | GeoLite2 IP geolocation — country flag + city per peer (eMuleAI ref) |
 | [FEAT-021](FEAT-021.md) | Minor | Open | SourceSaver — persist download source lists between sessions (eMuleAI ref) |
 | [FEAT-022](FEAT-022.md) | Minor | Open | Startup config directory override — -c flag for alternate preferences path (experimental ref) |
-| [FEAT-023](FEAT-023.md) | Minor | Open | Broadband queue scoring and ratio/cooldown UI extras |
+| [FEAT-023](FEAT-023.md) | Minor | **Done** | Broadband queue scoring and ratio/cooldown UI extras |
 
 ---
 
@@ -147,35 +147,34 @@ regression checks. When behavior changes, compare `main` against
 
 1. **FEAT-017** — DPI awareness (P0): every user on a modern display sees a blurry UI; manifest change + pixel audit
 2. **REF-026** — Manifest cleanup: drop legacy OS entries, add Common Controls dep (quick win, pairs with FEAT-017)
-3. **BUG-007** — Ring.h UB: index-based rewrite done in experimental, ready to port *(BUG-001 Done)*
-4. **FEAT-016** — Modern limits: raise stale defaults, zero protocol risk; `ModernLimits.h` done in experimental
-5. **FEAT-015** — Broadband upload slot allocation: implemented on `feature/broadband-stabilization`; merge/doc split still pending
-6. **REF-001** — Replace CZIPFile with minizip: isolated, 3 call sites
-7. **REF-002** — Remove Source Exchange v1: targeted cleanup, ~250 lines
-8. **REF-029** — WSAPoll UDP backend: experimental impl done, significant network quality improvement; port BUG-017 alongside
-9. **CI-001** — CMake migration: unlocks all static analysis tools
+3. **BUG-019** — AICH sync thread hardening: current stabilization branch is active; finish merge after queued refresh verification
+4. **BUG-018** — Part-file hash layout drift: narrow hashing-concurrency follow-up once BUG-019 lands
+5. **REF-001** — Replace CZIPFile with minizip: isolated, 3 call sites
+6. **REF-002** — Remove Source Exchange v1: targeted cleanup, ~250 lines
+7. **REF-029** — WSAPoll UDP backend: experimental impl done, significant network quality improvement
+8. **CI-001** — CMake migration: unlocks all static analysis tools
 
 ### Do Second — Major, higher effort
 
-10. **FEAT-002** — SafeKad CGNAT fix: affects all users behind NAT; full implementation done in experimental
-11. **FEAT-001** — FastKad bootstrap ranking: full implementation done in experimental, ready to port
+9. **FEAT-002** — SafeKad CGNAT fix: affects all users behind NAT; full implementation done in experimental
+10. **FEAT-001** — FastKad bootstrap ranking: full implementation done in experimental, ready to port
 
 ### Do After CI-001 — Tooling chain (Minor, unblocked by CMake)
 
-12. **REF-017** — Dead code sweep: Win9x guards, #if 0 blocks, PROXY comments; fully done in experimental
-13. **REF-025** — Legacy feature removal: IRC, SMTP, Scheduler, MiniMule, wizard; fully done in experimental
-14. **REF-018** — PeerCache opcodes + Win95 detection + legacy INI keys; fully done in experimental
-15. **REF-019** — ASSERT(0) → FailEncryptedStream/OnError(); done in experimental
-16. **REF-020** — Static-link always-present Win10 APIs; done in experimental
-17. **REF-021** — Remove warning suppressions + fix deprecated Winsock APIs; done in experimental
-18. **REF-023** — Unsafe sprintf → safe equivalents; done in experimental (cleanup after REF-021)
-19. **FEAT-013** — PipeApiServer: full implementation done in experimental
-20. **FEAT-022** — Startup -c config override: experimental impl done; low risk, high test utility
-21. **CI-002** — clang-format
-22. **CI-003** — MSVC hardening Phase B (/WX, /permissive-)
-23. **CI-004** — clang-tidy
-24. **CI-005** — cppcheck
-25. **CI-006** — AddressSanitizer
+11. **REF-017** — Dead code sweep: Win9x guards, #if 0 blocks, PROXY comments; fully done in experimental
+12. **REF-025** — Legacy feature removal: IRC, SMTP, Scheduler, MiniMule, wizard; fully done in experimental
+13. **REF-018** — PeerCache opcodes + Win95 detection + legacy INI keys; fully done in experimental
+14. **REF-019** — ASSERT(0) → FailEncryptedStream/OnError(); done in experimental
+15. **REF-020** — Static-link always-present Win10 APIs; done in experimental
+16. **REF-021** — Remove warning suppressions + fix deprecated Winsock APIs; done in experimental
+17. **REF-023** — Unsafe sprintf → safe equivalents; done in experimental (cleanup after REF-021)
+18. **FEAT-013** — PipeApiServer: full implementation done in experimental
+19. **FEAT-022** — Startup -c config override: experimental impl done; low risk, high test utility
+20. **CI-002** — clang-format
+21. **CI-003** — MSVC hardening Phase B (/WX, /permissive-)
+22. **CI-004** — clang-tidy
+23. **CI-005** — cppcheck
+24. **CI-006** — AddressSanitizer
 
 ### Do Later — Minor / Trivial
 
@@ -183,8 +182,8 @@ regression checks. When behavior changes, compare `main` against
 - **BUG-003 through BUG-006** — targeted bug fixes
 - **BUG-008** — CaptchaGenerator rand() & 8 (one-liner; or resolved by REF-027 full rewrite)
 - **BUG-014** — ZIPFile WriteFile return check (2-line fix)
-- **BUG-017** — UDP throttler deadlock: port alongside REF-029 (WSAPoll migration)
-- **BUG-018, BUG-019, BUG-020, BUG-021** — experimental threading hardening: port as a batch after CI-006 (ASan) for verification
+- **BUG-018** — Part-file hash layout drift: next narrow threading/data-integrity stabilization candidate after BUG-019
+- **BUG-019** — currently in progress on `fix/bug019-aich-sync-hardening`; merge before starting another concurrency branch
 - **REF-003** — subsumed by REF-025 (IRC removal); only relevant if IRC is kept
 - **REF-004** — Prefs audit (coordinate with BUG-001 Done; mostly resolved)
 - **REF-007** — WebM vs MKV MIME: done in experimental (MediaInfo.cpp)
@@ -231,8 +230,7 @@ REF-026 (manifest) — pair with FEAT-017 (DPI)
 REF-028 (MbedTLS 4.0) — prerequisite for TLS 1.3 support
 
 [Network stack — recommended order]
-BUG-017 (UDP throttler deadlock) ──► REF-029 (WSAPoll UDP backend, port fix alongside)
-REF-029 (WSAPoll UDP) ──► REF-030 (async hostname resolver)
+REF-029 (WSAPoll UDP backend) ──► REF-030 (async hostname resolver)
 REF-029 (WSAPoll UDP) — coordinate with FEAT-018 (µTP demux)
 
 [Boost — if adopted]
@@ -254,7 +252,7 @@ FEAT-015 (slot allocation) ──► FEAT-023 (optional scoring/UI extras kept s
 FEAT-017 (DPI) ──► REF-026 (manifest) — apply together
 FEAT-017 (DPI) ──► FEAT-019 (dark mode — pair for modern UI milestone)
 FEAT-018 (µTP) ──► coordinate with REF-029 (WSAPoll UDP demux)
-CI-006 (ASan) ──► BUG-017/018/019/020/021 (threading hardening batch — ASan baseline needed)
+CI-006 (ASan) ──► BUG-018/019 follow-up concurrency verification
 ```
 
 ---
@@ -280,17 +278,26 @@ These items were verified in `eMule-main` and are genuinely done:
 | BUG-011 — shareddir_list race (complete fix) | commit `0300a9d Fix shared directory list race` — CopySharedDirectoryList, ReplaceSharedDirectoryList, AddSharedDirectoryIfAbsent, IsSharedDirectoryListed all locked; PPgDirectories, SharedDirsTreeCtrl, SharedFileList, BaseClient updated |
 | BUG-001 — hidden prefs write-back + UI exposure | commit `4a02669 Persist and expose hidden runtime preferences` — 19 write-backs added to Preferences.cpp::Save(); PPgTweaks advanced tree updated |
 | BUG-016 — UDP crypt layer guard | commit `06eaefe Guard UDP obfuscation when crypt layer is disabled` — IsCryptLayerEnabled() check added to SendPacket() and SendControlData() |
+| BUG-007 — CRing pointer-state hardening | commit `0d7b0fe` — consistent empty sentinel, logical-bounds assertions, wrapped-growth copy fix |
+| BUG-017 — UDP throttler lock inversion | commit `6cf4967` — UDP socket throttler wake-up moved out of `sendLocker` critical sections |
+| BUG-020 — Client socket lifetime ordering | squash-merged from `fix/bug020-client-socket-lifetime` — teardown detach ordering and hello attach ownership handoff |
+| BUG-021 — Upload/socket hardening | squash-merged from `fix/bug021-upload-socket-hardening` — socket I/O result handling, upload retirement locking, inflate buffer ownership |
+| FEAT-015 — Broadband upload slot controller | commit `d731bbe` — stabilized broadband upload slot allocation |
+| FEAT-016 — Modern runtime limits | commit `860d7a5` — modernized fixed runtime limits for broadband defaults |
+| FEAT-023 — Broadband queue scoring extras | commit `5470d69` — added queue scoring and score breakdown UI |
 
 ---
 
-## Experimental Branch Reference (done in stale-v0.72a-experimental-clean, NOT yet in main)
+## Experimental Branch Reference
 
-These items have complete or near-complete implementations in the experimental branch. They are NOT in `eMule-main`. Each individual doc has a "Experimental Reference Implementation" section with porting notes.
+These items have complete or near-complete implementations in the experimental branch. Some
+have since landed in `eMule-main`; others remain reference-only. Each individual doc has an
+"Experimental Reference Implementation" section with current porting notes.
 
 | Item | Experimental Status | Key files |
 |------|--------------------|-----------| 
 | BUG-001 — load-only prefs | All 18 write-backs added | `Preferences.cpp` |
-| BUG-007 — Ring.h UB | Full index-based rewrite | `Ring.h` |
+| BUG-007 — Ring.h UB | Landed in `main` via smaller pointer-state fix; experimental index rewrite kept as reference only | `Ring.h` |
 | REF-007 — WebM vs MKV MIME | Done in MediaInfo.cpp | `MediaInfo.cpp` |
 | REF-017 — Win9x dead code | Fully removed (0 remaining) | Spread across codebase |
 | REF-018 — PeerCache/proxy cleanup | Done; proxy fully removed | `Opcodes.h`, `BaseClient.cpp`, removed files |
@@ -305,11 +312,11 @@ These items have complete or near-complete implementations in the experimental b
 | FEAT-004 — KadPublishGuard | Partial (PUBLISH_SOURCE only) | `KadPublishGuard.cpp/h` |
 | FEAT-013 — PipeApiServer | Substantially done | `PipeApiServer.cpp/h`, `PipeApiServerPolicy.h`, `nlohmann/` |
 | FEAT-016 — Modern limits | Done: `ModernLimits.h` + Opcodes.h + Preferences.cpp | `ModernLimits.h`, `Opcodes.h`, `Preferences.cpp` |
-| BUG-017 — UDP throttler deadlock | Fixed: unlock sendLocker before QueueForSendingControlPacket | `ClientUDPSocket.cpp`, `UploadBandwidthThrottler.cpp` |
-| BUG-018 — Part-file hash layout drift | Fixed: generation counter guard on hash write-back | `PartFile.cpp`, `PartFileHashSeams.h` |
-| BUG-019 — AICH sync thread concurrency | Fixed: UI deadlock, starvation, duplicate/incomplete nodes | `AICHSyncThread.cpp`, `EmuleDlg.cpp`, `DownloadClient.cpp`, `PartFile.cpp` |
-| BUG-020 — Client socket teardown ordering | Fixed: DetachClientSocketPair() before Safe_Delete | `BaseClient.cpp`, `ClientList.cpp`, `ListenSocket.cpp` |
-| BUG-021 — Upload queue lock inversion + socket I/O + inflate buffer | Fixed: three separate hardening commits | `UploadQueue.cpp`, `EMSocket.cpp`, `ClientUDPSocket.cpp`, `DownloadClient.cpp` |
+| BUG-017 — UDP throttler deadlock | Done in `main` | `ClientUDPSocket.cpp`, `UDPSocket.cpp` |
+| BUG-018 — Part-file hash layout drift | Fixed in experimental only: generation counter guard on hash write-back | `PartFile.cpp`, `PartFileHashSeams.h` |
+| BUG-019 — AICH sync thread concurrency | Current branch port in progress; see `BUG-019.md` | `AICHSyncThread.cpp`, `EmuleDlg.cpp`, `DownloadClient.cpp`, `PartFile.cpp` |
+| BUG-020 — Client socket teardown ordering | Done in `main` | `BaseClient.cpp`, `ClientList.cpp`, `ListenSocket.cpp` |
+| BUG-021 — Upload queue lock inversion + socket I/O + inflate buffer | Done in `main` | `UploadQueue.cpp`, `EMSocket.cpp`, `ClientUDPSocket.cpp`, `DownloadClient.cpp` |
 | REF-029 — WSAPoll UDP backend | Done: AsyncDatagramSocket + WSAPoll thread | `AsyncDatagramSocket.cpp/h`, `ClientUDPSocket.cpp`, `UDPSocket.cpp` |
 | REF-030 — Async hostname resolver | Done: worker-thread getaddrinfo replaces WSAAsyncGetHostByName | `DownloadQueue.cpp/h` |
 | FEAT-022 — Startup config directory override | Done: -c flag + StartupConfigOverride.h | `Emule.cpp`, `StartupConfigOverride.h`, `Preferences.cpp` |
@@ -338,7 +345,7 @@ These items have complete or near-complete implementations in the experimental b
 | `DEP-REMOVAL-DLL.md` | DLL analysis; miniupnpc + zlib good candidates | REF-015 (no DLL path chosen) |
 | `FEATURE-KAD.md` | Cross-ref for FEAT_002-006; partially overlaps AUDIT-KAD | FEAT-001 through FEAT-006 |
 | `FEATURE-BROADBAND.md` | Broadband branch design; stabilization scope now split between slot allocation and extras | FEAT-015, FEAT-023 |
-| `FEATURE-MODERN-LIMITS.md` | FEAT_013-019 done on stale branch only — NOT in main | FEAT-016 |
+| `FEATURE-MODERN-LIMITS.md` | Historical reference; FEAT-016 later landed in main | FEAT-016 |
 | `FEATURE-THUMBS.md` | Thumbnail feature RETIRED in experimental; IMediaDet in FileInfoDialog.cpp pending | Not converted (needs audit) |
 | `EXTRAS_VPNKILLSWITCHDESIGN.md` | External helper tool — not in-process; deferred | Not converted |
 | `AUDIT-WWMOD.md` | Win10+ modernization catalog — triaged 2026-04-08 | REF-017 through REF-024, FEAT-017 |
@@ -351,6 +358,6 @@ These items have complete or near-complete implementations in the experimental b
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total open: 14 bugs + 23 refactors + 7 boost (deferred) + 22 features + 7 CI = **73 open issues** (7 bugs Done: BUG-001/009/010/011/012/015/016)*
+*Total non-done: 9 open bugs + 1 in-progress bug + 30 refactors/boost items + 20 features + 7 CI = **67 non-done issues**.*
 
-*New since 2026-04-10 analysis pass: BUG-016 (Done), BUG-017–021 (5 open from experimental); REF-027–030 (4 open: community + experimental); FEAT-018–022 (5 open: eMuleAI + experimental). BUG-001 closed.*
+*Status refresh through 2026-04-12: BUG-007/017/020/021 and FEAT-015/016/023 are now done in `main`; BUG-019 is active on `fix/bug019-aich-sync-hardening`.*
