@@ -121,6 +121,9 @@ extended for it.
 - `main` history should stay curated and readable.
 - Do not push `WIP`, checkpoint, or debug commits to `main`.
 - One `main` commit should represent one coherent outcome.
+- Commits must stay granular and behavior-focused; do not bundle unrelated work into one commit.
+- When a change spans multiple repos, create and verify those commits sequentially; do not launch parallel commits.
+- Commit messages for feature, bug, refactor, and CI backlog work must include the tracked item id such as `BUG-017`, `FEAT-015`, `REF-021`, or `CI-003`.
 - Direct commits to `main` are acceptable only for very small administrative or
   policy corrections.
 
@@ -314,6 +317,8 @@ extended for it.
 
 - Tracked text-file edits must honor the repo-local `.editorconfig` and
   `.gitattributes` rules of the repo being edited.
+- Authors must normalize edited tracked files before commit; do not rely on
+  hooks or later cleanup passes to repair `.editorconfig` drift after the fact.
 - Line endings, charset or BOM, trailing whitespace, and final-newline policy
   are part of the workspace contract, not optional editor preferences.
 - Do not leave edited tracked files in mixed-EOL state.
