@@ -13,8 +13,8 @@ source: GUIDE-LONGPATHS.md + feature/windows-long-paths audit
 ## Summary
 
 Core long-path support is already landed on `main` for filesystem operations. Phase 2
-shell/UI hardening is now implemented on the active stabilization branches and is
-pending merge back to `main`.
+shell/UI hardening and helper cleanup are now implemented on the active stabilization
+branches and are pending merge back to `main`.
 
 The implementation now covers:
 
@@ -24,6 +24,7 @@ The implementation now covers:
 - centralized shell icon/display fallback behavior for overlong paths
 - silent `.lnk` ignore-by-extension in the relevant share/incoming scans
 - dynamic skin-resource path resolution without `MAX_PATH` scratch buffers
+- consolidation of generic path semantics into `PathHelpers` and shell/UI policy into `ShellUiHelpers`
 - deterministic regression coverage in `eMule-build-tests` for delete, path-helper, and shell/UI seam behavior
 
 ## Already Landed On Main
@@ -40,12 +41,17 @@ The following are no longer backlog items:
 
 The active stabilization branches now cover the full FEAT-010 shell/UI tail:
 
+- `PathHelpers.h`: permanent generic path-helper layer for separator normalization, extended-length prefix handling, directory canonicalization, path joins, dynamic module/shell-folder retrieval, and related path-shape rules
+- `ShellUiHelpers.h`: permanent shell/UI helper layer for picker normalization, shell icon/display fallback policy, shortcut ignore rules, and skin-resource resolution
+- `Ini2Helpers.h`: INI-specific helper layer trimmed down to config/path decisions that reuse `PathHelpers` instead of duplicating generic path logic
 - `OtherFunctions.cpp/.h`: shared `IFileDialog` wrappers for folder pick, file open, and file save; compatibility entrypoints retained for `SelectDir(...)` and `DialogBrowseFile(...)`
 - `PartFileConvert.cpp`, `TreeOptionsCtrl.cpp`, `KnownFile.cpp`, `PPgFiles.cpp`, `MuleToolBarCtrl.cpp`, `StatisticsTree.cpp`, `CatDialog.cpp`, `PPgDirectories.cpp`: migrated remaining browse/picker call sites to the shared wrappers
 - `DirectoryTreeCtrl.cpp`, `SharedDirsTreeCtrl.cpp`, `Emule.cpp`: centralized icon/display fallback behavior for shell-facing UI
 - `PPgDirectories.cpp`, `SharedFileList.cpp`, `SharedFilesCtrl.cpp`: `.lnk` files are now ignored by extension in the relevant share/incoming scans instead of consulting shell metadata
 - `FileInfoDialog.cpp`, `MiniMule.cpp`, `OtherFunctions.cpp`: path-helper/module-path tails removed in the earlier FEAT-010 path-helper slice
 - `Emule.cpp`, `MuleListCtrl.cpp`: skin resource and background image resolution now use dynamic helper paths rather than `MAX_PATH` buffers
+- `TreeOptionsCtrl.cpp/.h`, `OtherFunctions.cpp/.h`: dead legacy picker-era code was removed, including `CTreeOptionsFileDialog`, `SHBrowseSetSelProc`, and the unused raw-buffer `SelectDir(HWND, LPTSTR, ...)` overload
+- broader `srchybrid` callers now use shared helper rules instead of duplicated `slosh` / `unslosh` / `MakeFoldername` semantics
 
 There are no remaining `TODO:MINOR(FEAT-010)` or `TODO:MINOR(longpath)` markers in the audited shell/UI long-path surface.
 
@@ -57,6 +63,7 @@ The Phase 2 implementation uses explicit shell/UI fallback behavior instead of r
 - shell display names are optional enrichment; when the shell cannot provide one safely, existing caller text is preserved
 - picker flows return full `CString` paths from shared modern wrappers instead of caller-owned `MAX_PATH` arrays
 - `.lnk` files are ignored by extension in the relevant share/incoming warning flows instead of following shell metadata
+- directory-valued paths now share one normalization contract through `PathHelpers` instead of per-call-site trailing-`\` logic
 
 ## Test Expansion
 
@@ -67,6 +74,19 @@ The stabilization branches now include:
 - shell/UI seam coverage for shortcut ignore rules, shell display fallback gating, icon-query routing, picker path splitting/finalization, and skin-resource resolution
 
 Remaining verification before merge is manual smoke coverage for representative browse/icon flows on a live UI.
+
+## Final Helper Architecture
+
+The active stabilization branches now use a permanent helper split instead of the earlier
+transitional seam naming:
+
+- `PathHelpers`: generic path semantics only
+- `ShellUiHelpers`: shell/UI policy only
+- `OtherFunctionsSeams`: delete-route seam/injection only where tests need it
+
+This cleanup also removes duplicate extended-length prefix handling, duplicate
+trailing-separator helpers, and duplicate directory-shape normalization from the audited
+and overlapping `srchybrid` long-path surface.
 
 ## Acceptance Criteria
 

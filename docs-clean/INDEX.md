@@ -5,7 +5,7 @@
 **Revalidated:** 2026-04-09 — deep diff against `stale-v0.72a-experimental-clean` (378 commits); BUG-009/010/011/012/015 confirmed Done in main; experimental reference implementations documented for all items done there  
 **Revalidated:** 2026-04-10 — full cross-variant analysis pass: eMule-main new commits (06eaefe/4a02669/0300a9d), community-0.72 (irwir, 10 commits through 2026-01-05), eMuleAI (2026 release), stale-v0.72a-experimental-clean (378 commits, deep FIX/BUG CPP pass). BUG-001/BUG-016 confirmed Done in main; BUG-017 through BUG-021 new from experimental; REF-027 through REF-030 new from community+experimental; FEAT-018 through FEAT-022 new from eMuleAI+experimental.  
 **Revalidated:** 2026-04-12 — focused `community-0.72` vs `eMule-main` `srchybrid` diff review for stabilization/hardening only. Confirmed long-path shell delete gap (`BUG-022`), refreshed FEAT-010 scope, pivoted REST planning to extend `WebServer.cpp`, and added regression-expansion item `CI-008`. Async socket remains explicitly deferred for a future phase.  
-**Updated:** 2026-04-12 — active stabilization branches now implement the long-path recycle-bin fix, the FEAT-010 shell/UI closure, and the first CI-008 long-path regression slices. These items are no longer open, but they are not marked Done until merged to `main`.
+**Updated:** 2026-04-12 — active stabilization branches now implement the long-path recycle-bin fix, the FEAT-010 shell/UI closure, the final helper-architecture cleanup (`PathHelpers`, `ShellUiHelpers`, `Ini2Helpers`), and the first CI-008 long-path regression slices. These items are no longer open, but they are not marked Done until merged to `main`.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -153,7 +153,7 @@ regression checks. When behavior changes, compare `main` against
 2. **CI-008** — continue targeted regression expansion after the long-path slices, especially WebServer/REST and any higher-level part-file delete coverage still worth adding
 3. **REF-001** — replace `CZIPFile` with minizip: isolated file-handling hardening with low architectural drift
 4. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
-5. **BUG-022 / FEAT-010** — implementation is in progress on stabilization branches; merge and smoke-test rather than reopening scope
+5. **BUG-022 / FEAT-010** — implementation and cleanup are in progress on stabilization branches; merge and smoke-test rather than reopening scope
 
 ### Do Second — narrow stability items still close to current behavior
 
