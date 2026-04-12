@@ -40,8 +40,8 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-015](BUG-015.md) | Minor | **Done** | GetTickCount() 49-day overflow in ban expiry and download timeout checks |
 | [BUG-016](BUG-016.md) | Minor | **Done** | UDP obfuscation applied when crypt layer is disabled — IsCryptLayerEnabled() guard missing |
 | [BUG-017](BUG-017.md) | Minor | **Done** | UDP throttler deadlock — sendLocker held when signaling QueueForSendingControlPacket |
-| [BUG-018](BUG-018.md) | Minor | Open | Part-file hash layout drift — hash tree can mutate during concurrent hashing |
-| [BUG-019](BUG-019.md) | Minor | In Progress | AICH sync thread concurrency — UI deadlocks, starvation, incomplete/duplicate nodes |
+| [BUG-018](BUG-018.md) | Minor | In Progress | Part-file hash layout drift — hash tree can mutate during concurrent hashing |
+| [BUG-019](BUG-019.md) | Minor | **Done** | AICH sync thread concurrency — UI deadlocks, starvation, incomplete/duplicate nodes |
 | [BUG-020](BUG-020.md) | Minor | **Done** | Client socket teardown ordering — cross-link not cleared before Safe_Delete |
 | [BUG-021](BUG-021.md) | Minor | **Done** | Upload queue lock inversion + socket I/O result mishandling + inflate buffer aliasing |
 
@@ -147,12 +147,11 @@ regression checks. When behavior changes, compare `main` against
 
 1. **FEAT-017** — DPI awareness (P0): every user on a modern display sees a blurry UI; manifest change + pixel audit
 2. **REF-026** — Manifest cleanup: drop legacy OS entries, add Common Controls dep (quick win, pairs with FEAT-017)
-3. **BUG-019** — AICH sync thread hardening: current stabilization branch is active; finish merge after queued refresh verification
-4. **BUG-018** — Part-file hash layout drift: narrow hashing-concurrency follow-up once BUG-019 lands
-5. **REF-001** — Replace CZIPFile with minizip: isolated, 3 call sites
-6. **REF-002** — Remove Source Exchange v1: targeted cleanup, ~250 lines
-7. **REF-029** — WSAPoll UDP backend: experimental impl done, significant network quality improvement
-8. **CI-001** — CMake migration: unlocks all static analysis tools
+3. **BUG-018** — Part-file hash layout drift: active stabilization branch is replacing stale hash write-back and progress-owner posting
+4. **REF-001** — Replace CZIPFile with minizip: isolated, 3 call sites
+5. **REF-002** — Remove Source Exchange v1: targeted cleanup, ~250 lines
+6. **REF-029** — WSAPoll UDP backend: experimental impl done, significant network quality improvement
+7. **CI-001** — CMake migration: unlocks all static analysis tools
 
 ### Do Second — Major, higher effort
 
@@ -182,8 +181,7 @@ regression checks. When behavior changes, compare `main` against
 - **BUG-003 through BUG-006** — targeted bug fixes
 - **BUG-008** — CaptchaGenerator rand() & 8 (one-liner; or resolved by REF-027 full rewrite)
 - **BUG-014** — ZIPFile WriteFile return check (2-line fix)
-- **BUG-018** — Part-file hash layout drift: next narrow threading/data-integrity stabilization candidate after BUG-019
-- **BUG-019** — currently in progress on `fix/bug019-aich-sync-hardening`; merge before starting another concurrency branch
+- **BUG-018** — currently in progress on `fix/bug018-partfile-hash-drift`; merge before starting another hashing-concurrency branch
 - **REF-003** — subsumed by REF-025 (IRC removal); only relevant if IRC is kept
 - **REF-004** — Prefs audit (coordinate with BUG-001 Done; mostly resolved)
 - **REF-007** — WebM vs MKV MIME: done in experimental (MediaInfo.cpp)
@@ -280,6 +278,7 @@ These items were verified in `eMule-main` and are genuinely done:
 | BUG-016 — UDP crypt layer guard | commit `06eaefe Guard UDP obfuscation when crypt layer is disabled` — IsCryptLayerEnabled() check added to SendPacket() and SendControlData() |
 | BUG-007 — CRing pointer-state hardening | commit `0d7b0fe` — consistent empty sentinel, logical-bounds assertions, wrapped-growth copy fix |
 | BUG-017 — UDP throttler lock inversion | commit `6cf4967` — UDP socket throttler wake-up moved out of `sendLocker` critical sections |
+| BUG-019 — AICH sync thread concurrency | commit `6e466d2` — merged bounded waits, duplicate/incomplete node healing, and queued display refresh handoff |
 | BUG-020 — Client socket lifetime ordering | squash-merged from `fix/bug020-client-socket-lifetime` — teardown detach ordering and hello attach ownership handoff |
 | BUG-021 — Upload/socket hardening | squash-merged from `fix/bug021-upload-socket-hardening` — socket I/O result handling, upload retirement locking, inflate buffer ownership |
 | FEAT-015 — Broadband upload slot controller | commit `d731bbe` — stabilized broadband upload slot allocation |
@@ -313,8 +312,8 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 | FEAT-013 — PipeApiServer | Substantially done | `PipeApiServer.cpp/h`, `PipeApiServerPolicy.h`, `nlohmann/` |
 | FEAT-016 — Modern limits | Done: `ModernLimits.h` + Opcodes.h + Preferences.cpp | `ModernLimits.h`, `Opcodes.h`, `Preferences.cpp` |
 | BUG-017 — UDP throttler deadlock | Done in `main` | `ClientUDPSocket.cpp`, `UDPSocket.cpp` |
-| BUG-018 — Part-file hash layout drift | Fixed in experimental only: generation counter guard on hash write-back | `PartFile.cpp`, `PartFileHashSeams.h` |
-| BUG-019 — AICH sync thread concurrency | Current branch port in progress; see `BUG-019.md` | `AICHSyncThread.cpp`, `EmuleDlg.cpp`, `DownloadClient.cpp`, `PartFile.cpp` |
+| BUG-018 — Part-file hash layout drift | Current branch port in progress; see `BUG-018.md` | `PartFile.cpp`, `KnownFile.cpp`, `SharedFileList.cpp` |
+| BUG-019 — AICH sync thread concurrency | Done in `main` | `AICHSyncThread.cpp`, `EmuleDlg.cpp`, `DownloadClient.cpp`, `PartFile.cpp` |
 | BUG-020 — Client socket teardown ordering | Done in `main` | `BaseClient.cpp`, `ClientList.cpp`, `ListenSocket.cpp` |
 | BUG-021 — Upload queue lock inversion + socket I/O + inflate buffer | Done in `main` | `UploadQueue.cpp`, `EMSocket.cpp`, `ClientUDPSocket.cpp`, `DownloadClient.cpp` |
 | REF-029 — WSAPoll UDP backend | Done: AsyncDatagramSocket + WSAPoll thread | `AsyncDatagramSocket.cpp/h`, `ClientUDPSocket.cpp`, `UDPSocket.cpp` |
@@ -360,4 +359,4 @@ historical reference only.*
 
 *Total non-done: 9 open bugs + 1 in-progress bug + 30 refactors/boost items + 20 features + 7 CI = **67 non-done issues**.*
 
-*Status refresh through 2026-04-12: BUG-007/017/020/021 and FEAT-015/016/023 are now done in `main`; BUG-019 is active on `fix/bug019-aich-sync-hardening`.*
+*Status refresh through 2026-04-12: BUG-007/017/019/020/021 and FEAT-015/016/023 are now done in `main`; BUG-018 is active on `fix/bug018-partfile-hash-drift`.*
