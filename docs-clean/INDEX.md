@@ -4,6 +4,7 @@
 **Rebuilt:** 2026-04-08 — clean slate from git log + old docs salvage + fresh code audit  
 **Revalidated:** 2026-04-09 — deep diff against `stale-v0.72a-experimental-clean` (378 commits); BUG-009/010/011/012/015 confirmed Done in main; experimental reference implementations documented for all items done there  
 **Revalidated:** 2026-04-10 — full cross-variant analysis pass: eMule-main new commits (06eaefe/4a02669/0300a9d), community-0.72 (irwir, 10 commits through 2026-01-05), eMuleAI (2026 release), stale-v0.72a-experimental-clean (378 commits, deep FIX/BUG CPP pass). BUG-001/BUG-016 confirmed Done in main; BUG-017 through BUG-021 new from experimental; REF-027 through REF-030 new from community+experimental; FEAT-018 through FEAT-022 new from eMuleAI+experimental.  
+**Revalidated:** 2026-04-12 — focused `community-0.72` vs `eMule-main` `srchybrid` diff review for stabilization/hardening only. Confirmed long-path shell delete gap (`BUG-022`), refreshed FEAT-010 scope, pivoted REST planning to extend `WebServer.cpp`, and added regression-expansion item `CI-008`. Async socket remains explicitly deferred for a future phase.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -40,10 +41,11 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-015](BUG-015.md) | Minor | **Done** | GetTickCount() 49-day overflow in ban expiry and download timeout checks |
 | [BUG-016](BUG-016.md) | Minor | **Done** | UDP obfuscation applied when crypt layer is disabled — IsCryptLayerEnabled() guard missing |
 | [BUG-017](BUG-017.md) | Minor | **Done** | UDP throttler deadlock — sendLocker held when signaling QueueForSendingControlPacket |
-| [BUG-018](BUG-018.md) | Minor | In Progress | Part-file hash layout drift — hash tree can mutate during concurrent hashing |
+| [BUG-018](BUG-018.md) | Minor | **Done** | Part-file hash layout drift — hash tree can mutate during concurrent hashing |
 | [BUG-019](BUG-019.md) | Minor | **Done** | AICH sync thread concurrency — UI deadlocks, starvation, incomplete/duplicate nodes |
 | [BUG-020](BUG-020.md) | Minor | **Done** | Client socket teardown ordering — cross-link not cleared before Safe_Delete |
 | [BUG-021](BUG-021.md) | Minor | **Done** | Upload queue lock inversion + socket I/O result mishandling + inflate buffer aliasing |
+| [BUG-022](BUG-022.md) | Major | Open | Long-path delete-to-recycle-bin still breaks in ShellDeleteFile |
 
 ---
 
@@ -110,11 +112,11 @@ regression checks. When behavior changes, compare `main` against
 | [FEAT-007](FEAT-007.md) | Minor | Open | Windows Property Store integration for non-media file metadata |
 | [FEAT-008](FEAT-008.md) | Trivial | Open | Oracle protocol guard seams — integrate stale branch test scaffolding |
 | [FEAT-009](FEAT-009.md) | Trivial | Open | Mirror audit guard seam — WIP from stale branch parent |
-| [FEAT-010](FEAT-010.md) | Minor | Open | Long path support phase 2 — shell/UI icon, browse, and path-helper audit |
+| [FEAT-010](FEAT-010.md) | Minor | Open | Long path support phase 2 — shell/UI icon, browse, recycle-bin delete, and path-helper audit |
 | [FEAT-011](FEAT-011.md) | Minor | Open | CShield — integrate ED2K anti-leecher engine (44 bad-client categories) |
 | [FEAT-012](FEAT-012.md) | Minor | Open | PR_TCPERRORFLOODER — TCP listen-socket flood defense |
-| [FEAT-013](FEAT-013.md) | Minor | Open | REST API — CPipeApiServer (C++ named pipe IPC server) |
-| [FEAT-014](FEAT-014.md) | Minor | Open | REST API — emule-sidecar (Node.js/TypeScript HTTP sidecar) |
+| [FEAT-013](FEAT-013.md) | Major | Open | REST API — extend WebServer.cpp with authenticated JSON endpoints |
+| [FEAT-014](FEAT-014.md) | Minor | Open | REST API follow-up — OpenAPI docs and optional external gateway |
 | [FEAT-015](FEAT-015.md) | Major | **Done** | Broadband upload slot controller — budget-based cap + slow-slot reclamation |
 | [FEAT-016](FEAT-016.md) | Major | **Done** | Modern limits — update stale hard-coded defaults for broadband/modern hardware |
 | [FEAT-017](FEAT-017.md) | Major | Open | DPI awareness — Per-Monitor V2 manifest + hardcoded pixel audit |
@@ -138,70 +140,39 @@ regression checks. When behavior changes, compare `main` against
 | [CI-005](CI-005.md) | Minor | Open | cppcheck — integrate complementary bug-class analysis |
 | [CI-006](CI-006.md) | Minor | Open | MSVC AddressSanitizer — enable for debug builds |
 | [CI-007](CI-007.md) | Minor | Open | Kad — Expand integration and fuzz test coverage |
+| [CI-008](CI-008.md) | Minor | Open | Expand regression coverage for part files, long paths, and WebServer/REST |
 
 ---
 
 ## Priority Triage
 
-### Do First — Critical / Major, high ROI, low risk
+### Do First — stabilization / hardening with minimal drift
 
-1. **FEAT-017** — DPI awareness (P0): every user on a modern display sees a blurry UI; manifest change + pixel audit
-2. **REF-026** — Manifest cleanup: drop legacy OS entries, add Common Controls dep (quick win, pairs with FEAT-017)
-3. **BUG-018** — Part-file hash layout drift: active stabilization branch is replacing stale hash write-back and progress-owner posting
-4. **REF-001** — Replace CZIPFile with minizip: isolated, 3 call sites
-5. **REF-029** — WSAPoll UDP backend: experimental impl done, significant network quality improvement
-6. **CI-001** — CMake migration: unlocks all static analysis tools
+1. **BUG-022** — long-path recycle-bin delete bug: confirmed live delete-path correctness gap affecting part-file/shared-file UI flows
+2. **FEAT-010** — long path phase 2 shell/UI follow-up: finish the remaining shell/path-helper boundary after the core filesystem work
+3. **FEAT-013** — WebServer REST JSON endpoints: needed feature, but keep it inside `WebServer.cpp`/`WebSocket.cpp` to avoid transport drift
+4. **CI-008** — targeted regression expansion for part files, long paths, and WebServer/REST
+5. **REF-001** — replace `CZIPFile` with minizip: isolated file-handling hardening with low architectural drift
+6. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
 
-### Do Second — Major, higher effort
+### Do Second — narrow stability items still close to current behavior
 
-9. **FEAT-002** — SafeKad CGNAT fix: affects all users behind NAT; full implementation done in experimental
-10. **FEAT-001** — FastKad bootstrap ranking: full implementation done in experimental, ready to port
+7. **BUG-003 through BUG-006** — targeted correctness fixes
+8. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
+9. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
+10. **FEAT-002** — SafeKad CGNAT fix
+11. **FEAT-001** — FastKad bootstrap ranking
 
-### Do After CI-001 — Tooling chain (Minor, unblocked by CMake)
+### Do Later — useful, but not part of the current stabilization milestone
 
-11. **REF-017** — Dead code sweep: Win9x guards, #if 0 blocks, PROXY comments; fully done in experimental
-12. **REF-025** — Legacy feature removal: IRC, SMTP, Scheduler, MiniMule, wizard; fully done in experimental
-13. **REF-018** — PeerCache opcodes + Win95 detection + legacy INI keys; fully done in experimental
-14. **REF-019** — ASSERT(0) → FailEncryptedStream/OnError(); done in experimental
-15. **REF-020** — Static-link always-present Win10 APIs; done in experimental
-16. **REF-021** — Remove warning suppressions + fix deprecated Winsock APIs; done in experimental
-17. **REF-023** — Unsafe sprintf → safe equivalents; done in experimental (cleanup after REF-021)
-18. **FEAT-013** — PipeApiServer: full implementation done in experimental
-19. **FEAT-022** — Startup -c config override: experimental impl done; low risk, high test utility
-20. **CI-002** — clang-format
-21. **CI-003** — MSVC hardening Phase B (/WX, /permissive-)
-22. **CI-004** — clang-tidy
-23. **CI-005** — cppcheck
-24. **CI-006** — AddressSanitizer
-
-### Do Later — Minor / Trivial
-
-- **BUG-002, BUG-013** — ArchiveRecovery bugs: consider full feature removal (REF-025 path) as easier than patching; community (irwir) added const-correctness fixes in `24d1de7` as partial improvement reference
-- **BUG-003 through BUG-006** — targeted bug fixes
-- **BUG-008** — CaptchaGenerator rand() & 8 (one-liner; or resolved by REF-027 full rewrite)
-- **BUG-018** — currently in progress on `fix/bug018-partfile-hash-drift`; merge before starting another hashing-concurrency branch
-- **REF-003** — subsumed by REF-025 (IRC removal); only relevant if IRC is kept
-- **REF-004** — Prefs audit (coordinate with BUG-001 Done; mostly resolved)
-- **REF-007** — WebM vs MKV MIME: done in experimental (MediaInfo.cpp)
-- **REF-015** — miniupnpc removal: one-line switch, safe at any time
-- **REF-016** — ResizableLib inline: no dialog source changes
-- **REF-022** — types.h → `<cstdint>`: mechanical, low risk
-- **REF-024** — Opcodes.h `#define` → `constexpr`: mechanical (coordinate with FEAT-016)
-- **REF-027** — CaptchaGenerator → ATL CImage: community reference; port after REF-025 if CxImage not otherwise removed
-- **REF-028** — MbedTLS 4.0 upgrade: community reference; needed for TLS 1.3; coordinate with DEP-STATUS
-- **REF-030** — Async hostname resolver: experimental impl done; port after REF-029 (WSAPoll)
-- **FEAT-003, 005, 006** — Kad quality improvements (no experimental impl yet)
-- **FEAT-004** — KadPublishGuard generalization: partial impl in experimental
-- **FEAT-007** — Windows Property Store metadata
-- **FEAT-008, 009** — Oracle/mirror guard seams
-- **FEAT-010** — Long path support phase 2: shell/UI follow-up after core filesystem landing
-- **FEAT-011, 012** — CShield + TCP flood defense: port from eMuleAI (Shield.cpp/h has full 44-category implementation)
-- **FEAT-014** — REST API Node.js sidecar: full contract specified
-- **FEAT-018** — µTP transport: eMuleAI reference available; high impact but large scope (libutp dependency)
-- **FEAT-019** — Dark mode UI: eMuleAI reference available; pair with FEAT-017 (DPI)
-- **FEAT-020** — GeoLite2 geolocation: eMuleAI reference available; trivial priority
-- **FEAT-021** — SourceSaver: eMuleAI reference available; minor quality-of-life
-- **CI-007** — Kad fuzz tests (after CI-006 ASan baseline)
+- **FEAT-017, REF-026** — DPI/manifest modernization
+- **CI-001 through CI-006** — broader build/tooling modernization
+- **REF-017, REF-018, REF-019, REF-020, REF-021, REF-023, REF-025** — cleanup and legacy removal passes
+- **REF-027** — CaptchaGenerator rewrite
+- **REF-029, REF-030** — async socket / resolver work; explicitly future phase, not part of the current stabilization plan
+- **FEAT-014** — optional OpenAPI/external gateway follow-up after FEAT-013
+- **FEAT-018 through FEAT-021** — larger product features outside the hardening milestone
+- **CI-007** — Kad fuzz tests after the broader CI/toolchain stack is ready
 
 ---
 
@@ -241,7 +212,7 @@ REF-008              supersedes REF-029 (WSAPoll UDP) and REF-030 (hostname reso
 [BUG-016 — DONE in commit 06eaefe]
 
 FEAT-008 (oracle seams) ──► FEAT-009 (mirror audit)
-FEAT-013 (CPipeApiServer) ──► FEAT-014 (Node.js sidecar)
+FEAT-013 (WebServer REST) ──► FEAT-014 (OpenAPI / optional external gateway)
 FEAT-011 (CShield) ──► FEAT-012 (PR_TCPERRORFLOODER, can standalone)
 FEAT-015 (slot allocation) ──► FEAT-016 (modern limits — coordinate Opcodes.h values)
 FEAT-015 (slot allocation) ──► FEAT-023 (optional scoring/UI extras kept separate)
@@ -355,6 +326,6 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 8 open bugs + 1 in-progress bug + 28 refactors/boost items + 20 features + 7 CI = **64 non-done issues**.*
+*Total non-done: 8 open bugs + 0 in-progress bugs + 28 refactors/boost items + 20 features + 8 CI = **64 non-done issues**.*
 
-*Status refresh through 2026-04-12: BUG-007/014/017/019/020/021 and REF-002/006 are now done in `main`; FEAT-015/016/023 are done; BUG-018 is active on `fix/bug018-partfile-hash-drift`.*
+*Status refresh through 2026-04-12: BUG-007/014/017/018/019/020/021 and REF-002/006 are now done in `main`; FEAT-015/016/023 are done; BUG-022 and CI-008 were added from the focused community diff review.*

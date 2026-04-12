@@ -1,161 +1,119 @@
 ---
 id: FEAT-013
-title: REST API — CPipeApiServer (C++ named pipe IPC server)
+title: REST API — extend WebServer.cpp with authenticated JSON endpoints
 status: Open
-priority: Minor
+priority: Major
 category: feature
-labels: [api, rest, named-pipe, ipc, json, cpp]
+labels: [api, rest, webserver, json, http, https]
 milestone: ~
 created: 2026-04-08
-source: PLAN-API-SERVER.md (PLAN_004 — C++ side)
+source: 2026-04-12 backlog review pivot from pipe/sidecar-first plan
 ---
 
 ## Summary
 
-Implement `CPipeApiServer` — a named pipe IPC server inside `eMule.exe` that exposes eMule's internal state and operations to the `emule-sidecar` Node.js process (FEAT-014) via a JSON-lines protocol over `\\.\pipe\emule-api`.
+If REST support is added in the current stabilization phase, the primary implementation
+should extend the existing `WebServer.cpp` / `WebSocket.cpp` stack instead of introducing
+an internal named-pipe protocol first.
 
-This is the C++ half of the REST API architecture. The full contract is specified in `docs/PLAN-API-SERVER.md`.
+This keeps the feature close to the existing web surface, minimizes architecture drift,
+reuses the current HTTP/HTTPS listener, and avoids adding a second transport and dispatch
+stack during the hardening milestone.
 
-## Architecture
+## Preferred Architecture
 
 ```
 eMule.exe
-  CPipeApiServer
-  ├── CreateNamedPipe  \\.\pipe\emule-api
-  ├── Overlapped I/O read thread  →  JSON command dispatch
-  ├── Write  →  JSON responses + async event pushes
-  └── Event hook points:
-      ├── EmuleDlg::OnFileCompleted
-      ├── CServerConnect::OnConnected
-      ├── periodic stats timer (~1 s)
-      └── search result callbacks
+  WebSocket.cpp      -> existing HTTP/HTTPS accept + TLS
+  WebServer.cpp      -> route parsing and auth/session handling
+  WebServerJson.cpp  -> optional helper split for JSON serializers/route handlers
+                      -> /api/v1/... JSON endpoints
 ```
 
-## Pipe Transport
+### Keep
 
-- **Pipe name:** `\\.\pipe\emule-api`
-- **Mode:** `PIPE_ACCESS_DUPLEX | FILE_FLAG_OVERLAPPED`, byte stream
-- **Max instances:** 1 (one sidecar at a time)
-- **Framing:** newline-delimited JSON (JSON-lines / NDJSON) — each message ends with `\n`
-- **Encoding:** UTF-8
-- **Auth:** None — local pipe, auth lives in the sidecar's HTTP layer
+- existing HTML web interface routes
+- existing password/session model as the first auth layer
+- existing HTTPS support in `WebSocket.cpp`
 
-## Message Types
+### Add
 
-### Command (sidecar → eMule)
-```json
-{"id": "uuid-v4", "cmd": "get_stats"}
-```
+- authenticated JSON responses for machine clients
+- small route/serializer helpers around the existing WebServer request flow
+- targeted admin-only mutation routes
 
-### Response (eMule → sidecar)
-```json
-{"id": "uuid-v4", "ok": true, "data": {...}}
-{"id": "uuid-v4", "ok": false, "error": "not_found"}
-```
+### Avoid in phase 1
 
-### Event (eMule → sidecar, unsolicited)
-```json
-{"event": "file_complete", "data": {"hash": "...", "name": "..."}}
-{"event": "stats", "data": {"upSpeed": 42000, "downSpeed": 128000, ...}}
-```
+- named-pipe-first transport
+- Node/TypeScript sidecar as the primary architecture
+- async socket migration
+- SSE/WebSocket push unless a narrow polling API proves insufficient
 
-## Command Reference (partial)
+## Initial Route Set
 
-| Command | Response |
-|---------|----------|
-| `get_stats` | Speed, connections, session bytes, kad status |
-| `get_transfers` | Download list with progress, speed, ETA |
-| `get_uploads` | Current upload slots |
-| `get_servers` | Known servers + connected server |
-| `get_kad` | Kad status, routing table size, bootstrap state |
-| `get_shared` | Shared file list with metadata |
-| `get_log` | Last N log lines |
-| `search_start` | Starts a keyword search; results arrive as `search_result` events |
-| `search_stop` | Cancels a running search |
-| `download_add` | Adds an ed2k:// link or .met blob to the download queue |
-| `download_cancel` | Removes a download |
-| `download_pause` / `resume` | Pauses or resumes a download |
+### Read-only
 
-## Event Hook Points in eMule
+- `GET /api/v1/app/version`
+- `GET /api/v1/stats`
+- `GET /api/v1/transfers`
+- `GET /api/v1/uploads`
+- `GET /api/v1/servers`
+- `GET /api/v1/kad`
+- `GET /api/v1/shared`
+- `GET /api/v1/log?limit=N`
 
-| Event | Where to hook |
-|-------|---------------|
-| `file_complete` | `CemuleDlg::OnFileCompleted()` |
-| `server_connect` | `CServerConnect::OnConnected()` |
-| `stats` | `CemuleDlg::OnTimer()` — 1 s tick |
-| `search_result` | `CSearchList::AddSearchResult()` |
-| `download_added` | `CDownloadQueue::AddSearchResult()` |
+### Mutating
 
-## Class Design
+- `POST /api/v1/transfers`
+  add an `ed2k://` link
+- `POST /api/v1/transfers/{hash}/pause`
+- `POST /api/v1/transfers/{hash}/resume`
+- `DELETE /api/v1/transfers/{hash}`
+- `POST /api/v1/servers/connect`
 
-```cpp
-class CPipeApiServer {
-public:
-    void Start();      // CreateNamedPipe, launch I/O thread
-    void Stop();       // disconnect, signal thread exit
-    void PushEvent(const std::string& eventJson);  // thread-safe, queued
+## Authentication Model
 
-private:
-    HANDLE          m_hPipe;
-    std::thread     m_ioThread;
-    std::mutex      m_writeMutex;
-    std::queue<std::string> m_pendingEvents;
+- reuse existing web password/session handling first
+- require authenticated session for all JSON routes
+- require admin session for mutation routes
+- do not create a second independent auth store in phase 1
 
-    void IoThreadProc();
-    void DispatchCommand(const std::string& json);
-    void WriteResponse(const std::string& json);
-};
-```
+## Compatibility Goals
 
-## Thread Safety
+- HTML web UI remains behavior-compatible
+- JSON endpoints are additive
+- no dependency on sidecars or external runtimes
+- no dependency on async socket refactors
 
-- **Read thread** (`m_ioThread`): reads commands, dispatches via `PostMessage` to UI thread or calls thread-safe API directly.
-- **Write path**: all writes (responses + events) go through `m_writeMutex`.
-- **Event queue**: `PushEvent()` acquires `m_writeMutex`, enqueues, signals write thread.
+## Implementation Notes
 
-UI-thread-only state (download list, upload queue, etc.) must be accessed via `PostMessage` / `SendMessage` to the main window thread — never directly from `m_ioThread`.
+- route JSON requests inside the existing WebServer dispatch path
+- keep serialization isolated from HTML template rendering
+- prefer stable identifiers already used by the app:
+  - MD4 hash for transfers/shared files
+  - server address/port for server actions
+- keep all UI-thread/state access rules identical to current WebServer behavior
 
-## JSON Library
+## Test Requirements
 
-Use `nlohmann/json` (header-only, MIT license) — add as a single `json.hpp` header to `srchybrid/`. No additional build config needed.
-
-## Implementation Order
-
-1. Pipe create/accept/disconnect lifecycle
-2. JSON-lines framing (read loop + write helper)
-3. `get_stats` command (simplest, validates round-trip)
-4. Event push path (`PushEvent` + stats timer hook)
-5. Remaining commands in priority order
+- targeted WebServer route tests for:
+  - unauthenticated request rejection
+  - admin vs low-privilege access
+  - JSON schema sanity for stats/transfers/shared routes
+  - add/pause/resume/delete transfer actions
+- regression coverage proving legacy HTML pages still render after JSON routes land
+- HTTPS route smoke coverage using configured cert/key files on non-ASCII paths
 
 ## Acceptance Criteria
 
-- [ ] `CPipeApiServer` starts with eMule, creates `\\.\pipe\emule-api`
-- [ ] JSON-lines framing correct (messages delimited by `\n`, no partial reads)
-- [ ] `get_stats` returns correct speed/connection data
-- [ ] `file_complete` event pushed when a download finishes
-- [ ] Sidecar disconnect + reconnect handled without eMule restart
-- [ ] No deadlock: UI-thread commands dispatched via PostMessage, not blocking pipe thread
-- [ ] No sensitive data (plaintext passwords, private keys) in any pipe message
+- [ ] Existing HTML web interface still works unchanged
+- [ ] `/api/v1/stats` and `/api/v1/transfers` return stable JSON
+- [ ] Mutation routes require admin-authenticated web session
+- [ ] HTTPS works for REST routes through the existing `WebSocket.cpp` stack
+- [ ] No new transport, sidecar, or async socket dependency is introduced
 
-## Reference
+## Relationship To Other Items
 
-Full API contract (commands, events, data types, error conventions): `docs/PLAN-API-SERVER.md`
-Sidecar (Node.js) side: FEAT-014
-
-## Experimental Reference Implementation
-
-**Status in `stale-v0.72a-experimental-clean`:** Substantially implemented. `PipeApiServer.cpp/h` and `PipeApiServerPolicy.h` are present in `srchybrid/`. Key aspects:
-
-**Lifecycle state machine:** `EPipeApiLifecycleState` enum (`Stopped`, `Listening`, `Connected`, `ShuttingDown`). Worker thread performs `CreateNamedPipe` → `ConnectNamedPipe` (overlapped) → read loop → `DisconnectNamedPipe` cycle.
-
-**Backpressure:** `SPipeApiWriteEntry` tracks bytes in the write queue; `PipeApiPolicy::EWriteKind` distinguishes command responses (must-deliver) from event pushes (droppable under pressure). Write queue has a hard byte ceiling.
-
-**Command dispatch:** Worker thread reads a line, creates `SPipeApiCommandRequest` with a Win32 `HANDLE hCompletedEvent`, posts to UI thread via `PostMessage`, waits on event. UI thread processes the model access, fills `strResponseLine`, sets the event. No blocking of the UI thread (uses `SendMessage` style but with timeout + cancellable flag).
-
-**JSON:** `nlohmann/json` (`srchybrid/nlohmann/` directory) included as vendored header-only library.
-
-**Startup toggle:** `m_bPipeServerEnabled` preference toggle + resource ID for menu/toolbar toggle.
-
-**Commands implemented:** `get_stats`, `get_transfers`, `get_shared`, `get_servers`, `get_kad`, `get_log`, `search_start`, `download_add`, `download_cancel`, `download_pause`, `download_resume`, plus versioned v2 routes.
-
-**Porting note:** `PipeApiServer.cpp/h`, `PipeApiServerPolicy.h`, and `srchybrid/nlohmann/` are all new. Add to `.vcxproj` and wire `CPipeApiServer` into `CemuleApp` and `EmuleDlg` (start/stop lifecycle + event hook points). The preference toggle and runtime enable/disable are important for safe rollout.
+- **FEAT-014** becomes an optional follow-up layer, not the primary architecture
+- **CI-008** should carry the WebServer/REST regression expansion for this item
+- **REF-029** stays explicitly deferred; do not couple REST delivery to socket-stack replacement

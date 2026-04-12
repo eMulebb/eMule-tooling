@@ -12,7 +12,13 @@ source: GUIDE-LONGPATHS.md + feature/windows-long-paths audit
 
 ## Summary
 
-Core long-path support has landed on `main` for filesystem operations: manifests are long-path aware, `LongPathSeams` centralizes file opens/moves/deletes/enumeration, CRT-bypass helpers are in use, and real-FS tests cover overlong Unicode paths. The remaining work is Phase 2 shell/UI hardening so icon lookup, browse dialogs, and path-helper code no longer lag behind the core file-access model.
+Core long-path support has landed on `main` for filesystem operations: manifests are
+long-path aware, `LongPathSeams` centralizes file opens/moves/deletes/enumeration,
+CRT-bypass helpers are in use, and real-FS tests cover overlong Unicode paths.
+
+The remaining work is Phase 2 shell/UI hardening so icon lookup, browse dialogs,
+delete-to-recycle-bin flows, and path-helper code no longer lag behind the core
+file-access model.
 
 ## Already Landed On Main
 
@@ -36,6 +42,18 @@ Branch status on `fix/partfile-longpath-hardening`:
 - Path-helper / path-display call sites in `FileInfoDialog.cpp`, `MiniMule.cpp`, and `OtherFunctions.cpp` are intentionally deferred and marked in code as `TODO:MINOR(FEAT-010)`.
 - `Emule.cpp` skin resource path assembly is intentionally deferred as `TODO:MINOR`.
 - `MuleListCtrl.cpp` background skin image path assembly is intentionally deferred as `TODO:MINOR`.
+
+### Confirmed review finding
+
+The 2026-04-12 `community-0.72` diff review confirmed one concrete bug inside the
+remaining Phase 2 area:
+
+- `ShellDeleteFile()` still uses a `MAX_PATH + 1` buffer plus `SHFileOperation`
+  when recycle-bin delete is enabled, which is not aligned with the long-path-safe
+  core file boundary and affects live part-file/shared-file delete flows.
+
+That specific issue is tracked separately as **BUG-022**, but it is also the first
+implementation slice of FEAT-010.
 
 1. **Shell icon lookup**
    Centralize direct `SHGetFileInfo` usage and define fallback behavior for overlong paths.
@@ -82,16 +100,33 @@ Branch status on `fix/partfile-longpath-hardening`:
 - Add a small shell-facing helper layer for icon/display queries rather than sprinkling more `SHGetFileInfo` patterns.
 - Keep `LongPathSeams` as the core filesystem boundary; do not fork a second file-access model.
 - Where shell APIs are inherently limited, prefer explicit fallback behavior and documentation over ad hoc failure.
+- Treat recycle-bin delete as its own reviewed boundary. Do not keep the current fixed-buffer `SHFileOperation` fallback for deep paths.
 - Keep pure string helpers like `PathFindExtension` only where they are not path-length sensitive.
+
+## Test Expansion
+
+Phase 2 should expand coverage beyond raw filesystem helpers:
+
+- real-FS deep Unicode delete tests for:
+  - direct delete
+  - recycle-bin-enabled delete behavior
+- seam/integration checks for part-file delete flows that route through `ShellDeleteFile()`
+- smoke coverage for shell/browse fallbacks where the shell APIs impose path-length limits
 
 ## Acceptance Criteria
 
 - [ ] Shell icon/display lookup is centralized and no longer scattered across tree/list controls
 - [ ] Overlong paths still get sensible icons or graceful fallback behavior in directory/file UI
 - [ ] Browse-dialog flows are audited and any unavoidable shell limitations are documented
+- [ ] Delete-to-recycle-bin behavior for deep paths is explicitly hardened or intentionally downgraded with documented fallback
 - [ ] Fixed-buffer path composition used in real path construction is reduced or eliminated in the audited files
 - [ ] Manual smoke checks cover icon lookup and browse flows for deep Unicode paths where the shell APIs permit it
 
 ## Reference
 
-Core implementation spec: `docs/GUIDE-LONGPATHS.md`
+- Core implementation spec: `docs/GUIDE-LONGPATHS.md`
+- Microsoft shell/file API notes:
+  - <https://learn.microsoft.com/en-us/windows/win32/api/shellapi/ns-shellapi-shfileopstructa>
+  - <https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createdirectoryw>
+  - <https://learn.microsoft.com/en-us/windows/win32/api/libloaderapi/nf-libloaderapi-getmodulefilenamew>
+  - <https://learn.microsoft.com/en-us/windows/win32/api/shlwapi/nf-shlwapi-pathcanonicalizew>
