@@ -1,7 +1,7 @@
 ---
 id: FEAT-010
-title: Long path support phase 2 — shell/UI icon, browse, and path-helper audit
-status: Open
+title: Long path support phase 2 — shell/UI icon, browse, recycle-bin delete, and path-helper audit
+status: In Progress
 priority: Minor
 category: feature
 labels: [longpath, max-path, windows, filesystem, shell, ui]
@@ -12,13 +12,19 @@ source: GUIDE-LONGPATHS.md + feature/windows-long-paths audit
 
 ## Summary
 
-Core long-path support has landed on `main` for filesystem operations: manifests are
-long-path aware, `LongPathSeams` centralizes file opens/moves/deletes/enumeration,
-CRT-bypass helpers are in use, and real-FS tests cover overlong Unicode paths.
+Core long-path support is already landed on `main` for filesystem operations. Phase 2
+shell/UI hardening is now implemented on the active stabilization branches and is
+pending merge back to `main`.
 
-The remaining work is Phase 2 shell/UI hardening so icon lookup, browse dialogs,
-delete-to-recycle-bin flows, and path-helper code no longer lag behind the core
-file-access model.
+The implementation now covers:
+
+- recycle-bin delete through `IFileOperation` instead of `SHFileOperation`
+- dynamic path-helper cleanup for shell-facing module/profile/path assembly
+- shared `IFileDialog` wrappers for file/folder pickers
+- centralized shell icon/display fallback behavior for overlong paths
+- silent `.lnk` ignore-by-extension in the relevant share/incoming scans
+- dynamic skin-resource path resolution without `MAX_PATH` scratch buffers
+- deterministic regression coverage in `eMule-build-tests` for delete, path-helper, and shell/UI seam behavior
 
 ## Already Landed On Main
 
@@ -30,96 +36,45 @@ The following are no longer backlog items:
 - part files, config files, archive/import flows, ZIP/GZIP, web cert/key output, and similar high-value paths already use the shared long-path model
 - real filesystem tests now cover long Unicode paths, Cyrillic/emoji path segments, generated payloads, copy/move/delete flows, and parity-style reference coverage
 
-## Remaining Scope
+## Implemented Scope
 
-The remaining long-path backlog is now shell/UI oriented:
+The active stabilization branches now cover the full FEAT-010 shell/UI tail:
 
-Branch status on `fix/partfile-longpath-hardening`:
+- `OtherFunctions.cpp/.h`: shared `IFileDialog` wrappers for folder pick, file open, and file save; compatibility entrypoints retained for `SelectDir(...)` and `DialogBrowseFile(...)`
+- `PartFileConvert.cpp`, `TreeOptionsCtrl.cpp`, `KnownFile.cpp`, `PPgFiles.cpp`, `MuleToolBarCtrl.cpp`, `StatisticsTree.cpp`, `CatDialog.cpp`, `PPgDirectories.cpp`: migrated remaining browse/picker call sites to the shared wrappers
+- `DirectoryTreeCtrl.cpp`, `SharedDirsTreeCtrl.cpp`, `Emule.cpp`: centralized icon/display fallback behavior for shell-facing UI
+- `PPgDirectories.cpp`, `SharedFileList.cpp`, `SharedFilesCtrl.cpp`: `.lnk` files are now ignored by extension in the relevant share/incoming scans instead of consulting shell metadata
+- `FileInfoDialog.cpp`, `MiniMule.cpp`, `OtherFunctions.cpp`: path-helper/module-path tails removed in the earlier FEAT-010 path-helper slice
+- `Emule.cpp`, `MuleListCtrl.cpp`: skin resource and background image resolution now use dynamic helper paths rather than `MAX_PATH` buffers
 
-- `Ini2.cpp` path-helper cleanup is done; module/current-directory INI path construction no longer depends on fixed `_MAX_*` buffers or `MAX_PATH`-sized `GetModuleFileName` / `GetCurrentDirectory` calls.
-- Shell icon / shell-attribute query call sites in `DirectoryTreeCtrl.cpp`, `SharedDirsTreeCtrl.cpp`, `Emule.cpp`, `PPgDirectories.cpp`, `SharedFileList.cpp`, and `SharedFilesCtrl.cpp` are intentionally deferred and marked in code as `TODO:MINOR(FEAT-010)`.
-- Browse-dialog call sites in `OtherFunctions.cpp`, `PartFileConvert.cpp`, `TreeOptionsCtrl.cpp`, `KnownFile.cpp`, `PPgFiles.cpp`, `MuleToolBarCtrl.cpp`, and `StatisticsTree.cpp` are intentionally deferred and marked in code as `TODO:MINOR(FEAT-010)`.
-- Path-helper / path-display call sites in `FileInfoDialog.cpp`, `MiniMule.cpp`, and `OtherFunctions.cpp` are intentionally deferred and marked in code as `TODO:MINOR(FEAT-010)`.
-- `Emule.cpp` skin resource path assembly is intentionally deferred as `TODO:MINOR`.
-- `MuleListCtrl.cpp` background skin image path assembly is intentionally deferred as `TODO:MINOR`.
+There are no remaining `TODO:MINOR(FEAT-010)` or `TODO:MINOR(longpath)` markers in the audited shell/UI long-path surface.
 
-### Confirmed review finding
+## Fallback Policy
 
-The 2026-04-12 `community-0.72` diff review confirmed one concrete bug inside the
-remaining Phase 2 area:
+The Phase 2 implementation uses explicit shell/UI fallback behavior instead of relying on incidental shell success:
 
-- `ShellDeleteFile()` still uses a `MAX_PATH + 1` buffer plus `SHFileOperation`
-  when recycle-bin delete is enabled, which is not aligned with the long-path-safe
-  core file boundary and affects live part-file/shared-file delete flows.
-
-That specific issue is tracked separately as **BUG-022**, but it is also the first
-implementation slice of FEAT-010.
-
-1. **Shell icon lookup**
-   Centralize direct `SHGetFileInfo` usage and define fallback behavior for overlong paths.
-
-   Deferred status on `fix/partfile-longpath-hardening`:
-   active call sites are tagged in code as `TODO:MINOR(FEAT-010)` and are not part of the current branch scope.
-
-   Primary files:
-   - `DirectoryTreeCtrl.cpp`
-   - `SharedDirsTreeCtrl.cpp`
-   - `SharedFileList.cpp`
-   - `SharedFilesCtrl.cpp`
-   - `PPgDirectories.cpp`
-   - `Emule.cpp`
-
-2. **Browse dialog flows**
-   Audit `SHBrowseForFolder`, `SHGetPathFromIDList`, and `CFileDialog` call sites to document or improve long-path behavior where feasible.
-
-   Deferred status on `fix/partfile-longpath-hardening`:
-   active call sites are tagged in code as `TODO:MINOR(FEAT-010)` and are not part of the current branch scope.
-
-   Primary files:
-   - `OtherFunctions.cpp`
-   - `PartFileConvert.cpp`
-   - `TreeOptionsCtrl.cpp`
-   - `KnownFile.cpp`
-   - `PPgFiles.cpp`
-   - `MuleToolBarCtrl.cpp`
-   - `StatisticsTree.cpp`
-
-3. **Path helper / path-display cleanup**
-   Reduce legacy fixed-buffer `Path*` / `GetModuleFileName` patterns where they are still used in actual path construction or shell-facing code.
-
-   Deferred status on `fix/partfile-longpath-hardening`:
-   active call sites are tagged in code as `TODO:MINOR(FEAT-010)` and are not part of the current branch scope.
-
-   Primary files:
-   - `FileInfoDialog.cpp`
-   - `OtherFunctions.cpp`
-   - `MiniMule.cpp`
-
-## Intended Phase 2 Approach
-
-- Add a small shell-facing helper layer for icon/display queries rather than sprinkling more `SHGetFileInfo` patterns.
-- Keep `LongPathSeams` as the core filesystem boundary; do not fork a second file-access model.
-- Where shell APIs are inherently limited, prefer explicit fallback behavior and documentation over ad hoc failure.
-- Treat recycle-bin delete as its own reviewed boundary. Do not keep the current fixed-buffer `SHFileOperation` fallback for deep paths.
-- Keep pure string helpers like `PathFindExtension` only where they are not path-length sensitive.
+- icon lookup uses stable extension/attribute-based queries where possible rather than probing the full overlong path
+- shell display names are optional enrichment; when the shell cannot provide one safely, existing caller text is preserved
+- picker flows return full `CString` paths from shared modern wrappers instead of caller-owned `MAX_PATH` arrays
+- `.lnk` files are ignored by extension in the relevant share/incoming warning flows instead of following shell metadata
 
 ## Test Expansion
 
-Phase 2 should expand coverage beyond raw filesystem helpers:
+The stabilization branches now include:
 
-- real-FS deep Unicode delete tests for:
-  - direct delete
-  - recycle-bin-enabled delete behavior
-- seam/integration checks for part-file delete flows that route through `ShellDeleteFile()`
-- smoke coverage for shell/browse fallbacks where the shell APIs impose path-length limits
+- deep Unicode delete coverage for recycle-bin-enabled and direct-delete routing
+- path-helper coverage for module paths, canonicalization, MediaInfo path joins, and MiniMule resource URLs
+- shell/UI seam coverage for shortcut ignore rules, shell display fallback gating, icon-query routing, picker path splitting/finalization, and skin-resource resolution
+
+Remaining verification before merge is manual smoke coverage for representative browse/icon flows on a live UI.
 
 ## Acceptance Criteria
 
-- [ ] Shell icon/display lookup is centralized and no longer scattered across tree/list controls
-- [ ] Overlong paths still get sensible icons or graceful fallback behavior in directory/file UI
-- [ ] Browse-dialog flows are audited and any unavoidable shell limitations are documented
-- [ ] Delete-to-recycle-bin behavior for deep paths is explicitly hardened or intentionally downgraded with documented fallback
-- [ ] Fixed-buffer path composition used in real path construction is reduced or eliminated in the audited files
+- [x] Shell icon/display lookup is centralized and no longer scattered across the audited tree/list controls
+- [x] Overlong paths still get sensible icons or graceful fallback behavior in directory/file UI
+- [x] Browse-dialog flows are audited and routed through shared modern wrappers in the audited files
+- [x] Delete-to-recycle-bin behavior for deep paths is explicitly hardened
+- [x] Fixed-buffer path composition used in real path construction is reduced or eliminated in the audited files
 - [ ] Manual smoke checks cover icon lookup and browse flows for deep Unicode paths where the shell APIs permit it
 
 ## Reference
