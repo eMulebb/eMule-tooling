@@ -5,7 +5,7 @@
 **Revalidated:** 2026-04-09 — deep diff against `stale-v0.72a-experimental-clean` (378 commits); BUG-009/010/011/012/015 confirmed Done in main; experimental reference implementations documented for all items done there  
 **Revalidated:** 2026-04-10 — full cross-variant analysis pass: eMule-main new commits (06eaefe/4a02669/0300a9d), community-0.72 (irwir, 10 commits through 2026-01-05), eMuleAI (2026 release), stale-v0.72a-experimental-clean (378 commits, deep FIX/BUG CPP pass). BUG-001/BUG-016 confirmed Done in main; BUG-017 through BUG-021 new from experimental; REF-027 through REF-030 new from community+experimental; FEAT-018 through FEAT-022 new from eMuleAI+experimental.  
 **Revalidated:** 2026-04-12 — focused `community-0.72` vs `eMule-main` `srchybrid` diff review for stabilization/hardening only. Confirmed long-path shell delete gap (`BUG-022`), refreshed FEAT-010 scope, pivoted REST planning to extend `WebServer.cpp`, and added regression-expansion item `CI-008`. Async socket remains explicitly deferred for a future phase.  
-**Updated:** 2026-04-12 — active stabilization branches now implement the long-path recycle-bin fix, the FEAT-010 shell/UI closure, the final helper-architecture cleanup (`PathHelpers`, `ShellUiHelpers`, `Ini2Helpers`), and the first CI-008 long-path regression slices. These items are no longer open, but they are not marked Done until merged to `main`.
+**Updated:** 2026-04-13 — active stabilization branches now implement the long-path recycle-bin fix, the FEAT-010 shell/UI closure, exact-name namespace support, unified shared-directory recursion (`SharedDirectoryOps`), 8.3 canonicalization/migration, and CI-008 regression coverage for long-path share state and junction recursion. These items are no longer open, but they are not marked Done until merged to `main`.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -113,7 +113,7 @@ regression checks. When behavior changes, compare `main` against
 | [FEAT-007](FEAT-007.md) | Minor | Open | Windows Property Store integration for non-media file metadata |
 | [FEAT-008](FEAT-008.md) | Trivial | Open | Oracle protocol guard seams — integrate stale branch test scaffolding |
 | [FEAT-009](FEAT-009.md) | Trivial | Open | Mirror audit guard seam — WIP from stale branch parent |
-| [FEAT-010](FEAT-010.md) | Minor | In Progress | Long path support phase 2 — shell/UI icon, browse, recycle-bin delete, and path-helper audit |
+| [FEAT-010](FEAT-010.md) | Minor | In Progress | Long path support phase 2 — shell/UI, shared-directory recursion, exact-name paths, and path-helper audit |
 | [FEAT-011](FEAT-011.md) | Minor | Open | CShield — integrate ED2K anti-leecher engine (44 bad-client categories) |
 | [FEAT-012](FEAT-012.md) | Minor | Open | PR_TCPERRORFLOODER — TCP listen-socket flood defense |
 | [FEAT-013](FEAT-013.md) | Major | Open | REST API — extend WebServer.cpp with authenticated JSON endpoints |
@@ -150,7 +150,7 @@ regression checks. When behavior changes, compare `main` against
 ### Do First — stabilization / hardening with minimal drift
 
 1. **FEAT-013** — WebServer REST JSON endpoints: needed feature, but keep it inside `WebServer.cpp`/`WebSocket.cpp` to avoid transport drift
-2. **CI-008** — continue targeted regression expansion after the long-path slices, especially WebServer/REST and any higher-level part-file delete coverage still worth adding
+2. **CI-008** — continue targeted regression expansion after the long-path slices, mainly WebServer/REST and any higher-level part-file delete coverage still worth adding
 3. **REF-001** — replace `CZIPFile` with minizip: isolated file-handling hardening with low architectural drift
 4. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
 5. **BUG-022 / FEAT-010** — implementation and cleanup are in progress on stabilization branches; merge and smoke-test rather than reopening scope
@@ -328,4 +328,4 @@ historical reference only.*
 
 *Total non-done: 8 open bugs + 0 in-progress bugs + 28 refactors/boost items + 20 features + 8 CI = **64 non-done issues**.*
 
-*Status refresh through 2026-04-12: BUG-007/014/017/018/019/020/021 and REF-002/006 are now done in `main`; FEAT-015/016/023 are done; BUG-022, FEAT-010 phase 2, and the first CI-008 long-path regression slices are implemented on stabilization branches and tracked as In Progress until merge.*
+*Status refresh through 2026-04-13: BUG-007/014/017/018/019/020/021 and REF-002/006 are now done in `main`; FEAT-015/016/023 are done; BUG-022, FEAT-010 phase 2, and CI-008 long-path regression expansion are implemented on stabilization branches, including unified shared-directory recursion and junction-loop hardening, and remain In Progress until merge.*
