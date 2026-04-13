@@ -8,6 +8,9 @@
 **Updated:** 2026-04-13 — `main` now includes the FEAT-010 long-path/share-state stabilization line, the FEAT-024 centralized share-ignore policy with additive `shareignore.dat`, and FEAT-025 filename normalization on download intake/completion. CI-008 long-path regressions and CI-009 share-ignore regressions are landed as well.
 **Revalidated:** 2026-04-13 — current app workspace HEAD (`e1ecdee`, branch `feature/feat028-shared-files-virtual-list`) is ahead of `main` (`021cb5b`) by FEAT-026/027 startup work. Added `BUG-023`, added `FEAT-025`/`026`/`027`, corrected FEAT-015/016/023 item docs to match `main`, and recorded historical `docs/` drift in [REVIEW-2026-04-13-main-workspace-revalidation](REVIEW-2026-04-13-main-workspace-revalidation.md).
 **Revalidated:** 2026-04-13 — Windows/MFC/toolchain deep dive. Confirmed current `main` still links WebServer/MbedTLS/id3lib, current local toolchain is VS 2022 `v143` / MFC 14.x, current code uses zero modern MFC UI host/layout classes, and `emule.vcxproj` still carries VC71-upgrade baggage plus DPI-off manifest settings. Added `REF-032`, corrected stale dependency/security source-doc rows, and recorded the details in [REVIEW-2026-04-13-windows-mfc-toolchain-deep-dive](REVIEW-2026-04-13-windows-mfc-toolchain-deep-dive.md).
+**Revalidated:** 2026-04-14 — focused bug-only pass on current `main`. Added `BUG-024` for the live `statUTC(HANDLE)` size-field corruption and `BUG-025` for wrong/stale hashing open diagnostics in `CKnownFile`. Recorded the pass in [REVIEW-2026-04-14-main-bug-pass](REVIEW-2026-04-14-main-bug-pass.md).
+**Revalidated:** 2026-04-14 — deeper bug-only follow-up on current `main`. Added `BUG-026` for search-tab teardown lifetime violations and `BUG-027` for destructive IP-filter promotion failure. Recorded the follow-up in [REVIEW-2026-04-14-main-bug-pass-deeper](REVIEW-2026-04-14-main-bug-pass-deeper.md).
+**Revalidated:** 2026-04-14 — deeper Windows/API and dependency pass. Added `BUG-028` for ANSI-only `id3lib` path handling in current MP3 metadata extraction, refreshed `REF-021` / `REF-030` with the remaining live Winsock and message-DNS surface, and recorded the deeper findings in [REVIEW-2026-04-14-api-deep-pass-id3lib-unicode](REVIEW-2026-04-14-api-deep-pass-id3lib-unicode.md).
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -50,6 +53,11 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-021](BUG-021.md) | Minor | **Done** | Upload queue lock inversion + socket I/O result mishandling + inflate buffer aliasing |
 | [BUG-022](BUG-022.md) | Major | **Done** | Long-path delete-to-recycle-bin still breaks in ShellDeleteFile |
 | [BUG-023](BUG-023.md) | Minor | Open | Shared-file ED2K published column shows a false `No` after publish-state reset |
+| [BUG-024](BUG-024.md) | Minor | Open | `statUTC(HANDLE)` returns corrupted `st_size` by using `nFileIndexLow` |
+| [BUG-025](BUG-025.md) | Minor | Open | KnownFile hashing open failures log stale or wrong error text on Win32 open failure |
+| [BUG-026](BUG-026.md) | Major | Open | Search tab teardown frees live result/tab payload objects before the UI detaches them |
+| [BUG-027](BUG-027.md) | Major | Open | IP filter update can delete the live `ipfilter.dat` before replacement promotion succeeds |
+| [BUG-028](BUG-028.md) | Minor | Open | MP3 ID3 metadata extraction is ANSI-only; non-ACP filenames can silently lose tags |
 
 ---
 
@@ -163,10 +171,11 @@ regression checks. When behavior changes, compare `main` against
 3. **REF-001** — replace `CZIPFile` with minizip: isolated file-handling hardening with low architectural drift
 4. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
 5. **BUG-022** — keep only optional caller-level/manual smoke coverage if later delete-flow changes touch the same path
+6. **BUG-026, BUG-027** — fix the live search teardown crash window and the IP-filter promotion failure path; both are narrow, high-signal stabilization fixes
 
 ### Do Second — narrow stability items still close to current behavior
 
-7. **BUG-003 through BUG-006** — targeted correctness fixes
+7. **BUG-003 through BUG-006, BUG-024, BUG-025, BUG-028** — targeted correctness fixes
 8. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
 9. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
 10. **FEAT-002** — SafeKad CGNAT fix
