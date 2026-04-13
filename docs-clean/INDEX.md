@@ -5,7 +5,9 @@
 **Revalidated:** 2026-04-09 — deep diff against `stale-v0.72a-experimental-clean` (378 commits); BUG-009/010/011/012/015 confirmed Done in main; experimental reference implementations documented for all items done there  
 **Revalidated:** 2026-04-10 — full cross-variant analysis pass: eMule-main new commits (06eaefe/4a02669/0300a9d), community-0.72 (irwir, 10 commits through 2026-01-05), eMuleAI (2026 release), stale-v0.72a-experimental-clean (378 commits, deep FIX/BUG CPP pass). BUG-001/BUG-016 confirmed Done in main; BUG-017 through BUG-021 new from experimental; REF-027 through REF-030 new from community+experimental; FEAT-018 through FEAT-022 new from eMuleAI+experimental.  
 **Revalidated:** 2026-04-12 — focused `community-0.72` vs `eMule-main` `srchybrid` diff review for stabilization/hardening only. Confirmed long-path shell delete gap (`BUG-022`), refreshed FEAT-010 scope, pivoted REST planning to extend `WebServer.cpp`, and added regression-expansion item `CI-008`. Async socket remains explicitly deferred for a future phase.  
-**Updated:** 2026-04-13 — `main` now includes the FEAT-010 long-path/share-state stabilization line and the FEAT-024 centralized share-ignore policy with additive `shareignore.dat`. CI-008 long-path regressions and CI-009 share-ignore regressions are landed as well.
+**Updated:** 2026-04-13 — `main` now includes the FEAT-010 long-path/share-state stabilization line, the FEAT-024 centralized share-ignore policy with additive `shareignore.dat`, and FEAT-025 filename normalization on download intake/completion. CI-008 long-path regressions and CI-009 share-ignore regressions are landed as well.  
+**Revalidated:** 2026-04-13 — current app workspace HEAD (`e1ecdee`, branch `feature/feat028-shared-files-virtual-list`) is ahead of `main` (`021cb5b`) by FEAT-026/027 startup work. Added `BUG-023`, added `FEAT-025`/`026`/`027`, corrected FEAT-015/016/023 item docs to match `main`, and recorded historical `docs/` drift in [REVIEW-2026-04-13-main-workspace-revalidation](REVIEW-2026-04-13-main-workspace-revalidation.md).  
+**Revalidated:** 2026-04-13 — Windows/MFC/toolchain deep dive. Confirmed current `main` still links WebServer/MbedTLS/id3lib, current local toolchain is VS 2022 `v143` / MFC 14.x, current code uses zero modern MFC UI host/layout classes, and `emule.vcxproj` still carries VC71-upgrade baggage plus DPI-off manifest settings. Added `REF-032`, corrected stale dependency/security source-doc rows, and recorded the details in [REVIEW-2026-04-13-windows-mfc-toolchain-deep-dive](REVIEW-2026-04-13-windows-mfc-toolchain-deep-dive.md).  
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -47,6 +49,7 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-020](BUG-020.md) | Minor | **Done** | Client socket teardown ordering — cross-link not cleared before Safe_Delete |
 | [BUG-021](BUG-021.md) | Minor | **Done** | Upload queue lock inversion + socket I/O result mishandling + inflate buffer aliasing |
 | [BUG-022](BUG-022.md) | Major | **Done** | Long-path delete-to-recycle-bin still breaks in ShellDeleteFile |
+| [BUG-023](BUG-023.md) | Minor | Open | Shared-file ED2K published column shows a false `No` after publish-state reset |
 
 ---
 
@@ -78,6 +81,7 @@ regression checks. When behavior changes, compare `main` against
 | [REF-029](REF-029.md) | Major | Open | Move UDP sockets to WSAPoll backend — AsyncDatagramSocket (experimental ref) |
 | [REF-030](REF-030.md) | Minor | Open | Replace WSAAsyncGetHostByName with worker-thread resolver in DownloadQueue (experimental ref) |
 | [REF-031](REF-031.md) | Minor | **Done** | Review upload queue scoring against community and stale baselines |
+| [REF-032](REF-032.md) | Minor | Open | Use MFC-native property sheets and dynamic layout instead of CTreePropSheet / ResizableLib |
 
 ---
 
@@ -128,6 +132,9 @@ regression checks. When behavior changes, compare `main` against
 | [FEAT-022](FEAT-022.md) | Minor | Open | Startup config directory override — -c flag for alternate preferences path (experimental ref) |
 | [FEAT-023](FEAT-023.md) | Minor | **Done** | Broadband queue scoring and ratio/cooldown UI extras |
 | [FEAT-024](FEAT-024.md) | Minor | **Done** | Share-ignore policy with additive `shareignore.dat` |
+| [FEAT-025](FEAT-025.md) | Minor | **Done** | Normalize download filenames on intake and completion |
+| [FEAT-026](FEAT-026.md) | Minor | In Progress | Shared startup cache with known.met lookup index and `sharedcache.dat` |
+| [FEAT-027](FEAT-027.md) | Minor | In Progress | Startup sequencing fix, startup profiling, and shared-view startup churn cleanup |
 
 ---
 
@@ -167,7 +174,8 @@ regression checks. When behavior changes, compare `main` against
 
 ### Do Later — useful, but not part of the current stabilization milestone
 
-- **FEAT-017, REF-026** — DPI/manifest modernization
+- **BUG-023** — shared-file ED2K published-state UI false `No` after publish reset; small correctness fix, low protocol risk
+- **FEAT-017, REF-026, REF-032** — DPI/manifest/MFC-host modernization
 - **CI-001 through CI-006** — broader build/tooling modernization
 - **REF-017, REF-018, REF-019, REF-020, REF-021, REF-023, REF-025** — cleanup and legacy removal passes
 - **REF-027** — CaptchaGenerator rewrite
@@ -196,6 +204,7 @@ REF-021 (remove warning suppressions) ──► REF-023 (fix sprintf sites revea
 REF-025 (legacy feature removal) — coordinate with REF-003 (IRC strings)
 REF-025 (legacy removal) ──► REF-027 (CaptchaGenerator: CxImage removal; easier post-REF-025)
 REF-026 (manifest) — pair with FEAT-017 (DPI)
+REF-016 (inline ResizableLib) — alternative to REF-032; choose one ownership path before touching the same dialog hosts
 REF-028 (MbedTLS 4.0) — prerequisite for TLS 1.3 support
 
 [Network stack — recommended order]
@@ -218,7 +227,11 @@ FEAT-013 (WebServer REST) ──► FEAT-014 (OpenAPI / optional external gatewa
 FEAT-011 (CShield) ──► FEAT-012 (PR_TCPERRORFLOODER, can standalone)
 FEAT-015 (slot allocation) ──► FEAT-016 (modern limits — coordinate Opcodes.h values)
 FEAT-015 (slot allocation) ──► FEAT-023 (optional scoring/UI extras kept separate)
+FEAT-024 (share-ignore policy) ──► CI-009 (share-ignore regressions)
+FEAT-025 (filename normalization) — standalone intake/completion hardening
+FEAT-026 (shared startup cache) ──► FEAT-027 (startup sequencing, profiling, and startup-path churn cleanup)
 FEAT-017 (DPI) ──► REF-026 (manifest) — apply together
+FEAT-017 (DPI) ──► REF-032 (modern MFC layout hosts) — apply on the same UI surfaces
 FEAT-017 (DPI) ──► FEAT-019 (dark mode — pair for modern UI milestone)
 FEAT-018 (µTP) ──► coordinate with REF-029 (WSAPoll UDP demux)
 CI-006 (ASan) ──► BUG-018/019 follow-up concurrency verification
@@ -234,8 +247,6 @@ These items were verified in `eMule-main` and are genuinely done:
 |------|---------|
 | C++17 standard baseline (WWMOD_021) | commit `93797f3 Set explicit C++17 baseline` |
 | CaptchaGenerator GDI fix (CODEREV_001) | commit `2251e6d` |
-| MbedTLS + web server removal | Verified absent from srchybrid/ |
-| id3lib removal → MediaInfo | Verified MediaInfo present, id3lib absent |
 | BBUG_001-006 security packet hardening | Verified in packet handler code |
 | Long-path core support (FEAT-010 phase 1) | commit `ae79667 Add comprehensive Windows long-path support` |
 | BUG-009 — atomic part.met replacement | commit `4b4087d` — `ReplaceFileAtomically` in PartFile.cpp |
@@ -255,6 +266,8 @@ These items were verified in `eMule-main` and are genuinely done:
 | FEAT-015 — Broadband upload slot controller | commit `d731bbe` — stabilized broadband upload slot allocation |
 | FEAT-016 — Modern runtime limits | commit `860d7a5` — modernized fixed runtime limits for broadband defaults |
 | FEAT-023 — Broadband queue scoring extras | commit `5470d69` — added queue scoring and score breakdown UI |
+| FEAT-024 — Share-ignore policy | commit `462c73b` — centralized share-ignore rules plus additive `shareignore.dat` |
+| FEAT-025 — Filename normalization | commit `021cb5b` — normalized download filenames on intake and completion |
 
 ---
 
@@ -299,12 +312,12 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 |---------|--------|--------------|
 | `AUDIT-BUGS.md` | All 50 bugs triaged — 40 fixed (stale branch), 8 open | BUG-002 to BUG-006 |
 | `AUDIT-DEFECTS.md` | Fully triaged | BUG-001, REF-004 |
-| `AUDIT-SECURITY.md` | Partially stale (web server removed) | BUG-006 |
-| `AUDIT-DEADCODE.md` | Partially done | REF-002 through REF-007, REF-018, REF-019 |
-| `REFACTOR-TASKS.md` | REFAC_002, 008, 013, 017 remain | REF-001, REF-002, REF-007, BUG-002 |
+| `AUDIT-SECURITY.md` | Historical branch audit; its "web server removed" note is stale vs current `main` | BUG-006, REF-021, REF-028 |
+| `AUDIT-DEADCODE.md` | Partially done | REF-002 through REF-007, REF-017, REF-018, REF-019 |
+| `REFACTOR-TASKS.md` | REFAC_002, 008, 012, 013, 014, 017 remain | REF-001, REF-002, REF-007, REF-017, REF-018, REF-019, BUG-002 |
 | `AUDIT-KAD.md` | Fresh analysis | FEAT-001 through FEAT-006, CI-007 |
 | `AUDIT-CODEQUALITY.md` | Fresh | CI-001 through CI-006 |
-| `DEP-STATUS.md` | All deps current; Mbed TLS + id3lib removed | No open issues |
+| `DEP-STATUS.md` | Historical dependency review; removal claims are stale vs current `main` | REF-015, REF-016, FEAT-007, REF-028 |
 | `PLAN-BOOST.md` | New (2026-04-08) | REF-008 through REF-014 |
 | `PLAN-MODERNIZATION-2026.md` | Reference only — too broad for backlog | Not directly converted |
 | `CI-BASELINE.md` | Operational reference | No issues; CI infra is live |
@@ -318,8 +331,8 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 | `FEATURE-MODERN-LIMITS.md` | Historical reference; FEAT-016 later landed in main | FEAT-016 |
 | `FEATURE-THUMBS.md` | Thumbnail feature RETIRED in experimental; IMediaDet in FileInfoDialog.cpp pending | Not converted (needs audit) |
 | `EXTRAS_VPNKILLSWITCHDESIGN.md` | External helper tool — not in-process; deferred | Not converted |
-| `AUDIT-WWMOD.md` | Win10+ modernization catalog — triaged 2026-04-08 | REF-017 through REF-024, FEAT-017 |
-| `AUDIT-CODEREVIEW.md` | CODEREV_001 fixed in main; 002/003/004/011 not in main; 006/007 stale (WebSocket removed) | BUG-007, BUG-008 |
+| `AUDIT-WWMOD.md` | Win10+ modernization catalog; many "fixed in broadband-dev" statuses are branch-local, not current `main` | REF-017 through REF-024, FEAT-017, REF-032 |
+| `AUDIT-CODEREVIEW.md` | CODEREV_001 fixed in main; 002/003/004/011 not in main; 006/007 still need revalidation because WebSocket is still live | BUG-007, BUG-008, REF-028 |
 | eMuleAI v1.3 analysis | ReplaceFileAtomically, CanWritePartMetFiles, shareddir lock, destructor guard | BUG-009 through BUG-012 (Done) |
 | `stale-v0.72a-experimental-clean` diff (2026-04-09) | 378 commits; 16 backlog items with reference impls | See Experimental Branch Reference table above |
 
@@ -328,6 +341,6 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 7 open bugs + 0 in-progress bugs + 28 refactors/boost items + 19 features + 8 CI = **62 non-done issues**.*
+*Total non-done: 8 open bugs + 0 in-progress bugs + 29 refactors/boost items + 21 features + 8 CI = **66 non-done issues**.*
 
-*Status refresh through 2026-04-13: BUG-007/014/017/018/019/020/021/022 and REF-002/006 are now done in `main`; FEAT-010/015/016/023/024 are done; CI-009 is done; CI-008 remains in progress for future part-file and WebServer/REST expansion.*
+*Status refresh through 2026-04-13: BUG-007/014/017/018/019/020/021/022 and REF-002/006 are now done in `main`; FEAT-010/015/016/023/024/025 are done; FEAT-026/027 exist on the current workspace HEAD but are not merged to `main`; `BUG-023` was added from the shared-file publish-state revalidation; `REF-032` was added from the Windows/MFC deep dive; stale dependency/security/source-doc claims about WebServer/MbedTLS/id3lib were corrected; CI-009 is done; CI-008 remains in progress for future part-file and WebServer/REST expansion.*

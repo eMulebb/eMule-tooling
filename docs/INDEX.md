@@ -37,6 +37,11 @@ Some historical design and audit documents still mention older branch names such
 as `v0.72a-broadband-dev`. Treat those as historical context, not as the active
 branching policy.
 
+Revalidation note (2026-04-13): the active backlog is tracked in
+`../docs-clean/INDEX.md`. Historical `docs/` items that conflict with the current
+`eMule-main` tree should defer to `docs-clean` and to the dated revalidation notes in
+this folder.
+
 ---
 
 ## Architecture
@@ -126,9 +131,9 @@ branching policy.
 | REFAC_009 | Remove startup wizard, unify socket init | **[DONE]** | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
 | REFAC_010 | Windows Property Store for file metadata | Exploratory | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
 | REFAC_011 | Delete `#if 0` blocks (~300-400 lines) | **[DONE]** | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
-| REFAC_012 | Remove defunct OP_PEERCACHE_* handlers | **[DONE]** | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
+| REFAC_012 | Remove defunct OP_PEERCACHE_* handlers | Re-opened | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
 | REFAC_013 | Remove deprecated Source Exchange v1 branches | Planned | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
-| REFAC_014 | Remove `deadlake PROXYSUPPORT` attribution noise | **[DONE]** | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
+| REFAC_014 | Remove `deadlake PROXYSUPPORT` attribution noise | Re-opened | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
 | REFAC_015 | Remove Windows 95/NT4 detection code | **[DONE]** | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
 | REFAC_016 | Remove obsolete INI key reads | **[DONE]** | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
 | REFAC_017 | Convert ASSERT(0) to real error handling | **[PARTIAL]** | [REFACTOR-TASKS](REFACTOR-TASKS.md) |
@@ -174,20 +179,20 @@ branching policy.
 | BUG_011 | Web server allowed IPs load-only | **[STALE]** WebServer removed | [AUDIT-DEFECTS](AUDIT-DEFECTS.md) |
 | GAP_001 | 3DES in SMTP SendMail | **[STALE]** SendMail removed | [AUDIT-SECURITY](AUDIT-SECURITY.md) |
 | GAP_002 | `inet_addr()` deprecated API | **[DONE]** | [AUDIT-SECURITY](AUDIT-SECURITY.md) |
-| GAP_003 | Potential XSS in web server templates | **[STALE]** WebServer removed | [AUDIT-SECURITY](AUDIT-SECURITY.md) |
+| GAP_003 | Potential XSS in web server templates | Needs revalidation — current `main` still has WebServer | [AUDIT-SECURITY](AUDIT-SECURITY.md) |
 | GAP_004 | 768-bit DH parameters (weak) | **[REJECTED]** | [AUDIT-SECURITY](AUDIT-SECURITY.md) |
 
 ### Code Review (CODEREV_)
 
 | ID | Summary | Status | Doc |
 |---|---|---|---|
-| CODEREV_001 | CaptchaGenerator SelectObject before NULL check | Open | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
+| CODEREV_001 | CaptchaGenerator SelectObject before NULL check | **[DONE]** | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
 | CODEREV_002 | CaptchaGenerator `rand() & 8` bimodal jitter | Open | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
 | CODEREV_003 | Ring.h `m_pTail` initialized to UB pointer | **[DONE]** | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
 | CODEREV_004 | Ring.h `operator[]` no bounds check | **[DONE]** | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
 | CODEREV_005 | CreditsThread mask bitmap depth change | Open | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
-| CODEREV_006 | WebSocket.cpp ULONGLONG → UINT truncation | **[STALE]** WebSocket removed | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
-| CODEREV_007 | MBEDTLS_ALLOW_PRIVATE_ACCESS tech debt | **[STALE]** MbedTLS removed | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
+| CODEREV_006 | WebSocket.cpp ULONGLONG → UINT truncation | Needs revalidation — current `main` still has WebSocket | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
+| CODEREV_007 | MBEDTLS_ALLOW_PRIVATE_ACCESS tech debt | Needs revalidation — current `main` still has MbedTLS/WebSocket | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
 | CODEREV_008 | bmp2mem exception-unsafe | Open | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
 | CODEREV_009 | CaptchaGenerator local var named `m_LF` | Open | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
 | CODEREV_010 | BarShader CDC* → CDC& breaking change | Open | [AUDIT-CODEREVIEW](AUDIT-CODEREVIEW.md) |
@@ -317,12 +322,12 @@ branching policy.
 
 ## Progress Summary
 
-*Last updated: 2026-04-10 — cross-variant analysis pass (eMule-main new commits, community-0.72, eMuleAI, stale-v0.72a-experimental-clean). New active-backlog items tracked in `docs-clean/` (BUG-016 through BUG-021, REF-027 through REF-030, FEAT-018 through FEAT-022). This table reflects the legacy docs/ item namespace only.*
+*Last updated: 2026-04-13 — legacy-doc revalidation against current `eMule-main`. REFAC_012 and REFAC_014 were reopened here because the current tree still contains PeerCache opcode baggage and `deadlake PROXYSUPPORT` comments. This table reflects the legacy docs/ item namespace only.*
 
 | Category | Total | Done | Partial | Stale | Open |
 |---|---|---|---|---|---|
 | CPP_ | 40 | 1 | 18 | 0 | 21 |
-| REFAC_ | 18 | 12 | 1 | 0 | 5 |
+| REFAC_ | 18 | 10 | 1 | 0 | 7 |
 | FEAT_ | 22 | 3 | 4 | 0 | 15 |
 | BUG_/GAP_ | 8 | 3 | 0 | 3 | 2 |
 | CODEREV_ | 12 | 3 | 0 | 2 | 7 |

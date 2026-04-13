@@ -4,6 +4,11 @@
 **Branch:** v0.72a-broadband-dev
 **Scope:** 556 C/C++ source files
 
+> Revalidated 2026-04-13 against current `workspaces\v0.72a\app\eMule-main`.
+> The embedded `WebServer` / `WebSocket` / `SendMail` stack is still live in current
+> `main`. Any note below marking TLS / web / SMTP findings as "stale - removed"
+> reflects the `v0.72a-broadband-dev` branch state, not the present mainline.
+
 ---
 
 ## Table of Contents

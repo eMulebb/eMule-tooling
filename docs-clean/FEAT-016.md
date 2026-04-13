@@ -1,18 +1,32 @@
 ---
 id: FEAT-016
 title: Modern limits — update stale hard-coded defaults for broadband/modern hardware
-status: Open
+status: Done
 priority: Major
 category: feature
 labels: [preferences, defaults, performance, connections, upload, broadband]
 milestone: ~
 created: 2026-04-08
-source: FEATURE-MODERN-LIMITS.md (FEAT_013–019 — stale branch only, not in main)
+source: `main` commit `860d7a5` (`Modernize fixed runtime limits for broadband defaults`); historical rationale in `docs/FEATURE-MODERN-LIMITS.md`
 ---
 
 ## Summary
 
-eMule's default connection, buffer, queue, and timeout limits were tuned for ~2005 hardware and dial-up/ADSL connections. Seven groups of hard-coded defaults need updating for modern broadband, RAM, and disk. All seven were implemented on the stale experimental branch but never merged to main. This is a **fixed-value modernization pass only** — no adaptive logic, no protocol changes.
+This feature is merged to `main`.
+
+Mainline commit:
+
+- `860d7a5` — `Modernize fixed runtime limits for broadband defaults`
+
+eMule's default connection, buffer, queue, and timeout limits were tuned for ~2005
+hardware and dial-up/ADSL connections. `eMule-main` now carries the fixed-value
+modernization pass documented below.
+
+This remains a **fixed-value modernization pass only**:
+
+- no adaptive logic
+- no protocol changes
+- existing `.ini` values still override the new defaults
 
 ## Current State (main branch)
 

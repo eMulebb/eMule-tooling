@@ -7,6 +7,9 @@
 
 **Update 2026-03-30:** `CODEREV_003`, `CODEREV_004`, and `CODEREV_011` were fixed in commit `2ee7bd7`.
 **Update 2026-03-31 (staleness review):** `CODEREV_006` and `CODEREV_007` are now stale — WebSocket.cpp and MbedTLS were removed.
+**Update 2026-04-13 (main revalidation):** Current `workspaces\v0.72a\app\eMule-main` still has
+`WebSocket.cpp` and the MbedTLS project dependencies, so `CODEREV_006` / `CODEREV_007`
+are not stale for current `main`. `CODEREV_001` is done in current `main`.
 
 ---
 
@@ -14,7 +17,7 @@
 
 - [Scope](#scope)
 - [CRITICAL — Bugs](#critical--bugs-that-will-silently-misbehave-or-cause-resource-leaks) (CODEREV_001–005)
-- [HIGH — Issues requiring attention](#high--issues-requiring-attention-before-release) (CODEREV_006–008, 006/007 **[STALE]**)
+- [HIGH — Issues requiring attention](#high--issues-requiring-attention-before-release) (CODEREV_006–008)
 - [MEDIUM — Code quality](#medium) (CODEREV_009–012)
 - [Summary Table](#summary-table)
 
@@ -326,13 +329,13 @@ Passing `-1` tells `DrawText` to compute the string length with `lstrlen()` on e
 
 | # | ID | File | Severity | Nature |
 |---|---|------|----------|--------|
-| 1 | **`CODEREV_001`** | `CaptchaGenerator.cpp` | **CRITICAL** | ASSERT after SelectObject with potentially NULL handles; resource leak in release builds |
+| 1 | **`CODEREV_001`** **[DONE]** | `CaptchaGenerator.cpp` | **CRITICAL** | ASSERT after SelectObject with potentially NULL handles; resource leak in release builds |
 | 2 | **`CODEREV_002`** | `CaptchaGenerator.cpp` | **CRITICAL** | `rand() & 8` — bimodal output (0 or 8 only), not uniform 0–7 range |
 | 3 | **`CODEREV_003`** **[DONE]** | `Ring.h` | **CRITICAL** | `m_pTail = &buf[-1]` on construction; `m_pTail = m_pEnd` after RemoveAll() — both UB pointers |
 | 4 | **`CODEREV_004`** **[DONE]** | `Ring.h` | **CRITICAL** | `operator[]` has no bounds check against `Count()` — silent stale data reads |
 | 5 | **`CODEREV_005`** | `CreditsThread.cpp` | **CRITICAL** | 1-bit monochrome mask replaced with color-depth bitmap — breaks compositing if used as BitBlt mask |
-| 6 | **`CODEREV_006`** **[STALE]** | ~~`WebSocket.cpp`~~ | ~~HIGH~~ | ~~`ULONGLONG` → `UINT` silent truncation~~ — WebSocket.cpp removed |
-| 7 | **`CODEREV_007`** **[STALE]** | ~~`emule.vcxproj`~~ | ~~HIGH~~ | ~~`MBEDTLS_ALLOW_PRIVATE_ACCESS`~~ — MbedTLS removed |
+| 6 | **`CODEREV_006`** | `WebSocket.cpp` | **HIGH** | `ULONGLONG` → `UINT` silent truncation — still needs revalidation in current `main` |
+| 7 | **`CODEREV_007`** | `emule.vcxproj` | **HIGH** | `MBEDTLS_ALLOW_PRIVATE_ACCESS` tech debt — still needs revalidation in current `main` |
 | 8 | **`CODEREV_008`** | `OtherFunctions.cpp` | **HIGH** | `bmp2mem` exception-unsafe; `mem2bmp` ownership contract remains brittle |
 | 9 | **`CODEREV_009`** | `CaptchaGenerator.cpp` | MEDIUM | Local variable named `m_LF` — misleading member prefix on a stack variable |
 | 10 | **`CODEREV_010`** | `BarShader.cpp/h` | MEDIUM | `CDC*` → `CDC&` is a source-breaking API change for external consumers |

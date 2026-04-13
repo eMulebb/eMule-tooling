@@ -1,31 +1,29 @@
 ---
 id: FEAT-023
 title: Broadband queue scoring and ratio/cooldown UI extras
-status: Open
+status: Done
 priority: Minor
 category: feature
 labels: [upload, broadband, scoring, ui, seeding]
 milestone: ~
 created: 2026-04-11
-source: feature/broadband-stabilization branch state
+source: `main` commit `5470d69` (`Add FEAT-023 queue scoring and score breakdown UI`)
 ---
 
 ## Summary
 
-`feature/broadband-stabilization` still carries several broadband-related extras
-that are no longer part of the core slot-allocation story in FEAT-015. These
-extras are useful, but they change queue scoring and UI presentation rather than
-the fixed-cap slot controller itself.
+This feature is merged to `main`.
 
-This follow-up item keeps those pieces explicit so FEAT-015 can close as the
-slot-allocation story without pretending the remaining branch baggage has been
-removed.
+Mainline commit:
 
-Detailed baseline review of the current queue-scoring path is captured in
-`REF-031`.
+- `5470d69` — `Add FEAT-023 queue scoring and score breakdown UI`
 
-**Implementation status:** implemented on app branch
-`feature/feat023-queue-scoring`.
+These queue-scoring and UI extras remain intentionally separate from FEAT-015, but they
+are no longer backlog work.
+
+Detailed baseline review of the current queue-scoring path remains captured in `REF-031`.
+
+**Mainline status:** landed on `main`.
 
 The branch keeps the inherited stock/community admission-vs-selection split,
 keeps cooldown as a hard effective-score suppression to `0`, keeps the LowID

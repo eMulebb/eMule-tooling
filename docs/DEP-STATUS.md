@@ -2,6 +2,13 @@
 
 Reviewed on 2026-03-23. Staleness review 2026-03-31.
 
+> Revalidated 2026-04-13 against current `workspaces\v0.72a\app\eMule-main`.
+> This document is stale for branch-local removal claims. Current `main` still links
+> `id3lib.lib`, `mbedtls.lib`, `mbedx509.lib`, `tfpsacrypto.lib`, `miniupnpc.lib`, and
+> `ResizableLib.lib` in `srchybrid/emule.vcxproj`, and still compiles
+> `WebServer.cpp`, `WebSocket.cpp`, `PPgWebServer.cpp`, and `SendMail.cpp`.
+> Treat the `REMOVED` rows below as historical notes from another line, not current mainline status.
+
 This note summarizes the current dependency set on `v0.72a`, the pinned version used by this workspace, the visible GitHub maintenance status, and a practical recommendation for this build workspace.
 
 ## Summary

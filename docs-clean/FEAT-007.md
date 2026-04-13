@@ -12,8 +12,9 @@ source: REFACTOR-TASKS.md (REFAC_010)
 
 ## Summary
 
-The current metadata pipeline uses `MediaInfo.dll` as the primary metadata
-source for all file types. For non-audio/video files (images, documents,
+The current metadata pipeline already uses `MediaInfo.dll`, but current `main`
+still also carries legacy `id3lib` paths for MP3 tag extraction. For non-audio/video
+files (images, documents,
 PDFs, archives), the Windows Property Store (`IPropertyStore`) can provide
 rich metadata (author, title, page count, dimensions, etc.) without an
 additional library dependency.
@@ -31,10 +32,11 @@ additional library dependency.
 
 ## Why Now
 
-- The `id3lib` removal (commit `907e675`) already consolidated MP3 metadata
-  onto `MediaInfo`.
 - `MediaInfo` is being refactored into per-format files anyway.
 - Windows Property Store is available on all supported OS versions (Windows 10+).
+- Current `main` still keeps both `MediaInfo` and `id3lib`, so Property Store is a
+  Windows-native way to improve non-media metadata coverage without expanding the
+  third-party dependency surface further.
 
 ## Scope
 

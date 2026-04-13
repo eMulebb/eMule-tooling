@@ -33,14 +33,22 @@ This report covers MFC-specific patterns, deprecated protocol handlers, dead cod
 
 ### Update 2026-03-30
 
-Many Priority-1 items have been completed:
-- **[DONE]** `#if 0` blocks — all removed (REFAC_011, commit `ceb8edf`)
-- **[DONE]** PeerCache opcode handlers — removed (REFAC_012, commit `0c5811d`)
-- **[DONE]** `deadlake PROXYSUPPORT` comments — removed (REFAC_014, commit `fc0d12e`)
-- **[DONE]** Windows 95 detection — removed (REFAC_015, commit `1771c30`)
-- **[DONE]** Legacy INI key reads — removed (REFAC_016, commit `bf41753`)
-- **[PARTIAL]** Encryption ASSERT(0) audit — most converted (REFAC_017, commit `2b9837c`)
-- **[DONE]** Upload compression remnants — audited (REFAC_018, commit `683d19e`)
+This section reflected the then-current branch view, but parts of it were later found to
+be stale versus the current authoritative `eMule-main` tree.
+
+### Revalidation 2026-04-13
+
+Current `eMule-main` / workspace-head revalidation found:
+
+- **[DONE in current tree]** no live `#if 0` blocks remain in `srchybrid`
+- **[OPEN]** PeerCache opcode handlers are still present in the current tree; the earlier
+  "done" claim here was stale
+- **[OPEN]** `deadlake PROXYSUPPORT` comments are still present in the current tree; the
+  earlier "done" claim here was stale
+- **[DONE in current tree]** Windows 95 detection is absent
+- **[DONE in current tree]** legacy INI compatibility reads called out here are absent
+- **[PARTIAL]** encryption ASSERT(0) audit is still incomplete
+- **[DONE in current tree]** upload compression remnants stayed within the reduced/audited scope
 - **Remaining:** Source Exchange v1 branches (REFAC_013)
 
 ---
@@ -104,11 +112,15 @@ The following MFC dialog classes have constructors with empty bodies. These are 
 | `srchybrid/CollectionViewDialog.cpp:49` | Empty constructor |
 | `srchybrid/CollectionListCtrl.cpp:140` | Empty constructor |
 
-### 1.5 `#if 0` Disabled Code Blocks
+### 1.5 `#if 0` Disabled Code Blocks [Historical Inventory]
 
-*See REFAC_012 in REFACTOR-TASKS.md*
+*See REFAC_011 in REFACTOR-TASKS.md*
 
-Remaining completely dead code, gated with `#if 0`. None of these compile. They represent abandoned experiments or design alternatives that were never removed:
+Revalidation 2026-04-13: this inventory is historical only. A direct scan of the
+current `eMule-main\srchybrid` tree found no live `#if 0` matches.
+
+The table below preserves the original audit inventory of blocks that were present when
+this report was first written:
 
 | File | Lines | Description |
 |------|-------|-------------|
@@ -119,7 +131,8 @@ Remaining completely dead code, gated with `#if 0`. None of these compile. They 
 | `srchybrid/SelfTest.cpp` | ~22 | Disabled self-test |
 | `srchybrid/kademlia/io/DataIO.cpp` | ~494 | Dead Kad I/O path |
 
-**Action:** Delete all `#if 0` ... `#endif` blocks. *See REFAC_012 in REFACTOR-TASKS.md*
+**Action:** Historical action item only. The current tree no longer shows live `#if 0`
+blocks. *See REFAC_011 in REFACTOR-TASKS.md*
 
 The `EmuleDlg.cpp` block is the most interesting — it's a full alternative code path for dialog font sizing that was abandoned with a specific explanation. That explanation should be preserved in a commit message, then the code deleted.
 
@@ -153,7 +166,7 @@ The eMule Source Exchange protocol has two versions. v2 superseded v1 years ago.
 
 ### 2.2 Deprecated Protocol Opcodes — Still Handled
 
-*See REFAC_014 in REFACTOR-TASKS.md*
+*See REFAC_012 in REFACTOR-TASKS.md*
 
 **File:** `srchybrid/Opcodes.h` (lines 253–286)
 
@@ -186,13 +199,13 @@ The defunct `OP_PEERCACHE_*` handlers are pure dead weight — there is no peer 
 **Estimated removable code:** 100–150 lines.
 
 **Action:**
-1. Remove `OP_PEERCACHE_*` handlers entirely (defunct — no network infrastructure remains). *See REFAC_014 in REFACTOR-TASKS.md*
+1. Remove `OP_PEERCACHE_*` handlers entirely (defunct — no network infrastructure remains). *See REFAC_012 in REFACTOR-TASKS.md*
 2. Keep deprecated opcode *receive* handlers for now (ancient clients may still send them).
 3. Stop *sending* deprecated opcodes once minimum client version is enforced.
 
 ### 2.3 Kademlia v1 — Explicitly Rejected, Code Partially Retained
 
-*See REFAC_015 in REFACTOR-TASKS.md*
+*No dedicated REFAC item; treat as part of the broader dead-code cleanup inventory.*
 
 **Status:** The code explicitly rejects Kad v1 connections at the protocol level, but some compatibility checks and comments remain.
 
@@ -222,7 +235,7 @@ Refers to an external website infrastructure that was never built. The TODO has 
 
 ## 3. `ASSERT(0)` Dead / Unhandled Code Paths
 
-*See REFAC_016 in REFACTOR-TASKS.md*
+*See REFAC_017 in REFACTOR-TASKS.md*
 
 `ASSERT(0)` is used throughout to mark code paths that "should never be reached." In release builds these assertions are compiled out, meaning the code falls through silently. The following files have the highest concentration:
 
@@ -238,7 +251,7 @@ Refers to an external website infrastructure that was never built. The TODO has 
 
 **Total across codebase:** 100+ instances across 100+ files.
 
-**Key concern — `EncryptedStreamSocket.cpp`:** The comment "must be a bug" appears next to several `ASSERT(0)` calls. In a release build these become silent no-ops that may leave the socket in a corrupted state. These should be converted to proper error handling with `OnError()` and disconnect. *See REFAC_016 in REFACTOR-TASKS.md*
+**Key concern — `EncryptedStreamSocket.cpp`:** The comment "must be a bug" appears next to several `ASSERT(0)` calls. In a release build these become silent no-ops that may leave the socket in a corrupted state. These should be converted to proper error handling with `OnError()` and disconnect. *See REFAC_017 in REFACTOR-TASKS.md*
 
 **Key concern — `ArchiveRecovery.cpp`:** Line 233 contains `ASSERT(0); // FIXME`. This is an acknowledged incomplete implementation. The `// FIXME` annotation was never acted on.
 
@@ -286,7 +299,7 @@ notes match the current tree.
 
 ## 5. Stale Compatibility Comments — "deadlake PROXYSUPPORT"
 
-*See REFAC_018 in REFACTOR-TASKS.md*
+*See REFAC_014 in REFACTOR-TASKS.md*
 
 The string "deadlake PROXYSUPPORT" appears 20+ times across multiple files as an inline attribution comment from an old patch. These comments are not dead code but are documentation noise and confuse readers unfamiliar with the history.
 
@@ -299,7 +312,7 @@ The string "deadlake PROXYSUPPORT" appears 20+ times across multiple files as an
 | `srchybrid/Preferences.h` | Lines 102, 548, 1260 |
 | `srchybrid/ServerConnect.cpp` | Line 514 |
 
-**Action:** Remove all `// deadlake PROXYSUPPORT` attribution comments. The proxy support code itself is functional; only the attribution noise needs to go. *See REFAC_018 in REFACTOR-TASKS.md*
+**Action:** Remove all `// deadlake PROXYSUPPORT` attribution comments. The proxy support code itself is functional; only the attribution noise needs to go. *See REFAC_014 in REFACTOR-TASKS.md*
 
 ---
 
@@ -376,23 +389,23 @@ These files warrant a dedicated cleanup pass:
 
 ### Priority 1 — Safe, High Impact
 
-1. **Delete all `#if 0` blocks** — Confirmed dead, no compilation risk, ~300–400 lines gone. *See REFAC_012 in REFACTOR-TASKS.md*
+1. **Delete all `#if 0` blocks** — historical recommendation only; current tree revalidation found none. *See REFAC_011 in REFACTOR-TASKS.md*
 
-2. **Remove `OP_PEERCACHE_*` handlers** in `ListenSocket.cpp` — Infrastructure is defunct network-wide. *See REFAC_014 in REFACTOR-TASKS.md*
+2. **Remove `OP_PEERCACHE_*` handlers** in `ListenSocket.cpp` — Infrastructure is defunct network-wide and still present in the current tree. *See REFAC_012 in REFACTOR-TASKS.md*
 
 3. **Remove Source Exchange v1 branches** — Once minimum client floor can be set to v2-capable. Simplifies ~200–300 lines in `BaseClient.cpp` and `DownloadClient.cpp`. *See REFAC_013 in REFACTOR-TASKS.md*
 
-4. **Remove `deadlake PROXYSUPPORT` attribution comments** — 20+ instances, comments only, zero risk. *See REFAC_018 in REFACTOR-TASKS.md*
+4. **Remove `deadlake PROXYSUPPORT` attribution comments** — 20+ instances, comments only, zero risk. *See REFAC_014 in REFACTOR-TASKS.md*
 
-5. **Remove Windows 95 check** in `OtherFunctions.cpp:624` — Dead on any supported OS. *See REFAC_017 in REFACTOR-TASKS.md*
+5. **Remove Windows 95 check** in `OtherFunctions.cpp:624` — historical recommendation only; current tree revalidation no longer shows this code. *See REFAC_015 in REFACTOR-TASKS.md*
 
 ### Priority 2 — Medium Effort
 
-6. **Convert `ASSERT(0)` + "must be a bug" paths in `EncryptedStreamSocket.cpp` to `OnError()`** — In release builds these silently fail; they should disconnect cleanly. *See REFAC_016 in REFACTOR-TASKS.md*
+6. **Convert `ASSERT(0)` + "must be a bug" paths in `EncryptedStreamSocket.cpp` to `OnError()`** — In release builds these silently fail; they should disconnect cleanly. *See REFAC_017 in REFACTOR-TASKS.md*
 
 7. **Replace `ASSERT(0); // FIXME` in `ArchiveRecovery.cpp:233`** with a graceful error return.
 
-8. **Remove Kademlia v1 residual comments and dead branches** in `KademliaUDPListener.cpp`. *See REFAC_015 in REFACTOR-TASKS.md*
+8. **Remove Kademlia v1 residual comments and dead branches** in `KademliaUDPListener.cpp`. No dedicated REFAC item currently exists for this slice.
 
 9. **Audit and clean up commented-out code** in `BaseClient.cpp` and `CorruptionBlackBox.cpp`.
 
@@ -400,7 +413,7 @@ These files warrant a dedicated cleanup pass:
 
 ### Priority 3 — Low Impact / Long Term
 
-11. **Remove obsolete `.ini` key loading** in `Preferences.cpp` once migration window is closed. *See REFAC_017 in REFACTOR-TASKS.md*
+11. **Remove obsolete `.ini` key loading** in `Preferences.cpp` once migration window is closed. *See REFAC_016 in REFACTOR-TASKS.md*
 
 12. **Resolve `ClientList.cpp:607`** — "Kad buddies won't work with RequireCrypt" is an unresolved design conflict that affects security posture.
 

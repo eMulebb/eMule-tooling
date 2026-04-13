@@ -1,11 +1,16 @@
 # Refactor & Task Roadmap
 
 **Branch:** `v0.72a-broadband-dev`
-**Last updated:** 2026-03-31
+**Last updated:** 2026-04-13
 
 This file consolidates all refactoring tasks, feature gaps, and actionable work items
 with globally unique identifiers. Items marked **[DONE]** are completed and kept for
 historical reference.
+
+**Revalidation note (2026-04-13):** the current authoritative tree is
+`workspaces\v0.72a\app\eMule-main`. Earlier "done" claims for REFAC_012 and REFAC_014
+came from non-authoritative branch notes and do not match the current code anymore, so
+those tasks are reopened here.
 
 ---
 
@@ -24,9 +29,9 @@ historical reference.
 | REFAC_009 | First-Start Socket | **[DONE]** | Remove startup wizard, unify socket init |
 | REFAC_010 | Property Store | Exploratory | Windows Property Store for file metadata |
 | REFAC_011 | Dead Code Sweep | **[DONE]** | Delete `#if 0` blocks (~300-400 lines) |
-| REFAC_012 | PeerCache Opcodes | **[DONE]** | Remove defunct OP_PEERCACHE_* handlers |
+| REFAC_012 | PeerCache Opcodes | Re-opened | Remove defunct OP_PEERCACHE_* handlers |
 | REFAC_013 | Source Exchange v1 | Planned | Remove deprecated SX v1 branches |
-| REFAC_014 | Proxy Comments | **[DONE]** | Remove `deadlake PROXYSUPPORT` attribution noise |
+| REFAC_014 | Proxy Comments | Re-opened | Remove `deadlake PROXYSUPPORT` attribution noise |
 | REFAC_015 | Win95 Compat | **[DONE]** | Remove Windows 95/NT4 detection code |
 | REFAC_016 | Legacy INI Keys | **[DONE]** | Remove obsolete FileBufferSizePref/QueueSizePref reads |
 | REFAC_017 | ASSERT(0) Audit | **[PARTIAL]** | Convert "must be a bug" ASSERTs to real error handling |
@@ -184,20 +189,29 @@ optional fallback where it adds coverage beyond the Windows property system.
 
 ## REFAC_011 — Delete `#if 0` Dead Code Blocks [DONE]
 
-**Status:** Completed (commit `ceb8edf`)
+**Status:** Verified done in the current tree (2026-04-13 revalidation)
 
 Removed all 10 `#if 0` blocks across: `AddSourceDlg.h`, `DialogMinTrayBtn.cpp`,
 `EmuleDlg.cpp`, `IESecurity.cpp`, `MiniMule.cpp`, `MuleListCtrl.cpp`,
 `OtherFunctions.cpp`, `SelfTest.cpp`, `WebServer.h`, `kademlia/io/DataIO.cpp`.
 
+Current revalidation note: the old commit reference recorded here is not present in the
+current app repo history, but the code state itself is verified clean.
+
 ---
 
-## REFAC_012 — Remove Defunct PeerCache Opcode Handlers [DONE]
+## REFAC_012 — Remove Defunct PeerCache Opcode Handlers
 
-**Status:** Completed (commit `0c5811d`)
+**Status:** Re-opened after 2026-04-13 revalidation
 
-All `OP_PEERCACHE_QUERY`, `OP_PEERCACHE_ANSWER`, `OP_PEERCACHE_ACK` references removed
-from `Opcodes.h` and `ListenSocket.cpp`.
+The current authoritative `eMule-main` tree still contains PeerCache remnants:
+
+- `Opcodes.h` still defines `OP_PEERCACHE_QUERY`, `OP_PEERCACHE_ANSWER`, `OP_PEERCACHE_ACK`
+- `ListenSocket.cpp` still has active handler cases for those opcodes
+- `OtherFunctions.cpp` still exposes their opcode-name strings
+- `BaseClient.cpp` still carries related PeerCache-era baggage/comments
+
+This means the earlier "done" note was stale for the current tree.
 
 ---
 
@@ -212,12 +226,20 @@ set to v2-capable.
 
 ---
 
-## REFAC_014 — Remove `deadlake PROXYSUPPORT` Comments [DONE]
+## REFAC_014 — Remove `deadlake PROXYSUPPORT` Comments
 
-**Status:** Completed (commit `fc0d12e`)
+**Status:** Re-opened after 2026-04-13 revalidation
 
-Removed all 20+ `deadlake PROXYSUPPORT` attribution comments from `EMSocket.cpp`,
-`ServerConnect.h`, `Preferences.h`, `ServerConnect.cpp`.
+The current authoritative `eMule-main` tree still contains `deadlake PROXYSUPPORT`
+comments in:
+
+- `EMSocket.cpp`
+- `Preferences.h`
+- `ServerConnect.h`
+- `ServerConnect.cpp`
+- `ListenSocket.cpp`
+
+This means the earlier "done" note was stale for the current tree.
 
 ---
 
@@ -286,9 +308,11 @@ upload-removal remnants instead of broad protocol compression removal.
 
 **Immediate (low risk, high cleanup value):**
 1. REFAC_002 — Replace CZIPFile with minizip
-2. REFAC_013 — Remove Source Exchange v1 branches
+2. REFAC_012 — Remove defunct PeerCache opcode baggage
+3. REFAC_014 — Remove `deadlake PROXYSUPPORT` attribution comments
+4. REFAC_013 — Remove Source Exchange v1 branches
 
 **Optional / exploratory:**
-4. REFAC_008 — WebM/MKV disambiguation
-5. REFAC_010 — Windows Property Store metadata
-6. REFAC_003 — GZIPFile wrapper (deferred, low value)
+5. REFAC_008 — WebM/MKV disambiguation
+6. REFAC_010 — Windows Property Store metadata
+7. REFAC_003 — GZIPFile wrapper (deferred, low value)

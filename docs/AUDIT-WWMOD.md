@@ -5,6 +5,11 @@
 **Branch:** v0.72a-broadband-dev
 **Scope:** ~528 C/C++ source files in `srchybrid/`
 
+> Revalidated 2026-04-13 against current `workspaces\v0.72a\app\eMule-main`.
+> Many per-item notes below say "Fixed on 2026-03-31 in `v0.72a-broadband-dev`".
+> Those statuses are branch-local and do not automatically describe current `main`.
+> Use this document as a modernization catalog, not as a current-main completion ledger.
+
 ---
 
 ## Table of Contents

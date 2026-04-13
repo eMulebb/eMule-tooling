@@ -1,20 +1,34 @@
 ---
 id: FEAT-015
 title: Broadband upload slot allocation — fixed cap + weak-slot reclamation
-status: Open
+status: Done
 priority: Major
 category: feature
 labels: [upload, broadband, performance, upload-queue, throttler, preferences]
 milestone: ~
 created: 2026-04-08
-source: FEATURE-BROADBAND.md (FEAT_001 — stale branch, not yet on main)
+source: `main` commit `d731bbe` (`Stabilize broadband upload slot allocation`); historical design in `docs/FEATURE-BROADBAND.md`
 ---
 
 ## Summary
 
-The stock upload controller scales slot count linearly with bandwidth using a hard-coded 25 KiB/s per-slot target (`UPLOAD_CLIENT_MAXDATARATE`). On a modern broadband link (50+ Mbit/s) this drives slot count toward 100, filling the pipe by accumulation rather than by keeping a small set of strong slots. This feature replaces that model with a budget-based controller: a configurable steady-state slot target, per-slot rate derived from one finite configured upload budget, and proactive slow-slot reclamation.
+The broadband upload slot controller is merged to `main`.
 
-**Branch status:** Implemented on `feature/broadband-stabilization`. The active branch intentionally narrows the old broadband design into a strict fixed-slot controller: default cap `8`, no temporary overflow above the configured cap, underfill used only to justify weak-slot recycling, friend slots kept as the one intentional scheduling exception, and LowID reconnects returned to the normal waiting/admission path.
+Mainline commit:
+
+- `d731bbe` — `Stabilize broadband upload slot allocation`
+
+The stock upload controller scaled slot count linearly with bandwidth using a hard-coded
+25 KiB/s per-slot target (`UPLOAD_CLIENT_MAXDATARATE`). On a modern broadband link
+(50+ Mbit/s) this drove slot count toward 100, filling the pipe by accumulation rather
+than by keeping a small set of strong slots.
+
+`eMule-main` now uses the budget-based controller documented below: a configurable
+steady-state slot target, per-slot rate derived from one finite configured upload
+budget, and proactive weak-slot reclamation.
+
+**Mainline status:** landed on `main`. The detailed branch-design notes below are kept
+as the implementation contract/history for the shipped behavior.
 
 **Scope split:** Non-slot broadband extras still present on the branch, such as low-ratio queue scoring and ratio/cooldown UI columns, are no longer part of this story. Track them separately under `FEAT-023`.
 
@@ -39,7 +53,7 @@ On a 50 Mbit/s (~6100 KiB/s) uplink:
 
 A modern link works better with 12 strong slots at ~500 KiB/s each.
 
-## New Controller Design
+## Implemented Controller Design
 
 ### Preferences (active stabilization branch)
 
