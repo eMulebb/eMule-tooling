@@ -18,6 +18,7 @@
 **Updated:** 2026-04-18 — `main` now includes `BUG-024` handle-based `statUTC` size-field correction in commit `f33f38b`; `BUG-024` is marked Done.
 **Revalidated:** 2026-04-18 — focused `eMuleAI` vs current `eMule-main` hardening pass. Corrected stale landed statuses for `REF-007`, `FEAT-020`, `FEAT-022`, `FEAT-026`, and `FEAT-027`; added landed `BUG-029` and `FEAT-028`; promoted new stock-friendly hardening bugs `BUG-030` / `BUG-031` / `BUG-032`; refreshed `CI-008` with long-config `-c` live UI stability coverage; recorded the pass in [REVIEW-2026-04-18-emuleai-vs-main-hardening-pass](REVIEW-2026-04-18-emuleai-vs-main-hardening-pass.md).
 **Updated:** 2026-04-18 — `main` now includes `BUG-030` server-login crypt-flag hardening in commit `f9bb14b`; `BUG-030` is marked Done.
+**Updated:** 2026-04-18 — `main` now includes `BUG-032` AICH hashset save timeout removal in commit `8a5a33c`; `BUG-032` is marked Done.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -68,7 +69,7 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-029](BUG-029.md) | Major | **Done** | Long-path tail hardening across config, media, shell, and GeoLocation surfaces |
 | [BUG-030](BUG-030.md) | Minor | **Done** | Obfuscated server logins can advertise redundant callback crypto flags and require extra attempts |
 | [BUG-031](BUG-031.md) | Minor | Open | Shared-file hashing fails too eagerly on transient sharing and lock violations |
-| [BUG-032](BUG-032.md) | Minor | Open | AICH hashset save can fail spuriously after hashing because `known2.met` lock wait times out |
+| [BUG-032](BUG-032.md) | Minor | **Done** | AICH hashset save can fail spuriously after hashing because `known2.met` lock wait times out |
 
 ---
 
@@ -179,19 +180,18 @@ regression checks. When behavior changes, compare `main` against
 ### Do First — stabilization / hardening with minimal drift
 
 1. **BUG-031** — bounded retry for transient shared-file hashing open failures
-2. **BUG-032** — remove the false-failure `known2.met` lock timeout after expensive hashing
-3. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
-4. **REF-001** — replace `CZIPFile` with minizip: isolated file-handling hardening with low architectural drift
-5. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
+2. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
+3. **REF-001** — replace `CZIPFile` with minizip: isolated file-handling hardening with low architectural drift
+4. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
 
 ### Do Second — narrow stability items still close to current behavior
 
-6. **BUG-003 through BUG-006, BUG-023, BUG-028, BUG-031 through BUG-032** — targeted correctness fixes
-7. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
-8. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
-9. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
-10. **FEAT-002** — SafeKad CGNAT fix
-11. **FEAT-001** — FastKad bootstrap ranking
+5. **BUG-003 through BUG-006, BUG-023, BUG-028, BUG-031** — targeted correctness fixes
+6. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
+7. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
+8. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
+9. **FEAT-002** — SafeKad CGNAT fix
+10. **FEAT-001** — FastKad bootstrap ranking
 
 ### Do Later — useful, but not part of the current stabilization milestone
 
@@ -299,6 +299,7 @@ These items were verified in `eMule-main` and are genuinely done:
 | FEAT-028 — Shared Files virtualization | commit `fc70cf9` — owner-data Shared Files list with hardened reload/state handling |
 | BUG-029 — Long-path tail hardening | current `main` commit series `bb7ef92` through `1e71a16` |
 | BUG-030 — Server login crypt flags | commit `f9bb14b` — suppress callback crypt request/require flags on already-obfuscated server sockets |
+| BUG-032 — AICH hashset save timeout | commit `8a5a33c` — wait normally for the `known2.met` mutex instead of failing after 5 seconds |
 
 ---
 
@@ -365,7 +366,7 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 | `AUDIT-WWMOD.md` | Win10+ modernization catalog; many "fixed in broadband-dev" statuses are branch-local, not current `main` | REF-017 through REF-024, FEAT-017, REF-032 |
 | `AUDIT-CODEREVIEW.md` | CODEREV_001 fixed in main; 002/003/004/011 not in main; 006/007 still need revalidation because WebSocket is still live | BUG-007, BUG-008, REF-028 |
 | eMuleAI v1.3 analysis | Initial source for `ReplaceFileAtomically`, `CanWritePartMetFiles`, shareddir lock, destructor guard, and feature references | BUG-009 through BUG-012 (Done), FEAT-018 through FEAT-022 |
-| `eMuleAI` hardening revalidation (2026-04-18) | Current `main` already contains REF-007, FEAT-020/022/026/027/028, BUG-029, and now BUG-030; remaining stock-friendly candidates are narrow new bugs | BUG-031, BUG-032 |
+| `eMuleAI` hardening revalidation (2026-04-18) | Current `main` already contains REF-007, FEAT-020/022/026/027/028, BUG-029, BUG-030, and now BUG-032; remaining stock-friendly candidate is the narrow hashing-open retry bug | BUG-031 |
 | `stale-v0.72a-experimental-clean` diff (2026-04-09) | 378 commits; 16 backlog items with reference impls | See Experimental Branch Reference table above |
 
 ---
@@ -373,6 +374,6 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 11 open bugs + 0 in-progress bugs + 28 refactors/boost items + 17 features + 8 CI = **64 non-done issues**.*
+*Total non-done: 10 open bugs + 0 in-progress bugs + 28 refactors/boost items + 17 features + 8 CI = **63 non-done issues**.*
 
-*Status refresh through 2026-04-18: REF-007, FEAT-020, FEAT-022, FEAT-026, and FEAT-027 are now marked Done in `main`; FEAT-028, BUG-029, and BUG-030 were added as landed `main` work; BUG-031 and BUG-032 remain from the focused `eMuleAI` comparison; CI-008 now also records the long-config `-c` live UI stability regression coverage.*
+*Status refresh through 2026-04-18: REF-007, FEAT-020, FEAT-022, FEAT-026, and FEAT-027 are now marked Done in `main`; FEAT-028, BUG-029, BUG-030, and BUG-032 were added as landed `main` work; BUG-031 remains from the focused `eMuleAI` comparison; CI-008 now also records the long-config `-c` live UI stability regression coverage.*
