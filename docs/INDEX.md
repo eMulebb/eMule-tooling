@@ -53,6 +53,10 @@ See `../docs-clean/INDEX.md` and
 `../docs-clean/REVIEW-2026-04-18-emuleai-vs-main-hardening-pass.md` for the active
 backlog state. Theme and translation deltas were intentionally excluded from that pass.
 
+Backlog note (2026-04-18): search-result expansion is tracked separately from the
+modern-limits work. `FEAT-016` remains done; active search-ceiling work is
+`FEAT-029` in `../docs-clean`.
+
 ---
 
 ## Architecture

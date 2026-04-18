@@ -41,6 +41,10 @@ The intent is:
 
 This is explicitly **not** an opcode redesign, protocol fork, or Kad wire-format change.
 
+Search-result ceilings are also out of scope for this document. The current active
+backlog tracks ed2k `Search More` expansion and moderate Kad result/lifetime
+expansion separately under `FEAT-029` in `docs-clean`.
+
 ## Design Direction
 
 The preferred direction for this branch is:

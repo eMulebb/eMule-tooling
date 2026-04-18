@@ -25,6 +25,7 @@
 **Updated:** 2026-04-18 — `main` now includes `REF-018` defunct PeerCache surface removal plus legacy `FileBufferSizePref` / `QueueSizePref` load-read cleanup in commit `6751a50`; `REF-018` is marked Done.
 **Updated:** 2026-04-18 — `main` now includes `REF-026` manifest cleanup in commit `444f6ec`: Windows 10 / 11+ compatibility is declared via the Windows 10 GUID only, Common Controls 6.0 moved from linker pragmas into the embedded manifests, and DPI enablement remains deferred to `FEAT-017`.
 **Updated:** 2026-04-18 — `REF-001`, `REF-015`, and `REF-016` are now marked `Wont-Fix` to preserve the current low-drift branch direction: keep the existing ZIP reader, keep miniupnpc in the UPnP stack, and keep ResizableLib out-of-tree.
+**Updated:** 2026-04-18 — search-result expansion is now tracked separately from `FEAT-016` as new `FEAT-029`: configurable ed2k result ceilings plus moderate Kad totals/lifetimes with Tweaks exposure.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -162,6 +163,7 @@ regression checks. When behavior changes, compare `main` against
 | [FEAT-026](FEAT-026.md) | Minor | **Done** | Shared startup cache with known.met lookup index and `sharedcache.dat` |
 | [FEAT-027](FEAT-027.md) | Minor | **Done** | Startup sequencing fix, startup profiling, and shared-view startup churn cleanup |
 | [FEAT-028](FEAT-028.md) | Minor | **Done** | Virtualize and harden shared files list |
+| [FEAT-029](FEAT-029.md) | Minor | In Progress | Search result ceilings — configurable ed2k expansion plus moderate Kad totals/lifetimes |
 
 ---
 

@@ -28,6 +28,10 @@ This remains a **fixed-value modernization pass only**:
 - no protocol changes
 - existing `.ini` values still override the new defaults
 
+Search-result ceilings are intentionally **not** part of FEAT-016. ed2k
+`Search More` limits and Kad search result/lifetime expansion are tracked
+separately under `FEAT-029`.
+
 ## Current State (main branch)
 
 | Setting | Current default | Target default | Doc ref |
