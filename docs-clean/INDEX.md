@@ -15,6 +15,7 @@
 **Updated:** 2026-04-18 — `main` now includes `BUG-026` search-tab teardown lifetime hardening in commit `8ba6248`; `BUG-026` is marked Done.
 **Updated:** 2026-04-18 — `main` now includes `BUG-027` IP-filter promotion hardening in commit `cc3553b`; `BUG-027` is marked Done.
 **Updated:** 2026-04-18 — `main` now includes `BUG-025` KnownFile hash-open diagnostics hardening in commit `897c207`; `BUG-025` is marked Done.
+**Updated:** 2026-04-18 — `main` now includes `BUG-024` handle-based `statUTC` size-field correction in commit `f33f38b`; `BUG-024` is marked Done.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -57,7 +58,7 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-021](BUG-021.md) | Minor | **Done** | Upload queue lock inversion + socket I/O result mishandling + inflate buffer aliasing |
 | [BUG-022](BUG-022.md) | Major | **Done** | Long-path delete-to-recycle-bin still breaks in ShellDeleteFile |
 | [BUG-023](BUG-023.md) | Minor | Open | Shared-file ED2K published column shows a false `No` after publish-state reset |
-| [BUG-024](BUG-024.md) | Minor | Open | `statUTC(HANDLE)` returns corrupted `st_size` by using `nFileIndexLow` |
+| [BUG-024](BUG-024.md) | Minor | **Done** | `statUTC(HANDLE)` returns corrupted `st_size` by using `nFileIndexLow` |
 | [BUG-025](BUG-025.md) | Minor | **Done** | KnownFile hashing open failures log stale or wrong error text on Win32 open failure |
 | [BUG-026](BUG-026.md) | Major | **Done** | Search tab teardown frees live result/tab payload objects before the UI detaches them |
 | [BUG-027](BUG-027.md) | Major | **Done** | IP filter update can delete the live `ipfilter.dat` before replacement promotion succeeds |
@@ -175,11 +176,11 @@ regression checks. When behavior changes, compare `main` against
 3. **REF-001** — replace `CZIPFile` with minizip: isolated file-handling hardening with low architectural drift
 4. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
 5. **BUG-022** — keep only optional caller-level/manual smoke coverage if later delete-flow changes touch the same path
-6. **BUG-024, BUG-028** — targeted correctness and diagnostics fixes with narrow drift
+6. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
 
 ### Do Second — narrow stability items still close to current behavior
 
-7. **BUG-003 through BUG-006, BUG-024, BUG-028** — targeted correctness fixes
+7. **BUG-003 through BUG-006, BUG-028** — targeted correctness fixes
 8. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
 9. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
 10. **FEAT-002** — SafeKad CGNAT fix
