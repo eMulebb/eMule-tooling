@@ -19,6 +19,12 @@ PDFs, archives), the Windows Property Store (`IPropertyStore`) can provide
 rich metadata (author, title, page count, dimensions, etc.) without an
 additional library dependency.
 
+2026-04-18 note: the audio/video path was modernized on `main` to use a shared
+`MediaInfo.dll` helper first, with built-ins and `id3lib` retained as fallback.
+That change used the stale experimental tree only as a helper-extraction
+reference; it did not port the stale dependency policy or reduce the separate
+value of Property Store work for non-media files.
+
 **Status: Exploratory — not committed to implementation.**
 
 ## Proposed Architecture
