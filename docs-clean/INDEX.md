@@ -24,6 +24,7 @@
 **Updated:** 2026-04-18 — `REF-017` is now marked Done after revalidation confirmed that the only original targeted leftovers are intentionally retained `deadlake PROXYSUPPORT` comments and no further live dead-code workload remains.
 **Updated:** 2026-04-18 — `main` now includes `REF-018` defunct PeerCache surface removal plus legacy `FileBufferSizePref` / `QueueSizePref` load-read cleanup in commit `6751a50`; `REF-018` is marked Done.
 **Updated:** 2026-04-18 — `main` now includes `REF-026` manifest cleanup in commit `444f6ec`: Windows 10 / 11+ compatibility is declared via the Windows 10 GUID only, Common Controls 6.0 moved from linker pragmas into the embedded manifests, and DPI enablement remains deferred to `FEAT-017`.
+**Updated:** 2026-04-18 — `REF-001`, `REF-015`, and `REF-016` are now marked `Wont-Fix` to preserve the current low-drift branch direction: keep the existing ZIP reader, keep miniupnpc in the UPnP stack, and keep ResizableLib out-of-tree.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -82,15 +83,15 @@ regression checks. When behavior changes, compare `main` against
 
 | ID | Priority | Status | Title |
 |----|----------|--------|-------|
-| [REF-001](REF-001.md) | Major | Open | Replace custom CZIPFile with minizip |
+| [REF-001](REF-001.md) | Major | Wont-Fix | Keep the existing CZIPFile implementation |
 | [REF-002](REF-002.md) | Major | **Done** | Remove Source Exchange v1 branches |
 | [REF-003](REF-003.md) | Trivial | Open | Rename stale IRC string resources *(or full IRC removal — see REF-025)* |
 | [REF-004](REF-004.md) | Minor | Open | Audit and disposition 17 load-only preference keys |
 | [REF-005](REF-005.md) | Trivial | Open | Remove dead DebugSourceExchange commented-out calls |
 | [REF-006](REF-006.md) | Trivial | **Done** | GetCategory should be const in DownloadListCtrl |
 | [REF-007](REF-007.md) | Trivial | **Done** | WebM vs MKV disambiguation in MIME detection |
-| [REF-015](REF-015.md) | Minor | Open | Switch UPnP from miniupnpc to UPnPImplWinServ — remove miniupnpc submodule |
-| [REF-016](REF-016.md) | Trivial | Open | Inline ResizableLib into source tree — remove submodule |
+| [REF-015](REF-015.md) | Minor | Wont-Fix | Keep miniupnpc as the active UPnP backend |
+| [REF-016](REF-016.md) | Trivial | Wont-Fix | Keep ResizableLib out-of-tree instead of inlining it |
 | [REF-017](REF-017.md) | Minor | **Done** | Revalidate and close the dead-code sweep backlog item |
 | [REF-018](REF-018.md) | Minor | **Done** | Remove defunct PeerCache surface and legacy INI fallback reads |
 | [REF-019](REF-019.md) | Minor | **Done** | Replace ASSERT(0) + "must be a bug" with OnError() in EncryptedStreamSocket |
@@ -186,8 +187,7 @@ regression checks. When behavior changes, compare `main` against
 
 1. **BUG-031** — bounded retry for transient shared-file hashing open failures
 2. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
-3. **REF-001** — replace `CZIPFile` with minizip: isolated file-handling hardening with low architectural drift
-4. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
+3. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
 
 ### Do Second — narrow stability items still close to current behavior
 
@@ -231,7 +231,6 @@ REF-021 (remove warning suppressions) ──► REF-023 (fix sprintf sites revea
 REF-025 (legacy feature removal) — coordinate with REF-003 (IRC strings)
 REF-025 (legacy removal) ──► REF-027 (CaptchaGenerator: CxImage removal; easier post-REF-025)
 REF-026 (manifest) — pair with FEAT-017 (DPI)
-REF-016 (inline ResizableLib) — alternative to REF-032; choose one ownership path before touching the same dialog hosts
 REF-028 (MbedTLS 4.0) — prerequisite for TLS 1.3 support
 
 [Network stack — recommended order]
