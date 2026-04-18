@@ -57,6 +57,11 @@ Backlog note (2026-04-18): search-result expansion is tracked separately from th
 modern-limits work. `FEAT-016` remains done; active search-ceiling work is
 `FEAT-029` in `../docs-clean`.
 
+Backlog note (2026-04-18): standalone `FEAT-012` TCP listen-socket error-flood
+defense is now landed on current `main` in `../docs-clean`; the historical
+`FEATURE-PEERS-BANS.md` analysis still describes the broader eMuleAI `CShield`
+context, but the implemented mainline shape is the narrow standalone tracker.
+
 ---
 
 ## Architecture

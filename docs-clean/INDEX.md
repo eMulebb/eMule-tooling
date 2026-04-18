@@ -26,6 +26,7 @@
 **Updated:** 2026-04-18 — `main` now includes `REF-026` manifest cleanup in commit `444f6ec`: Windows 10 / 11+ compatibility is declared via the Windows 10 GUID only, Common Controls 6.0 moved from linker pragmas into the embedded manifests, and DPI enablement remains deferred to `FEAT-017`.
 **Updated:** 2026-04-18 — `REF-001`, `REF-015`, and `REF-016` are now marked `Wont-Fix` to preserve the current low-drift branch direction: keep the existing ZIP reader, keep miniupnpc in the UPnP stack, and keep ResizableLib out-of-tree.
 **Updated:** 2026-04-18 — search-result expansion is now tracked separately from `FEAT-016` as new `FEAT-029`: configurable ed2k result ceilings plus moderate Kad totals/lifetimes with Tweaks exposure.
+**Updated:** 2026-04-18 — `main` now includes standalone `FEAT-012` TCP listen-socket error-flood defense: accepted incoming pre-handshake TCP error/close bursts are tracked per IP and banned through the stock banned-IP path, with Tweaks hidden-security settings for enable/interval/threshold.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -146,7 +147,7 @@ regression checks. When behavior changes, compare `main` against
 | [FEAT-009](FEAT-009.md) | Trivial | Open | Mirror audit guard seam — WIP from stale branch parent |
 | [FEAT-010](FEAT-010.md) | Minor | **Done** | Long path support phase 2 — shell/UI, shared-directory recursion, exact-name paths, and path-helper audit |
 | [FEAT-011](FEAT-011.md) | Minor | Open | CShield — integrate ED2K anti-leecher engine (44 bad-client categories) |
-| [FEAT-012](FEAT-012.md) | Minor | Open | PR_TCPERRORFLOODER — TCP listen-socket flood defense |
+| [FEAT-012](FEAT-012.md) | Minor | **Done** | PR_TCPERRORFLOODER — TCP listen-socket flood defense |
 | [FEAT-013](FEAT-013.md) | Major | Open | REST API — extend WebServer.cpp with authenticated JSON endpoints |
 | [FEAT-014](FEAT-014.md) | Minor | Open | REST API follow-up — OpenAPI docs and optional external gateway |
 | [FEAT-015](FEAT-015.md) | Major | **Done** | Broadband upload slot controller — budget-based cap + slow-slot reclamation |

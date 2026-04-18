@@ -1,7 +1,7 @@
 ---
 id: FEAT-012
 title: PR_TCPERRORFLOODER — TCP listen-socket flood defense
-status: Open
+status: Done
 priority: Minor
 category: feature
 labels: [dos, tcp, flooding, banning, security, networking]
@@ -12,7 +12,9 @@ source: FEATURE-PEERS-BANS.md (FEAT_012)
 
 ## Summary
 
-Port `CheckTCPErrorFlooder()` from eMuleAI — a defense against peers that repeatedly open TCP connections to the eMule listen socket and immediately error out (or disconnect), flooding the accept loop. This is a targeted DoS vector that doesn't require a full client handshake.
+`main` now includes a standalone stock-friendly `CheckTCPErrorFlooder(uint32)` defense in `CClientList`.
+
+It detects repeated accepted incoming TCP sockets from the same IP which die before any protocol packet is received, then reuses the existing banned-IP path instead of importing the wider eMuleAI `CShield` punishment system.
 
 ## Problem
 
@@ -25,7 +27,7 @@ This is distinct from normal ED2K misbehavior (which requires a handshake) — i
 
 ## Detection
 
-`PR_TCPERRORFLOODER` tracks repeated TCP error events from the same IP within a rolling time window:
+The standalone tracker counts repeated pre-handshake TCP error/close events from the same IP within a rolling time window:
 
 ```cpp
 void CheckTCPErrorFlooder(uint32 uIP);  // called when a TCP accept produces an immediate error
@@ -33,47 +35,47 @@ void CheckTCPErrorFlooder(uint32 uIP);  // called when a TCP accept produces an 
 
 Internal state per IP:
 - Error event count within window
-- Timestamp of first error in current window
-- Escalating response threshold
+- Timestamp of first event in current window
+- Last-seen timestamp for cleanup
 
-When the error rate from a single IP exceeds the threshold, the IP is temporarily banned via the existing IPFilter / clientban mechanism.
+When the error rate from a single IP exceeds the threshold, the IP is banned via the existing stock `AddBannedClient()` path and current `CLIENTBANTIME`.
 
 ## Integration Point
 
-Call site: `CListenSocket::OnAccept()` — the lowest-level accept handler in `ListenSocket.cpp`. When `Accept()` succeeds but the resulting socket is immediately in an error state (or the client disconnects before any data arrives), call `CheckTCPErrorFlooder(remoteIP)`.
+Current `main` does **not** attribute raw `Accept()` failures to peer IPs. The landed hook therefore lives on the accepted socket’s early failure path:
 
-```cpp
-// In CListenSocket::OnAccept():
-if (!newSocket->IsConnected() || immediateError) {
-    theApp.clientlist->CheckTCPErrorFlooder(remoteAddr.sin_addr.s_addr);
-    delete newSocket;
-    return;
-}
-```
+- `CClientReqSocket::OnError()`
+- `CClientReqSocket::OnClose()`
 
-The tracker lives in `CClientList` (or a dedicated `CShield` instance if FEAT-011 is also implemented — `CheckTCPErrorFlooder` is one of the `CShield` hooks).
+The check runs only for accepted incoming sockets which:
+- have no attached `CUpDownClient`
+- have not received their first protocol packet
+- are not port-test connections
+- have not already been counted once for the same socket lifetime
+
+The tracker lives in `CClientList` and remains standalone.
 
 ## Configuration
 
-- **Error threshold** (default: 10 errors / 60 seconds per IP)
-- **Ban duration** (default: 5 minutes for first offense, doubling on repeat)
-- **Exempt from check:** IPs in the friend list or in IPFilter "allow" ranges
+- `DetectTCPErrorFlooder` (default: `true`)
+- `TCPErrorFlooderIntervalMinutes` (default: `60`)
+- `TCPErrorFlooderThreshold` (default: `10`)
 
-Configurable via `CPPgProtectionPanel` if FEAT-011 is implemented, or via a simple preferences pair if standalone.
+These are exposed in `Preferences -> Tweaks -> Hidden security and messaging`.
 
 ## Standalone vs. FEAT-011
 
-This feature can be implemented independently of the full CShield engine (FEAT-011):
-- **Standalone:** Add a `CheckTCPErrorFlooder(uint32 uIP)` method directly to `CClientList` with a `std::unordered_map<uint32, ErrorFloodState>` member.
-- **With FEAT-011:** The function becomes a `CShield` hook and shares the `blacklist.conf` ban backend.
+This landed independently of the full `CShield` engine (`FEAT-011`):
+- **Standalone mainline implementation:** `CClientList::CheckTCPErrorFlooder(uint32 uIP)` with an internal per-IP tracker map
+- **Not imported:** `CShield`, punishment categories, `blacklist.conf`, or protection-panel UI
 
-Recommend implementing standalone first, merging into CShield when FEAT-011 is done.
+If `FEAT-011` is ever pursued later, `PR_TCPERRORFLOODER` can be re-homed into that engine, but the current standalone implementation is sufficient and stock-preserving.
 
 ## Acceptance Criteria
 
-- [ ] `CheckTCPErrorFlooder(uint32 uIP)` implemented (standalone or as CShield hook)
-- [ ] Called from `CListenSocket::OnAccept()` on error/immediate-disconnect
-- [ ] Threshold and ban duration configurable via preferences
-- [ ] Banned IP blocked via existing ban mechanism (not a new parallel ban list)
-- [ ] Log entry when an IP is banned for TCP flooding
-- [ ] No false positives on legitimate clients with transient connection errors
+- [x] `CheckTCPErrorFlooder(uint32 uIP)` implemented standalone in `CClientList`
+- [x] Called from accepted-socket `OnError()` / `OnClose()` on pre-handshake failure
+- [x] Detection toggle, interval, and threshold configurable via preferences
+- [x] Banned IP blocked via existing stock banned-IP mechanism
+- [x] Log entry emitted when an IP is banned for TCP flooding
+- [x] First-packet and one-shot socket guards prevent double-counting and avoid counting normal post-handshake errors

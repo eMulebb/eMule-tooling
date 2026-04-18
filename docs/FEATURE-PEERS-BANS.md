@@ -22,7 +22,7 @@ eMuleAI has two distinct peer banning systems and one lightweight identity guard
 | FEAT_009 | SafeKad2 integration (see also [FEATURE-KAD.md](FEATURE-KAD.md) FEAT_002) | Not started |
 | FEAT_010 | CAntiNick integration | **[REJECTED]** |
 | FEAT_011 | CShield integration | Not started |
-| FEAT_012 | PR_TCPERRORFLOODER (highest networking impact) | Not started |
+| FEAT_012 | PR_TCPERRORFLOODER (highest networking impact) | **[DONE]** standalone in main |
 
 ---
 
@@ -160,7 +160,14 @@ Recommended order: **SafeKad2 -> CAntiNick -> CShield**.
 
 SafeKad2 and CAntiNick are fully standalone and can be dropped in without touching any other eMuleAI feature. CShield requires wiring `CheckClient()` / `CheckLeecher()` / `CheckHelloTag()` / `CheckInfoTag()` into the client lifecycle, and adding the `CShield* m_pShield` member to `CemuleApp` with init/shutdown calls.
 
-The `PR_TCPERRORFLOODER` category in CShield is the item with the most direct networking impact beyond fairness -- it addresses a denial-of-service pattern against the listen socket that stock eMule has no specific defense for.
+The `PR_TCPERRORFLOODER` category in CShield is the item with the most direct networking impact beyond fairness -- it addresses a denial-of-service pattern against the listen socket that stock eMule historically had no specific defense for.
+
+Revalidation note (2026-04-18): current `eMule-main` now carries a **standalone**
+version of `FEAT_012`, not the full `CShield` variant. The landed mainline shape:
+- tracks accepted incoming pre-handshake TCP error/close bursts per IP in `CClientList`
+- hooks the check from `CClientReqSocket::OnError()` / `OnClose()`
+- reuses the stock banned-IP path and current ban lifetime
+- exposes enable / interval / threshold in Tweaks hidden security
 
 ---
 
