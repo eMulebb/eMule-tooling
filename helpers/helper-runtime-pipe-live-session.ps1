@@ -18,6 +18,9 @@ param(
     [string]$EmuleWorkspaceRoot = '',
 
     [Parameter(Mandatory = $false)]
+    [string]$AppRoot = '',
+
+    [Parameter(Mandatory = $false)]
     [string]$ProfileRoot = 'C:\tmp\emule-testing',
 
     [Parameter(Mandatory = $false)]
@@ -106,6 +109,51 @@ function Get-NormalizedPath {
     )
 
     return [System.IO.Path]::GetFullPath($Path)
+}
+
+function Resolve-WorkspaceAppRoot {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$WorkspaceRoot,
+
+        [string[]]$PreferredVariantNames = @('main', 'bugfix', 'build')
+    )
+
+    $workspaceRootPath = Get-NormalizedPath -Path $WorkspaceRoot
+    $manifestPath = Join-Path $workspaceRootPath 'deps.psd1'
+    if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) {
+        throw "Workspace manifest '$manifestPath' does not exist."
+    }
+
+    $manifest = Import-PowerShellDataFile -LiteralPath $manifestPath
+    $manifestCandidates = New-Object System.Collections.Generic.List[string]
+
+    $seedPath = $manifest.Workspace.AppRepo.SeedRepo.Path
+    if (-not [string]::IsNullOrWhiteSpace($seedPath)) {
+        $manifestCandidates.Add((Join-Path $workspaceRootPath $seedPath))
+    }
+
+    foreach ($preferredVariantName in $PreferredVariantNames) {
+        foreach ($variant in @($manifest.Workspace.AppRepo.Variants)) {
+            if ($variant.Name -eq $preferredVariantName -and -not [string]::IsNullOrWhiteSpace($variant.Path)) {
+                $manifestCandidates.Add((Join-Path $workspaceRootPath $variant.Path))
+            }
+        }
+    }
+
+    foreach ($variant in @($manifest.Workspace.AppRepo.Variants)) {
+        if (-not [string]::IsNullOrWhiteSpace($variant.Path)) {
+            $manifestCandidates.Add((Join-Path $workspaceRootPath $variant.Path))
+        }
+    }
+
+    foreach ($candidate in @($manifestCandidates.ToArray())) {
+        if ($candidate -and (Test-Path -LiteralPath $candidate -PathType Container)) {
+            return (Resolve-Path -LiteralPath $candidate).Path
+        }
+    }
+
+    throw "Unable to resolve an app root from '$manifestPath'."
 }
 
 function Ensure-Directory {
@@ -2136,10 +2184,14 @@ $emuleWorkspaceRoot = if ([string]::IsNullOrWhiteSpace($EmuleWorkspaceRoot)) {
     Get-NormalizedPath -Path $EmuleWorkspaceRoot
 }
 $workspaceRoot = Get-NormalizedPath -Path (Join-Path $emuleWorkspaceRoot 'workspaces\v0.72a')
-$repoRoot = Get-NormalizedPath -Path (Join-Path $workspaceRoot 'app\eMule-v0.72a-bugfix')
+$repoRoot = if ([string]::IsNullOrWhiteSpace($AppRoot)) {
+    Resolve-WorkspaceAppRoot -WorkspaceRoot $workspaceRoot
+} else {
+    Get-NormalizedPath -Path $AppRoot
+}
 $testsRoot = Get-NormalizedPath -Path (Join-Path $emuleWorkspaceRoot 'repos\eMule-build-tests')
 $remoteRoot = Get-NormalizedPath -Path (Join-Path $emuleWorkspaceRoot 'repos\eMule-remote')
-$buildScriptPath = Join-Path $workspaceRoot '23-build-emule-debug-incremental.cmd'
+$buildScriptPath = Join-Path $emuleWorkspaceRoot 'repos\eMule-build\workspace.ps1'
 $buildExePath = Join-Path $repoRoot 'srchybrid\x64\Debug\emule.exe'
 $launchedExePath = Join-Path $repoRoot 'srchybrid\x64\Debug\eMule_v072_harness.exe'
 $launchedProcessName = [System.IO.Path]::GetFileNameWithoutExtension($launchedExePath)
@@ -2187,7 +2239,11 @@ if ($null -eq $bindInterface) {
 }
 
 if (-not $SkipBuild) {
-    & $buildScriptPath
+    if (-not (Test-Path -LiteralPath $buildScriptPath -PathType Leaf)) {
+        throw "Build helper '$buildScriptPath' does not exist."
+    }
+
+    & $buildScriptPath build-app -EmuleWorkspaceRoot $emuleWorkspaceRoot -Config Debug -Platform x64
     if ($LASTEXITCODE -ne 0) {
         throw "Build failed with exit code $LASTEXITCODE."
     }
@@ -2222,6 +2278,7 @@ $manifest = [ordered]@{
     helper = 'helper-runtime-pipe-live-session.ps1'
     started_at = (Get-Date).ToString('o')
     session_stamp = $sessionStamp
+    app_root = $repoRoot
     build_exe_path = $buildExePath
     launched_exe_path = $launchedExePath
     remote_entry_point = $remoteEntryPoint
