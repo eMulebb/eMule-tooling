@@ -20,6 +20,7 @@
 **Updated:** 2026-04-18 — `main` now includes `BUG-030` server-login crypt-flag hardening in commit `f9bb14b`; `BUG-030` is marked Done.
 **Updated:** 2026-04-18 — `main` now includes `BUG-032` AICH hashset save timeout removal in commit `8a5a33c`; `BUG-032` is marked Done.
 **Updated:** 2026-04-18 — `main` now includes `REF-019` `EncryptedStreamSocket` protocol-error hardening in commit `93b3450`; `REF-019` is marked Done.
+**Updated:** 2026-04-18 — narrow `REF-017` dead-code cleanup landed in current `main`: all remaining `CCM_SETUNICODEFORMAT` no-op calls, `MAXCON5WIN9X`, and one stale WinNT note were removed; the broader `REF-017` item remains Open.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
