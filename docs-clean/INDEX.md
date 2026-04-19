@@ -98,7 +98,7 @@ regression checks. When behavior changes, compare `main` against
 | [REF-017](REF-017.md) | Minor | **Done** | Revalidate and close the dead-code sweep backlog item |
 | [REF-018](REF-018.md) | Minor | **Done** | Remove defunct PeerCache surface and legacy INI fallback reads |
 | [REF-019](REF-019.md) | Minor | **Done** | Replace ASSERT(0) + "must be a bug" with OnError() in EncryptedStreamSocket |
-| [REF-020](REF-020.md) | Minor | Open | Replace dynamic loading of always-present Win10 APIs with static linking |
+| [REF-020](REF-020.md) | Minor | **Done** | Replace dynamic loading of always-present Win10 APIs with static linking |
 | [REF-021](REF-021.md) | Minor | Open | Remove blanket warning suppressions and replace deprecated Winsock APIs |
 | [REF-022](REF-022.md) | Trivial | Open | Replace custom type aliases in types.h with \<cstdint\> standard types |
 | [REF-023](REF-023.md) | Minor | Open | Replace unsafe sprintf/_stprintf/wsprintf with safe equivalents |
@@ -165,8 +165,8 @@ regression checks. When behavior changes, compare `main` against
 | [FEAT-026](FEAT-026.md) | Minor | **Done** | Shared startup cache with known.met lookup index and `sharedcache.dat` |
 | [FEAT-027](FEAT-027.md) | Minor | **Done** | Startup sequencing fix, startup profiling, and shared-view startup churn cleanup |
 | [FEAT-028](FEAT-028.md) | Minor | **Done** | Virtualize and harden shared files list |
-| [FEAT-029](FEAT-029.md) | Minor | In Progress | Search result ceilings — configurable ed2k expansion plus moderate Kad totals/lifetimes |
-| [FEAT-030](FEAT-030.md) | Minor | In Progress | Bind policy completion — global `BindAddr` everywhere else, separate `WebBindAddr` for WebServer |
+| [FEAT-029](FEAT-029.md) | Minor | **Done** | Search result ceilings — configurable ed2k expansion plus moderate Kad totals/lifetimes |
+| [FEAT-030](FEAT-030.md) | Minor | **Done** | Bind policy completion — global `BindAddr` everywhere else, separate `WebBindAddr` for WebServer |
 
 ---
 
@@ -306,6 +306,8 @@ These items were verified in `eMule-main` and are genuinely done:
 | FEAT-026 — Shared startup cache | current `main` shared-startup line — `KnownFileLookupIndex`, `SharedStartupCachePolicy`, and `sharedcache.dat` are present |
 | FEAT-027 — Startup profiling | commit `1d461c8` — trace-backed startup and readiness profiling |
 | FEAT-028 — Shared Files virtualization | commit `fc70cf9` — owner-data Shared Files list with hardened reload/state handling |
+| FEAT-029 — Search result ceilings | commit `1dd710c` — configurable ed2k and moderate Kad search result/lifetime ceilings |
+| FEAT-030 — Bind policy completion | commits `a762ea1`, `ca80a00`, `6244a50` — `WebBindAddr`, ancillary bind audit completion, and follow-up UI restoration |
 | BUG-029 — Long-path tail hardening | current `main` commit series `bb7ef92` through `1e71a16` |
 | BUG-030 — Server login crypt flags | commit `f9bb14b` — suppress callback crypt request/require flags on already-obfuscated server sockets |
 | BUG-032 — AICH hashset save timeout | commit `8a5a33c` — wait normally for the `known2.met` mutex instead of failing after 5 seconds |
@@ -327,7 +329,7 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 | REF-017 — Win9x dead code | Fully removed (0 remaining) | Spread across codebase |
 | REF-018 — PeerCache/proxy cleanup | Done; proxy fully removed | `Opcodes.h`, `BaseClient.cpp`, removed files |
 | REF-019 — EncryptedStreamSocket ASSERT | Done: `FailEncryptedStream` helper | `EncryptedStreamSocket.cpp` |
-| REF-020 — Static Win10 APIs | Done: direct calls replacing GetProcAddress | `Emule.cpp`, `EmuleDlg.cpp` |
+| REF-020 — Static Win10 APIs | Done: Win10-only cleanup landed in `6ae47ec` | `Emule.cpp`, `EmuleDlg.cpp`, `Preferences.cpp`, `Mdump.cpp`, `OtherFunctions.cpp`, `emule.vcxproj` |
 | REF-021 — Deprecated Winsock APIs | Done: inet_addr replaced, suppression removed | `stdafx.h`, `ServerConnect.cpp` |
 | REF-023 — Unsafe sprintf | Done: ~0 remaining | Codebase-wide |
 | REF-025 — Legacy feature removal | IRC, SMTP, Scheduler, MiniMule, Wizard removed | ~20+ files removed |
@@ -384,6 +386,6 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 10 open bugs + 0 in-progress bugs + 28 refactors/boost items + 17 features + 8 CI = **63 non-done issues**.*
+*Total non-done: 10 open bugs + 0 in-progress bugs + 28 refactors/boost items + 15 features + 8 CI = **61 non-done issues**.*
 
-*Status refresh through 2026-04-18: REF-007, FEAT-020, FEAT-022, FEAT-026, and FEAT-027 are now marked Done in `main`; FEAT-028, BUG-029, BUG-030, and BUG-032 were added as landed `main` work; BUG-031 remains from the focused `eMuleAI` comparison; CI-008 now also records the long-config `-c` live UI stability regression coverage.*
+*Status refresh through 2026-04-19: FEAT-029 and FEAT-030 are now marked Done in `main`; REF-007, FEAT-020, FEAT-022, FEAT-026, and FEAT-027 are now marked Done in `main`; FEAT-028, BUG-029, BUG-030, and BUG-032 were added as landed `main` work; BUG-031 remains from the focused `eMuleAI` comparison; CI-008 now also records the long-config `-c` live UI stability regression coverage.*
