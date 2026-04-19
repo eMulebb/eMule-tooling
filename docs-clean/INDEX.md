@@ -45,6 +45,7 @@ reference reading.
 **Updated:** 2026-04-19 — `BUG-005` is now marked `Wont-Fix` by explicit product decision: Kad buddy callback encryption / `RequireCrypt` incompatibility is understood but intentionally not pursued on the current branch direction. `REF-021` remains valid but is explicitly deferred for now; because the backlog schema has no `Deferred` status, it is tracked as `Blocked`.
 **Updated:** 2026-04-19 — added `BUG-033` to persist the explicit `Wont-Fix` decision for the shutdown-only `TerminateThread` fallbacks in `WebSocket.cpp` and `UPnPImplMiniLib.cpp`.
 **Updated:** 2026-04-19 — added `BUG-034` to track the broader release-silent `catch (...)` plus `ASSERT(0)` pattern across `ArchiveRecovery`, `Collection`, `WebServer`, `ServerSocket`, and similar paths. This stays `Open`; future fixes should add explicit logging where practical rather than silently swallowing unexpected exceptions.
+**Updated:** 2026-04-19 — added `BUG-035` to track the broader non-exception control-flow debt where live runtime paths still rely on bare `ASSERT(0)` placeholders without proper recovery or logging. Representative current anchors include `TreePropSheet.cpp`, `TransferWnd.cpp`, and `SHAHashSet.cpp`.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -101,6 +102,7 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-032](BUG-032.md) | Minor | **Done** | AICH hashset save can fail spuriously after hashing because `known2.met` lock wait times out |
 | [BUG-033](BUG-033.md) | Minor | Wont-Fix | WebSocket and MiniUPnP shutdown still use forced thread termination |
 | [BUG-034](BUG-034.md) | Minor | Open | Release paths silently swallow unexpected exceptions via catch (...) plus ASSERT(0) |
+| [BUG-035](BUG-035.md) | Minor | Open | Historical control-flow still uses bare ASSERT(0) without recovery or logging |
 
 ---
 
@@ -218,7 +220,7 @@ regression checks. When behavior changes, compare `main` against
 
 ### Do Second — narrow stability items still close to current behavior
 
-5. **BUG-003 through BUG-006, BUG-023, BUG-028, BUG-031, BUG-034** — targeted correctness fixes
+5. **BUG-003 through BUG-006, BUG-023, BUG-028, BUG-031, BUG-034, BUG-035** — targeted correctness fixes
 6. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
 7. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
 8. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
@@ -408,6 +410,6 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 10 open bugs + 1 in-progress bug + 27 refactors/boost items + 15 features + 8 CI = **61 non-done issues**.*
+*Total non-done: 11 open bugs + 1 in-progress bug + 27 refactors/boost items + 15 features + 8 CI = **62 non-done issues**.*
 
 *Status refresh through 2026-04-19: FEAT-029 and FEAT-030 are now marked Done in `main`; REF-007, FEAT-020, FEAT-022, FEAT-026, and FEAT-027 are now marked Done in `main`; FEAT-028, BUG-029, BUG-030, and BUG-032 were added as landed `main` work; BUG-031 remains from the focused `eMuleAI` comparison; CI-008 now also records the long-config `-c` live UI stability regression coverage.*
