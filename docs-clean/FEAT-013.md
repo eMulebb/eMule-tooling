@@ -12,7 +12,7 @@ source: 2026-04-12 backlog review pivot from pipe/sidecar-first plan
 landed_in:
   - repo: eMule-main
     branch: main
-    commit: 94e0884
+    commit: 8d0832a
 ---
 
 ## Summary
@@ -90,6 +90,9 @@ The landed route surface follows the experimental API parity target:
 - `SearchResultsWnd` / `SearchList` expose the narrow helpers needed for
   machine-readable search start/status/result retrieval
 - WebServer options now include a dedicated API-key field
+- the experimental `uploadClientDataRate` / `maxUploadSlots` preference knobs
+  are mapped onto the current broadband upload-budget controller instead of
+  reviving the stale experimental preference storage directly
 
 ## Explicit Non-Goals In This Slice
 

@@ -51,7 +51,7 @@ reference reading.
 **Updated:** 2026-04-19 — `main` now includes the `BUG-003` cleanup in commit `a0a7d18`: the real remaining issue was narrowed to Kad metadata 64-bit formatting, that formatter is fixed, and the other historical `FIXME LARGE FILES` markers were removed as stale overstatements. `BUG-003` is marked Done.
 **Updated:** 2026-04-19 — current `main` now includes the MiniMule-specific `REF-025` cleanup slice in commit `867d303` (`REF-025: remove MiniMule feature`); the broader legacy-feature removal remains unfinished, so `REF-025` stays `In Progress`.
 **Updated:** 2026-04-19 — post-MiniMule revalidation added `REF-033` to track the smaller remaining IE-era baggage still present in current `main`: MSHTML-based `DropTarget` HTML parsing, HTML Help, stale IE-specific web-template branches, and leftover browser-hosting markers.
-**Updated:** 2026-04-19 — current `main` now includes `FEAT-013` in commit `94e0884`: the REST surface is delivered in-process through `WebServer.cpp` / `WebSocket.cpp` with a dedicated `WebServerJson.cpp` route layer, hashed `X-API-Key` auth, and the experimental JSON contract reused without the named-pipe/sidecar runtime stack. `FEAT-013` is marked Done.
+**Updated:** 2026-04-19 — current `main` now includes `FEAT-013` in commits `94e0884` and `8d0832a`: the REST surface is delivered in-process through `WebServer.cpp` / `WebSocket.cpp` with a dedicated `WebServerJson.cpp` route layer, hashed `X-API-Key` auth, the experimental JSON contract reused without the named-pipe/sidecar runtime stack, and the experimental upload-tuning fields mapped onto the current broadband upload-budget controller. `FEAT-013` is marked Done.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -340,7 +340,7 @@ These items were verified in `eMule-main` and are genuinely done:
 | FEAT-028 — Shared Files virtualization | commit `fc70cf9` — owner-data Shared Files list with hardened reload/state handling |
 | FEAT-029 — Search result ceilings | commit `1dd710c` — configurable ed2k and moderate Kad search result/lifetime ceilings |
 | FEAT-030 — Bind policy completion | commits `a762ea1`, `ca80a00`, `6244a50` — `WebBindAddr`, ancillary bind audit completion, and follow-up UI restoration |
-| FEAT-013 — In-process WebServer REST API | commit `94e0884` — `/api/v1` JSON surface, hashed `X-API-Key` auth, `WebServerJson.cpp`, and vendored `nlohmann/json.hpp` |
+| FEAT-013 — In-process WebServer REST API | commits `94e0884`, `8d0832a` — `/api/v1` JSON surface, hashed `X-API-Key` auth, `WebServerJson.cpp`, vendored `nlohmann/json.hpp`, and upload-tuning parity mapped to the broadband controller |
 | BUG-029 — Long-path tail hardening | current `main` commit series `bb7ef92` through `1e71a16` |
 | BUG-030 — Server login crypt flags | commit `f9bb14b` — suppress callback crypt request/require flags on already-obfuscated server sockets |
 | BUG-032 — AICH hashset save timeout | commit `8a5a33c` — wait normally for the `known2.met` mutex instead of failing after 5 seconds |
