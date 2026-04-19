@@ -42,6 +42,7 @@ reference reading.
 **Updated:** 2026-04-19 — current `main` now completes `REF-004`: the original hidden-preference write-back fix from `4a02669` is now paired with Extended-options exposure/validation cleanup (`6c792d9`, `e6f0625`, `910828c`, `d3ccfd1`), and the retired `AICHTrustEveryHash` key is explicitly deleted from persisted config.
 **Updated:** 2026-04-19 — current `main` now includes the first `REF-025` cleanup slice in commit `3105ee3` (`chore: remove Connection options wizard entry`); the full legacy-feature removal remains unfinished, so `REF-025` is now `In Progress`.
 **Updated:** 2026-04-19 — current `main` now includes the `BUG-028` mitigation commit `5cc8e59` (`prefer MediaInfo.dll for AV metadata routing`); the Unicode-unsafe `id3lib` fallback remains, so the item is now `In Progress` rather than `Open`.
+**Updated:** 2026-04-19 — `BUG-005` is now marked `Wont-Fix` by explicit product decision: Kad buddy callback encryption / `RequireCrypt` incompatibility is understood but intentionally not pursued on the current branch direction. `REF-021` remains valid but is explicitly deferred for now; because the backlog schema has no `Deferred` status, it is tracked as `Blocked`.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -68,7 +69,7 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-002](BUG-002.md) | Minor | Open | ASSERT(0) FIXME in ArchiveRecovery.cpp — silent fail in release *(retire feature or fix)* |
 | [BUG-003](BUG-003.md) | Minor | Open | Large-file AICH / metadata paths incomplete — FIXME markers in place |
 | [BUG-004](BUG-004.md) | Minor | Open | IPFilter overlapping IP ranges not handled — acknowledged correctness gap |
-| [BUG-005](BUG-005.md) | Minor | Open | Kad buddy connections broken when RequireCrypt is enabled |
+| [BUG-005](BUG-005.md) | Minor | Wont-Fix | Kad buddy connections broken when RequireCrypt is enabled |
 | [BUG-006](BUG-006.md) | Minor | Open | Weak RNG for crypto challenge — rand() seeded with time(NULL) (accepted risk) |
 | [BUG-007](BUG-007.md) | Minor | **Done** | Ring.h — three UB + correctness bugs in CRing\<T\> (CODEREV_003, 004, 011) |
 | [BUG-008](BUG-008.md) | Minor | Open | CaptchaGenerator — rand() & 8 bimodal jitter (only 0 or 8, never 1-7) *(resolved if REF-027 lands)* |
@@ -116,7 +117,7 @@ regression checks. When behavior changes, compare `main` against
 | [REF-018](REF-018.md) | Minor | **Done** | Remove defunct PeerCache surface and legacy INI fallback reads |
 | [REF-019](REF-019.md) | Minor | **Done** | Replace ASSERT(0) + "must be a bug" with OnError() in EncryptedStreamSocket |
 | [REF-020](REF-020.md) | Minor | **Done** | Replace dynamic loading of always-present Win10 APIs with static linking |
-| [REF-021](REF-021.md) | Minor | Open | Remove blanket warning suppressions and replace deprecated Winsock APIs |
+| [REF-021](REF-021.md) | Minor | Blocked | Remove blanket warning suppressions and replace deprecated Winsock APIs |
 | [REF-022](REF-022.md) | Trivial | Open | Replace custom type aliases in types.h with \<cstdint\> standard types |
 | [REF-023](REF-023.md) | Minor | Open | Replace unsafe sprintf/_stprintf/wsprintf with safe equivalents |
 | [REF-024](REF-024.md) | Trivial | Open | Convert #define constants in Opcodes.h to constexpr in namespace |
