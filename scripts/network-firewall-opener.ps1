@@ -6,12 +6,10 @@
 Creates, updates, or removes the Windows Defender Firewall rule for eMule.
 
 .DESCRIPTION
-This script must remain compatible with Windows built-in PowerShell.exe
-(Windows PowerShell 5.1) on Windows 10 and Windows 11.
-
-When -ExePath is not supplied, the script searches the parent workspace
-directory for emule.exe and uses the best matching build output as the
-default. If no executable is found, the script prompts for a path.
+This script is intended to ship inside a release package under `scripts\`.
+When `-ExePath` is not supplied, it looks for `..\emule.exe` relative to the
+script location. If that file is not present, the script prompts for the full
+path to `emule.exe`.
 #>
 
 [CmdletBinding(SupportsShouldProcess = $true)]
@@ -28,80 +26,7 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-<#
-.SYNOPSIS
-Returns the normalized full path for an existing file.
-
-.PARAMETER Path
-Path to validate and normalize.
-#>
-function Get-NormalizedExistingLeafPath {
-    param(
-        [Parameter(Mandatory = $true)]
-        [string]$Path
-    )
-
-    if ([string]::IsNullOrWhiteSpace($Path)) {
-        throw 'Path must not be empty.'
-    }
-
-    $resolvedPath = Resolve-Path -LiteralPath $Path -ErrorAction Stop
-    $fullPath = [System.IO.Path]::GetFullPath($resolvedPath.ProviderPath)
-    if (-not (Test-Path -LiteralPath $fullPath -PathType Leaf)) {
-        throw "Executable path '$fullPath' does not exist."
-    }
-
-    return $fullPath
-}
-
-<#
-.SYNOPSIS
-Returns the repository root relative to the scripts directory.
-#>
-function Get-WorkspaceRoot {
-    $workspaceRoot = Join-Path $PSScriptRoot '..'
-    return [System.IO.Path]::GetFullPath($workspaceRoot)
-}
-
-<#
-.SYNOPSIS
-Finds the preferred emule.exe under the workspace root.
-
-.PARAMETER WorkspaceRoot
-Repository root used for recursive search.
-#>
-function Get-DefaultEmuleExecutable {
-    param(
-        [Parameter(Mandatory = $true)]
-        [string]$WorkspaceRoot
-    )
-
-    $candidatePaths = @(
-        Get-ChildItem -LiteralPath $WorkspaceRoot -Filter 'emule.exe' -File -Recurse -ErrorAction SilentlyContinue |
-            Select-Object -ExpandProperty FullName
-    ) | ForEach-Object {
-        [System.IO.Path]::GetFullPath($_)
-    } | Sort-Object -Unique
-
-    if ($candidatePaths.Count -eq 0) {
-        return $null
-    }
-
-    # Prefer the normal debug build output first, then release, before falling back
-    # to any other deterministic match under the workspace root.
-    $preferredPaths = @(
-        [System.IO.Path]::GetFullPath((Join-Path $WorkspaceRoot 'srchybrid\x64\Debug\emule.exe')),
-        [System.IO.Path]::GetFullPath((Join-Path $WorkspaceRoot 'srchybrid\x64\Release\emule.exe'))
-    )
-
-    foreach ($preferredPath in $preferredPaths) {
-        if ($candidatePaths -contains $preferredPath) {
-            return $preferredPath
-        }
-    }
-
-    return ($candidatePaths | Sort-Object | Select-Object -First 1)
-}
+. (Join-Path $PSScriptRoot 'app-emule-support.ps1')
 
 <#
 .SYNOPSIS
@@ -131,23 +56,18 @@ function Get-RulePrograms {
 
 <#
 .SYNOPSIS
-Resolves the executable path from parameter, search result, or prompt.
+Resolves the executable path from parameter, release layout, or prompt.
 #>
-function Resolve-EmuleExecutablePath {
+function Resolve-RequestedExecutablePath {
     param(
         [Parameter(Mandatory = $false)]
         [string]$CandidatePath
     )
 
-    if (-not [string]::IsNullOrWhiteSpace($CandidatePath)) {
-        return Get-NormalizedExistingLeafPath -Path $CandidatePath
-    }
-
-    $workspaceRoot = Get-WorkspaceRoot
-    $defaultExePath = Get-DefaultEmuleExecutable -WorkspaceRoot $workspaceRoot
-    if (-not [string]::IsNullOrWhiteSpace($defaultExePath)) {
-        Write-Host "Using detected eMule executable '$defaultExePath'."
-        return $defaultExePath
+    $resolvedPath = Resolve-EmuleExecutablePath -ScriptRoot $PSScriptRoot -CandidatePath $CandidatePath
+    if (-not [string]::IsNullOrWhiteSpace($resolvedPath)) {
+        Write-Host "Using eMule executable '$resolvedPath'."
+        return $resolvedPath
     }
 
     $promptedPath = Read-Host 'Enter the full path to emule.exe'
@@ -155,7 +75,7 @@ function Resolve-EmuleExecutablePath {
         throw 'No executable path was provided.'
     }
 
-    return Get-NormalizedExistingLeafPath -Path $promptedPath
+    return (Get-NormalizedExistingLeafPath -Path $promptedPath)
 }
 
 try {
@@ -174,7 +94,7 @@ try {
         exit 0
     }
 
-    $resolvedExePath = Resolve-EmuleExecutablePath -CandidatePath $ExePath
+    $resolvedExePath = Resolve-RequestedExecutablePath -CandidatePath $ExePath
 
     $existingRules = @(Get-NetFirewallRule -DisplayName $RuleName -ErrorAction SilentlyContinue)
     $existingPrograms = @()

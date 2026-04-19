@@ -6,8 +6,9 @@
 Enables Win32 long path support for the local machine.
 
 .DESCRIPTION
-This script must remain compatible with Windows built-in PowerShell.exe
-(Windows PowerShell 5.1) on Windows 10 and Windows 11.
+This script is intended to ship inside a release package under `scripts\`.
+It must remain compatible with Windows built-in PowerShell.exe (Windows
+PowerShell 5.1) on Windows 10 and Windows 11.
 
 It enables HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled
 and leaves the machine unchanged when the setting is already enabled.
