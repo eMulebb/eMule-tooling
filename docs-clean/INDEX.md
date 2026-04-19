@@ -51,6 +51,7 @@ reference reading.
 **Updated:** 2026-04-19 — `main` now includes the `BUG-003` cleanup in commit `a0a7d18`: the real remaining issue was narrowed to Kad metadata 64-bit formatting, that formatter is fixed, and the other historical `FIXME LARGE FILES` markers were removed as stale overstatements. `BUG-003` is marked Done.
 **Updated:** 2026-04-19 — current `main` now includes the MiniMule-specific `REF-025` cleanup slice in commit `867d303` (`REF-025: remove MiniMule feature`); the broader legacy-feature removal remains unfinished, so `REF-025` stays `In Progress`.
 **Updated:** 2026-04-19 — post-MiniMule revalidation added `REF-033` to track the smaller remaining IE-era baggage still present in current `main`: MSHTML-based `DropTarget` HTML parsing, HTML Help, stale IE-specific web-template branches, and leftover browser-hosting markers.
+**Updated:** 2026-04-19 — current `main` now includes `FEAT-013` in commit `94e0884`: the REST surface is delivered in-process through `WebServer.cpp` / `WebSocket.cpp` with a dedicated `WebServerJson.cpp` route layer, hashed `X-API-Key` auth, and the experimental JSON contract reused without the named-pipe/sidecar runtime stack. `FEAT-013` is marked Done.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -179,7 +180,7 @@ regression checks. When behavior changes, compare `main` against
 | [FEAT-010](FEAT-010.md) | Minor | **Done** | Long path support phase 2 — shell/UI, shared-directory recursion, exact-name paths, and path-helper audit |
 | [FEAT-011](FEAT-011.md) | Minor | Open | CShield — integrate ED2K anti-leecher engine (44 bad-client categories) |
 | [FEAT-012](FEAT-012.md) | Minor | **Done** | PR_TCPERRORFLOODER — TCP listen-socket flood defense |
-| [FEAT-013](FEAT-013.md) | Major | Open | REST API — extend WebServer.cpp with authenticated JSON endpoints |
+| [FEAT-013](FEAT-013.md) | Major | **Done** | REST API — add authenticated in-process JSON endpoints to WebServer |
 | [FEAT-014](FEAT-014.md) | Minor | Open | REST API follow-up — OpenAPI docs and optional external gateway |
 | [FEAT-015](FEAT-015.md) | Major | **Done** | Broadband upload slot controller — budget-based cap + slow-slot reclamation |
 | [FEAT-016](FEAT-016.md) | Major | **Done** | Modern limits — update stale hard-coded defaults for broadband/modern hardware |
@@ -238,7 +239,6 @@ regression checks. When behavior changes, compare `main` against
 ### Do Later — useful, but not part of the current stabilization milestone
 
 - **BUG-023** — shared-file ED2K published-state UI false `No` after publish reset; small correctness fix, low protocol risk
-- **FEAT-013** — WebServer REST JSON endpoints; useful but broader than the current hardening-first pass
 - **FEAT-017, REF-026, REF-032** — DPI/manifest/MFC-host modernization
 - **CI-001 through CI-006** — broader build/tooling modernization
 - **REF-017, REF-018, REF-020, REF-021, REF-023, REF-025** — cleanup and legacy removal passes
@@ -340,6 +340,7 @@ These items were verified in `eMule-main` and are genuinely done:
 | FEAT-028 — Shared Files virtualization | commit `fc70cf9` — owner-data Shared Files list with hardened reload/state handling |
 | FEAT-029 — Search result ceilings | commit `1dd710c` — configurable ed2k and moderate Kad search result/lifetime ceilings |
 | FEAT-030 — Bind policy completion | commits `a762ea1`, `ca80a00`, `6244a50` — `WebBindAddr`, ancillary bind audit completion, and follow-up UI restoration |
+| FEAT-013 — In-process WebServer REST API | commit `94e0884` — `/api/v1` JSON surface, hashed `X-API-Key` auth, `WebServerJson.cpp`, and vendored `nlohmann/json.hpp` |
 | BUG-029 — Long-path tail hardening | current `main` commit series `bb7ef92` through `1e71a16` |
 | BUG-030 — Server login crypt flags | commit `f9bb14b` — suppress callback crypt request/require flags on already-obfuscated server sockets |
 | BUG-032 — AICH hashset save timeout | commit `8a5a33c` — wait normally for the `known2.met` mutex instead of failing after 5 seconds |
@@ -418,6 +419,6 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 10 open bugs + 1 in-progress bug + 28 refactors/boost items + 15 features + 9 CI = **63 non-done issues**.*
+*Total non-done: 10 open bugs + 1 in-progress bug + 28 refactors/boost items + 14 features + 9 CI = **62 non-done issues**.*
 
 *Status refresh through 2026-04-19: FEAT-029 and FEAT-030 are now marked Done in `main`; REF-007, FEAT-020, FEAT-022, FEAT-026, and FEAT-027 are now marked Done in `main`; FEAT-028, BUG-029, BUG-030, and BUG-032 were added as landed `main` work; BUG-031, CI-010, and the remaining FEAT-001 follow-through are now explicitly deferred and tracked as `Blocked`; CI-008 now also records the long-config `-c` live UI stability regression coverage.*

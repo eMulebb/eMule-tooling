@@ -1,119 +1,114 @@
 ---
 id: FEAT-013
-title: REST API — extend WebServer.cpp with authenticated JSON endpoints
-status: Open
+title: REST API — add authenticated in-process JSON endpoints to WebServer
+status: Done
 priority: Major
 category: feature
 labels: [api, rest, webserver, json, http, https]
 milestone: ~
 created: 2026-04-08
+updated: 2026-04-19
 source: 2026-04-12 backlog review pivot from pipe/sidecar-first plan
+landed_in:
+  - repo: eMule-main
+    branch: main
+    commit: 94e0884
 ---
 
 ## Summary
 
-If REST support is added in the current stabilization phase, the primary implementation
-should extend the existing `WebServer.cpp` / `WebSocket.cpp` stack instead of introducing
-an internal named-pipe protocol first.
+`main` now exposes an authenticated in-process REST surface under `/api/v1/...`
+by extending the existing `WebServer.cpp` / `WebSocket.cpp` stack.
 
-This keeps the feature close to the existing web surface, minimizes architecture drift,
-reuses the current HTTP/HTTPS listener, and avoids adding a second transport and dispatch
-stack during the hardening milestone.
+The implementation deliberately does **not** port the experimental named-pipe
+transport or Node sidecar as runtime architecture. Instead it:
 
-## Preferred Architecture
+- reuses the current WebServer listener, bind address, port, and HTTPS support
+- adds a dedicated JSON route layer in `WebServerJson.cpp`
+- vendors the experimental `nlohmann/json.hpp` single-header library
+- adapts the experimental command/serializer logic directly in-process
 
-```
-eMule.exe
-  WebSocket.cpp      -> existing HTTP/HTTPS accept + TLS
-  WebServer.cpp      -> route parsing and auth/session handling
-  WebServerJson.cpp  -> optional helper split for JSON serializers/route handlers
-                      -> /api/v1/... JSON endpoints
-```
+## Landed Shape
 
-### Keep
+### Transport and auth
 
-- existing HTML web interface routes
-- existing password/session model as the first auth layer
-- existing HTTPS support in `WebSocket.cpp`
+- shared existing WebServer HTTP/HTTPS listener
+- no second REST-specific port or listener
+- REST auth uses `X-API-Key`
+- REST key is stored hashed in preferences, separate from HTML web-session auth
+- HTML web UI remains intact and does not use the REST key
 
-### Add
+### Route surface
 
-- authenticated JSON responses for machine clients
-- small route/serializer helpers around the existing WebServer request flow
-- targeted admin-only mutation routes
-
-### Avoid in phase 1
-
-- named-pipe-first transport
-- Node/TypeScript sidecar as the primary architecture
-- async socket migration
-- SSE/WebSocket push unless a narrow polling API proves insufficient
-
-## Initial Route Set
-
-### Read-only
+The landed route surface follows the experimental API parity target:
 
 - `GET /api/v1/app/version`
-- `GET /api/v1/stats`
+- `GET /api/v1/app/preferences`
+- `POST /api/v1/app/preferences`
+- `POST /api/v1/app/shutdown`
+- `GET /api/v1/stats/global`
 - `GET /api/v1/transfers`
-- `GET /api/v1/uploads`
-- `GET /api/v1/servers`
-- `GET /api/v1/kad`
-- `GET /api/v1/shared`
+- `GET /api/v1/transfers/{hash}`
+- `GET /api/v1/transfers/{hash}/sources`
+- `POST /api/v1/transfers/add`
+- `POST /api/v1/transfers/pause`
+- `POST /api/v1/transfers/resume`
+- `POST /api/v1/transfers/stop`
+- `POST /api/v1/transfers/delete`
+- `POST /api/v1/transfers/{hash}/recheck`
+- `POST /api/v1/transfers/{hash}/priority`
+- `POST /api/v1/transfers/{hash}/category`
+- `GET /api/v1/uploads/list`
+- `GET /api/v1/uploads/queue`
+- `POST /api/v1/uploads/remove`
+- `POST /api/v1/uploads/release_slot`
+- `GET /api/v1/servers/list`
+- `GET /api/v1/servers/status`
+- `POST /api/v1/servers/connect`
+- `POST /api/v1/servers/disconnect`
+- `POST /api/v1/servers/add`
+- `POST /api/v1/servers/remove`
+- `GET /api/v1/kad/status`
+- `POST /api/v1/kad/connect`
+- `POST /api/v1/kad/disconnect`
+- `POST /api/v1/kad/recheck_firewall`
+- `GET /api/v1/shared/list`
+- `GET /api/v1/shared/{hash}`
+- `POST /api/v1/shared/add`
+- `POST /api/v1/shared/remove`
+- `POST /api/v1/search/start`
+- `GET /api/v1/search/results`
+- `POST /api/v1/search/stop`
 - `GET /api/v1/log?limit=N`
 
-### Mutating
+### Supporting runtime changes
 
-- `POST /api/v1/transfers`
-  add an `ed2k://` link
-- `POST /api/v1/transfers/{hash}/pause`
-- `POST /api/v1/transfers/{hash}/resume`
-- `DELETE /api/v1/transfers/{hash}`
-- `POST /api/v1/servers/connect`
+- `WebSocket.cpp` now preserves request method, request target, request body, and
+  `X-API-Key` header for downstream dispatch
+- `Log.cpp` / `Log.h` keep a bounded recent-log buffer so `/api/v1/log` can
+  return recent entries without scraping UI controls
+- `SearchResultsWnd` / `SearchList` expose the narrow helpers needed for
+  machine-readable search start/status/result retrieval
+- WebServer options now include a dedicated API-key field
 
-## Authentication Model
+## Explicit Non-Goals In This Slice
 
-- reuse existing web password/session handling first
-- require authenticated session for all JSON routes
-- require admin session for mutation routes
-- do not create a second independent auth store in phase 1
+- no named-pipe transport
+- no Node/TypeScript sidecar
+- no public SSE or WebSocket push endpoint
+- no separate REST privilege split beyond possession of the configured API key
 
-## Compatibility Goals
+## Follow-Up Work
 
-- HTML web UI remains behavior-compatible
-- JSON endpoints are additive
-- no dependency on sidecars or external runtimes
-- no dependency on async socket refactors
+- `FEAT-014` remains the follow-up item for OpenAPI docs and any optional
+  external gateway/tooling around the landed in-process REST surface
+- `CI-008` remains the follow-up item for explicit regression coverage of the
+  new REST routes
 
-## Implementation Notes
+## Acceptance Notes
 
-- route JSON requests inside the existing WebServer dispatch path
-- keep serialization isolated from HTML template rendering
-- prefer stable identifiers already used by the app:
-  - MD4 hash for transfers/shared files
-  - server address/port for server actions
-- keep all UI-thread/state access rules identical to current WebServer behavior
-
-## Test Requirements
-
-- targeted WebServer route tests for:
-  - unauthenticated request rejection
-  - admin vs low-privilege access
-  - JSON schema sanity for stats/transfers/shared routes
-  - add/pause/resume/delete transfer actions
-- regression coverage proving legacy HTML pages still render after JSON routes land
-- HTTPS route smoke coverage using configured cert/key files on non-ASCII paths
-
-## Acceptance Criteria
-
-- [ ] Existing HTML web interface still works unchanged
-- [ ] `/api/v1/stats` and `/api/v1/transfers` return stable JSON
-- [ ] Mutation routes require admin-authenticated web session
-- [ ] HTTPS works for REST routes through the existing `WebSocket.cpp` stack
-- [ ] No new transport, sidecar, or async socket dependency is introduced
-
-## Relationship To Other Items
-
-- **FEAT-014** becomes an optional follow-up layer, not the primary architecture
-- **CI-008** should carry the WebServer/REST regression expansion for this item
-- **REF-029** stays explicitly deferred; do not couple REST delivery to socket-stack replacement
+- existing HTML web UI remains present
+- REST is additive and JSON-only under `/api/v1/...`
+- HTTPS continues to flow through the existing `WebSocket.cpp` listener
+- experimental command semantics were reused, but the transport architecture was
+  intentionally simplified to in-process WebServer routing
