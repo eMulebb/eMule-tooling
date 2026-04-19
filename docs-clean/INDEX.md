@@ -49,6 +49,7 @@ reference reading.
 **Updated:** 2026-04-19 — added `CI-010` to track the remaining app-local warning debt after the external-header noise reduction pass. This keeps real source-fix buckets (`C5262`, `C4244`, targeted `C5219`) separate from the deferred `REF-021` Winsock cleanup and from framework-heavy `C4191` triage.
 **Updated:** 2026-04-19 — `BUG-031`, `CI-010`, and the remaining `FEAT-001` FastKad follow-through are now explicitly deferred by product decision; because the backlog schema has no `Deferred` state, they are tracked as `Blocked`.
 **Updated:** 2026-04-19 — `main` now includes the `BUG-003` cleanup in commit `a0a7d18`: the real remaining issue was narrowed to Kad metadata 64-bit formatting, that formatter is fixed, and the other historical `FIXME LARGE FILES` markers were removed as stale overstatements. `BUG-003` is marked Done.
+**Updated:** 2026-04-19 — current `main` now includes the MiniMule-specific `REF-025` cleanup slice in commit `867d303` (`REF-025: remove MiniMule feature`); the broader legacy-feature removal remains unfinished, so `REF-025` stays `In Progress`.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
