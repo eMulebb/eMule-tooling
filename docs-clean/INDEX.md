@@ -46,6 +46,7 @@ reference reading.
 **Updated:** 2026-04-19 — added `BUG-033` to persist the explicit `Wont-Fix` decision for the shutdown-only `TerminateThread` fallbacks in `WebSocket.cpp` and `UPnPImplMiniLib.cpp`.
 **Updated:** 2026-04-19 — added `BUG-034` to track the broader release-silent `catch (...)` plus `ASSERT(0)` pattern across `ArchiveRecovery`, `Collection`, `WebServer`, `ServerSocket`, and similar paths. This stays `Open`; future fixes should add explicit logging where practical rather than silently swallowing unexpected exceptions.
 **Updated:** 2026-04-19 — added `BUG-035` to track the broader non-exception control-flow debt where live runtime paths still rely on bare `ASSERT(0)` placeholders without proper recovery or logging. Representative current anchors include `TreePropSheet.cpp`, `TransferWnd.cpp`, and `SHAHashSet.cpp`.
+**Updated:** 2026-04-19 — added `CI-010` to track the remaining app-local warning debt after the external-header noise reduction pass. This keeps real source-fix buckets (`C5262`, `C4244`, targeted `C5219`) separate from the deferred `REF-021` Winsock cleanup and from framework-heavy `C4191` triage.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -207,6 +208,7 @@ regression checks. When behavior changes, compare `main` against
 | [CI-007](CI-007.md) | Minor | Open | Kad — Expand integration and fuzz test coverage |
 | [CI-008](CI-008.md) | Minor | In Progress | Expand regression coverage for part files, long paths, and WebServer/REST |
 | [CI-009](CI-009.md) | Minor | **Done** | Share-ignore regression coverage and Release test-build stabilization |
+| [CI-010](CI-010.md) | Minor | Open | Reduce remaining app-local warning debt after external noise cleanup |
 
 ---
 
@@ -223,9 +225,10 @@ regression checks. When behavior changes, compare `main` against
 5. **BUG-003 through BUG-006, BUG-023, BUG-028, BUG-031, BUG-034, BUG-035** — targeted correctness fixes
 6. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
 7. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
-8. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
-9. **FEAT-002** — SafeKad CGNAT fix
-10. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port
+8. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained
+9. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
+10. **FEAT-002** — SafeKad CGNAT fix
+11. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port
 
 ### Do Later — useful, but not part of the current stabilization milestone
 
@@ -410,6 +413,6 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 11 open bugs + 1 in-progress bug + 27 refactors/boost items + 15 features + 8 CI = **62 non-done issues**.*
+*Total non-done: 11 open bugs + 1 in-progress bug + 27 refactors/boost items + 15 features + 9 CI = **63 non-done issues**.*
 
-*Status refresh through 2026-04-19: FEAT-029 and FEAT-030 are now marked Done in `main`; REF-007, FEAT-020, FEAT-022, FEAT-026, and FEAT-027 are now marked Done in `main`; FEAT-028, BUG-029, BUG-030, and BUG-032 were added as landed `main` work; BUG-031 remains from the focused `eMuleAI` comparison; CI-008 now also records the long-config `-c` live UI stability regression coverage.*
+*Status refresh through 2026-04-19: FEAT-029 and FEAT-030 are now marked Done in `main`; REF-007, FEAT-020, FEAT-022, FEAT-026, and FEAT-027 are now marked Done in `main`; FEAT-028, BUG-029, BUG-030, and BUG-032 were added as landed `main` work; BUG-031 remains from the focused `eMuleAI` comparison; CI-008 now also records the long-config `-c` live UI stability regression coverage; CI-010 tracks the remaining app-local warning buckets after the external-header cleanup.*
