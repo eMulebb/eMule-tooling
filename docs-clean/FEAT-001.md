@@ -1,7 +1,7 @@
 ---
 id: FEAT-001
 title: Kad FastKad — add diversity-aware bootstrap ranking and aggressive stale decay
-status: In Progress
+status: Blocked
 priority: Minor
 category: feature
 labels: [kad, fastkad, routing, bootstrap]
@@ -86,8 +86,16 @@ Landed in `main` via commit `125720f` (`FEAT-001: port FastKad and nodes.dat sup
 - response/reachability/failure tracking is wired into the live Kad flow
 - conservative response-time estimation and health/recency ranking are live
 
-Remaining follow-through keeps this item `In Progress` rather than `Done`:
+Remaining follow-through keeps this item short of `Done`:
 
 - explicit diversity-aware subnet balancing inside the FastKad bootstrap ranking policy
 - stronger stale-decay follow-through beyond the current recency bucket aging
 - any future operation-type quality-band or adaptive-concurrency extensions
+
+## 2026-04-19 Decision
+
+The landed FastKad core port in `main` is kept, but the remaining diversity and
+stale-decay follow-through is explicitly deferred for now.
+
+Because the backlog status model has no dedicated `Deferred` state, the item is
+tracked as `Blocked` until that follow-up becomes active again.

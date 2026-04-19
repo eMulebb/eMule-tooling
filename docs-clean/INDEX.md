@@ -47,6 +47,7 @@ reference reading.
 **Updated:** 2026-04-19 — added `BUG-034` to track the broader release-silent `catch (...)` plus `ASSERT(0)` pattern across `ArchiveRecovery`, `Collection`, `WebServer`, `ServerSocket`, and similar paths. This stays `Open`; future fixes should add explicit logging where practical rather than silently swallowing unexpected exceptions.
 **Updated:** 2026-04-19 — added `BUG-035` to track the broader non-exception control-flow debt where live runtime paths still rely on bare `ASSERT(0)` placeholders without proper recovery or logging. Representative current anchors include `TreePropSheet.cpp`, `TransferWnd.cpp`, and `SHAHashSet.cpp`.
 **Updated:** 2026-04-19 — added `CI-010` to track the remaining app-local warning debt after the external-header noise reduction pass. This keeps real source-fix buckets (`C5262`, `C4244`, targeted `C5219`) separate from the deferred `REF-021` Winsock cleanup and from framework-heavy `C4191` triage.
+**Updated:** 2026-04-19 — `BUG-031`, `CI-010`, and the remaining `FEAT-001` FastKad follow-through are now explicitly deferred by product decision; because the backlog schema has no `Deferred` state, they are tracked as `Blocked`.
 **Priority scale:** Critical > Major > Minor > Trivial  
 **Status values:** Open / In Progress / Blocked / Done / Wont-Fix  
 **Important:** Items marked Done below are verified in `eMule-main`. Items marked In Progress may already be implemented on dedicated bug/feature branches but are not considered landed until merged to `main`. Experimental-only work (see individual docs) is NOT in main unless the item status below says otherwise.  
@@ -99,7 +100,7 @@ regression checks. When behavior changes, compare `main` against
 | [BUG-028](BUG-028.md) | Minor | In Progress | MP3 ID3 metadata extraction is ANSI-only; non-ACP filenames can silently lose tags |
 | [BUG-029](BUG-029.md) | Major | **Done** | Long-path tail hardening across config, media, shell, and GeoLocation surfaces |
 | [BUG-030](BUG-030.md) | Minor | **Done** | Obfuscated server logins can advertise redundant callback crypto flags and require extra attempts |
-| [BUG-031](BUG-031.md) | Minor | Open | Shared-file hashing fails too eagerly on transient sharing and lock violations |
+| [BUG-031](BUG-031.md) | Minor | Blocked | Shared-file hashing fails too eagerly on transient sharing and lock violations |
 | [BUG-032](BUG-032.md) | Minor | **Done** | AICH hashset save can fail spuriously after hashing because `known2.met` lock wait times out |
 | [BUG-033](BUG-033.md) | Minor | Wont-Fix | WebSocket and MiniUPnP shutdown still use forced thread termination |
 | [BUG-034](BUG-034.md) | Minor | Open | Release paths silently swallow unexpected exceptions via catch (...) plus ASSERT(0) |
@@ -162,7 +163,7 @@ regression checks. When behavior changes, compare `main` against
 
 | ID | Priority | Status | Title |
 |----|----------|--------|-------|
-| [FEAT-001](FEAT-001.md) | Minor | In Progress | Kad FastKad — diversity-aware bootstrap ranking + aggressive stale decay |
+| [FEAT-001](FEAT-001.md) | Minor | Blocked | Kad FastKad — diversity-aware bootstrap ranking + aggressive stale decay |
 | [FEAT-002](FEAT-002.md) | Major | Open | Kad SafeKad — layered trust model / CGNAT fix |
 | [FEAT-003](FEAT-003.md) | Minor | Open | Kad — Response usefulness scoring + subnet-diversity search fanout |
 | [FEAT-004](FEAT-004.md) | Minor | Open | Kad — Generalise KadPublishGuard abuse budget beyond PUBLISH_SOURCE |
@@ -208,7 +209,7 @@ regression checks. When behavior changes, compare `main` against
 | [CI-007](CI-007.md) | Minor | Open | Kad — Expand integration and fuzz test coverage |
 | [CI-008](CI-008.md) | Minor | In Progress | Expand regression coverage for part files, long paths, and WebServer/REST |
 | [CI-009](CI-009.md) | Minor | **Done** | Share-ignore regression coverage and Release test-build stabilization |
-| [CI-010](CI-010.md) | Minor | Open | Reduce remaining app-local warning debt after external noise cleanup |
+| [CI-010](CI-010.md) | Minor | Blocked | Reduce remaining app-local warning debt after external noise cleanup |
 
 ---
 
@@ -216,19 +217,19 @@ regression checks. When behavior changes, compare `main` against
 
 ### Do First — stabilization / hardening with minimal drift
 
-1. **BUG-031** — bounded retry for transient shared-file hashing open failures
-2. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
-3. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
+1. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
+2. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
+3. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
 
 ### Do Second — narrow stability items still close to current behavior
 
-5. **BUG-003 through BUG-006, BUG-023, BUG-028, BUG-031, BUG-034, BUG-035** — targeted correctness fixes
+5. **BUG-003 through BUG-006, BUG-023, BUG-028, BUG-034, BUG-035** — targeted correctness fixes
 6. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
 7. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
-8. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained
+8. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
 9. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
 10. **FEAT-002** — SafeKad CGNAT fix
-11. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port
+11. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
 
 ### Do Later — useful, but not part of the current stabilization milestone
 
@@ -415,4 +416,4 @@ historical reference only.*
 
 *Total non-done: 11 open bugs + 1 in-progress bug + 27 refactors/boost items + 15 features + 9 CI = **63 non-done issues**.*
 
-*Status refresh through 2026-04-19: FEAT-029 and FEAT-030 are now marked Done in `main`; REF-007, FEAT-020, FEAT-022, FEAT-026, and FEAT-027 are now marked Done in `main`; FEAT-028, BUG-029, BUG-030, and BUG-032 were added as landed `main` work; BUG-031 remains from the focused `eMuleAI` comparison; CI-008 now also records the long-config `-c` live UI stability regression coverage; CI-010 tracks the remaining app-local warning buckets after the external-header cleanup.*
+*Status refresh through 2026-04-19: FEAT-029 and FEAT-030 are now marked Done in `main`; REF-007, FEAT-020, FEAT-022, FEAT-026, and FEAT-027 are now marked Done in `main`; FEAT-028, BUG-029, BUG-030, and BUG-032 were added as landed `main` work; BUG-031, CI-010, and the remaining FEAT-001 follow-through are now explicitly deferred and tracked as `Blocked`; CI-008 now also records the long-config `-c` live UI stability regression coverage.*
