@@ -51,6 +51,7 @@ reference reading.
 **Updated:** 2026-04-19 — `main` now includes the `BUG-003` cleanup in commit `a0a7d18`: the real remaining issue was narrowed to Kad metadata 64-bit formatting, that formatter is fixed, and the other historical `FIXME LARGE FILES` markers were removed as stale overstatements. `BUG-003` is marked Done.
 **Updated:** 2026-04-19 — current `main` now includes the MiniMule-specific `REF-025` cleanup slice in commit `867d303` (`REF-025: remove MiniMule feature`); the broader legacy-feature removal remains unfinished, so `REF-025` stays `In Progress`.
 **Updated:** 2026-04-19 — post-MiniMule revalidation added `REF-033` to track the smaller remaining IE-era baggage still present in current `main`: MSHTML-based `DropTarget` HTML parsing, HTML Help, stale IE-specific web-template branches, and leftover browser-hosting markers.
+**Updated:** 2026-04-19 — added `REF-034` to track the real Crypto++ refresh candidate surfaced by the dependency advisory report: move from the current 8.4-based fork to a reviewed 8.9-based fork while preserving the narrow local `cryptlib.vcxproj` carry set for MSVC warnings and ARM64 support.
 **Updated:** 2026-04-19 — current `main` now includes `FEAT-013` in commits `94e0884` and `8d0832a`: the REST surface is delivered in-process through `WebServer.cpp` / `WebSocket.cpp` with a dedicated `WebServerJson.cpp` route layer, hashed `X-API-Key` auth, the experimental JSON contract reused without the named-pipe/sidecar runtime stack, and the experimental upload-tuning fields mapped onto the current broadband upload-budget controller. `FEAT-013` is marked Done.
 **Updated:** 2026-04-19 — `CI-008` now includes the first concrete REST regression slice on current `main`: native `web_api.tests.cpp` coverage for the landed `/api/v1` route/contract helpers plus the live `run-rest-api-smoke.ps1` harness for `X-API-Key` auth, representative read routes, live server/Kad/search scenarios, and HTML-vs-REST separation. The live harness now records an explicit degraded-network search skip when a session makes real connect/bootstrap attempts but never reaches a searchable network state.
 **Priority scale:** Critical > Major > Minor > Trivial  
@@ -143,6 +144,7 @@ regression checks. When behavior changes, compare `main` against
 | [REF-031](REF-031.md) | Minor | **Done** | Review upload queue scoring against community and stale baselines |
 | [REF-032](REF-032.md) | Minor | Open | Use MFC-native property sheets and dynamic layout instead of CTreePropSheet / ResizableLib |
 | [REF-033](REF-033.md) | Trivial | Open | Remove remaining IE/MSHTML drag-drop, HTML Help, and legacy IE web-client baggage |
+| [REF-034](REF-034.md) | Minor | Open | Upgrade Crypto++ from 8.4 to 8.9 and refresh the local MSVC/ARM64 project fork |
 
 ---
 
