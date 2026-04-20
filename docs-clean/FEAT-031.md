@@ -1,0 +1,62 @@
+---
+id: FEAT-031
+title: Auto-browse compatible remote shared-file inventories with persisted cache
+status: Open
+priority: Minor
+category: feature
+labels: [browse, clients, cache, ui, automation, networking]
+milestone: ~
+created: 2026-04-20
+source: current `main` auto-browse implementation branch and live-network validation work
+---
+
+## Summary
+
+Add an Advanced opt-in feature that automatically browses compatible remote
+clients' shared-file inventories using the existing browse/share protocol,
+persists the results in a dedicated cache, and exposes cached inventories
+through a new `Cached Clients` UI tab.
+
+## Intended Mainline Shape
+
+- new Tweaks preference:
+  - `AutoBrowseRemoteShares`
+- background scheduler:
+  - periodic sweep of known clients
+  - bounded concurrency
+  - cooldown-based retry policy
+- persisted browse cache:
+  - per-client cache files
+  - lightweight metadata for UI listing
+- UI:
+  - new `Cached Clients` tab
+  - cached-only inspection path
+  - manual live refresh path
+- live validation lane:
+  - isolated real-network auto-browse harness in `eMule-build-tests`
+
+## Constraints
+
+- reuse the existing remote shared-files browse protocol
+- do not introduce automatic download or queue side effects
+- keep manual browse working independently of auto-browse cooldowns
+- keep this feature opt-in and default-off
+
+## Acceptance Criteria
+
+- [ ] compatible remote clients can be auto-browsed in the background
+- [ ] successful browse results persist to dedicated cache files
+- [ ] cached inventories can be inspected through the new UI tab
+- [ ] manual browse can supersede and refresh cached data
+- [ ] isolated live-network automation can validate at least one real auto-browse success
+
+## Notes
+
+- This item is intentionally parked on a dedicated feature branch and is not
+  merged into `main`.
+- Current supporting live scenario defaults include:
+  - P2P bind through the `hide.me` interface via the tooling helper
+  - P2P `UPnP=1`
+  - autoconnect through preferences only
+  - fallback transfer bootstrap hash `28EAB1A0AB1B9416AAF534E27A234941`
+  - rejection of `.exe` download candidates during fallback bootstrap
