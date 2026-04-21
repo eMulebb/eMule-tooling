@@ -1,7 +1,7 @@
 ---
 id: FEAT-034
 title: Shared-files reload should stop blocking the UI on large trees
-status: Open
+status: In Progress
 priority: Minor
 category: feature
 labels: [performance, shared-files, reload, threading, ui]
@@ -22,13 +22,24 @@ Shared Files list improvements already landed under `FEAT-026`, `FEAT-027`, and
 
 ## Current Mainline Evidence
 
-`srchybrid/SharedFileList.cpp` still has this narrow shape today:
+Before the first FEAT-034 slice, `srchybrid/SharedFileList.cpp` had this narrow shape:
 
 - clear keywords, queues, and transient lookup state
 - call `FindSharedFiles(false)` directly from `Reload()`
 - reload the output control only after the synchronous scan returns
 
 So the expensive directory walk still happens on the immediate reload path.
+
+## Landed Scope
+
+The first implementation slice landed on `main` on 2026-04-21:
+
+- `f5da4c5` — app-lifetime shared-file hash worker replaces per-file shared hash threads
+- `7f5b207` — full shared reloads are deferred/coalesced while shared hashing is active, Shared Files UI refresh is throttled during active hashing, and startup profiling now separates `ui.shared_files_ready` from `ui.shared_files_hashing_done`
+- `0aaadbe` — shared reload deferral policy is exposed through seams for native tests
+- `f138856` in `repos\eMule-build-tests` — native seam coverage and live-profile summary parsing were updated for the new readiness/hash-drain split
+
+This reduces the startup and reload churn caused by hash-thread creation and repeated list rebuilds. It does **not** yet move the directory enumeration pass itself fully off the UI thread, so this item remains `In Progress` rather than `Done`.
 
 ## Comparison Notes
 
@@ -62,7 +73,7 @@ broader `eMuleAI` shared-files feature import.
 ## Acceptance Criteria
 
 - [ ] manual shared-files reload returns control quickly on large trees
-- [ ] repeated reload requests coalesce instead of starting overlapping scans
+- [x] repeated reload requests coalesce instead of starting overlapping scans while hashing is active
 - [ ] final shared-file results converge to the same set as the synchronous path
-- [ ] uploads, share state, and GUI counters remain stable while scans finish in the background
-- [ ] no always-on watcher or wider product drift is introduced
+- [x] uploads, share state, and GUI counters remain stable while shared hashes drain in the background
+- [x] no always-on watcher or wider product drift is introduced

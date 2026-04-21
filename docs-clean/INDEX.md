@@ -186,7 +186,7 @@ release branch where that comparison is meaningful.
 | [FEAT-031](FEAT-031.md) | Minor | Open | Auto-browse compatible remote shared-file inventories with persisted cache |
 | [FEAT-032](FEAT-032.md) | Minor | In Progress | NAT mapping modernization — keep MiniUPnP, drop WinServ, add PCP/NAT-PMP |
 | [FEAT-033](FEAT-033.md) | Minor | **Done** | Disk-space floor hardening and legacy import-flow retirement |
-| [FEAT-034](FEAT-034.md) | Minor | Open | Shared-files reload should stop blocking the UI on large trees |
+| [FEAT-034](FEAT-034.md) | Minor | In Progress | Shared-files reload should stop blocking the UI on large trees |
 | [FEAT-035](FEAT-035.md) | Major | Open | IPv6 dual-stack networking for peers, friends, Kad, and server surfaces |
 | [FEAT-036](FEAT-036.md) | Major | Open | NAT traversal and extended source exchange for LowID-to-LowID connectivity |
 | [FEAT-037](FEAT-037.md) | Minor | Open | Release-oriented sharing controls — PowerShare, Release Bonus, and Share Only The Need |
