@@ -93,7 +93,7 @@ release branch where that comparison is meaningful.
 | [BUG-034](BUG-034.md) | Minor | In Progress | Release paths silently swallow unexpected exceptions via catch (...) plus ASSERT(0) |
 | [BUG-035](BUG-035.md) | Minor | In Progress | Historical control-flow still uses bare ASSERT(0) without recovery or logging |
 | [BUG-036](BUG-036.md) | Major | **Done** | `known.met` and `cancelled.met` still save in place and can truncate on failure |
-| [BUG-037](BUG-037.md) | Major | In Progress | Same-hash KnownFile replacement can unshare or mis-track equivalent files |
+| [BUG-037](BUG-037.md) | Major | **Done** | Same-hash KnownFile replacement can unshare or mis-track equivalent files |
 | [BUG-038](BUG-038.md) | Minor | **Done** | Shared Files sort can retain stale rows after backing data changes |
 | [BUG-039](BUG-039.md) | Minor | **Done** | Client list lacked a reusable safe pointer membership check |
 | [BUG-040](BUG-040.md) | Major | **Done** | Downloading Clients list could dereference stale client rows |
@@ -250,11 +250,10 @@ release branch where that comparison is meaningful.
 
 ### Do First — stabilization / hardening with minimal drift
 
-1. **BUG-037** — finish the non-destructive KnownFile collision path; the duplicate shared-path sidecar is landed, but `CKnownFileList::SafeAddKFile()` still replaces by MD4
-2. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
-3. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
-4. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
-5. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
+1. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
+2. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
+3. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
+4. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
 
 ### Do Second — narrow stability items still close to current behavior
 
@@ -466,9 +465,9 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 11 bugs + 21 refactors/boost items + 26 features + 9 CI = **67 non-done issues**.*
+*Total non-done: 10 bugs + 21 refactors/boost items + 26 features + 9 CI = **66 non-done issues**.*
 
-*Status refresh through 2026-04-25: current `main` is reconciled through `b5d253b`; `BUG-036` is Done; `BUG-037`, `BUG-034`, `BUG-035`, and `FEAT-034` remain In Progress; `BUG-038` through `BUG-067` are now documented as landed; `FEAT-041` and `FEAT-042` capture new eMuleAI v1.4 feature backlog candidates.*
+*Status refresh through 2026-04-25: current `main` is reconciled through `05eabec`; `BUG-036` and `BUG-037` are Done; `BUG-034`, `BUG-035`, and `FEAT-034` remain In Progress; `BUG-038` through `BUG-067` are documented as landed; `FEAT-041` and `FEAT-042` capture eMuleAI v1.4 feature backlog candidates.*
 
 ## History
 
