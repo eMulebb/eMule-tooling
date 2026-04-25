@@ -7,7 +7,7 @@ category: feature
 labels: [sharing, release, powershare, upload, queue, rarity, mods]
 milestone: ~
 created: 2026-04-20
-source: MorphXT FAQ; Mephisto FAQ; historical eMule feature catalogs
+source: MorphXT FAQ; Mephisto FAQ; historical eMule feature catalogs; eMuleAI v1.4 notes
 ---
 
 ## Summary
@@ -19,6 +19,7 @@ This feature groups several historically popular mod behaviors under one control
 - `PowerShare`
 - release bonus / release-priority queue behavior
 - `Share Only The Need` or similar rarity-aware distribution controls
+- eMuleAI v1.4 style `Hide Overshares` and default share-permission controls
 
 ## Why Add It
 
@@ -36,6 +37,7 @@ tweak.
   queue dynamics
 - optional release bonus or focused upload treatment for selected files
 - rarity-aware controls that prefer scarce parts/files over overserved ones
+- optional overshare hiding and default share-permission policy
 - guardrails so these policies cannot silently starve the rest of the upload ecosystem
 
 ## Scope Constraints

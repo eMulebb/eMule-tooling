@@ -83,7 +83,7 @@ active feature status.
 - `docs/` owns deep background, analysis, and historical design context.
 - `docs-clean/` owns active backlog status, dated revalidation notes, and
   landed/open item tracking.
-- The latest backlog refresh is [../docs-clean/REVIEW-2026-04-20-emuleai-mods-main-backlog-pass.md](../docs-clean/REVIEW-2026-04-20-emuleai-mods-main-backlog-pass.md), which rechecks current local `main` against `analysis\emuleai`, focused `mods-archive` references, the retired stale branch, and recent web-demand signals.
+- The latest backlog refresh is [../docs-clean/REVIEW-2026-04-25-current-main-backlog-refresh.md](../docs-clean/REVIEW-2026-04-25-current-main-backlog-refresh.md), which rechecks current `main`, current tests coverage, and current `analysis\emuleai` v1.4 deltas against the active backlog.
 - The latest feature-expansion pass is [../docs-clean/REVIEW-2026-04-20-feature-expansion-beyond-stock.md](../docs-clean/REVIEW-2026-04-20-feature-expansion-beyond-stock.md), which records the user-directed shift toward higher-drift product features and the new FEAT backlog candidates.
 - Preserve commit ids and historical branch names in reference docs where they
   add provenance, but do not treat them as current-branch guidance unless

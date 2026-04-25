@@ -13,11 +13,12 @@ reference reading.
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `66`  
-**Latest status refresh:** 2026-04-20
+**Current non-done count:** `67`
+**Latest status refresh:** 2026-04-25
 
 Latest review trail:
 
+- [REVIEW-2026-04-25-current-main-backlog-refresh](REVIEW-2026-04-25-current-main-backlog-refresh.md)
 - [REVIEW-2026-04-20-emuleai-mods-main-backlog-pass](REVIEW-2026-04-20-emuleai-mods-main-backlog-pass.md)
 - [REVIEW-2026-04-20-feature-expansion-beyond-stock](REVIEW-2026-04-20-feature-expansion-beyond-stock.md)
 - [REVIEW-2026-04-18-emuleai-vs-main-hardening-pass](REVIEW-2026-04-18-emuleai-vs-main-hardening-pass.md)
@@ -89,10 +90,40 @@ release branch where that comparison is meaningful.
 | [BUG-031](BUG-031.md) | Minor | Blocked | Shared-file hashing fails too eagerly on transient sharing and lock violations |
 | [BUG-032](BUG-032.md) | Minor | **Done** | AICH hashset save can fail spuriously after hashing because `known2.met` lock wait times out |
 | [BUG-033](BUG-033.md) | Minor | Wont-Fix | WebSocket and MiniUPnP shutdown still use forced thread termination |
-| [BUG-034](BUG-034.md) | Minor | Open | Release paths silently swallow unexpected exceptions via catch (...) plus ASSERT(0) |
-| [BUG-035](BUG-035.md) | Minor | Open | Historical control-flow still uses bare ASSERT(0) without recovery or logging |
-| [BUG-036](BUG-036.md) | Major | Open | `known.met` and `cancelled.met` still save in place and can truncate on failure |
-| [BUG-037](BUG-037.md) | Major | Open | Same-hash KnownFile replacement can unshare or mis-track equivalent files |
+| [BUG-034](BUG-034.md) | Minor | In Progress | Release paths silently swallow unexpected exceptions via catch (...) plus ASSERT(0) |
+| [BUG-035](BUG-035.md) | Minor | In Progress | Historical control-flow still uses bare ASSERT(0) without recovery or logging |
+| [BUG-036](BUG-036.md) | Major | **Done** | `known.met` and `cancelled.met` still save in place and can truncate on failure |
+| [BUG-037](BUG-037.md) | Major | In Progress | Same-hash KnownFile replacement can unshare or mis-track equivalent files |
+| [BUG-038](BUG-038.md) | Minor | **Done** | Shared Files sort can retain stale rows after backing data changes |
+| [BUG-039](BUG-039.md) | Minor | **Done** | Client list lacked a reusable safe pointer membership check |
+| [BUG-040](BUG-040.md) | Major | **Done** | Downloading Clients list could dereference stale client rows |
+| [BUG-041](BUG-041.md) | Major | **Done** | Known Clients list could dereference stale client rows |
+| [BUG-042](BUG-042.md) | Major | **Done** | Upload list could dereference stale upload rows |
+| [BUG-043](BUG-043.md) | Major | **Done** | Queue list could dereference stale queue rows |
+| [BUG-044](BUG-044.md) | Major | **Done** | Download source rows could outlive their backing source objects |
+| [BUG-045](BUG-045.md) | Minor | **Done** | Server list could dereference stale server rows |
+| [BUG-046](BUG-046.md) | Major | **Done** | Kad contact list could dereference stale contact rows |
+| [BUG-047](BUG-047.md) | Major | **Done** | Kad search list could dereference stale search rows |
+| [BUG-048](BUG-048.md) | Minor | **Done** | IRC nick rows were not cleared before nick objects were deleted |
+| [BUG-049](BUG-049.md) | Minor | **Done** | IRC channel tabs were not detached before channel objects were deleted |
+| [BUG-050](BUG-050.md) | Minor | **Done** | Chat tabs were not detached before chat items were deleted |
+| [BUG-051](BUG-051.md) | Minor | **Done** | IRC channel rows were not cleared before channel entries were deleted |
+| [BUG-052](BUG-052.md) | Minor | **Done** | Kad search constructor accidentally added placeholder rows |
+| [BUG-053](BUG-053.md) | Major | **Done** | part.met backup could be refreshed from the newly written metadata |
+| [BUG-054](BUG-054.md) | Major | **Done** | ESC in shared-file delete confirmation could still delete files |
+| [BUG-055](BUG-055.md) | Major | **Done** | AICH recovery accepted invalid part bounds |
+| [BUG-056](BUG-056.md) | Major | **Done** | Download Clients list could dereference stale rows during display callbacks |
+| [BUG-057](BUG-057.md) | Minor | **Done** | Close All Search Results could leave Kad keyword searches running |
+| [BUG-058](BUG-058.md) | Minor | **Done** | Tree option value labels could contain the parser separator |
+| [BUG-059](BUG-059.md) | Trivial | **Done** | Download Remaining column alignment was inconsistent |
+| [BUG-060](BUG-060.md) | Major | **Done** | REST API should stay available when web templates are absent |
+| [BUG-061](BUG-061.md) | Major | **Done** | Legacy web interface template was missing from the shipped tree |
+| [BUG-062](BUG-062.md) | Minor | **Done** | Obfuscated server timeout did not retry plain connection promptly |
+| [BUG-063](BUG-063.md) | Major | **Done** | ESC in shared-directory delete confirmation could still delete directories |
+| [BUG-064](BUG-064.md) | Minor | **Done** | Client list secondary display path needed stale-row guarding |
+| [BUG-065](BUG-065.md) | Minor | **Done** | Queue list secondary display path needed stale-row guarding |
+| [BUG-066](BUG-066.md) | Minor | **Done** | Upload list secondary display path needed stale-row guarding |
+| [BUG-067](BUG-067.md) | Minor | **Done** | REST log route lacked the expected get alias seam |
 
 ---
 
@@ -193,6 +224,8 @@ release branch where that comparison is meaningful.
 | [FEAT-038](FEAT-038.md) | Minor | Open | Shared-files watcher and live recursive share sync |
 | [FEAT-039](FEAT-039.md) | Minor | Open | Download checker — duplicate and near-duplicate intake guard |
 | [FEAT-040](FEAT-040.md) | Major | Open | Headless core with modern web/mobile controller and multi-user permissions |
+| [FEAT-041](FEAT-041.md) | Minor | Open | Download Inspector automation for stale downloads and majority-name rename |
+| [FEAT-042](FEAT-042.md) | Minor | Open | Automatic IP filter update scheduling |
 
 ---
 
@@ -217,10 +250,10 @@ release branch where that comparison is meaningful.
 
 ### Do First — stabilization / hardening with minimal drift
 
-1. **BUG-036** — move `known.met` / `cancelled.met` saves to atomic replacement instead of in-place truncation
-2. **BUG-037** — fix destructive hash-only KnownFile replacement before it unshares or mis-tracks duplicates
-3. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
-4. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
+1. **BUG-037** — finish the non-destructive KnownFile collision path; the duplicate shared-path sidecar is landed, but `CKnownFileList::SafeAddKFile()` still replaces by MD4
+2. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
+3. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
+4. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
 5. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
 
 ### Do Second — narrow stability items still close to current behavior
@@ -248,7 +281,7 @@ release branch where that comparison is meaningful.
 
 ### Expansion Track — explicitly beyond stock
 
-- **FEAT-031, FEAT-035 through FEAT-040** — user-directed feature-expansion backlog; evaluate independently from the stabilization/hardening line
+- **FEAT-031, FEAT-035 through FEAT-042** — user-directed feature-expansion backlog; evaluate independently from the stabilization/hardening line
 
 ---
 
@@ -425,6 +458,7 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 | `eMuleAI` hardening revalidation (2026-04-18) | Current `main` already contains REF-007, FEAT-020/022/026/027/028, BUG-029, BUG-030, and now BUG-032; remaining stock-friendly candidate is the narrow hashing-open retry bug | BUG-031 |
 | `eMuleAI` + mods + web revalidation (2026-04-20) | Local `main` catch-up through `FEAT-033`, focused KnownFile persistence/dedup review, and filtered current community-demand scan | FEAT-033, REF-032, BUG-036, BUG-037, FEAT-034 |
 | Feature expansion pass beyond stock (2026-04-20) | User-directed backlog expansion using current eMuleAI feature notes, historical mod catalogs, and fresh web-demand signals | FEAT-031, FEAT-035, FEAT-036, FEAT-037, FEAT-038, FEAT-039, FEAT-040 |
+| Current main, eMuleAI v1.4, and backlog refresh (2026-04-25) | Current `main` catch-up through `b5d253b`, landed BUG-038 through BUG-067 docs, FEAT-034/TEST-034 refresh, eMuleAI v1.4 feature backlog additions, and source-scan pending-item summary | BUG-034 through BUG-067, FEAT-034, FEAT-037, FEAT-041, FEAT-042, CI-008 |
 | `stale-v0.72a-experimental-clean` diff (2026-04-09) | 378 commits; 16 backlog items with reference impls | See Experimental Branch Reference table above |
 
 ---
@@ -432,9 +466,9 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 12 bugs + 21 refactors/boost items + 24 features + 9 CI = **66 non-done issues**.*
+*Total non-done: 11 bugs + 21 refactors/boost items + 26 features + 9 CI = **67 non-done issues**.*
 
-*Status refresh through 2026-04-20: `FEAT-033` is now marked Done in local `main`; `REF-032` is corrected to `In Progress` rather than `Open`; `BUG-036`, `BUG-037`, and `FEAT-034` were added from the fresh eMuleAI/mods/main revalidation; `FEAT-031` is restored to the active index after drift; `FEAT-035` through `FEAT-040` are now tracked as explicit expansion features beyond the previous stock-preserving backlog line; `FEAT-032` still tracks the local MiniUPnP plus PCP/NAT-PMP runtime modernization pass pending live validation.*
+*Status refresh through 2026-04-25: current `main` is reconciled through `b5d253b`; `BUG-036` is Done; `BUG-037`, `BUG-034`, `BUG-035`, and `FEAT-034` remain In Progress; `BUG-038` through `BUG-067` are now documented as landed; `FEAT-041` and `FEAT-042` capture new eMuleAI v1.4 feature backlog candidates.*
 
 ## History
 
@@ -658,3 +692,10 @@ stock-preserving line. Restored missing `FEAT-031` to the active index and added
 higher-drift expansion items `FEAT-035` through `FEAT-040` from current eMuleAI release
 notes, historical mod feature catalogs, and fresh web-demand signals. Recorded in
 [REVIEW-2026-04-20-feature-expansion-beyond-stock](REVIEW-2026-04-20-feature-expansion-beyond-stock.md).
+
+**Revalidated:** 2026-04-25 — current `main` catch-up through `b5d253b` and current
+tests repo catch-up through `cac7b93`. Added landed `BUG-038` through `BUG-067`, moved
+`BUG-036` to Done, moved `BUG-034` / `BUG-035` / `BUG-037` to In Progress, refreshed
+`FEAT-034` and `CI-008`, and incorporated eMuleAI v1.4 feature backlog candidates as
+`FEAT-041` and `FEAT-042`. Recorded in
+[REVIEW-2026-04-25-current-main-backlog-refresh](REVIEW-2026-04-25-current-main-backlog-refresh.md).

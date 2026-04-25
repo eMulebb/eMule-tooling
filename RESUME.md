@@ -2,17 +2,21 @@
 
 ## Last Chunk
 
-- reorganized repo documentation entrypoints around a two-tier model:
-  `docs/` for reference material and `docs-clean/` for the active backlog
-- replaced `docs/INDEX.md` with a reference-only index
-- added `docs/HISTORICAL-REFERENCES.md` to standardize stale experimental branch usage
-- revalidated backlog status drift against the live app tree and promoted
-  `FEAT-001` from `Open` to `In Progress` after the landed FastKad core port
+- reconciled `docs-clean` against current app `main` through `b5d253b`
+- documented landed `BUG-038` through `BUG-067`
+- moved `BUG-036` to `Done` and corrected `BUG-034`, `BUG-035`, and `BUG-037`
+  to `In Progress`
+- refreshed `FEAT-034` and `CI-008` with the latest shared-hash and live E2E
+  coverage
+- incorporated eMuleAI v1.4 feature candidates as `FEAT-041` and `FEAT-042`
+- refreshed root `REZUME.md` and `REZUME-AI.md`
 
 ## Next Chunk
 
-- continue checking backlog items against the live `eMule-main` worktree for
-  additional landed vs partial status drift
-- fold any confirmed status changes back into both `docs-clean/INDEX.md` and the
-  individual item files
-- normalize edited markdown files and re-run consistency checks
+- finish `BUG-037` by removing or narrowing the remaining destructive
+  `CKnownFileList::SafeAddKFile()` same-MD4 replacement behavior
+- continue targeted `BUG-034` / `BUG-035` runtime logging and recovery slices
+- decide whether `FEAT-034` should next add diagnostics around blocking
+  filesystem I/O during shared hashing or stay deferred behind bug fixes
+- keep eMuleAI v1.4 feature candidates (`FEAT-041`, `FEAT-042`) as backlog only
+  until explicit product scope is approved

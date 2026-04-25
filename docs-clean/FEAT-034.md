@@ -47,7 +47,28 @@ The follow-up hardening slice landed after review:
 - `67d85de` and `306bb63` in `repos\eMule-build-tests` — native seam coverage for the deferred-list reload gate and worker backpressure
 - `f711688` in `repos\eMule-build-tests` — live startup-profile coverage now fails if the Shared Files list rebuilds repeatedly during hash drain
 
+The shutdown and startup-cache completion hardening slices landed on 2026-04-23
+and 2026-04-24:
+
+- `2c44341` bounds shared hash worker shutdown waits
+- `02096ab` purges startup cache after interrupted hashing
+- `0e7e16d` bounds startup-cache save shutdown waits
+- `5e3e924`, `5223585`, `f829eb3`, and `fd3a861` retain and retry shared hash
+  completions in a bounded backlog and centralize startup-cache save completion
+  policy
+- `58d3cfe` skips shutdown startup-cache saves after interrupted hashing
+- `TEST-034` commits through `cac7b93` add native seam coverage plus live
+  Shared Files UI stress lanes for interruption, warm relaunch, repeated
+  cycles, many-file cases, and shutdown startup-cache skip behavior
+
 The targeted long-path recursive live scenario now shows one final coalesced list rebuild during shared hash drain instead of repeated periodic reloads. This reduces the startup and reload churn caused by hash-thread creation and repeated list rebuilds. It does **not** yet move the directory enumeration pass itself fully off the UI thread, so this item remains `In Progress` rather than `Done`.
+
+## Remaining Work
+
+The still-open part is narrower now: blocking filesystem reads during shared
+hashing can still fall into the existing timeout/leak-and-exit shutdown path if
+a read wedges hard enough. Add diagnostics or cancellation hardening there
+before treating FEAT-034 as complete.
 
 ## Comparison Notes
 
