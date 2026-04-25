@@ -52,6 +52,7 @@ SIMPLE_SUFFIXES = {
     ".yml",
     ".yaml",
     ".json",
+    ".manifest",
 }
 COMPOUND_SUFFIXES = (".vcxproj.filters",)
 SPECIAL_FILENAMES = {
