@@ -217,29 +217,64 @@ The last two groups are documented because they still live in the same file, but
 
 ## Hidden Runtime Preferences
 
-These settings are active and meaningful. They are now exposed in the Advanced tree on the Tweaks page, but they are still not exposed on the normal dedicated preference pages.
+These settings are active and meaningful. Most operator-safe knobs are now exposed in the Tweaks advanced tree or on the WebServer page. Riskier compatibility/debug internals remain documented-only but are now written back when preferences are saved, so user edits are not silently discarded.
 
 | INI key | Section | Mode | UI | Default | Explanation |
 | --- | --- | --- | --- | --- | --- |
-| `RestoreLastMainWndDlg` | `eMule` | `RW` | Advanced tree | `false` | Restore the last active main tab on startup. Used in `EmuleDlg.cpp`. |
-| `RestoreLastLogPane` | `eMule` | `RW` | Advanced tree | `false` | Restore the selected log pane. Used in `ServerWnd.cpp`. |
-| `FileBufferTimeLimit` | `eMule` | `RW` | Advanced tree | `120` seconds | Maximum age of buffered part-file data before forced flush. Used in `PartFile.cpp`. |
-| `DateTimeFormat4Lists` | `eMule` | `RW` | Advanced tree | `%c` | Separate date/time format string for list controls. Used in `DownloadListCtrl.cpp`. |
-| `PreviewCopiedArchives` | `eMule` | `RW` | Advanced tree | `true` | Allow preview/archive-recovery logic on copied archives. Used in archive preview and part-file logic. |
-| `InspectAllFileTypes` | `eMule` | `RW` | Advanced tree | `0` | Force metadata inspection on all file types, not just the obvious media types. |
-| `PreviewOnIconDblClk` | `eMule` | `RW` | Advanced tree | `false` | Use icon double-click as preview action in the download list. |
+| `CreateCrashDump` | `eMule` | `RW` | Advanced tree | `0` | Crash dump mode: disabled, ask, or create automatically. |
+| `MaxLogFileSize` | `eMule` | `RW` | Advanced tree | `1048576` bytes | Maximum on-disk log file size. Tweaks edits it in KiB; `0` means no rotation limit. Direct INI values are bounded on load. |
+| `MaxLogBuff` | `eMule` | `RW` | Advanced tree | `64` KiB | Maximum in-memory log view buffer. Direct INI values are bounded on load. |
+| `LogFileFormat` | `eMule` | `RW` | Advanced tree | `Unicode` | On-disk log encoding: UTF-16 Unicode or UTF-8. |
+| `FullVerbose` | `eMule` | `RW` | Advanced tree | `false` | Full verbose trace when verbose logging is enabled. |
+| `HighresTimer` | `eMule` | `RW` | Advanced tree | `false` | Requests a high-resolution Windows timer while eMule is running. |
+| `ICH` | `eMule` | `RW` | Advanced tree | `true` | Enables Intelligent Corruption Handling. |
+| `DontCompressAvi` | `eMule` | `RW` | Advanced tree | `false` | Skips compression for AVI upload payloads. |
+| `PreviewSmallBlocks` | `eMule` | `RW` | Advanced tree | `0` | Allows or forces preview availability before normal block-completeness checks are fully satisfied. |
+| `BeepOnError` | `eMule` | `RW` | Advanced tree | `false` | Plays an audible alert on important errors. |
+| `ShowCopyEd2kLinkCmd` | `eMule` | `RW` | Advanced tree | `false` | Shows a direct copy-ed2k-link context command. |
+| `IconflashOnNewMessage` | `eMule` | `RW` | Advanced tree | `false` | Flashes the tray icon on new chat messages. |
+| `DateTimeFormat` | `eMule` | `RW` | Advanced tree | `%A, %c` | General date/time display format. |
+| `DateTimeFormat4Log` | `eMule` | `RW` | Advanced tree | `%c` | Log-line date/time display format. |
+| `DateTimeFormat4Lists` | `eMule` | `RW` | Advanced tree | `%c` | Separate date/time format string for list controls. |
+| `TxtEditor` | `eMule` | `RW` | Advanced tree | `notepad.exe` | Command used to open text output. |
+| `MaxChatHistoryLines` | `eMule` | `RW` | Advanced tree | `100` | Maximum retained chat/IRC history lines per view. Direct INI values are bounded on load. |
+| `MaxMessageSessions` | `eMule` | `RW` | Advanced tree | `50` | Maximum retained peer message sessions. Direct INI values are bounded on load. |
+| `RestoreLastMainWndDlg` | `eMule` | `RW` | Advanced tree | `false` | Restore the last active main tab on startup. |
+| `RestoreLastLogPane` | `eMule` | `RW` | Advanced tree | `false` | Restore the selected log pane. |
+| `FileBufferTimeLimit` | `eMule` | `RW` | Advanced tree | `120` seconds | Maximum age of buffered part-file data before forced flush. |
+| `PreviewCopiedArchives` | `eMule` | `RW` | Advanced tree | `true` | Allow preview/archive-recovery logic on copied archives. |
+| `InspectAllFileTypes` | `eMule` | `RW` | Advanced tree | `false` | Force metadata inspection on all file types, not just obvious media types. |
+| `PreviewOnIconDblClk` | `eMule` | `RW` | Advanced tree | `false` | Use icon double-click as a preview action in the download list. |
 | `ShowActiveDownloadsBold` | `eMule` | `RW` | Advanced tree | `false` | Render active downloads in bold. |
 | `UseSystemFontForMainControls` | `eMule` | `RW` | Advanced tree | `false` | Use system fonts for major controls and list views. |
 | `ReBarToolbar` | `eMule` | `RW` | Advanced tree | `true` | Enable rebar-based toolbar layout. |
 | `ShowUpDownIconInTaskbar` | `eMule` | `RW` | Advanced tree | `false` | Show upload/download state in taskbar icon handling. |
-| `ShowVerticalHourMarkers` | `eMule` | `RW` | Advanced tree | `true` | Draw vertical hour markers on statistics graphs. |
+| `ShowVerticalHourMarkers` | `eMule` | `RW` | Advanced tree | `true` | Draw vertical hour markers on statistics graphs. This now loads from `eMule` while falling back to the previous accidental `Statistics` placement. |
 | `ForceSpeedsToKB` | `eMule` | `RW` | Advanced tree | `false` | Force speed-formatting helpers to prefer KB-based units. |
-| `ExtraPreviewWithMenu` | `eMule` | `RW` | Advanced tree | `false` | Changes where preview actions appear in the download-list UI/menu flow. |
+| `ExtraPreviewWithMenu` | `eMule` | `RW` | Advanced tree | `false` | Changes where preview actions appear in download-list UI/menu flow. |
 | `KeepUnavailableFixedSharedDirs` | `eMule` | `RW` | Advanced tree | `false` | Keep fixed shared dirs even when currently unavailable during startup/shared-dir loading. |
-| `PartiallyPurgeOldKnownFiles` | `eMule` | `RW` | Advanced tree | `true` | Makes known-file/AICH cleanup less aggressive. |
-| `AdjustNTFSDaylightFileTime` | `eMule` | `RW` | Advanced tree | `false` | Adjust NTFS timestamps around daylight-saving boundaries to avoid false file-change/rehash churn. |
+| `PartiallyPurgeOldKnownFiles` | `eMule` | `RW` | Advanced tree | `true` | Allows more aggressive cleanup of stale known-file entries. |
 | `RearrangeKadSearchKeywords` | `eMule` | `RW` | Advanced tree | `true` | Reorder Kad search keywords before issuing the search. |
-| `MessageFromValidSourcesOnly` | `eMule` | `RW` | Advanced tree | `true` | Hidden message acceptance gate used by `BaseClient.cpp`. Restricts messages to sources considered valid enough by that path. |
+| `MessageFromValidSourcesOnly` | `eMule` | `RW` | Advanced tree | `true` | Message acceptance gate used by `BaseClient.cpp`. |
+| `PerfLog:Mode` | `PerfLog` | `RW` | Advanced tree | `0` | Performance logging enable/mode. Tweaks exposes this as an enable checkbox. |
+| `PerfLog:FileFormat` | `PerfLog` | `RW` | Advanced tree | `0` | Performance logging output format: CSV or MRTG. |
+| `PerfLog:File` | `PerfLog` | `RW` | Advanced tree | config-dir default | Performance logging base file path. |
+| `PerfLog:Interval` | `PerfLog` | `RW` | Advanced tree | `5` minutes | Performance logging sample interval. |
+| `MaxFileUploadSizeMB` | `WebServer` | `RW` | WebServer page | `5` | Maximum single WebServer upload size in MiB. |
+| `AllowedIPs` | `WebServer` | `RW` | WebServer page | empty | Optional semicolon-separated IPv4 allow-list for WebServer clients. |
+
+Documented-only active keys:
+
+| INI key | Section | Mode | Default | Reason not exposed |
+| --- | --- | --- | --- | --- |
+| `AllowLocalHostIP` | `eMule` | `RW` | `false` | Low-level network identity exception with security implications. |
+| `CryptTCPPaddingLength` | `eMule` | `RW` | `128` | Obfuscation protocol tuning; unsafe as a casual UI knob. |
+| `UserSortedServerList` | `eMule` | `RW` | `false` | Legacy server-list ordering state, not a user workflow setting. |
+| `DontRecreateStatGraphsOnResize` | `eMule` | `RW` | `false` | Narrow rendering workaround. |
+| `StraightWindowStyles` | `eMule` | `RW` | `0` | Legacy window-style compatibility switch. |
+| `RTLWindowsLayout` | `eMule` | `RW` | `false` | Locale/layout compatibility state handled by the UI. |
+| `GeoLocationUpdateUrl` | `eMule` | `RW` | DB-IP template URL | Operational endpoint override; keep documented rather than casual UI. |
+| `NotifierConfiguration` | `eMule` | `RW` | notifier config path | Separate notifier configuration file path. |
 
 ## Hidden Or Legacy Keys Which Look Stale, Transitional, Or Import-Only
 
@@ -248,8 +283,11 @@ These settings are active and meaningful. They are now exposed in the Advanced t
 | `FileBufferSizePref` | `eMule` | `R` | old compatibility import | Old file-buffer key. Current code reads it only as migration input, then uses `FileBufferSize`. |
 | `QueueSizePref` | `eMule` | `R` | old compatibility import | Old queue-size key. Current code reads it only as migration input, then uses `QueueSize`. |
 | `UploadCapacity` | `eMule` | `R` | legacy compatibility | Older upload-capacity key superseded by `UploadCapacityNew`. |
-| `UserSortedServerList` | `eMule` | `R` | legacy compatibility | Legacy server-list ordering state. |
-| `AICHTrustEveryHash` | `eMule` | `R` | `false` | Loaded into preferences, but no confirmed non-`Preferences.*` runtime use was found during the audit. Likely stale or unfinished. |
+| `DownloadCapacity` | `eMule` | `R` | legacy compatibility | Older download-capacity key now treated as a signal to reset to broadband defaults. |
+| `UploadCapacityNew` | `eMule` | `R` | legacy compatibility | Older upload-capacity key now treated as a signal to reset to broadband defaults. |
+| `ResumeNextFromSameCat` | `eMule` | retired | n/a | No active preference member in current main. |
+| `AdjustNTFSDaylightFileTime` | `eMule` | retired | n/a | No active preference member in current main. |
+| `AICHTrustEveryHash` | `eMule` | retired | n/a | Removed as stale/unfinished; save now deletes old persisted values. |
 
 ## UI Defaults Which Are Not First-Class `CPreferences` Keys
 
@@ -324,7 +362,7 @@ This section explains what the more technical settings actually do in runtime te
 | `CryptLayerSupported` | Announces protocol support for obfuscation. Disabling it removes that capability entirely. |
 | `AdvancedSpamFilter` | Enables additional filtering logic for spam-like content beyond the simpler legacy path. |
 | `MessageUseCaptchas` | Requires chat captcha checks where the message anti-spam path is active. It affects acceptance flow, not just presentation. |
-| `MessageFromValidSourcesOnly` | Hidden message gate. In `BaseClient.cpp`, it restricts which peers can send messages through that path. Despite the name, it is not exposed in the dialogs today. |
+| `MessageFromValidSourcesOnly` | Hidden message gate. In `BaseClient.cpp`, it restricts which peers can send messages through that path. It is exposed in Tweaks under Security & Filtering. |
 
 ### UI / Rendering Internals
 
@@ -333,7 +371,7 @@ This section explains what the more technical settings actually do in runtime te
 | `UseSystemFontForMainControls` | Hidden rendering choice used by multiple list and window classes. It changes which font objects are applied to major controls. |
 | `ReBarToolbar` | Hidden toolbar layout selector. It changes whether the app uses the rebar-style toolbar host instead of just recoloring an existing toolbar. |
 | `ShowUpDownIconInTaskbar` | Hidden taskbar integration flag. It controls whether upload/download state feeds taskbar icon handling. |
-| `ShowVerticalHourMarkers` | Hidden graph-rendering option. It affects how the statistics graph paints time markers. |
+| `ShowVerticalHourMarkers` | Hidden graph-rendering option. It affects how the statistics graph paints time markers. Current main writes it under `eMule` and falls back to the previous accidental `Statistics` key while loading. |
 | `ForceSpeedsToKB` | Hidden formatting override. It changes unit-selection logic in the formatting helpers, not the underlying rate calculations. |
 | `DateTimeFormat4Lists` | Hidden date formatting string used specifically by list controls, distinct from the main UI and log formats. |
 
@@ -354,7 +392,6 @@ This section explains what the more technical settings actually do in runtime te
 | --- | --- |
 | `KeepUnavailableFixedSharedDirs` | Hidden startup/shared-dir loading behavior. It decides whether fixed shared directories survive config load even when currently inaccessible. |
 | `PartiallyPurgeOldKnownFiles` | Hidden known-file retention policy. It makes old known-file/AICH cleanup less aggressive, which can preserve more history at the cost of more stale entries. |
-| `AdjustNTFSDaylightFileTime` | Hidden timestamp workaround. It compensates for NTFS daylight-saving timestamp shifts to avoid accidental “file changed” detections and rehashes. |
 | `RearrangeKadSearchKeywords` | Hidden Kad search optimization. It changes the keyword order presented to Kad search logic, which can alter search matching behavior. |
 | `RestoreLastMainWndDlg` / `RestoreLastLogPane` | Hidden session-restore flags for page/pane selection on startup. |
 
@@ -427,9 +464,9 @@ most for the preference system are:
 
 | Item | Why it matters | Suggested follow-up |
 | --- | --- | --- |
-| `AllowedIPs` load-only behavior | Web allowed-IP list is not written back. | Add save support or remove the feature explicitly. |
-| Hidden runtime prefs listed above | They are now exposed in the Advanced tree and written back, but they still need selective runtime verification because several are niche or internal. | Verify each edited setting in the affected subsystem before treating the UI as fully validated. |
-| `AICHTrustEveryHash` | Likely stale hidden knob. | Confirm intent and then either wire it back up or remove it. |
+| WebServer exposure verification | `AllowedIPs` and `MaxFileUploadSizeMB` are now written back and exposed on the WebServer page. | Verify live WebServer allow-list and upload-limit behavior against running UI/REST scenarios. |
+| Hidden runtime prefs listed above | They are now exposed in the Advanced tree and written back, but several remain niche or diagnostic. | Verify each edited setting in its affected subsystem before treating the UI as fully validated. |
+| Documented-only active keys | Several low-level compatibility/security keys are intentionally not exposed. | Keep them documented and avoid adding UI without a specific operator workflow. |
 
 ## Practical Reading Guide
 

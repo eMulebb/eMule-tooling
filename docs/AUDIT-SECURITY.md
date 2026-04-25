@@ -434,7 +434,7 @@ if (::InternetCrackUrl(...) && Url.dwHostNameLength > 0 &&
 - File names from peers could contain HTML/JS characters
 - No explicit HTML-escaping code observed in the agent's scan
 
-~~**Severity: MEDIUM** — **`GAP_003`** If file names or peer-supplied strings are injected into HTML responses without escaping, reflected XSS is possible in the local web UI.~~ **[STALE — WebServer removed]**
+**Severity: MEDIUM** — **`GAP_003`** If file names or peer-supplied strings are injected into HTML responses without escaping, reflected XSS is possible in the local web UI. Current main includes the WebServer/REST surface, so this finding needs fresh verification.
 
 ### 7.3 Shell Execution
 
@@ -517,7 +517,7 @@ The following are explicitly flagged in the codebase and represent acknowledged 
 | 8 | — | **MEDIUM** | Cipher | RC4 deprecated cipher for obfuscation | `srchybrid/EncryptedDatagramSocket.cpp` |
 | 9 | **GAP_001** **[STALE]** | ~~MEDIUM~~ | Crypto | ~~3DES (DES3-CBC) in SMTP~~ — SendMail removed | ~~`srchybrid/SendMail.cpp`~~ |
 | 10 | **GAP_002** **[DONE]** | **MEDIUM** | Network | `inet_addr()` deprecated API | `srchybrid/AsyncProxySocketLayer.cpp:732`, `AsyncSocketEx.cpp:897` |
-| 11 | **GAP_003** **[STALE]** | ~~MEDIUM~~ | Web | ~~Potential XSS in web server templates~~ — WebServer removed | ~~`srchybrid/WebServer.cpp`~~ |
+| 11 | **GAP_003** **[OPEN]** | **MEDIUM** | Web | Potential XSS in web server templates; needs revalidation against current WebServer templates | `srchybrid/WebServer.cpp` |
 | 12 | — | **LOW** | TLS | Self-signed cert for local web server | `srchybrid/PPgWebServer.cpp` |
 | 13 | — | **LOW** | RNG | `rand()` for timing jitter (non-crypto) | `srchybrid/BaseClient.cpp:237` |
 | 14 | — | **INFO** | Design | Custom obfuscation protocol (not TLS) | `srchybrid/EncryptedStreamSocket.cpp` |
@@ -541,7 +541,7 @@ The following are explicitly flagged in the codebase and represent acknowledged 
 
 5. **`GAP_002`** **[DONE]** (commit `768559c`) — `inet_addr()` replaced with `InetPtonA()` in `srchybrid/AsyncProxySocketLayer.cpp` and `srchybrid/AsyncSocketEx.cpp`.
 
-6. **`GAP_003`** ~~**`srchybrid/WebServer.cpp`** — Audit all template variable insertions to ensure HTML encoding is applied to peer-supplied strings (file names, search results, IP addresses rendered in HTML context).~~ **[STALE — WebServer removed]**
+6. **`GAP_003`** **`srchybrid/WebServer.cpp`** — Audit all template variable insertions to ensure HTML encoding is applied to peer-supplied strings (file names, search results, IP addresses rendered in HTML context).
 
 ### Priority 3 — Consider for Future Releases
 
@@ -559,7 +559,7 @@ The following are explicitly flagged in the codebase and represent acknowledged 
 
 12. Address FIXME/TODO items related to Kad encryption negotiation (`ClientList.cpp:607`, `BaseClient.cpp:1458`).
 
-13. ~~Add `Content-Security-Policy` and `X-Content-Type-Options` headers to the embedded web server.~~ **[STALE — WebServer removed]**
+13. Add `Content-Security-Policy` and `X-Content-Type-Options` headers to the embedded web server if compatible with the current template surface.
 
 ---
 

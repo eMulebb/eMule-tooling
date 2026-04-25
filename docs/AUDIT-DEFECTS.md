@@ -11,6 +11,12 @@
 
 Date: 2026-03-24
 
+Current-main note (2026-04-25): the original load-only preference findings are
+resolved. Operator-safe active knobs are exposed through Tweaks or the WebServer
+page, documented-only active keys are written back, `AllowedIPs` is present and
+saved again, and stale keys such as `AdjustNTFSDaylightFileTime` and
+`AICHTrustEveryHash` are retired/documented rather than active missing saves.
+
 ### Definite Bugs
 
 - **`BUG_010`** ~~Upload overhead totals do not round-trip because the saved and loaded INI keys do not match.~~ **[DONE]**
@@ -18,8 +24,9 @@ Date: 2026-03-24
     `UpOverheadTotal` and `UpOverheadTotalPackets`.
   - Effect: upload-overhead byte and packet totals round-trip correctly again.
 
-- **`BUG_011`** ~~Web server allowed IPs are load-only.~~ **[STALE — WebServer removed]**
-  - The embedded web server was fully removed (commit `6a1c440`). The `AllowedIPs` preference no longer exists.
+- **`BUG_011`** ~~Web server allowed IPs are load-only.~~ **[DONE]**
+  - `AllowedIPs` is saved again and exposed on the WebServer preference page.
+  - `MaxFileUploadSizeMB` is also exposed on that page.
 
 ### Load-Only Hidden Or Legacy Prefs
 
@@ -41,19 +48,20 @@ These keys are read from `preferences.ini` and used at runtime, but no write-bac
 - `ExtraPreviewWithMenu`
 - `KeepUnavailableFixedSharedDirs`
 - `PartiallyPurgeOldKnownFiles`
-- `AdjustNTFSDaylightFileTime`
 - `RearrangeKadSearchKeywords`
-- `AICHTrustEveryHash`
 
-These may be stale hidden knobs, migration leftovers, or genuine persistence omissions. They need a follow-up decision:
+These were the historical load-only findings. Current main has write-back or UI
+exposure for active keys; retired keys are tracked below.
 
-- restore write-back support
-- formally retire them
-- or document them as import-only
+- `AdjustNTFSDaylightFileTime` is retired in current main.
+- `AICHTrustEveryHash` is retired and old persisted values are deleted.
 
 ### Follow-Up: Purpose And Current Use
 
-None of the prefs listed below have direct hits in the `PPg*.cpp` / `PPg*.h` preference-page code, so they are not exposed in the Preferences dialogs.
+At the time of the original audit these prefs had no direct hits in the
+`PPg*.cpp` / `PPg*.h` preference-page code. Current main exposes the
+operator-safe subset through Tweaks and leaves only the documented-only keys out
+of the dialogs.
 
 #### Hidden Prefs Still Used At Runtime
 
@@ -121,10 +129,6 @@ None of the prefs listed below have direct hits in the `PPg*.cpp` / `PPg*.h` pre
   - Purpose: keep the known-files/AICH cleanup logic from fully purging old entries.
   - Runtime use: `srchybrid/AICHSyncThread.cpp`, `srchybrid/KnownFile.cpp`.
 
-- `AdjustNTFSDaylightFileTime`
-  - Purpose: compensate NTFS timestamps around daylight-saving switches to avoid false file-change/rehash churn.
-  - Runtime use: `srchybrid/OtherFunctions.cpp`, called from `srchybrid/KnownFile.cpp`, `srchybrid/PartFile.cpp`, `srchybrid/SharedFileList.cpp`, `srchybrid/SharedFilesCtrl.cpp`.
-
 - `RearrangeKadSearchKeywords`
   - Purpose: reorder Kad search keywords before issuing Kad searches.
   - Runtime use: `srchybrid/SearchResultsWnd.cpp`.
@@ -134,14 +138,15 @@ None of the prefs listed below have direct hits in the `PPg*.cpp` / `PPg*.h` pre
 - `MessageFromValidSourcesOnly`
   - Purpose: restrict chat/message acceptance to clients considered valid enough by the messaging gate.
   - Runtime use: `srchybrid/BaseClient.cpp` via `thePrefs.MsgOnlySecure()`.
-  - Status: load-only, not exposed in the Preferences dialogs, and currently missing from the original audit list above.
+  - Status: exposed in Tweaks in current main.
 
 #### Prefs Which Currently Look Dead Or Import-Only
 
 - `AICHTrustEveryHash`
-  - Purpose: intended to relax AICH trust rules.
-  - Current status: loaded into `m_bTrustEveryHash`, but no non-`Preferences.*` runtime use was found in this audit.
-  - Likely classification: stale hidden knob or unfinished feature.
+  - Current status: retired; old persisted values are explicitly deleted.
+
+- `AdjustNTFSDaylightFileTime`
+  - Current status: retired in current main; no active preference member remains.
 
 ### Not Counted As Bugs
 
