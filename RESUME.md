@@ -6,7 +6,8 @@
 - added focused KnownFile collision policy coverage in `eMule-build-tests`
   through `b0ab2e8`
 - marked `BUG-037` Done in `docs-clean`
-- confirmed focused KnownFile tests and the canonical Debug x64 app build pass
+- confirmed focused KnownFile tests, the canonical Debug x64 app build, and
+  Shared Files UI `duplicate-startup-reuse` live validation pass
 
 ## Next Chunk
 
