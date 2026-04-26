@@ -13,7 +13,7 @@ reference reading.
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `67`
+**Current non-done count:** `66`
 **Latest status refresh:** 2026-04-26
 
 Latest review trail:
@@ -62,7 +62,7 @@ release branch where that comparison is meaningful.
 | [BUG-001](BUG-001.md) | Major | **Done** | 17+ load-only hidden prefs not written back to preferences.ini |
 | [BUG-002](BUG-002.md) | Minor | Open | ASSERT(0) FIXME in ArchiveRecovery.cpp — silent fail in release *(retire feature or fix)* |
 | [BUG-003](BUG-003.md) | Minor | **Done** | Historical large-file FIXME markers overstated the remaining live issue |
-| [BUG-004](BUG-004.md) | Minor | Open | IPFilter overlapping IP ranges not handled — acknowledged correctness gap |
+| [BUG-004](BUG-004.md) | Minor | **Done** | IPFilter overlapping IP ranges not handled — acknowledged correctness gap |
 | [BUG-005](BUG-005.md) | Minor | Wont-Fix | Kad buddy connections broken when RequireCrypt is enabled |
 | [BUG-006](BUG-006.md) | Minor | Open | Weak RNG for crypto challenge — rand() seeded with time(NULL) (accepted risk) |
 | [BUG-007](BUG-007.md) | Minor | **Done** | Ring.h — three UB + correctness bugs in CRing\<T\> (CODEREV_003, 004, 011) |
@@ -269,7 +269,7 @@ release branch where that comparison is meaningful.
 
 ### Do Second — narrow stability items still close to current behavior
 
-1. **BUG-004 through BUG-006, BUG-023, BUG-028, BUG-034, BUG-035** — targeted correctness fixes
+1. **BUG-006, BUG-023, BUG-028, BUG-034, BUG-035** — targeted correctness fixes
 2. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
 3. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
 4. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
@@ -490,9 +490,9 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 14 bugs + 21 refactors/boost items + 26 features + 9 CI = **70 non-done issues**.*
+*Total non-done: 13 bugs + 21 refactors/boost items + 26 features + 9 CI = **69 non-done issues**.*
 
-*Status refresh through 2026-04-26: current `main` is reconciled through `dca6bba`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-004` and `BUG-028` were refreshed with cross-variant notes; `BUG-070` and `BUG-072` are now Done.*
+*Status refresh through 2026-04-26: current `main` is reconciled through `dca6bba`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-028` was refreshed with cross-variant notes; `BUG-004`, `BUG-070`, and `BUG-072` are now Done.*
 
 ## History
 
@@ -741,3 +741,8 @@ promotion hardening in app commit `efb8871` and tests commit `f31b890`:
 `preferencesKad.dat` and `nodes.dat` are saved through checked temp-file promotion,
 the bootstrap-empty guard is preserved, and FastKad sidecar metadata is ordered after
 successful `nodes.dat` promotion.
+
+**Updated:** 2026-04-26 — current `main` now includes `BUG-004` IP filter overlap
+normalization in app commit `743b914` and tests commit `d0af7be`: overlapping ranges
+are split into sorted non-overlapping segments, the lowest numeric filter level wins
+inside overlaps, and adjacent same-level segments are merged before lookup.
