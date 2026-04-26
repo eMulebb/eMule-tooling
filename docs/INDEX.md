@@ -42,6 +42,7 @@ that behavior is landed on current `main`.
 | [AUDIT-SECURITY](AUDIT-SECURITY.md) | Security audit and gap analysis |
 | [AUDIT-WWMOD](AUDIT-WWMOD.md) | Win10+ compatibility and modernization audit |
 | [CPP-AUDIT](CPP-AUDIT.md) | C++ language, lifetime, and safety audit |
+| [MAIN-BUG-CONCURRENCY-SCAN](MAIN-BUG-CONCURRENCY-SCAN.md) | Current `main` bug, concurrency, persistence, and legacy-hardening scan |
 
 ## Dependencies
 
@@ -85,6 +86,7 @@ active feature status.
 - `docs-clean/` owns active backlog status, dated revalidation notes, and
   landed/open item tracking.
 - The latest eMuleAI/mod scan is [../docs-clean/REVIEW-2026-04-26-emuleai-mods-broadband-scan.md](../docs-clean/REVIEW-2026-04-26-emuleai-mods-broadband-scan.md), which updates the broadband feature-selection backlog and corrects landed shared-files watcher status.
+- The latest direct current-main bug/concurrency scan is [../docs-clean/REVIEW-2026-04-26-main-bug-concurrency-scan.md](../docs-clean/REVIEW-2026-04-26-main-bug-concurrency-scan.md), which adds WebServer, persistence, helper-thread, and archive-preview hardening backlog items.
 - The latest broad backlog refresh is [../docs-clean/REVIEW-2026-04-25-current-main-backlog-refresh.md](../docs-clean/REVIEW-2026-04-25-current-main-backlog-refresh.md), which rechecks current `main`, current tests coverage, and current `analysis\emuleai` v1.4 deltas against the active backlog.
 - The latest feature-expansion pass is [../docs-clean/REVIEW-2026-04-20-feature-expansion-beyond-stock.md](../docs-clean/REVIEW-2026-04-20-feature-expansion-beyond-stock.md), which records the user-directed shift toward higher-drift product features and the new FEAT backlog candidates.
 - Preserve commit ids and historical branch names in reference docs where they

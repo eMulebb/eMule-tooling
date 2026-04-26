@@ -13,11 +13,12 @@ reference reading.
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `67`
+**Current non-done count:** `73`
 **Latest status refresh:** 2026-04-26
 
 Latest review trail:
 
+- [REVIEW-2026-04-26-main-bug-concurrency-scan](REVIEW-2026-04-26-main-bug-concurrency-scan.md)
 - [REVIEW-2026-04-26-emuleai-mods-broadband-scan](REVIEW-2026-04-26-emuleai-mods-broadband-scan.md)
 - [REVIEW-2026-04-25-current-main-backlog-refresh](REVIEW-2026-04-25-current-main-backlog-refresh.md)
 - [REVIEW-2026-04-20-emuleai-mods-main-backlog-pass](REVIEW-2026-04-20-emuleai-mods-main-backlog-pass.md)
@@ -126,6 +127,12 @@ release branch where that comparison is meaningful.
 | [BUG-066](BUG-066.md) | Minor | **Done** | Upload list secondary display path needed stale-row guarding |
 | [BUG-067](BUG-067.md) | Minor | **Done** | REST log route lacked the expected get alias seam |
 | [BUG-068](BUG-068.md) | Minor | Open | Download progress-bar drawing can leak GDI state into neighboring list cells |
+| [BUG-069](BUG-069.md) | Major | Open | WebServer static resource requests can escape the web root and allocate whole files |
+| [BUG-070](BUG-070.md) | Minor | Open | Ignored helper-thread launch failures can hang shutdown waits |
+| [BUG-071](BUG-071.md) | Major | Open | server.met persistence still uses destructive backup and promotion moves |
+| [BUG-072](BUG-072.md) | Minor | Open | Kad preferences and routing snapshots still save in place |
+| [BUG-073](BUG-073.md) | Major | Open | WebServer session and bad-login state is mutated from request threads without synchronization |
+| [BUG-074](BUG-074.md) | Minor | Open | Archive preview scanner uses volatile cancellation and synchronous UI handoff |
 
 ---
 
@@ -254,21 +261,24 @@ release branch where that comparison is meaningful.
 
 ### Do First — stabilization / hardening with minimal drift
 
-1. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
-2. **BUG-002, BUG-013** — ArchiveRecovery correctness/OOM bugs if the feature is retained
-3. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
-4. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
+1. **BUG-069, BUG-073** — WebServer static-file containment and request-thread session-state locking
+2. **BUG-071, BUG-072** — finish safe-promotion persistence coverage for `server.met`, `preferencesKad.dat`, and `nodes.dat`
+3. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
+4. **BUG-002, BUG-013, BUG-074** — ArchiveRecovery/preview correctness, OOM, and worker-handoff bugs if the feature is retained
+5. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
+6. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
 
 ### Do Second — narrow stability items still close to current behavior
 
 1. **BUG-004 through BUG-006, BUG-023, BUG-028, BUG-034, BUG-035** — targeted correctness fixes
 2. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
-3. **BUG-068** — Downloads / Downloading Clients progress-bar drawing-state leak check
-4. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
-5. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
-6. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
-7. **FEAT-002** — SafeKad CGNAT fix
-8. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
+3. **BUG-070** — helper-thread launch-failure shutdown waits
+4. **BUG-068** — Downloads / Downloading Clients progress-bar drawing-state leak check
+5. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
+6. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
+7. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
+8. **FEAT-002** — SafeKad CGNAT fix
+9. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
 
 ### Do Later — useful, but not part of the current stabilization milestone
 
@@ -328,6 +338,8 @@ REF-008              supersedes REF-029 (WSAPoll UDP) and REF-030 (hostname reso
 
 FEAT-008 (oracle seams) ──► FEAT-009 (mirror audit)
 FEAT-013 (WebServer REST) ──► FEAT-014 (OpenAPI / optional external gateway)
+FEAT-013 (WebServer REST) ──► BUG-069 (static-file path containment and bounded serving)
+FEAT-013 (WebServer REST) ──► BUG-073 (WebServer session-state synchronization)
 FEAT-011 (CShield) ──► FEAT-012 (PR_TCPERRORFLOODER, can standalone)
 FEAT-015 (slot allocation) ──► FEAT-016 (modern limits — coordinate Opcodes.h values)
 FEAT-015 (slot allocation) ──► FEAT-023 (optional scoring/UI extras kept separate)
@@ -350,6 +362,9 @@ FEAT-042 (IP-filter updater) ──► FEAT-044 (IP-filter input policy)
 FEAT-013 (REST API) ──► FEAT-040 (headless/web/mobile control surface)
 FEAT-014 (OpenAPI/external gateway) ──► FEAT-040 (remote-controller/product layer)
 BUG-068 (download progress drawing) ──► CI-008 (UI/live regression coverage)
+BUG-069/073 (WebServer hardening) ──► CI-008 (WebServer/REST concurrency and static-file regressions)
+BUG-027/036 (safe promotion pattern) ──► BUG-071/072 (remaining server/Kad persistence saves)
+BUG-002/013 (ArchiveRecovery retain/remove decision) ──► BUG-074 (preview worker handoff)
 CI-006 (ASan) ──► BUG-018/019 follow-up concurrency verification
 ```
 
@@ -470,6 +485,7 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 | Feature expansion pass beyond stock (2026-04-20) | User-directed backlog expansion using current eMuleAI feature notes, historical mod catalogs, and fresh web-demand signals | FEAT-031, FEAT-035, FEAT-036, FEAT-037, FEAT-038, FEAT-039, FEAT-040 |
 | Current main, eMuleAI v1.4, and backlog refresh (2026-04-25) | Current `main` catch-up through `b5d253b`, landed BUG-038 through BUG-067 docs, FEAT-034/TEST-034 refresh, eMuleAI v1.4 feature backlog additions, and source-scan pending-item summary | BUG-034 through BUG-067, FEAT-034, FEAT-037, FEAT-041, FEAT-042, CI-008 |
 | eMuleAI + mods broadband scan (2026-04-26) | Further comparison of current `main` against eMuleAI and historical mod archives for close-stock broadband feature selection | BUG-004, BUG-028, BUG-068, FEAT-038, FEAT-043, FEAT-044 |
+| Current main bug/concurrency scan (2026-04-26) | Direct current-main scan for WebServer races/path containment, remaining destructive persistence paths, helper-thread shutdown waits, and archive-preview worker handoff | BUG-069 through BUG-074 |
 | `stale-v0.72a-experimental-clean` diff (2026-04-09) | 378 commits; 16 backlog items with reference impls | See Experimental Branch Reference table above |
 
 ---
@@ -477,9 +493,9 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 11 bugs + 21 refactors/boost items + 26 features + 9 CI = **67 non-done issues**.*
+*Total non-done: 17 bugs + 21 refactors/boost items + 26 features + 9 CI = **73 non-done issues**.*
 
-*Status refresh through 2026-04-26: current `main` is reconciled through `dca6bba`; `FEAT-038` is now documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-004` and `BUG-028` were refreshed with cross-variant notes.*
+*Status refresh through 2026-04-26: current `main` is reconciled through `dca6bba`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-004` and `BUG-028` were refreshed with cross-variant notes.*
 
 ## History
 
