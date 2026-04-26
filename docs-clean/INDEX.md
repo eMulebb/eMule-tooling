@@ -13,7 +13,7 @@ reference reading.
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `73`
+**Current non-done count:** `72`
 **Latest status refresh:** 2026-04-26
 
 Latest review trail:
@@ -128,7 +128,7 @@ release branch where that comparison is meaningful.
 | [BUG-067](BUG-067.md) | Minor | **Done** | REST log route lacked the expected get alias seam |
 | [BUG-068](BUG-068.md) | Minor | Open | Download progress-bar drawing can leak GDI state into neighboring list cells |
 | [BUG-069](BUG-069.md) | Major | Open | WebServer static resource requests can escape the web root and allocate whole files |
-| [BUG-070](BUG-070.md) | Minor | Open | Ignored helper-thread launch failures can hang shutdown waits |
+| [BUG-070](BUG-070.md) | Minor | **Done** | Ignored helper-thread launch failures can hang shutdown waits |
 | [BUG-071](BUG-071.md) | Major | Open | server.met persistence still uses destructive backup and promotion moves |
 | [BUG-072](BUG-072.md) | Minor | Open | Kad preferences and routing snapshots still save in place |
 | [BUG-073](BUG-073.md) | Major | Open | WebServer session and bad-login state is mutated from request threads without synchronization |
@@ -272,13 +272,12 @@ release branch where that comparison is meaningful.
 
 1. **BUG-004 through BUG-006, BUG-023, BUG-028, BUG-034, BUG-035** — targeted correctness fixes
 2. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
-3. **BUG-070** — helper-thread launch-failure shutdown waits
-4. **BUG-068** — Downloads / Downloading Clients progress-bar drawing-state leak check
-5. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
-6. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
-7. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
-8. **FEAT-002** — SafeKad CGNAT fix
-9. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
+3. **BUG-068** — Downloads / Downloading Clients progress-bar drawing-state leak check
+4. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
+5. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
+6. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
+7. **FEAT-002** — SafeKad CGNAT fix
+8. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
 
 ### Do Later — useful, but not part of the current stabilization milestone
 
@@ -493,9 +492,9 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 17 bugs + 21 refactors/boost items + 26 features + 9 CI = **73 non-done issues**.*
+*Total non-done: 16 bugs + 21 refactors/boost items + 26 features + 9 CI = **72 non-done issues**.*
 
-*Status refresh through 2026-04-26: current `main` is reconciled through `dca6bba`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-004` and `BUG-028` were refreshed with cross-variant notes.*
+*Status refresh through 2026-04-26: current `main` is reconciled through `dca6bba`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-004` and `BUG-028` were refreshed with cross-variant notes; `BUG-070` is now Done.*
 
 ## History
 
@@ -732,3 +731,9 @@ broadband feature selection. Marked `FEAT-038` Done after current-main watcher/l
 verification, added `BUG-068`, `FEAT-043`, and `FEAT-044`, and refreshed `BUG-004` /
 `BUG-028` with cross-variant notes. Recorded in
 [REVIEW-2026-04-26-emuleai-mods-broadband-scan](REVIEW-2026-04-26-emuleai-mods-broadband-scan.md).
+
+**Updated:** 2026-04-26 — current `main` now includes `BUG-070` helper-thread launch
+failure hardening in app commit `7cbdbc9` and tests commit `60ec43a`: upload disk
+I/O, part-file writes, and upload bandwidth throttling capture `AfxBeginThread`
+failures, avoid invalid IOCP posts, avoid impossible shutdown waits, and carry native
+seam coverage for the launch-failure decisions.
