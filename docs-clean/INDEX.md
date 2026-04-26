@@ -13,7 +13,7 @@ reference reading.
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `69`
+**Current non-done count:** `68`
 **Latest status refresh:** 2026-04-26
 
 Latest review trail:
@@ -129,7 +129,7 @@ release branch where that comparison is meaningful.
 | [BUG-068](BUG-068.md) | Minor | **Done** | Download progress-bar drawing can leak GDI state into neighboring list cells |
 | [BUG-069](BUG-069.md) | Major | **Done** | WebServer static resource requests can escape the web root and allocate whole files |
 | [BUG-070](BUG-070.md) | Minor | **Done** | Ignored helper-thread launch failures can hang shutdown waits |
-| [BUG-071](BUG-071.md) | Major | Open | server.met persistence still uses destructive backup and promotion moves |
+| [BUG-071](BUG-071.md) | Major | **Done** | server.met persistence still uses destructive backup and promotion moves |
 | [BUG-072](BUG-072.md) | Minor | Open | Kad preferences and routing snapshots still save in place |
 | [BUG-073](BUG-073.md) | Major | **Done** | WebServer session and bad-login state is mutated from request threads without synchronization |
 | [BUG-074](BUG-074.md) | Minor | Open | Archive preview scanner uses volatile cancellation and synchronous UI handoff |
@@ -261,7 +261,7 @@ release branch where that comparison is meaningful.
 
 ### Do First — stabilization / hardening with minimal drift
 
-1. **BUG-071, BUG-072** — finish safe-promotion persistence coverage for `server.met`, `preferencesKad.dat`, and `nodes.dat`
+1. **BUG-072** — finish safe-promotion persistence coverage for `preferencesKad.dat` and `nodes.dat`
 2. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
 3. **BUG-002, BUG-013, BUG-074** — ArchiveRecovery/preview correctness, OOM, and worker-handoff bugs if the feature is retained
 4. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
@@ -490,7 +490,7 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 16 bugs + 21 refactors/boost items + 26 features + 9 CI = **72 non-done issues**.*
+*Total non-done: 15 bugs + 21 refactors/boost items + 26 features + 9 CI = **71 non-done issues**.*
 
 *Status refresh through 2026-04-26: current `main` is reconciled through `dca6bba`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-004` and `BUG-028` were refreshed with cross-variant notes; `BUG-070` is now Done.*
 
