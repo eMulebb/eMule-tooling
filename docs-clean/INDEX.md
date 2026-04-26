@@ -13,7 +13,7 @@ reference reading.
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `66`
+**Current non-done count:** `62`
 **Latest status refresh:** 2026-04-26
 
 Latest review trail:
@@ -60,7 +60,7 @@ release branch where that comparison is meaningful.
 | ID | Priority | Status | Title |
 |----|----------|--------|-------|
 | [BUG-001](BUG-001.md) | Major | **Done** | 17+ load-only hidden prefs not written back to preferences.ini |
-| [BUG-002](BUG-002.md) | Minor | Open | ASSERT(0) FIXME in ArchiveRecovery.cpp — silent fail in release *(retire feature or fix)* |
+| [BUG-002](BUG-002.md) | Minor | Wont-Fix | ASSERT(0) FIXME in ArchiveRecovery.cpp — silent fail in release *(kept as-is by product decision)* |
 | [BUG-003](BUG-003.md) | Minor | **Done** | Historical large-file FIXME markers overstated the remaining live issue |
 | [BUG-004](BUG-004.md) | Minor | **Done** | IPFilter overlapping IP ranges not handled — acknowledged correctness gap |
 | [BUG-005](BUG-005.md) | Minor | Wont-Fix | Kad buddy connections broken when RequireCrypt is enabled |
@@ -71,7 +71,7 @@ release branch where that comparison is meaningful.
 | [BUG-010](BUG-010.md) | Minor | **Done** | PartFile — part.met write on low disk space risks truncation/corruption |
 | [BUG-011](BUG-011.md) | Minor | **Done** | Race — shareddir_list iterated without lock in SendSharedDirectories |
 | [BUG-012](BUG-012.md) | Minor | **Done** | CPartFile destructor calls FlushBuffer after write thread has already exited |
-| [BUG-013](BUG-013.md) | Minor | Open | ArchiveRecovery.cpp — three unchecked malloc() calls crash on OOM *(retire feature or fix)* |
+| [BUG-013](BUG-013.md) | Minor | Wont-Fix | ArchiveRecovery.cpp — three unchecked malloc() calls crash on OOM *(kept as-is by product decision)* |
 | [BUG-014](BUG-014.md) | Minor | **Done** | ZIPFile.cpp — WriteFile return value silently discarded on two paths |
 | [BUG-015](BUG-015.md) | Minor | **Done** | GetTickCount() 49-day overflow in ban expiry and download timeout checks |
 | [BUG-016](BUG-016.md) | Minor | **Done** | UDP obfuscation applied when crypt layer is disabled — IsCryptLayerEnabled() guard missing |
@@ -86,7 +86,7 @@ release branch where that comparison is meaningful.
 | [BUG-025](BUG-025.md) | Minor | **Done** | KnownFile hashing open failures log stale or wrong error text on Win32 open failure |
 | [BUG-026](BUG-026.md) | Major | **Done** | Search tab teardown frees live result/tab payload objects before the UI detaches them |
 | [BUG-027](BUG-027.md) | Major | **Done** | IP filter update can delete the live `ipfilter.dat` before replacement promotion succeeds |
-| [BUG-028](BUG-028.md) | Minor | In Progress | MP3 ID3 metadata extraction is ANSI-only; non-ACP filenames can silently lose tags |
+| [BUG-028](BUG-028.md) | Minor | Wont-Fix | MP3 ID3 metadata extraction is ANSI-only; non-ACP filenames can silently lose tags |
 | [BUG-029](BUG-029.md) | Major | **Done** | Long-path tail hardening across config, media, shell, and GeoLocation surfaces |
 | [BUG-030](BUG-030.md) | Minor | **Done** | Obfuscated server logins can advertise redundant callback crypto flags and require extra attempts |
 | [BUG-031](BUG-031.md) | Minor | Blocked | Shared-file hashing fails too eagerly on transient sharing and lock violations |
@@ -132,7 +132,7 @@ release branch where that comparison is meaningful.
 | [BUG-071](BUG-071.md) | Major | **Done** | server.met persistence still uses destructive backup and promotion moves |
 | [BUG-072](BUG-072.md) | Minor | **Done** | Kad preferences and routing snapshots still save in place |
 | [BUG-073](BUG-073.md) | Major | **Done** | WebServer session and bad-login state is mutated from request threads without synchronization |
-| [BUG-074](BUG-074.md) | Minor | Open | Archive preview scanner uses volatile cancellation and synchronous UI handoff |
+| [BUG-074](BUG-074.md) | Minor | Wont-Fix | Archive preview scanner uses volatile cancellation and synchronous UI handoff |
 
 ---
 
@@ -262,14 +262,12 @@ release branch where that comparison is meaningful.
 ### Do First — stabilization / hardening with minimal drift
 
 1. **BUG-072** — finish safe-promotion persistence coverage for `preferencesKad.dat` and `nodes.dat`
-2. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
-3. **BUG-002, BUG-013, BUG-074** — ArchiveRecovery/preview correctness, OOM, and worker-handoff bugs if the feature is retained
-4. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
-5. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
+2. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
+3. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
 
 ### Do Second — narrow stability items still close to current behavior
 
-1. **BUG-006, BUG-023, BUG-028, BUG-034, BUG-035** — targeted correctness fixes
+1. **BUG-006, BUG-023, BUG-034, BUG-035** — targeted correctness fixes
 2. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
 3. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
 4. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
@@ -361,7 +359,7 @@ FEAT-014 (OpenAPI/external gateway) ──► FEAT-040 (remote-controller/produc
 BUG-068 (download progress drawing) ──► CI-008 (UI/live regression coverage)
 BUG-069/073 (WebServer hardening) ──► CI-008 (WebServer/REST concurrency and static-file regressions)
 BUG-027/036 (safe promotion pattern) ──► BUG-071/072 (remaining server/Kad persistence saves)
-BUG-002/013 (ArchiveRecovery retain/remove decision) ──► BUG-074 (preview worker handoff)
+BUG-002/013/074 (ArchiveRecovery/preview bugs) — Wont-Fix; feature retained unchanged by product decision
 CI-006 (ASan) ──► BUG-018/019 follow-up concurrency verification
 ```
 
@@ -490,9 +488,9 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 13 bugs + 21 refactors/boost items + 26 features + 9 CI = **69 non-done issues**.*
+*Total non-done: 6 bugs + 21 refactors/boost items + 26 features + 9 CI = **62 non-done issues**.*
 
-*Status refresh through 2026-04-26: current `main` is reconciled through `dca6bba`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-028` was refreshed with cross-variant notes; `BUG-004`, `BUG-070`, and `BUG-072` are now Done.*
+*Status refresh through 2026-04-26: current `main` is reconciled through `dca6bba`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-028` was refreshed with cross-variant notes and is now Wont-Fix by product decision to accept the retained `id3lib` fallback risk; `BUG-004`, `BUG-070`, and `BUG-072` are now Done; `BUG-002`, `BUG-013`, and `BUG-074` are Wont-Fix by product decision to keep archive preview/recovery unchanged.*
 
 ## History
 
