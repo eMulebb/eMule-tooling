@@ -13,7 +13,7 @@ reference reading.
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `72`
+**Current non-done count:** `70`
 **Latest status refresh:** 2026-04-26
 
 Latest review trail:
@@ -127,11 +127,11 @@ release branch where that comparison is meaningful.
 | [BUG-066](BUG-066.md) | Minor | **Done** | Upload list secondary display path needed stale-row guarding |
 | [BUG-067](BUG-067.md) | Minor | **Done** | REST log route lacked the expected get alias seam |
 | [BUG-068](BUG-068.md) | Minor | Open | Download progress-bar drawing can leak GDI state into neighboring list cells |
-| [BUG-069](BUG-069.md) | Major | Open | WebServer static resource requests can escape the web root and allocate whole files |
+| [BUG-069](BUG-069.md) | Major | **Done** | WebServer static resource requests can escape the web root and allocate whole files |
 | [BUG-070](BUG-070.md) | Minor | **Done** | Ignored helper-thread launch failures can hang shutdown waits |
 | [BUG-071](BUG-071.md) | Major | Open | server.met persistence still uses destructive backup and promotion moves |
 | [BUG-072](BUG-072.md) | Minor | Open | Kad preferences and routing snapshots still save in place |
-| [BUG-073](BUG-073.md) | Major | Open | WebServer session and bad-login state is mutated from request threads without synchronization |
+| [BUG-073](BUG-073.md) | Major | **Done** | WebServer session and bad-login state is mutated from request threads without synchronization |
 | [BUG-074](BUG-074.md) | Minor | Open | Archive preview scanner uses volatile cancellation and synchronous UI handoff |
 
 ---
@@ -261,12 +261,11 @@ release branch where that comparison is meaningful.
 
 ### Do First — stabilization / hardening with minimal drift
 
-1. **BUG-069, BUG-073** — WebServer static-file containment and request-thread session-state locking
-2. **BUG-071, BUG-072** — finish safe-promotion persistence coverage for `server.met`, `preferencesKad.dat`, and `nodes.dat`
-3. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
-4. **BUG-002, BUG-013, BUG-074** — ArchiveRecovery/preview correctness, OOM, and worker-handoff bugs if the feature is retained
-5. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
-6. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
+1. **BUG-071, BUG-072** — finish safe-promotion persistence coverage for `server.met`, `preferencesKad.dat`, and `nodes.dat`
+2. **BUG-028** — remaining MP3 metadata fallback Unicode risk if `id3lib` stays
+3. **BUG-002, BUG-013, BUG-074** — ArchiveRecovery/preview correctness, OOM, and worker-handoff bugs if the feature is retained
+4. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
+5. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
 
 ### Do Second — narrow stability items still close to current behavior
 
