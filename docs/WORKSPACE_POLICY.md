@@ -311,8 +311,9 @@ extended for it.
 - Workspace-wide development rules belong only in this document.
 - Workspace-wide hooks and workspace-wide policy must be centralized in
   `repos\eMule-tooling`.
-- `repos\eMule-tooling\RESUME.md` may be used as a short current handoff
-  pointer. Detailed durable analysis belongs in tooling docs.
+- `repos\eMule-tooling\docs\RESUME.md` is the short current handoff pointer.
+  Update it only when terminating a session or when the user explicitly asks
+  for a current handoff. Detailed durable analysis belongs in tooling docs.
 - Repo-local `AGENTS.md` files should stay thin and repo-specific.
 - Repo-local docs must point to this policy rather than restating workspace
   branch, worktree, setup, or dependency authority.

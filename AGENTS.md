@@ -15,5 +15,5 @@
 - do not recreate legacy fixed-path `eMulebb` workspace assumptions in scripts or docs
 - ensure to implement regression and parity test coverage when touching core features
 - changes to oracle or comparison workspaces are allowed only when strictly required for testing, seams, logging, tracing, or debugging
-- only for major changes save and overwrite `.\RESUME.md` to keep track of the last and next chunk of work
+- only at session termination or explicit handoff, save and overwrite `docs\RESUME.md` to keep track of the last and next chunk of work
 - when launching `emule.exe`, always pass `-c` to make the config root explicit
