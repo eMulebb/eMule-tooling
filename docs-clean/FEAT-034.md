@@ -7,6 +7,7 @@ category: feature
 labels: [performance, shared-files, reload, threading, ui]
 milestone: ~
 created: 2026-04-20
+updated: 2026-04-26
 source: current `main` revalidation; `analysis\emuleai` and Xtreme comparison; filtered web-demand scan
 ---
 
@@ -63,6 +64,11 @@ and 2026-04-24:
 
 The targeted long-path recursive live scenario now shows one final coalesced list rebuild during shared hash drain instead of repeated periodic reloads. This reduces the startup and reload churn caused by hash-thread creation and repeated list rebuilds. It does **not** yet move the directory enumeration pass itself fully off the UI thread, so this item remains `In Progress` rather than `Done`.
 
+The separate shared-root watcher/live recursive sync track has now landed and
+is tracked as done in `FEAT-038`. That does not close this item: the remaining
+FEAT-034 concern is the manual reload/hash path, especially blocking filesystem
+I/O during shared hashing and shutdown.
+
 ## Remaining Work
 
 The still-open part is narrower now: blocking filesystem reads during shared
@@ -76,8 +82,9 @@ before treating FEAT-034 as complete.
   work on reload
 - the focused Xtreme archive also shows a long-standing off-thread/shared-scan direction
 
-That does not mean the branch should import their broader watcher/thread model. It does
-mean there is a proven low-level path to avoid blocking the UI during manual reloads.
+The branch has since added its own narrower monitored-root watcher model under
+`FEAT-038`, but this item intentionally remains about manual reload and hashing
+responsiveness, not broader auto-share policy.
 
 ## Scope Constraints
 
@@ -85,7 +92,6 @@ This item stays intentionally narrow:
 
 - target manual reloads and similar explicit shared-tree rescans
 - allow a bounded worker or coalesced background scan
-- do not add always-on filesystem watching
 - do not change share policy, duplicate policy, or startup cache ownership
 - keep behavior close to stock outside responsiveness improvements
 
@@ -106,4 +112,4 @@ broader `eMuleAI` shared-files feature import.
 - [x] targeted long-path live profile converges to the expected final visible Shared Files rows after hash drain
 - [ ] general final shared-file results converge to the same set as the synchronous path across broader reload scenarios
 - [x] uploads, share state, and GUI counters remain stable while shared hashes drain in the background
-- [x] no always-on watcher or wider product drift is introduced
+- [x] watcher/live recursive sync is tracked separately in `FEAT-038`

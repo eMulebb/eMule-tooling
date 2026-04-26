@@ -14,10 +14,11 @@ reference reading.
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
 **Current non-done count:** `67`
-**Latest status refresh:** 2026-04-25
+**Latest status refresh:** 2026-04-26
 
 Latest review trail:
 
+- [REVIEW-2026-04-26-emuleai-mods-broadband-scan](REVIEW-2026-04-26-emuleai-mods-broadband-scan.md)
 - [REVIEW-2026-04-25-current-main-backlog-refresh](REVIEW-2026-04-25-current-main-backlog-refresh.md)
 - [REVIEW-2026-04-20-emuleai-mods-main-backlog-pass](REVIEW-2026-04-20-emuleai-mods-main-backlog-pass.md)
 - [REVIEW-2026-04-20-feature-expansion-beyond-stock](REVIEW-2026-04-20-feature-expansion-beyond-stock.md)
@@ -124,6 +125,7 @@ release branch where that comparison is meaningful.
 | [BUG-065](BUG-065.md) | Minor | **Done** | Queue list secondary display path needed stale-row guarding |
 | [BUG-066](BUG-066.md) | Minor | **Done** | Upload list secondary display path needed stale-row guarding |
 | [BUG-067](BUG-067.md) | Minor | **Done** | REST log route lacked the expected get alias seam |
+| [BUG-068](BUG-068.md) | Minor | Open | Download progress-bar drawing can leak GDI state into neighboring list cells |
 
 ---
 
@@ -221,11 +223,13 @@ release branch where that comparison is meaningful.
 | [FEAT-035](FEAT-035.md) | Major | Open | IPv6 dual-stack networking for peers, friends, Kad, and server surfaces |
 | [FEAT-036](FEAT-036.md) | Major | Open | NAT traversal and extended source exchange for LowID-to-LowID connectivity |
 | [FEAT-037](FEAT-037.md) | Minor | Open | Release-oriented sharing controls — PowerShare, Release Bonus, and Share Only The Need |
-| [FEAT-038](FEAT-038.md) | Minor | Open | Shared-files watcher and live recursive share sync |
+| [FEAT-038](FEAT-038.md) | Minor | **Done** | Shared-files watcher and live recursive share sync |
 | [FEAT-039](FEAT-039.md) | Minor | Open | Download checker — duplicate and near-duplicate intake guard |
 | [FEAT-040](FEAT-040.md) | Major | Open | Headless core with modern web/mobile controller and multi-user permissions |
 | [FEAT-041](FEAT-041.md) | Minor | Open | Download Inspector automation for stale downloads and majority-name rename |
 | [FEAT-042](FEAT-042.md) | Minor | **Done** | Automatic IP filter update scheduling |
+| [FEAT-043](FEAT-043.md) | Minor | Open | Known Clients history and incremental list refresh performance |
+| [FEAT-044](FEAT-044.md) | Minor | Open | IP filter input policy - PeerGuardian lists, whitelist, and private-IP exemption |
 
 ---
 
@@ -259,17 +263,20 @@ release branch where that comparison is meaningful.
 
 1. **BUG-004 through BUG-006, BUG-023, BUG-028, BUG-034, BUG-035** — targeted correctness fixes
 2. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
-3. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
-4. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
-5. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
-6. **FEAT-002** — SafeKad CGNAT fix
-7. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
+3. **BUG-068** — Downloads / Downloading Clients progress-bar drawing-state leak check
+4. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
+5. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
+6. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
+7. **FEAT-002** — SafeKad CGNAT fix
+8. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
 
 ### Do Later — useful, but not part of the current stabilization milestone
 
 - **BUG-023** — shared-file ED2K published-state UI false `No` after publish reset; small correctness fix, low protocol risk
 - **FEAT-017, REF-026, REF-032** — DPI/manifest/MFC-host modernization
-- **FEAT-034** — keep manual shared-files reload responsive on large trees without importing the full watcher/thread model
+- **FEAT-034** — keep manual shared-files reload/hash paths responsive on large trees; watcher/live sync is separate and done in FEAT-038
+- **FEAT-043** — Known Clients list/history responsiveness for very large client histories
+- **FEAT-044** — richer IP-filter input policy after the safe updater foundation
 - **CI-001 through CI-006** — broader build/tooling modernization
 - **REF-017, REF-018, REF-020, REF-021, REF-023, REF-025** — cleanup and legacy removal passes
 - **REF-027** — CaptchaGenerator rewrite
@@ -280,7 +287,7 @@ release branch where that comparison is meaningful.
 
 ### Expansion Track — explicitly beyond stock
 
-- **FEAT-031, FEAT-035 through FEAT-042** — user-directed feature-expansion backlog; evaluate independently from the stabilization/hardening line
+- **FEAT-031, FEAT-035 through FEAT-044** — user-directed feature-expansion backlog; evaluate independently from the stabilization/hardening line
 
 ---
 
@@ -329,7 +336,8 @@ FEAT-025 (filename normalization) — standalone intake/completion hardening
 FEAT-026 (shared startup cache) ──► FEAT-027 (startup sequencing, profiling, and startup-path churn cleanup)
 FEAT-027 (startup sequencing/profiling) ──► FEAT-028 (shared-files control virtualization and churn reduction)
 FEAT-028 (shared-files virtualization) ──► FEAT-034 (manual reload freeze reduction on the same surface)
-FEAT-034 (manual reload freeze reduction) ──► FEAT-038 (shared-files watcher/live sync)
+FEAT-038 (shared-files watcher/live sync) — DONE, separate from remaining FEAT-034 filesystem-I/O hardening
+BUG-041 (Known Clients stale-row guard) ──► FEAT-043 (Known Clients history/list responsiveness)
 FEAT-015/023 (upload controller/scoring) ──► FEAT-037 (release-oriented sharing controls)
 FEAT-017 (DPI) ──► REF-026 (manifest) — apply together
 FEAT-017 (DPI) ──► REF-032 (modern MFC layout hosts) — apply on the same UI surfaces
@@ -338,8 +346,10 @@ FEAT-018 (µTP) ──► coordinate with REF-029 (WSAPoll UDP demux)
 FEAT-018 (µTP) ──► FEAT-036 (hole-punch and relay retry coordination)
 FEAT-032 (NAT mapping modernization) ──► FEAT-036 (connectivity stack follow-up)
 FEAT-035 (IPv6 dual-stack) ──► coordinate with FEAT-036 (future connectivity path)
+FEAT-042 (IP-filter updater) ──► FEAT-044 (IP-filter input policy)
 FEAT-013 (REST API) ──► FEAT-040 (headless/web/mobile control surface)
 FEAT-014 (OpenAPI/external gateway) ──► FEAT-040 (remote-controller/product layer)
+BUG-068 (download progress drawing) ──► CI-008 (UI/live regression coverage)
 CI-006 (ASan) ──► BUG-018/019 follow-up concurrency verification
 ```
 
@@ -383,6 +393,7 @@ These items were verified in `eMule-main` and are genuinely done:
 | FEAT-029 — Search result ceilings | commit `1dd710c` — configurable ed2k and moderate Kad search result/lifetime ceilings |
 | FEAT-030 — Bind policy completion | commits `a762ea1`, `ca80a00`, `6244a50` — `WebBindAddr`, ancillary bind audit completion, and follow-up UI restoration |
 | FEAT-033 — Disk-space floor hardening and legacy import-flow retirement | commit `e15e9f4` — separate protected disk floors plus stop/save behavior and legacy import-flow removal |
+| FEAT-038 — Shared-files watcher/live sync | commits `138f577`, `60b3b44` — monitored shared roots, persisted watcher state, watcher loop, and Shared Files update handoff |
 | FEAT-013 — In-process WebServer REST API | commits `94e0884`, `8d0832a` — `/api/v1` JSON surface, hashed `X-API-Key` auth, `WebServerJson.cpp`, vendored `nlohmann/json.hpp`, and upload-tuning parity mapped to the broadband controller |
 | BUG-029 — Long-path tail hardening | current `main` commit series `bb7ef92` through `1e71a16` |
 | BUG-030 — Server login crypt flags | commit `f9bb14b` — suppress callback crypt request/require flags on already-obfuscated server sockets |
@@ -458,6 +469,7 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 | `eMuleAI` + mods + web revalidation (2026-04-20) | Local `main` catch-up through `FEAT-033`, focused KnownFile persistence/dedup review, and filtered current community-demand scan | FEAT-033, REF-032, BUG-036, BUG-037, FEAT-034 |
 | Feature expansion pass beyond stock (2026-04-20) | User-directed backlog expansion using current eMuleAI feature notes, historical mod catalogs, and fresh web-demand signals | FEAT-031, FEAT-035, FEAT-036, FEAT-037, FEAT-038, FEAT-039, FEAT-040 |
 | Current main, eMuleAI v1.4, and backlog refresh (2026-04-25) | Current `main` catch-up through `b5d253b`, landed BUG-038 through BUG-067 docs, FEAT-034/TEST-034 refresh, eMuleAI v1.4 feature backlog additions, and source-scan pending-item summary | BUG-034 through BUG-067, FEAT-034, FEAT-037, FEAT-041, FEAT-042, CI-008 |
+| eMuleAI + mods broadband scan (2026-04-26) | Further comparison of current `main` against eMuleAI and historical mod archives for close-stock broadband feature selection | BUG-004, BUG-028, BUG-068, FEAT-038, FEAT-043, FEAT-044 |
 | `stale-v0.72a-experimental-clean` diff (2026-04-09) | 378 commits; 16 backlog items with reference impls | See Experimental Branch Reference table above |
 
 ---
@@ -465,9 +477,9 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 10 bugs + 21 refactors/boost items + 26 features + 9 CI = **66 non-done issues**.*
+*Total non-done: 11 bugs + 21 refactors/boost items + 26 features + 9 CI = **67 non-done issues**.*
 
-*Status refresh through 2026-04-25: current `main` is reconciled through `05eabec`; `BUG-036` and `BUG-037` are Done; `BUG-034`, `BUG-035`, and `FEAT-034` remain In Progress; `BUG-038` through `BUG-067` are documented as landed; `FEAT-041` and `FEAT-042` capture eMuleAI v1.4 feature backlog candidates.*
+*Status refresh through 2026-04-26: current `main` is reconciled through `dca6bba`; `FEAT-038` is now documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-004` and `BUG-028` were refreshed with cross-variant notes.*
 
 ## History
 
@@ -698,3 +710,9 @@ tests repo catch-up through `cac7b93`. Added landed `BUG-038` through `BUG-067`,
 `FEAT-034` and `CI-008`, and incorporated eMuleAI v1.4 feature backlog candidates as
 `FEAT-041` and `FEAT-042`. Recorded in
 [REVIEW-2026-04-25-current-main-backlog-refresh](REVIEW-2026-04-25-current-main-backlog-refresh.md).
+
+**Revalidated:** 2026-04-26 — further eMuleAI and mod archive scan for close-stock
+broadband feature selection. Marked `FEAT-038` Done after current-main watcher/live sync
+verification, added `BUG-068`, `FEAT-043`, and `FEAT-044`, and refreshed `BUG-004` /
+`BUG-028` with cross-variant notes. Recorded in
+[REVIEW-2026-04-26-emuleai-mods-broadband-scan](REVIEW-2026-04-26-emuleai-mods-broadband-scan.md).

@@ -63,6 +63,7 @@ active feature status.
 | [FEATURE-MODERN-LIMITS](FEATURE-MODERN-LIMITS.md) | Modern-limits rationale and historical plan context |
 | [FEATURE-PEERS-BANS](FEATURE-PEERS-BANS.md) | eMuleAI peer-banning analysis and context |
 | [FEATURE-THUMBS](FEATURE-THUMBS.md) | Retired thumbnail-preview capability notes |
+| [MODS-AND-EMULEAI-SCAN](MODS-AND-EMULEAI-SCAN.md) | Current eMuleAI/mod archive comparison notes for broadband feature selection |
 
 ## Guides, History, And Plans
 
@@ -83,7 +84,8 @@ active feature status.
 - `docs/` owns deep background, analysis, and historical design context.
 - `docs-clean/` owns active backlog status, dated revalidation notes, and
   landed/open item tracking.
-- The latest backlog refresh is [../docs-clean/REVIEW-2026-04-25-current-main-backlog-refresh.md](../docs-clean/REVIEW-2026-04-25-current-main-backlog-refresh.md), which rechecks current `main`, current tests coverage, and current `analysis\emuleai` v1.4 deltas against the active backlog.
+- The latest eMuleAI/mod scan is [../docs-clean/REVIEW-2026-04-26-emuleai-mods-broadband-scan.md](../docs-clean/REVIEW-2026-04-26-emuleai-mods-broadband-scan.md), which updates the broadband feature-selection backlog and corrects landed shared-files watcher status.
+- The latest broad backlog refresh is [../docs-clean/REVIEW-2026-04-25-current-main-backlog-refresh.md](../docs-clean/REVIEW-2026-04-25-current-main-backlog-refresh.md), which rechecks current `main`, current tests coverage, and current `analysis\emuleai` v1.4 deltas against the active backlog.
 - The latest feature-expansion pass is [../docs-clean/REVIEW-2026-04-20-feature-expansion-beyond-stock.md](../docs-clean/REVIEW-2026-04-20-feature-expansion-beyond-stock.md), which records the user-directed shift toward higher-drift product features and the new FEAT backlog candidates.
 - Preserve commit ids and historical branch names in reference docs where they
   add provenance, but do not treat them as current-branch guidance unless

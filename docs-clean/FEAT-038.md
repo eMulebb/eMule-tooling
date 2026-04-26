@@ -1,51 +1,81 @@
 ---
 id: FEAT-038
 title: Shared-files watcher and live recursive share sync
-status: Open
+status: Done
 priority: Minor
 category: feature
 labels: [shared-files, watcher, filesystem, auto-share, live-sync, performance]
 milestone: ~
 created: 2026-04-20
-source: eMuleAI release notes
+updated: 2026-04-26
+source: eMuleAI release notes; current `main` revalidation
 ---
 
 ## Summary
 
-Move beyond manual reloads by adding filesystem-watcher-driven synchronization for shared
-folders, including recursive subdirectory handling.
+Current `main` now has monitored shared-root support for live shared-folder
+sync. This closes the watcher/live recursive share-sync feature surface that
+was originally opened from the eMuleAI feature comparison.
 
-This is a higher-drift follow-up to `FEAT-034`. `FEAT-034` keeps the manual reload path from
-freezing the UI; `FEAT-038` goes further by keeping the shared view current without needing
-a full reload most of the time.
+This item is separate from `FEAT-034`. `FEAT-038` covers live watcher-driven
+shared-root synchronization. `FEAT-034` still tracks blocking filesystem I/O and
+manual reload/hash-drain hardening.
 
-## Intended Mainline Shape
+## Landed Scope
 
-- watch configured shared roots using OS filesystem notifications
-- detect adds, removals, and renames incrementally
-- optionally auto-share subdirectories under selected roots
-- coalesce bursts of watcher events into bounded background processing
-- fall back to explicit reload when events are lost or a full rescan is safer
+Current `eMule-main` contains:
 
-## Why Add It
+- app-level shared-directory monitor startup and watcher loop
+- persisted monitored-root state through `shareddir.monitored.dat`
+- Shared Directories context-menu commands to add/remove monitored roots
+- `UM_MONITORED_SHARED_DIR_UPDATE` UI handoff to the Shared Files window
+- catch-up/journal handling for monitored roots after startup or missed events
+- overlap guards so monitored roots are not nested ambiguously
 
-This directly improves large-library usability:
+Relevant current-main evidence includes:
 
-- fewer slow full rescans
-- fewer stale shared-file views after external file moves
-- better fit for users who maintain large incoming/archive trees outside the app
+- `srchybrid\Emule.cpp` / `Emule.h`
+  - `StartSharedDirectoryMonitor()`
+  - monitored root watcher state
+  - catch-up and reconciliation helpers
+- `srchybrid\Preferences.cpp` / `Preferences.h`
+  - monitored shared-root persistence
+- `srchybrid\SharedDirsTreeCtrl.cpp`
+  - `MP_SHAREDIRMONITOR` menu action
+  - add/remove monitored shared-directory commands
+- `srchybrid\SharedFilesWnd.cpp`
+  - `OnMonitoredSharedDirectoryUpdate(...)`
 
-## Scope Constraints
+The implementation landed through the shared-directory work on `main`,
+including:
 
-- keep the feature configurable because some network filesystems behave badly with watchers
-- do not force automatic recursive sharing on everyone
-- coordinate with `FEAT-028` and `FEAT-034` rather than reintroducing unstable shared-list
-  behavior
+- `138f577` - add monitored shared subtree refresh
+- `60b3b44` - switch monitored shared refresh to watchers
+
+## Comparison Notes
+
+eMuleAI has a different watcher implementation and a broader AutoShareSubdirs
+feature shape. The current branch took the narrower stock-friendly form:
+monitored roots are explicit, persisted, and integrated into the existing
+Shared Directories and Shared Files UI instead of importing the whole eMuleAI
+shared-files subsystem.
+
+## Remaining Follow-Up
+
+No follow-up remains under this item.
+
+Related but separate work remains under:
+
+- `FEAT-034` - blocking filesystem I/O during shared hashing/reload
+- `BUG-031` - transient shared-file hashing open failures
 
 ## Acceptance Criteria
 
-- [ ] shared-folder adds/removes/renames are detected without a full manual reload
-- [ ] recursive subdirectory behavior is configurable
-- [ ] event bursts are coalesced and processed off the UI thread
-- [ ] fallback full reload remains available when watcher confidence is lost
-- [ ] uploads and share-state accounting remain correct during live updates
+- [x] shared-folder adds/removes/renames are detected without a full manual
+      reload in the monitored-root path
+- [x] recursive shared-root behavior is explicit and persisted
+- [x] watcher events are handed off through bounded app/UI messages
+- [x] fallback/reconciliation handles startup catch-up or missed confidence
+      cases
+- [x] uploads and share-state accounting are updated through the existing
+      shared-files state machinery
