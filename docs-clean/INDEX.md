@@ -44,14 +44,13 @@ and current dependency pins.
 
 **Regression rule:** New feature/fix work from this backlog should include targeted
 regression checks. When behavior changes, compare `main` against
-`oracle/v0.72a-build` as the seam-enabled oracle baseline derived from the `build`
-release branch where that comparison is meaningful.
+`release/v0.72a-community` as the seam-enabled baseline where that comparison
+is meaningful.
 
-**Oracle stack rule:**
+**Baseline stack rule:**
 
-- `oracle/v0.72a-build` = baseline seam-enabled oracle
-- `tracing/v0.72a` = observability-only derivative of oracle
-- `tracing-harness/v0.72a` = behavior-changing parity-harness derivative of tracing
+- `release/v0.72a-community` = seam-enabled community baseline
+- `tracing-harness/v0.72a-community` = behavior-changing parity harness
 
 ---
 

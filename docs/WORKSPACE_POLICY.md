@@ -52,24 +52,20 @@ repo-local docs.
   - `feature/<topic>`
   - `fix/<topic>`
   - `chore/<topic>`
-- `release/v0.72a-build` and `release/v0.72a-bugfix` are frozen historical
-  stabilization lines.
-- `oracle/v0.72a-build` is the sanctioned seam-enabled oracle branch derived
-  from `release/v0.72a-build`.
-- `tracing/v0.72a` is the observability-only tracing branch derived from
-  `oracle/v0.72a-build`.
-- `tracing-harness/v0.72a` is the behavior-changing experimental harness branch
-  derived from `tracing/v0.72a`.
+- `release/v0.72a-community` is the active seam-enabled community baseline.
+- `release/v0.72a-broadband` is the active broadband release line.
+- `tracing-harness/v0.72a-community` is the behavior-changing parity harness
+  branch derived directly from `release/v0.72a-community`.
+- `release/v0.72a-build`, `release/v0.72a-bugfix`,
+  `oracle/v0.72a-build`, `tracing/v0.72a`, and
+  `tracing-harness/v0.72a` are retired historical references.
 - Small merge work on frozen release branches is allowed only to backport
   reviewed fixes or keep those branches buildable.
 - Future release work should branch from reviewed commits already present on
   `main`.
 - Release branches are downstream stabilization lines:
-  - `release/v0.72a-build`
-  - `release/v0.72a-bugfix`
+  - `release/v0.72a-community`
   - `release/v0.72a-broadband`
-- `release/v0.72a-broadband` is the intended next active release line when it
-  is created.
 - Promotion flows from reviewed commits already present on `main`.
 - Do not start normal feature work directly on release branches.
 
@@ -104,15 +100,9 @@ repo-local docs.
 The canonical workspace currently materializes these app worktrees:
 
 - `eMule-main` -> `main`
-- `eMule-v0.72a-oracle` -> `oracle/v0.72a-build`
-- `eMule-v0.72a-build` -> `release/v0.72a-build`
-- `eMule-v0.72a-bugfix` -> `release/v0.72a-bugfix`
-- `eMule-v0.72a-tracing` -> `tracing/v0.72a`
-- `eMule-v0.72a-tracing-harness` -> `tracing-harness/v0.72a`
-
-`release/v0.72a-broadband` is part of the active branch strategy but is not a
-managed canonical worktree unless setup/build orchestration is explicitly
-extended for it.
+- `eMule-v0.72a-community` -> `release/v0.72a-community`
+- `eMule-v0.72a-broadband` -> `release/v0.72a-broadband`
+- `eMule-v0.72a-tracing-harness-community` -> `tracing-harness/v0.72a-community`
 
 ## Workspace Manifest Contract
 
@@ -202,7 +192,7 @@ extended for it.
 - For feature and fix work on `main`, targeted regression checks are the
   default expectation.
 - When a change affects observable behavior, compare `main` against
-  `oracle/v0.72a-build` as the seam-enabled oracle baseline where the existing
+  `release/v0.72a-community` as the seam-enabled baseline where the existing
   targeted test or live-diff flow makes that comparison meaningful.
 - Full matrix validation is expected for:
   - build-system changes
@@ -219,8 +209,11 @@ extended for it.
 
 ## Backport Rules
 
-- `release/v0.72a-build` and `release/v0.72a-bugfix` are frozen maintenance
+- `release/v0.72a-community` and `release/v0.72a-broadband` are active release
   lines.
+- Retired refs such as `release/v0.72a-build`, `release/v0.72a-bugfix`,
+  `oracle/v0.72a-build`, `tracing/v0.72a`, and
+  `tracing-harness/v0.72a` are historical references only.
 - Acceptable backports are narrow and selective:
   - buildability fixes
   - important low-risk fixes
@@ -232,43 +225,35 @@ extended for it.
   - changes that have not already been reviewed on `main`
 - Prefer cherry-picks or tightly scoped merge work over branch drift.
 
-## Oracle Branch Rules
+## Community Baseline Rules
 
-- `oracle/v0.72a-build` is not a product release line and not a normal
-  development target.
-- The real product-history baseline remains `release/v0.72a-build`.
-- `oracle/v0.72a-build` exists only to support targeted regression testing
-  against a seam-enabled baseline derived from that release line.
-- Allowed oracle changes are limited to:
+- `release/v0.72a-community` is the seam-enabled comparison baseline and a
+  product release line.
+- Allowed community baseline changes are limited to:
   - test seams
   - deterministic probes or adapters
   - narrow logging or tracing needed by the test harness
-- Oracle seams must be inert unless explicitly exercised by the test harness.
-- Oracle changes must not alter normal runtime behavior, persistence semantics,
-  network behavior, or default control flow relative to
-  `release/v0.72a-build`.
-- Oracle seams may lag `main`; backport only the minimal common seam surface
+- Community seams must be inert unless explicitly exercised by the test
+  harness.
+- Community baseline changes must not alter normal runtime behavior,
+  persistence semantics, network behavior, or default control flow.
+- Community seams may lag `main`; backport only the minimal common seam surface
   required to compile and run the intended comparison tests.
 
-## Tracing Branch Rules
+## Tracing Harness Rules
 
-- `tracing/v0.72a` derives from `oracle/v0.72a-build`.
-- `tracing/v0.72a` exists to improve observability only:
-  - machine-readable packet dumps
-  - stable trace ids / event sequencing
-  - state-oriented tracing that does not alter runtime behavior
-- `tracing/v0.72a` must not add harness-driven bootstrap actions, seeded Kad
-  publish/search overrides, or other behavior-changing parity helpers.
-- `tracing-harness/v0.72a` derives from `tracing/v0.72a`.
-- `tracing-harness/v0.72a` is the only sanctioned place for deterministic
+- `tracing-harness/v0.72a-community` derives from
+  `release/v0.72a-community`.
+- `tracing-harness/v0.72a-community` is the only sanctioned place for
+  deterministic
   parity-harness behavior such as:
   - CLI orchestration hooks
   - ready-file / startup automation
   - seeded source-publish or source-search overrides
   - swarm-control or parity-seed behavior that intentionally changes runtime
     decisions
-- `oracle/v0.72a-build` remains the default comparison baseline for live-diff
-  and parity work unless a task explicitly requires `tracing` or
+- `release/v0.72a-community` remains the default comparison baseline for
+  live-diff and parity work unless a task explicitly requires
   `tracing-harness`.
 
 ## Setup and Dependency Authority
@@ -431,6 +416,5 @@ extended for it.
 - Official releases should be marked with annotated tags on the chosen
   release-branch commit.
 - Recommended tag families:
-  - `v0.72a-build.N`
-  - `v0.72a-bugfix.N`
+  - `v0.72a-community.N`
   - `v0.72a-broadband.N`

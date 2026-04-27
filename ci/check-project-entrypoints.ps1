@@ -50,9 +50,9 @@ function Assert-FileNotContains([string]$PathToCheck, [string]$Pattern, [string]
 
 foreach ($variantRelativeRoot in @(
     'workspaces\v0.72a\app\eMule-main',
-    'workspaces\v0.72a\app\eMule-v0.72a-oracle',
-    'workspaces\v0.72a\app\eMule-v0.72a-build',
-    'workspaces\v0.72a\app\eMule-v0.72a-bugfix'
+    'workspaces\v0.72a\app\eMule-v0.72a-community',
+    'workspaces\v0.72a\app\eMule-v0.72a-broadband',
+    'workspaces\v0.72a\app\eMule-v0.72a-tracing-harness-community'
 )) {
     $appRoot = Resolve-WorkspacePath $variantRelativeRoot
     Assert-PathMissing (Join-Path $appRoot 'srchybrid\emule.sln')

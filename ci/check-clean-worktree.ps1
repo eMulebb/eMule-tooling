@@ -49,9 +49,9 @@ $reposToCheck = @(
     (Resolve-WorkspacePath 'repos\third_party\eMule-ResizableLib'),
     (Resolve-WorkspacePath 'repos\third_party\eMule-zlib'),
     (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-main'),
-    (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-oracle'),
-    (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-build'),
-    (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-bugfix')
+    (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-community'),
+    (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-broadband'),
+    (Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-tracing-harness-community')
 )
 if (-not [string]::IsNullOrWhiteSpace($SetupRepoRoot)) {
     $reposToCheck = @($SetupRepoRoot) + $reposToCheck

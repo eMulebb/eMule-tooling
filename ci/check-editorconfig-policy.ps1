@@ -116,9 +116,9 @@ $scopes = @(
     @{ Label = 'build'; RepoRoot = Resolve-WorkspacePath 'repos\eMule-build' }
     @{ Label = 'tests'; RepoRoot = Resolve-WorkspacePath 'repos\eMule-build-tests' }
     @{ Label = 'app-main'; RepoRoot = Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-main' }
-    @{ Label = 'app-oracle'; RepoRoot = Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-oracle' }
-    @{ Label = 'app-build'; RepoRoot = Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-build' }
-    @{ Label = 'app-bugfix'; RepoRoot = Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-bugfix' }
+    @{ Label = 'app-community'; RepoRoot = Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-community' }
+    @{ Label = 'app-broadband'; RepoRoot = Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-broadband' }
+    @{ Label = 'app-tracing-harness'; RepoRoot = Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-v0.72a-tracing-harness-community' }
 )
 
 foreach ($scope in $scopes) {
