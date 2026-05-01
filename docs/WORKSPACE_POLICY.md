@@ -421,4 +421,9 @@ The canonical workspace currently materializes these app worktrees:
   release-branch commit.
 - Recommended tag families:
   - `v0.72a-community.N`
-  - `v0.72a-broadband.N`
+  - `emule-bb-vMAJOR.MINOR.PATCH` for eMule BB broadband releases, starting
+    with `emule-bb-v1.1.0`
+- eMule BB release packages should include a platform-specific ZIP asset whose
+  name matches the release version, for example:
+  - `eMule-BB-1.1.0-x64.zip`
+  - `eMule-BB-1.1.0-arm64.zip`
