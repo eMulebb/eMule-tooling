@@ -75,6 +75,9 @@ Typical status mapping:
 - `capabilities.renameFile`
 - `capabilities.fileRatingComment`
 
+`fileRatingComment` means controllers may update user-visible rating/comment
+metadata on completed shared files.
+
 ### Status And Snapshot
 
 - `GET /api/v1/status`
@@ -166,11 +169,22 @@ Delete accepts:
 - `GET /api/v1/shared-files`
 - `POST /api/v1/shared-files`
 - `GET /api/v1/shared-files/{hash}`
+- `PATCH /api/v1/shared-files/{hash}`
 - `DELETE /api/v1/shared-files`
 - `DELETE /api/v1/shared-files/{hash}`
 
 Add accepts `{ "path": "C:\\share\\file.ext" }`. Delete by body accepts either
 `path` or `hash`; delete by route hash supplies `hash` from the path.
+
+Patch updates the completed shared-file comment and rating together:
+
+```json
+{ "comment": "verified release", "rating": 4 }
+```
+
+`rating` must be an integer from `0` through `5`. `comment` is required and is
+truncated to eMule's file-comment length limit. Part files cannot be updated by
+this endpoint. Shared-file rename remains unsupported in this release slice.
 
 ### Uploads
 
