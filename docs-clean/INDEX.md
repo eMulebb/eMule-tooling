@@ -28,7 +28,7 @@ Latest review trail:
 ## Operating Rules
 
 **Priority scale:** Critical > Major > Minor > Trivial  
-**Status values:** Open / In Progress / Blocked / Done / Wont-Fix
+**Status values:** Open / In Progress / Blocked / Deferred / Done / Wont-Fix
 
 **Directory role:** `docs-clean/` owns current backlog status and dated
 revalidation notes; `docs/` owns long-form background and historical reference
@@ -63,9 +63,9 @@ is meaningful.
 | [BUG-003](BUG-003.md) | Minor | **Done** | Historical large-file FIXME markers overstated the remaining live issue |
 | [BUG-004](BUG-004.md) | Minor | **Done** | IPFilter overlapping IP ranges not handled — acknowledged correctness gap |
 | [BUG-005](BUG-005.md) | Minor | Wont-Fix | Kad buddy connections broken when RequireCrypt is enabled |
-| [BUG-006](BUG-006.md) | Minor | Open | Weak RNG for crypto challenge — rand() seeded with time(NULL) (accepted risk) |
+| [BUG-006](BUG-006.md) | Minor | Wont-Fix | Weak RNG for crypto challenge — rand() seeded with time(NULL) *(accepted risk by product decision)* |
 | [BUG-007](BUG-007.md) | Minor | **Done** | Ring.h — three UB + correctness bugs in CRing\<T\> (CODEREV_003, 004, 011) |
-| [BUG-008](BUG-008.md) | Minor | Open | CaptchaGenerator — rand() & 8 bimodal jitter (only 0 or 8, never 1-7) *(resolved if REF-027 lands)* |
+| [BUG-008](BUG-008.md) | Minor | Wont-Fix | CaptchaGenerator — rand() & 8 bimodal jitter *(low release value; leave to REF-027 if reopened)* |
 | [BUG-009](BUG-009.md) | Minor | **Done** | PartFile — non-atomic part.met replacement (_tremove + _trename crash window) |
 | [BUG-010](BUG-010.md) | Minor | **Done** | PartFile — part.met write on low disk space risks truncation/corruption |
 | [BUG-011](BUG-011.md) | Minor | **Done** | Race — shareddir_list iterated without lock in SendSharedDirectories |
@@ -88,7 +88,7 @@ is meaningful.
 | [BUG-028](BUG-028.md) | Minor | Wont-Fix | MP3 ID3 metadata extraction is ANSI-only; non-ACP filenames can silently lose tags |
 | [BUG-029](BUG-029.md) | Major | **Done** | Long-path tail hardening across config, media, shell, and GeoLocation surfaces |
 | [BUG-030](BUG-030.md) | Minor | **Done** | Obfuscated server logins can advertise redundant callback crypto flags and require extra attempts |
-| [BUG-031](BUG-031.md) | Minor | Blocked | Shared-file hashing fails too eagerly on transient sharing and lock violations |
+| [BUG-031](BUG-031.md) | Minor | Deferred | Shared-file hashing fails too eagerly on transient sharing and lock violations |
 | [BUG-032](BUG-032.md) | Minor | **Done** | AICH hashset save can fail spuriously after hashing because `known2.met` lock wait times out |
 | [BUG-033](BUG-033.md) | Minor | Wont-Fix | WebSocket and MiniUPnP shutdown still use forced thread termination |
 | [BUG-034](BUG-034.md) | Minor | In Progress | Release paths silently swallow unexpected exceptions via catch (...) plus ASSERT(0) |
@@ -261,17 +261,14 @@ is meaningful.
 ### Do First — stabilization / hardening with minimal drift
 
 1. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
-2. **BUG-031** — bounded retry for transient shared-file hashing open failures *(explicitly deferred / Blocked)*
 
 ### Do Second — narrow stability items still close to current behavior
 
-1. **BUG-006, BUG-034, BUG-035** — targeted correctness fixes
-2. **BUG-008** — CaptchaGenerator rand() & 8 or fold into REF-027
-3. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
-4. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
-5. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
-6. **FEAT-002** — SafeKad CGNAT fix
-7. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
+1. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
+2. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
+3. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
+4. **FEAT-002** — SafeKad CGNAT fix
+5. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
 
 ### Do Later — useful, but not part of the current stabilization milestone
 
@@ -485,9 +482,9 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 *Issues are tracked here, not in the old `docs/` folder. The `docs/` folder is
 historical reference only.*
 
-*Total non-done: 5 bugs + 21 refactors/boost items + 26 features + 9 CI = **61 non-done issues**.*
+*Total non-done: 3 bugs + 21 refactors/boost items + 26 features + 9 CI = **59 non-done issues**.*
 
-*Status refresh through 2026-04-27: current `main` is reconciled through `10a6c20`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-028` was refreshed with cross-variant notes and is now Wont-Fix by product decision to accept the retained `id3lib` fallback risk; `BUG-004`, `BUG-023`, `BUG-070`, and `BUG-072` are now Done; `BUG-002`, `BUG-013`, and `BUG-074` are Wont-Fix by product decision to keep archive preview/recovery unchanged.*
+*Status refresh through 2026-05-01: current `main` is reconciled through `10a6c20`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-028` was refreshed with cross-variant notes and is now Wont-Fix by product decision to accept the retained `id3lib` fallback risk; `BUG-004`, `BUG-023`, `BUG-070`, and `BUG-072` are now Done; `BUG-002`, `BUG-006`, `BUG-008`, `BUG-013`, and `BUG-074` are Wont-Fix by product decision; `BUG-031` is Deferred.*
 
 ## History
 
@@ -633,8 +630,8 @@ fallback remains, so the item is now `In Progress` rather than `Open`.
 **Updated:** 2026-04-19 — `BUG-005` is now marked `Wont-Fix` by explicit product
 decision: Kad buddy callback encryption / `RequireCrypt` incompatibility is understood
 but intentionally not pursued on the current branch direction. `REF-021` remains valid
-but is explicitly deferred for now; because the backlog schema has no `Deferred` status,
-it is tracked as `Blocked`.
+but is explicitly deferred for now; it is still tracked as `Blocked` pending a
+separate disposition pass for refactor items.
 
 **Updated:** 2026-04-19 — added `BUG-033` to persist the explicit `Wont-Fix` decision
 for the shutdown-only `TerminateThread` fallbacks in `WebSocket.cpp` and
@@ -657,8 +654,9 @@ after the external-header noise reduction pass. This keeps real source-fix bucke
 cleanup and from framework-heavy `C4191` triage.
 
 **Updated:** 2026-04-19 — `BUG-031`, `CI-010`, and the remaining `FEAT-001` FastKad
-follow-through are now explicitly deferred by product decision; because the backlog
-schema has no `Deferred` state, they are tracked as `Blocked`.
+follow-through were explicitly deferred by product decision. `BUG-031` is now tracked
+with the first-class `Deferred` status; `CI-010` and `FEAT-001` remain `Blocked`
+pending a separate disposition pass for CI and feature items.
 
 **Updated:** 2026-04-19 — `main` now includes the `BUG-003` cleanup in commit `a0a7d18`:
 the real remaining issue was narrowed to Kad metadata 64-bit formatting, that formatter
