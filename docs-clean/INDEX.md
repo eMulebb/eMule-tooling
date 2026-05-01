@@ -13,7 +13,7 @@ reference reading.
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `77`
+**Current non-done count:** `78`
 **Latest status refresh:** 2026-05-02
 
 Latest review trail:
@@ -247,6 +247,7 @@ is meaningful.
 | [FEAT-047](FEAT-047.md) | Minor | Open | REST search API completeness pass |
 | [FEAT-048](FEAT-048.md) | Minor | Open | REST upload queue control completeness |
 | [FEAT-049](FEAT-049.md) | Minor | Open | Curated REST preference expansion |
+| [FEAT-050](FEAT-050.md) | Minor | Open | Launch external program on completed download |
 
 ---
 
@@ -296,11 +297,12 @@ is meaningful.
 1. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
 2. **CI-012, CI-013, AMUT-001** — complete the UI-driven release smoke lanes
 3. **FEAT-046, FEAT-047, FEAT-048, FEAT-049** — fill REST completeness gaps after the hardening gates
-4. **BUG-077** — run WebServer concurrency soak after malformed-request behavior is stable
-5. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
-6. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
-7. **FEAT-002** — SafeKad CGNAT fix
-8. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
+4. **FEAT-050** — add opt-in completion command automation with a narrow no-shell launch model
+5. **BUG-077** — run WebServer concurrency soak after malformed-request behavior is stable
+6. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
+7. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
+8. **FEAT-002** — SafeKad CGNAT fix
+9. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
 
 ### Do Later — useful, but not part of the current stabilization milestone
 
@@ -376,6 +378,7 @@ FEAT-015 (slot allocation) ──► FEAT-016 (modern limits — coordinate Opco
 FEAT-015 (slot allocation) ──► FEAT-023 (optional scoring/UI extras kept separate)
 FEAT-024 (share-ignore policy) ──► CI-009 (share-ignore regressions)
 FEAT-025 (filename normalization) — standalone intake/completion hardening
+FEAT-050 (completion command) — hooks after retained completed-file finalization; no shell or per-category behavior in the first slice
 FEAT-026 (shared startup cache) ──► FEAT-027 (startup sequencing, profiling, and startup-path churn cleanup)
 FEAT-027 (startup sequencing/profiling) ──► FEAT-028 (shared-files control virtualization and churn reduction)
 FEAT-028 (shared-files virtualization) ──► FEAT-034 (manual reload freeze reduction on the same surface)
