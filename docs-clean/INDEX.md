@@ -13,11 +13,12 @@ reference reading.
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `61`
-**Latest status refresh:** 2026-04-27
+**Current non-done count:** `59`
+**Latest status refresh:** 2026-05-01
 
 Latest review trail:
 
+- [REVIEW-2026-05-01-release-readiness-regression-scan](REVIEW-2026-05-01-release-readiness-regression-scan.md)
 - [REVIEW-2026-04-26-main-bug-concurrency-scan](REVIEW-2026-04-26-main-bug-concurrency-scan.md)
 - [REVIEW-2026-04-26-emuleai-mods-broadband-scan](REVIEW-2026-04-26-emuleai-mods-broadband-scan.md)
 - [REVIEW-2026-04-25-current-main-backlog-refresh](REVIEW-2026-04-25-current-main-backlog-refresh.md)
@@ -475,6 +476,7 @@ have since landed in `eMule-main`; others remain reference-only. Each individual
 | Current main, eMuleAI v1.4, and backlog refresh (2026-04-25) | Current `main` catch-up through `b5d253b`, landed BUG-038 through BUG-067 docs, FEAT-034/TEST-034 refresh, eMuleAI v1.4 feature backlog additions, and source-scan pending-item summary | BUG-034 through BUG-067, FEAT-034, FEAT-037, FEAT-041, FEAT-042, CI-008 |
 | eMuleAI + mods broadband scan (2026-04-26) | Further comparison of current `main` against eMuleAI and historical mod archives for close-stock broadband feature selection | BUG-004, BUG-028, BUG-068, FEAT-038, FEAT-043, FEAT-044 |
 | Current main bug/concurrency scan (2026-04-26) | Direct current-main scan for WebServer races/path containment, remaining destructive persistence paths, helper-thread shutdown waits, and archive-preview worker handoff | BUG-069 through BUG-074 |
+| Release readiness regression scan (2026-05-01) | Current `main` scan through `6697302` for recent broadband stabilization changes, release-update checker risk, silent failure paths, and thread/message boundaries | BUG-034, BUG-035, REF-025 |
 | `stale-v0.72a-experimental-clean` diff (2026-04-09) | 378 commits; 16 backlog items with reference impls | See Experimental Branch Reference table above |
 
 ---
@@ -484,7 +486,8 @@ historical reference only.*
 
 *Total non-done: 3 bugs + 21 refactors/boost items + 26 features + 9 CI = **59 non-done issues**.*
 
-*Status refresh through 2026-05-01: current `main` is reconciled through `10a6c20`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-028` was refreshed with cross-variant notes and is now Wont-Fix by product decision to accept the retained `id3lib` fallback risk; `BUG-004`, `BUG-023`, `BUG-070`, and `BUG-072` are now Done; `BUG-002`, `BUG-006`, `BUG-008`, `BUG-013`, and `BUG-074` are Wont-Fix by product decision; `BUG-031` is Deferred.*
+*Status refresh through 2026-05-01: current `main` is reconciled through `6697302`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-028` was refreshed with cross-variant notes and is now Wont-Fix by product decision to accept the retained `id3lib` fallback risk; `BUG-004`, `BUG-023`, `BUG-070`, and `BUG-072` are now Done; `BUG-002`, `BUG-006`, `BUG-008`, `BUG-013`, and `BUG-074` are Wont-Fix by product decision; `BUG-031` is Deferred.*
+*Release-readiness scan through 2026-05-01: current `main` was reviewed from `10a6c20` through `6697302`; no rollback-level regression was found in the recent broadband stabilization slices; `BUG-034` / `BUG-035` stay active with `ClientUDPSocket.cpp` unknown UDP exception diagnostics as the next high-signal target; the GitHub release update checker has one small parser hardening follow-up for overflowed version components.*
 
 ## History
 
@@ -744,3 +747,8 @@ inside overlaps, and adjacent same-level segments are merged before lookup.
 publish-state refresh handling in app commit `10a6c20`: shared files keep their
 visible published state while an ED2K republish is pending, the next server offer
 includes pending files, and the pending state clears after packet inclusion.
+
+**Revalidated:** 2026-05-01 — current `main` was scanned from `10a6c20`
+through `6697302` for release regressions, silent failure paths, update-checker
+risks, and thread/message boundaries. Recorded in
+[REVIEW-2026-05-01-release-readiness-regression-scan](REVIEW-2026-05-01-release-readiness-regression-scan.md).
