@@ -58,6 +58,7 @@ foreach ($relativePath in @(
     'repos\third_party\eMule-id3lib',
     'repos\third_party\eMule-mbedtls',
     'repos\third_party\eMule-miniupnp',
+    'repos\third_party\eMule-nlohmann-json',
     'repos\third_party\eMule-ResizableLib',
     'repos\third_party\eMule-zlib'
 )) {
