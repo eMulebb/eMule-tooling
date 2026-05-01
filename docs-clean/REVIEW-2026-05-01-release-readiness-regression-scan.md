@@ -101,6 +101,25 @@ reproduction appears.
   around non-compressible media/archive extensions rather than user preference
   state.
 
+## REST Live Proof Addendum
+
+The redesigned `/api/v1` REST surface was live-proved on 2026-05-01 with the
+isolated Debug x64 REST smoke lane:
+
+- report: `repos\eMule-build-tests\reports\rest-api-smoke\20260501-154017-eMule-main-debug`
+- command: `python repos\eMule-build-tests\scripts\rest-api-smoke.py --workspace-root workspaces\v0.72a --configuration Debug --server-search-count 1 --kad-search-count 1 --enable-upnp --keep-artifacts`
+- result: passed, including auth checks, resource-style REST surface checks,
+  server connect/disconnect, Kad connect/disconnect, one server search, one Kad
+  search, HTML root compatibility, and clean app shutdown
+
+The live run exposed no REST contract rollback issue. It did expose Debug-only
+automation blockers around startup/shutdown invariants: transfer-window primary
+view initialization order, nullable Kad accessors that callers already guard,
+branded eMule BB main-window detection in the live harness, and UI cleanup
+paths touching already-destroyed tab/list controls during process teardown.
+Those were fixed as release-stabilization work so the live REST lane can be
+used as a real pre-release gate.
+
 ## Updated Risk Counters
 
 Current app source scan results after `6697302`:

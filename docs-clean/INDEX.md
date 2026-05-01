@@ -488,6 +488,7 @@ historical reference only.*
 
 *Status refresh through 2026-05-01: current `main` is reconciled through `6697302`; `FEAT-038` is documented as Done; `BUG-068`, `FEAT-043`, and `FEAT-044` were added from the eMuleAI/mod scan; `BUG-069` through `BUG-074` were added from the direct current-main bug/concurrency scan; `BUG-028` was refreshed with cross-variant notes and is now Wont-Fix by product decision to accept the retained `id3lib` fallback risk; `BUG-004`, `BUG-023`, `BUG-070`, and `BUG-072` are now Done; `BUG-002`, `BUG-006`, `BUG-008`, `BUG-013`, and `BUG-074` are Wont-Fix by product decision; `BUG-031` is Deferred.*
 *Release-readiness scan through 2026-05-01: current `main` was reviewed from `10a6c20` through `6697302`; no rollback-level regression was found in the recent broadband stabilization slices; `BUG-034` / `BUG-035` stay active with `ClientUDPSocket.cpp` unknown UDP exception diagnostics as the next high-signal target; the GitHub release update checker has one small parser hardening follow-up for overflowed version components.*
+*REST live proof on 2026-05-01: the redesigned `/api/v1` surface passed the isolated Debug x64 live smoke with one server search, one Kad search, and clean shutdown; report `repos\eMule-build-tests\reports\rest-api-smoke\20260501-154017-eMule-main-debug`.*
 
 ## History
 
@@ -751,4 +752,9 @@ includes pending files, and the pending state clears after packet inclusion.
 **Revalidated:** 2026-05-01 — current `main` was scanned from `10a6c20`
 through `6697302` for release regressions, silent failure paths, update-checker
 risks, and thread/message boundaries. Recorded in
+[REVIEW-2026-05-01-release-readiness-regression-scan](REVIEW-2026-05-01-release-readiness-regression-scan.md).
+
+**Live-proofed:** 2026-05-01 — redesigned `/api/v1` REST passed the isolated
+Debug x64 live smoke with one server search, one Kad search, and clean shutdown.
+The run is recorded in
 [REVIEW-2026-05-01-release-readiness-regression-scan](REVIEW-2026-05-01-release-readiness-regression-scan.md).
