@@ -67,6 +67,7 @@ Typical status mapping:
 - `capabilities.searches`
 - `capabilities.servers`
 - `capabilities.sharedFiles`
+- `capabilities.sharedDirectories`
 - `capabilities.uploads`
 - `capabilities.logs`
 - `capabilities.categoriesRead`
@@ -110,9 +111,12 @@ should request sources lazily.
 ### Categories
 
 - `GET /api/v1/categories`
+- `POST /api/v1/categories`
+- `GET /api/v1/categories/{id}`
+- `PATCH /api/v1/categories/{id}`
+- `DELETE /api/v1/categories/{id}`
 
-Categories are read-only in the broadband release contract. The default
-download category is exposed as id `0`, name `Default`.
+The default download category is exposed as id `0`, name `Default`.
 
 Category rows include:
 
@@ -122,6 +126,15 @@ Category rows include:
 - `comment`
 - `color`
 - `priority`
+
+Create accepts:
+
+```json
+{ "name": "Linux ISOs", "path": "C:\\incoming\\linux", "comment": "", "color": 65280, "priority": 1 }
+```
+
+Patch accepts any supported subset except `id`. The default category cannot be
+edited or deleted through the REST API.
 
 ### Transfers
 
@@ -159,8 +172,6 @@ Patch accepts one of:
 ```
 
 `categoryName` assigns the transfer to an existing configured category by name.
-Category creation, editing, deletion, and rename are intentionally not exposed
-in this release slice.
 
 `name` renames incomplete transfers only. Completed transfers and completing
 transfers return `409 INVALID_STATE`; shared-file filesystem rename is not part
@@ -193,6 +204,26 @@ Patch updates the completed shared-file comment and rating together:
 `rating` must be an integer from `0` through `5`. `comment` is required and is
 truncated to eMule's file-comment length limit. Part files cannot be updated by
 this endpoint. Shared-file rename remains unsupported in this release slice.
+
+### Shared Directories
+
+- `GET /api/v1/shared-directories`
+- `PATCH /api/v1/shared-directories`
+- `POST /api/v1/shared-directories/reload`
+
+`GET` returns configured shared roots with recursive flags. `PATCH` replaces
+the configured root set:
+
+```json
+{
+  "roots": [
+    { "path": "C:\\share", "recursive": true }
+  ]
+}
+```
+
+`reload` requests a shared-file reload using the normal application path and
+returns after the request is accepted.
 
 ### Uploads
 

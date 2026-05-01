@@ -13,8 +13,8 @@ reference reading.
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `61`
-**Latest status refresh:** 2026-05-01
+**Current non-done count:** `77`
+**Latest status refresh:** 2026-05-02
 
 Latest review trail:
 
@@ -133,6 +133,9 @@ is meaningful.
 | [BUG-072](BUG-072.md) | Minor | **Done** | Kad preferences and routing snapshots still save in place |
 | [BUG-073](BUG-073.md) | Major | **Done** | WebServer session and bad-login state is mutated from request threads without synchronization |
 | [BUG-074](BUG-074.md) | Minor | Wont-Fix | Archive preview scanner uses volatile cancellation and synchronous UI handoff |
+| [BUG-075](BUG-075.md) | Major | Open | REST and WebServer typed error consistency |
+| [BUG-076](BUG-076.md) | Major | Open | WebServer malformed request hardening for REST and legacy HTML |
+| [BUG-077](BUG-077.md) | Minor | Open | WebServer concurrent REST and legacy HTML soak coverage |
 
 ---
 
@@ -239,6 +242,11 @@ is meaningful.
 | [FEAT-042](FEAT-042.md) | Minor | **Done** | Automatic IP filter update scheduling |
 | [FEAT-043](FEAT-043.md) | Minor | Open | Known Clients history and incremental list refresh performance |
 | [FEAT-044](FEAT-044.md) | Minor | Open | IP filter input policy - PeerGuardian lists, whitelist, and private-IP exemption |
+| [FEAT-045](FEAT-045.md) | Major | Open | REST transfer detail endpoint for controller parity |
+| [FEAT-046](FEAT-046.md) | Major | Open | REST server and Kad bootstrap/import APIs |
+| [FEAT-047](FEAT-047.md) | Minor | Open | REST search API completeness pass |
+| [FEAT-048](FEAT-048.md) | Minor | Open | REST upload queue control completeness |
+| [FEAT-049](FEAT-049.md) | Minor | Open | Curated REST preference expansion |
 
 ---
 
@@ -256,6 +264,21 @@ is meaningful.
 | [CI-008](CI-008.md) | Minor | In Progress | Expand regression coverage for part files, long paths, and WebServer/REST |
 | [CI-009](CI-009.md) | Minor | **Done** | Share-ignore regression coverage and Release test-build stabilization |
 | [CI-010](CI-010.md) | Minor | Blocked | Reduce remaining app-local warning debt after external noise cleanup |
+| [CI-011](CI-011.md) | Major | Open | Broadband release live E2E coverage umbrella |
+| [CI-012](CI-012.md) | Major | Open | Stabilize Shared Files dynamic folder lifecycle E2E |
+| [CI-013](CI-013.md) | Major | Open | Download and search UI live scenarios |
+| [CI-014](CI-014.md) | Major | Open | REST contract manifest and live completeness gate |
+| [CI-015](CI-015.md) | Major | Open | REST malformed and concurrent request matrix |
+| [CI-016](CI-016.md) | Minor | Open | REST-only main vs community regression lane |
+
+---
+
+## Controller Integrations
+
+| ID | Priority | Status | Title |
+|----|----------|--------|-------|
+| [AMUT-001](AMUT-001.md) | Major | Open | aMuTorrent eMule BB browser smoke coverage |
+| [AMUT-002](AMUT-002.md) | Major | Open | aMuTorrent transfer detail hydration |
 
 ---
 
@@ -263,15 +286,21 @@ is meaningful.
 
 ### Do First — stabilization / hardening with minimal drift
 
-1. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
+1. **CI-011, CI-014, CI-015** — make the release live E2E and REST completeness gates first-class
+2. **BUG-075, BUG-076** — harden REST/WebServer error and malformed-request behavior before adding more API surface
+3. **FEAT-045, AMUT-002** — add transfer-detail data needed by aMuTorrent parity
+4. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
 
 ### Do Second — narrow stability items still close to current behavior
 
 1. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
-2. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
-3. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
-4. **FEAT-002** — SafeKad CGNAT fix
-5. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
+2. **CI-012, CI-013, AMUT-001** — complete the UI-driven release smoke lanes
+3. **FEAT-046, FEAT-047, FEAT-048, FEAT-049** — fill REST completeness gaps after the hardening gates
+4. **BUG-077** — run WebServer concurrency soak after malformed-request behavior is stable
+5. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
+6. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
+7. **FEAT-002** — SafeKad CGNAT fix
+8. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
 
 ### Do Later — useful, but not part of the current stabilization milestone
 
@@ -287,6 +316,7 @@ is meaningful.
 - **FEAT-014** — optional OpenAPI/external gateway follow-up after FEAT-013
 - **FEAT-018 through FEAT-021** — larger product features outside the hardening milestone
 - **CI-007** — Kad fuzz tests after the broader CI/toolchain stack is ready
+- **CI-016** — broaden REST-only community parity once the v1 contract and live gates are stable
 
 ### Expansion Track — explicitly beyond stock
 
@@ -336,6 +366,11 @@ FEAT-008 (oracle seams) ──► FEAT-009 (mirror audit)
 FEAT-013 (WebServer REST) ──► FEAT-014 (OpenAPI / optional external gateway)
 FEAT-013 (WebServer REST) ──► BUG-069 (static-file path containment and bounded serving)
 FEAT-013 (WebServer REST) ──► BUG-073 (WebServer session-state synchronization)
+FEAT-013 (WebServer REST) ──► BUG-075/076/077 (REST/WebServer error, malformed, and concurrency hardening)
+BUG-075/076 ──► CI-014/015 (contract manifest and malformed/concurrency gates)
+CI-011 ──► CI-012/013/014/015/016 (release live E2E coverage lanes)
+FEAT-045 ──► AMUT-002 (aMuTorrent transfer-detail hydration)
+CI-014 ──► FEAT-045/046/047/048/049 (new REST work must update the contract gate)
 FEAT-011 (CShield) ──► FEAT-012 (PR_TCPERRORFLOODER, can standalone)
 FEAT-015 (slot allocation) ──► FEAT-016 (modern limits — coordinate Opcodes.h values)
 FEAT-015 (slot allocation) ──► FEAT-023 (optional scoring/UI extras kept separate)
