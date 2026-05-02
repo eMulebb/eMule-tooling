@@ -733,6 +733,13 @@ allocation, and WinInet ownership. `REF-036` tracks GSL only for tested
 buffer/pointer contracts such as SafeFile/PartFile hash buffers, archive-recovery
 byte readers, and REST/test helper boundaries.
 
+**Updated:** 2026-05-02 — expanded `CI-010` with the current `Release|x64`
+warning-impact breakdown from build log `20260502-112930`: the app build passes
+but is not warning-clean, with `379` de-duplicated located compiler warning
+sites plus linker/runtime-library mismatch warnings. `REF-021` now cross-links
+that map so blanket `Stdafx.h` suppression removal can be planned from concrete
+risk buckets instead of raw warning volume.
+
 **Updated:** 2026-04-19 — current `main` now includes `FEAT-013` in commits `94e0884`
 and `8d0832a`: the REST surface is delivered in-process through `WebServer.cpp` /
 `WebSocket.cpp` with a dedicated `WebServerJson.cpp` route layer, hashed `X-API-Key`
