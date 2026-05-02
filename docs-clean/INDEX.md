@@ -748,6 +748,14 @@ noise rather than source warning debt: the app project should keep app code at
 `ExternalWarningLevel=TurnOffAllWarnings`, and avoid raw `/external:W*`
 switches in `AdditionalOptions`.
 
+**Updated:** 2026-05-02 — `CI-010` now classifies `LNK4098`/`LNK4286` as a
+libpcpnatpmp runtime-library policy mismatch: the app uses `/MT`/`/MTd`, so the
+CMake dependency must be configured with
+`CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded$<$<CONFIG:Debug>:Debug>` instead of
+hiding the linker conflict with `/NODEFAULTLIB:MSVCRT`. Full x64/ARM64
+Debug/Release dependency and app rebuilds verified that those linker signatures
+are gone from the checked logs.
+
 **Updated:** 2026-05-02 — added `CI-017` for the active workspace line-ending
 normalization pass. The target policy is LF by default, including PowerShell
 and Visual Studio solution/project files; CRLF is reserved for `*.rc`, `*.rc2`,
