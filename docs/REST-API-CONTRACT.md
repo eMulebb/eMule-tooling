@@ -25,12 +25,17 @@ command-style route names.
 - inherit the normal WebServer bind, HTTPS, and allowed-IP behavior
 - use `camelCase` field names
 - return success envelopes as `{ "data": ..., "meta": ... }`
-- return collections as `{ "data": { "items": [...] }, "meta": ... }`
+- return collections as `{ "data": { "items": [...], "total": n, "offset": n, "limit": n }, "meta": ... }`
 - return errors as `{ "error": { "code": "...", "message": "...", "details": {} } }`
 - return the updated resource from mutations when practical
 - require explicit booleans such as `deleteFiles: true` for destructive local
   file deletion
 - use HTTP 200 for valid bulk requests with per-item results
+- marshal native commands through the main UI thread before touching eMule
+  state owned by dialogs, sockets, queues, and list controls
+- reject pre-release alias spellings; public request fields are the final
+  OpenAPI names such as `categoryId`, `searchId`, `deleteFiles`,
+  `uploadLimitKiBps`, and `downloadLimitKiBps`
 
 ## Scope
 
@@ -50,14 +55,14 @@ The release API intentionally excludes:
 
 ## Implementation Status
 
-The OpenAPI contract is the target contract. The current application already
-implements a substantial resource-style REST surface, but some routes,
-envelopes, field names, and legacy-action parity items still need alignment.
+The OpenAPI contract is the implemented target contract for the current
+pre-release pass. Native route-seam tests and the Python smoke harness include
+an OpenAPI route consistency check, and aMuTorrent's eMule BB adapter consumes
+the same final field names.
 
-Use [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md) as the
-implementation checklist. Any remaining `deferred` runtime action must either
-be implemented before the complete REST release or explicitly removed by a user
-decision.
+Use [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md) for residual
+release-gate and live-smoke tracking. Runtime route completeness is expected to
+match [REST-API-OPENAPI.yaml](REST-API-OPENAPI.yaml).
 
 ## Retired Before Public Release
 

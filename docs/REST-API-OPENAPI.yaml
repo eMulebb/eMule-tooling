@@ -111,6 +111,9 @@ paths:
       tags: [Categories]
       summary: List download categories.
       operationId: listCategories
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/CategoryListResponse"
@@ -172,6 +175,8 @@ paths:
           schema:
             type: integer
             minimum: 0
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/TransferListResponse"
@@ -249,6 +254,9 @@ paths:
       tags: [Transfers]
       summary: Return known sources for one transfer.
       operationId: listTransferSources
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/TransferSourceListResponse"
@@ -263,6 +271,72 @@ paths:
       responses:
         "202":
           $ref: "#/components/responses/OkAcceptedResponse"
+  /transfers/{hash}/sources/{clientId}/operations/add-friend:
+    parameters:
+      - $ref: "#/components/parameters/FileHash"
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Transfers]
+      summary: Add one transfer source as a friend.
+      operationId: addTransferSourceFriend
+      responses:
+        "200":
+          $ref: "#/components/responses/FriendResponse"
+  /transfers/{hash}/sources/{clientId}/operations/remove-friend:
+    parameters:
+      - $ref: "#/components/parameters/FileHash"
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Transfers]
+      summary: Remove one transfer source from friends.
+      operationId: removeTransferSourceFriend
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /transfers/{hash}/sources/{clientId}/operations/remove:
+    parameters:
+      - $ref: "#/components/parameters/FileHash"
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Transfers]
+      summary: Remove one transfer source from the transfer.
+      operationId: removeTransferSource
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /transfers/{hash}/sources/{clientId}/operations/ban:
+    parameters:
+      - $ref: "#/components/parameters/FileHash"
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Transfers]
+      summary: Ban one transfer source.
+      operationId: banTransferSource
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /transfers/{hash}/sources/{clientId}/operations/unban:
+    parameters:
+      - $ref: "#/components/parameters/FileHash"
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Transfers]
+      summary: Unban one transfer source.
+      operationId: unbanTransferSource
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /transfers/{hash}/sources/{clientId}/operations/release-slot:
+    parameters:
+      - $ref: "#/components/parameters/FileHash"
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Transfers]
+      summary: Release this peer's active upload slot when it also holds one.
+      operationId: releaseTransferSourceUploadSlot
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
   /transfers/{hash}/operations/pause:
     parameters:
       - $ref: "#/components/parameters/FileHash"
@@ -319,11 +393,8 @@ paths:
       summary: List completed shared files.
       operationId: listSharedFiles
       parameters:
-        - name: categoryId
-          in: query
-          schema:
-            type: integer
-            minimum: 0
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/SharedFileListResponse"
@@ -401,6 +472,9 @@ paths:
       tags: [SharedFiles]
       summary: Return known comments for one shared file.
       operationId: listSharedFileComments
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/CommentListResponse"
@@ -438,6 +512,9 @@ paths:
       tags: [Uploads]
       summary: List active upload slots.
       operationId: listUploads
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/UploadListResponse"
@@ -461,19 +538,135 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/OkResponse"
+  /uploads/{clientId}/operations/remove:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Remove one active or queued upload client.
+      operationId: removeUploadClient
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /uploads/{clientId}/operations/add-friend:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Add one upload client as a friend.
+      operationId: addUploadFriend
+      responses:
+        "200":
+          $ref: "#/components/responses/FriendResponse"
+  /uploads/{clientId}/operations/remove-friend:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Remove one upload client from friends.
+      operationId: removeUploadFriend
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /uploads/{clientId}/operations/ban:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Ban one upload client.
+      operationId: banUploadClient
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /uploads/{clientId}/operations/unban:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Unban one upload client.
+      operationId: unbanUploadClient
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
   /upload-queue:
     get:
       tags: [Uploads]
       summary: List waiting upload clients.
       operationId: listUploadQueue
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/UploadQueueListResponse"
+  /upload-queue/{clientId}/operations/remove:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Remove one waiting upload client.
+      operationId: removeUploadQueueClient
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /upload-queue/{clientId}/operations/release-slot:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Release this peer's active upload slot if present.
+      operationId: releaseUploadQueueClientSlot
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /upload-queue/{clientId}/operations/add-friend:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Add one queued upload client as a friend.
+      operationId: addUploadQueueFriend
+      responses:
+        "200":
+          $ref: "#/components/responses/FriendResponse"
+  /upload-queue/{clientId}/operations/remove-friend:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Remove one queued upload client from friends.
+      operationId: removeUploadQueueFriend
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /upload-queue/{clientId}/operations/ban:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Ban one queued upload client.
+      operationId: banUploadQueueClient
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
+  /upload-queue/{clientId}/operations/unban:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    post:
+      tags: [Uploads]
+      summary: Unban one queued upload client.
+      operationId: unbanUploadQueueClient
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
   /servers:
     get:
       tags: [Servers]
       summary: List known ED2K servers.
       operationId: listServers
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/ServerListResponse"
@@ -666,6 +859,9 @@ paths:
       tags: [Friends]
       summary: List known friends.
       operationId: listFriends
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/FriendListResponse"
@@ -699,6 +895,7 @@ paths:
       operationId: listLogs
       parameters:
         - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
         - name: level
           in: query
           schema:
@@ -743,6 +940,13 @@ components:
         minimum: 1
         maximum: 1000
         default: 100
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
     SearchId:
       name: searchId
       in: path
@@ -980,11 +1184,21 @@ components:
               additionalProperties: true
     Collection:
       type: object
-      required: [items]
+      required: [items, total, offset, limit]
       properties:
         items:
           type: array
           items: {}
+        total:
+          type: integer
+          minimum: 0
+        offset:
+          type: integer
+          minimum: 0
+        limit:
+          type: integer
+          minimum: 1
+          maximum: 1000
     AppEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
@@ -1257,16 +1471,18 @@ components:
         sources:
           type: object
           additionalProperties: true
-        speedKiBps:
+        downloadSpeedKiBps:
+          type: number
+        uploadSpeedKiBps:
           type: number
         ed2kLink:
           type: string
     TransferState:
       type: string
-      enum: [downloading, paused, stopped, queued, hashing, completing, completed, error]
+      enum: [downloading, paused, queued, checking, completing, completed, error, missing_files]
     TransferPriority:
       type: string
-      enum: [veryLow, low, normal, high, release, auto]
+      enum: [veryLow, low, normal, high, veryHigh, release, auto]
     TransferCreateRequest:
       type: object
       properties:
@@ -1352,6 +1568,10 @@ components:
           type: integer
         state:
           type: string
+        downloadState:
+          type: string
+        downloadSpeedKiBps:
+          type: number
         requestedParts:
           type: integer
     DeleteFilesRequest:
@@ -1518,9 +1738,11 @@ components:
           type: string
         fileName:
           type: string
-        speedKiBps:
+        uploadSpeedKiBps:
           type: number
         uploadedBytes:
+          type: integer
+        requestedFileSizeBytes:
           type: integer
     UploadQueueListEnvelope:
       allOf:
@@ -1564,10 +1786,8 @@ components:
               $ref: "#/components/schemas/Server"
     Server:
       type: object
-      required: [id, address, port]
+      required: [address, port]
       properties:
-        id:
-          type: string
         address:
           type: string
         port:
@@ -1676,7 +1896,7 @@ components:
           type: string
         method:
           type: string
-          enum: [server, global, kad]
+          enum: [automatic, server, global, kad]
         status:
           type: string
           enum: [running, stopped, complete, error]
@@ -1692,7 +1912,7 @@ components:
           type: string
         method:
           type: string
-          enum: [server, global, kad]
+          enum: [automatic, server, global, kad]
         type:
           type: string
         minSizeBytes:

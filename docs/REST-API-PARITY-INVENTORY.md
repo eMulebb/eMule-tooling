@@ -28,11 +28,13 @@ contract.
 | JSON success envelope is `{ data, meta }` | implemented | Landed on native `main`; aMuTorrent also unwraps this shape. |
 | JSON collection envelope is `{ data: { items: [...] }, meta }` | implemented | List routes request the native item envelope and are wrapped by the v1 response envelope. |
 | JSON error envelope is `{ error: { code, message, details? } }` | implemented | Native errors now use `{ error: { code, message } }`; `details` remains optional for future richer validation. |
-| Field names are `camelCase` | deferred | Current implementation still has legacy snake_case in some request and response bodies. |
-| Mutations return the updated resource when practical | deferred | Current routes often return `{ok:true}`. |
-| Bulk endpoints use HTTP 200 with per-item results | deferred | Needed for multi-link download add and future batch controller operations. |
-| Destructive file deletion requires explicit `deleteFiles: true` | implemented | Transfer deletes accept `deleteFiles`; legacy `delete_files` remains a compatibility alias. |
-| aMuTorrent consumes this OpenAPI surface statically | implemented | The integration branch unwraps native envelopes and prefers the final operation routes. |
+| Field names are `camelCase` | implemented | Pre-release aliases were removed from public route parsing; final names include `searchId`, `categoryId`, `deleteFiles`, and `*KiBps` speed fields. |
+| Mutations return the updated resource when practical | implemented | Preference, category, transfer property, shared-file metadata, and shared-directory mutations now return the updated model. Async/operation routes return operation envelopes. |
+| Bulk endpoints use HTTP 200 with per-item results | implemented | Transfer delete and multi-link add use `{items:[...]}` per-item result envelopes. |
+| Destructive file deletion requires explicit `deleteFiles: true` | implemented | Transfer and shared-file deletes use final `deleteFiles`; `delete_files` is no longer public API. |
+| aMuTorrent consumes this OpenAPI surface statically | implemented | The integration branch unwraps native envelopes and consumes final resource/operation routes and field names. |
+| Native REST commands are serialized through the UI thread | implemented | `/api/v1` dispatch uses a synchronous main-window command before touching UI-owned eMule state, with exception containment at the dispatch boundary. |
+| OpenAPI and smoke registry stay in sync | implemented | The Python smoke unit tests parse `REST-API-OPENAPI.yaml` and fail if route coverage drifts from the documented contract. |
 
 ## Application And Preferences
 
@@ -61,7 +63,7 @@ contract.
 | Edit category | `PATCH /categories/{categoryId}` | implemented | Default category id `0` remains protected. |
 | Delete category | `DELETE /categories/{categoryId}` | implemented | Must preserve normal eMule constraints. |
 | Category tab refresh | `GET /categories` plus UI polling | obsolete | Web UI tab refresh action is presentation-only. |
-| Set category priority | `PATCH /categories/{categoryId}` | deferred | Legacy WebServer can alter category priority; final REST contract includes it. |
+| Set category priority | `PATCH /categories/{categoryId}` | implemented | Category create/update accepts final `priority` values. |
 
 ## Transfers
 
@@ -84,7 +86,9 @@ contract.
 | Get transfer sources | `GET /transfers/{hash}/sources` | implemented | Current route exists. |
 | Get transfer part/gap/request detail | `GET /transfers/{hash}/details` | implemented | Native route returns transfer, part, and source detail; aMuTorrent hydrates part/gap/request fields from it. |
 | Browse source | `POST /transfers/{hash}/sources/{clientId}/operations/browse` | implemented | Uses source user hash as the stable selector where available. |
-| Add/remove friend from transfer peer user hash | `POST /friends`, `DELETE /friends/{userHash}` | deferred | Friend operations are needed for old context-menu parity. |
+| Add/remove friend from transfer peer | `POST /transfers/{hash}/sources/{clientId}/operations/add-friend`, `.../remove-friend`, plus `/friends` | implemented | Transfer-source peer operations use the same stable `clientId` selector exposed by source rows. |
+| Ban/unban transfer peer | `POST /transfers/{hash}/sources/{clientId}/operations/ban`, `.../unban` | implemented | Mirrors pro-user source context-menu controls. |
+| Remove transfer source | `POST /transfers/{hash}/sources/{clientId}/operations/remove` | implemented | Removes the source through the normal download queue removal path. |
 | Hide transfer columns or update transfer table sort | none | obsolete | Presentation state belongs to aMuTorrent or any other controller. |
 
 ## Shared Files And Shared Directories
@@ -95,8 +99,8 @@ contract.
 | Show one shared file | `GET /shared-files/{hash}` | implemented | Current route exists. |
 | Add one shared file by path | `POST /shared-files` | implemented | Current route exists; final response should return resource envelope. |
 | Unshare one file | `DELETE /shared-files/{hash}` | implemented | Existing behavior needs final `deleteFiles` naming and tests. |
-| Delete shared local file | `DELETE /shared-files/{hash}` with `deleteFiles: true` | deferred | aMuTorrent now routes shared-file deletes to `/shared-files/{hash}`; native disk deletion is still intentionally not implemented. |
-| Set shared-file upload priority | `PATCH /shared-files/{hash}` | implemented | Supports `very_low`, `low`, `normal`, `high`, `very_high`, `release`, and `auto`. |
+| Delete shared local file | `DELETE /shared-files/{hash}` with `deleteFiles: true` | implemented | Native deletion requires explicit `deleteFiles:true`; default delete only unshares/excludes where allowed. |
+| Set shared-file upload priority | `PATCH /shared-files/{hash}` | implemented | Supports `veryLow`, `low`, `normal`, `high`, `veryHigh`, `release`, and `auto`. |
 | Update shared-file comment/rating | `PATCH /shared-files/{hash}` | implemented | Current main supports comment/rating for completed shared files. |
 | Get ED2K link | `GET /shared-files/{hash}/ed2k-link` | implemented | Metadata only; binary file streaming remains excluded. |
 | Show known file comments | `GET /shared-files/{hash}/comments` | implemented | Returns the local known-file comment/rating metadata as a comments collection. |
@@ -113,10 +117,11 @@ contract.
 |---|---|---|---|
 | List active uploads | `GET /uploads` | implemented | Current REST exposes uploads; aMuTorrent currently drops this data in its data pipeline. |
 | List upload queue | `GET /upload-queue` | implemented | Current REST exposes queue. |
-| Remove upload client | `DELETE /uploads/{clientId}` | implemented | Existing command route must align to resource route and stable selector. |
-| Give release slot | `POST /uploads/{clientId}/operations/release-slot` | implemented | Existing route exists; final selector and envelope need verification. |
-| Upload context menu ban | future peer control route | deferred | Useful pro-user action, but exact peer selector and legacy equivalence need implementation design. |
-| Upload queue context menu friend actions | `POST /friends`, `DELETE /friends/{userHash}` | deferred | Same friend route should serve transfer and upload contexts. |
+| Remove upload client | `DELETE /uploads/{clientId}` or `POST /uploads/{clientId}/operations/remove` | implemented | Stable selectors are either user hash or `address:port` when no hash exists. |
+| Give release slot | `POST /uploads/{clientId}/operations/release-slot` | implemented | Uses the normal upload-queue removal path for active slots. |
+| Upload context menu ban/unban | `POST /uploads/{clientId}/operations/ban`, `.../unban` | implemented | Same peer-control command family as transfer sources. |
+| Upload friend actions | `POST /uploads/{clientId}/operations/add-friend`, `.../remove-friend` | implemented | Idempotent add returns an existing friend when already present. |
+| Upload queue remove/release/friend/ban actions | `POST /upload-queue/{clientId}/operations/...` | implemented | Queue routes share the same stable peer selector and operation vocabulary. |
 
 ## Servers
 
@@ -148,13 +153,13 @@ contract.
 
 | Legacy action | REST target | Status | Impact and notes |
 |---|---|---|---|
-| Start search | `POST /searches` | implemented | Existing route exists through earlier shape; final contract uses resource create. |
+| Start search | `POST /searches` | implemented | Returns `{id, query, status, results}` for async polling. |
 | Get search results | `GET /searches/{searchId}` | implemented | aMuTorrent should poll this until stable. |
 | Stop/delete one search | `DELETE /searches/{searchId}` | implemented | Existing stop route exists; final route deletes the search session. |
 | Delete all searches | `DELETE /searches` | implemented | Uses the existing delete-all-searches UI action. |
 | Start search with method/type/min/max/availability/extension filters | `POST /searches` | implemented | Method, type, size, and extension filters are parsed by the native command seam. |
 | Add selected search result to downloads | `POST /searches/{searchId}/results/{hash}/operations/download` | implemented | aMuTorrent uses this route when a native search id is available. |
-| Clear searches before new search | `POST /searches` with `clearExisting: true` or `DELETE /searches` | deferred | Contract supports both explicit clear and start-with-clear behavior. |
+| Clear searches before new search | `DELETE /searches` | implemented | Explicit clear is implemented; `clearExisting` is intentionally not needed by aMuTorrent. |
 | Search page sort, table layout, and refresh | none | obsolete | Presentation-only. |
 
 ## Logs
@@ -184,7 +189,7 @@ contract.
 | Shared-file deletion | implemented | Shared deletes call `/shared-files/{hash}` instead of transfer delete helpers. |
 | Uploads in data pipeline | implemented | `/uploads` rows remain preserved through the eMule BB manager fetch result. |
 | Transfer detail hydration | implemented | aMuTorrent hydrates peers plus part/gap/request detail from `/transfers/{hash}/details`. |
-| Search polling | deferred | Poll `/searches/{searchId}` until stopped/complete instead of fetching once immediately. |
+| Search polling | implemented | aMuTorrent stores the returned `id` and polls `/searches/{searchId}` for results. |
 | Browser smoke | deferred | Add live aMuTorrent browser smoke against a live eMule BB instance. |
 
 ## Release Gate
@@ -194,8 +199,8 @@ workspace entrypoints:
 
 | Gate | Status |
 |---|---|
-| eMule app validation/build/tests | deferred |
-| Native REST route and contract tests | deferred |
+| eMule app validation/build/tests | implemented |
+| Native REST route and contract tests | implemented |
 | Live eMule REST E2E completeness lane | deferred |
 | aMuTorrent Node eMule BB tests | implemented |
 | Live aMuTorrent browser smoke against eMule BB | deferred |
