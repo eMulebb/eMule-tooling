@@ -740,6 +740,12 @@ sites plus linker/runtime-library mismatch warnings. `REF-021` now cross-links
 that map so blanket `Stdafx.h` suppression removal can be planned from concrete
 risk buckets instead of raw warning volume.
 
+**Updated:** 2026-05-02 — `CI-010` now treats `D9025` as build-configuration
+noise rather than source warning debt: the app project should keep app code at
+`EnableAllWarnings`, express external headers with
+`ExternalWarningLevel=TurnOffAllWarnings`, and avoid raw `/external:W*`
+switches in `AdditionalOptions`.
+
 **Updated:** 2026-04-19 — current `main` now includes `FEAT-013` in commits `94e0884`
 and `8d0832a`: the REST surface is delivered in-process through `WebServer.cpp` /
 `WebSocket.cpp` with a dedicated `WebServerJson.cpp` route layer, hashed `X-API-Key`

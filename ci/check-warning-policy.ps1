@@ -45,6 +45,13 @@ function Assert-NotContains([string]$Path, [string]$Text, [string]$Pattern, [str
     }
 }
 
+function Assert-MatchCount([string]$Path, [string]$Text, [string]$Pattern, [int]$ExpectedCount, [string]$Reason) {
+    $actualCount = ([regex]::Matches($Text, $Pattern)).Count
+    if ($actualCount -ne $ExpectedCount) {
+        throw "${Path}: $Reason Expected $ExpectedCount, found $actualCount."
+    }
+}
+
 $cryptoppProject = Get-ProjectText 'repos\third_party\eMule-cryptopp\cryptlib.vcxproj'
 Assert-Contains $cryptoppProject.Path $cryptoppProject.Text '_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING' 'Crypto++ must keep the narrow checked-iterator suppression.'
 Assert-NotContains $cryptoppProject.Path $cryptoppProject.Text '(?i)DisableSpecificWarnings[^<]*4996' 'Do not blanket-disable C4996 in Crypto++ project settings.'
@@ -55,8 +62,11 @@ Assert-Contains $miniupnpProject.Path $miniupnpProject.Text '_WINSOCK_DEPRECATED
 Assert-NotContains $miniupnpProject.Path $miniupnpProject.Text '(?i)DisableSpecificWarnings[^<]*4996' 'Do not blanket-disable C4996 in miniupnp project settings.'
 Assert-NotContains $miniupnpProject.Path $miniupnpProject.Text '(?i)/wd4996' 'Do not inject /wd4996 into miniupnp build flags.'
 
+$appProject = Get-ProjectText 'workspaces\v0.72a\app\eMule-main\srchybrid\emule.vcxproj'
+Assert-MatchCount $appProject.Path $appProject.Text '<ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>' 2 'The app project must keep external headers at /external:W0 through ExternalWarningLevel in Debug and Release.'
+Assert-NotContains $appProject.Path $appProject.Text '(?i)<AdditionalOptions[^>]*>[^<]*/external:W[0-4]\b' 'Do not inject raw /external:W* switches through app AdditionalOptions; use ExternalWarningLevel instead.'
+
 foreach ($relativeProject in @(
-    'workspaces\v0.72a\app\eMule-main\srchybrid\emule.vcxproj',
     'repos\eMule-build-tests\emule-tests.vcxproj',
     'repos\third_party\eMule-id3lib\libprj\id3lib.vcxproj',
     'repos\third_party\eMule-ResizableLib\ResizableLib\ResizableLib.vcxproj'
