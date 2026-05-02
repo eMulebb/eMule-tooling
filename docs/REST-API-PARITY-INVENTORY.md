@@ -185,12 +185,12 @@ contract.
 | Area | Status | Work required |
 |---|---|---|
 | Endpoint adapter route names | implemented | aMuTorrent now prefers final operation/resource routes for transfers, servers, shared reload, and search-result download. |
-| Response envelopes | implemented | aMuTorrent unwraps `{data, meta}` and native `{error:{code,message}}` while keeping old mock compatibility. |
+| Response envelopes | implemented | Native REST now always emits `{data, meta}` success envelopes and `{error:{code,message,details}}` errors; aMuTorrent unwraps both. |
 | Shared-file deletion | implemented | Shared deletes call `/shared-files/{hash}` instead of transfer delete helpers. |
 | Uploads in data pipeline | implemented | `/uploads` rows remain preserved through the eMule BB manager fetch result. |
 | Transfer detail hydration | implemented | aMuTorrent hydrates peers plus part/gap/request detail from `/transfers/{hash}/details`. |
 | Search polling | implemented | aMuTorrent stores the returned `id` and polls `/searches/{searchId}` for results. |
-| Browser smoke | deferred | Add live aMuTorrent browser smoke against a live eMule BB instance. |
+| Browser smoke | implemented | `eMule-build-tests` now owns `amutorrent-browser-smoke.py`, launched from the aggregate live E2E suite. |
 
 ## Release Gate
 
@@ -201,6 +201,6 @@ workspace entrypoints:
 |---|---|
 | eMule app validation/build/tests | implemented |
 | Native REST route and contract tests | implemented |
-| Live eMule REST E2E completeness lane | deferred |
+| Live eMule REST E2E completeness lane | implemented |
 | aMuTorrent Node eMule BB tests | implemented |
-| Live aMuTorrent browser smoke against eMule BB | deferred |
+| Live aMuTorrent browser smoke against eMule BB | implemented |

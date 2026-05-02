@@ -28,6 +28,10 @@ command-style route names.
 - return collections as `{ "data": { "items": [...], "total": n, "offset": n, "limit": n }, "meta": ... }`
 - return errors as `{ "error": { "code": "...", "message": "...", "details": {} } }`
 - return the updated resource from mutations when practical
+- validate method/path/body/query through the native route schema table before
+  dispatching commands
+- reject unknown JSON body fields and unknown or malformed query parameters with
+  `400 INVALID_ARGUMENT`
 - require explicit booleans such as `deleteFiles: true` for destructive local
   file deletion
 - use HTTP 200 for valid bulk requests with per-item results
@@ -56,9 +60,11 @@ The release API intentionally excludes:
 ## Implementation Status
 
 The OpenAPI contract is the implemented target contract for the current
-pre-release pass. Native route-seam tests and the Python smoke harness include
-an OpenAPI route consistency check, and aMuTorrent's eMule BB adapter consumes
-the same final field names.
+pre-release pass. Native route-seam tests cover the route schema table and
+strict validation behavior; the Python smoke harness includes an OpenAPI route
+consistency check and validates success/error envelopes. aMuTorrent's eMule BB
+adapter consumes the same final field names while keeping aMuTorrent's own
+public routes stable.
 
 Use [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md) for residual
 release-gate and live-smoke tracking. Runtime route completeness is expected to

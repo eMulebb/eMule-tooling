@@ -1286,8 +1286,47 @@ components:
           type: integer
           minimum: 1
     PreferencesPatch:
-      allOf:
-        - $ref: "#/components/schemas/Preferences"
+      type: object
+      additionalProperties: false
+      properties:
+        downloadLimitKiBps:
+          type: integer
+          minimum: 0
+        uploadLimitKiBps:
+          type: integer
+          minimum: 0
+        maxSourcesPerFile:
+          type: integer
+          minimum: 0
+        maxConnections:
+          type: integer
+          minimum: 1
+        maxConnectionsPerFiveSeconds:
+          type: integer
+          minimum: 1
+        uploadClientDataRate:
+          type: integer
+          minimum: 0
+        maxUploadSlots:
+          type: integer
+          minimum: 1
+        queueSize:
+          type: integer
+          minimum: 1
+        autoConnect:
+          type: boolean
+        newAutoUp:
+          type: boolean
+        newAutoDown:
+          type: boolean
+        creditSystem:
+          type: boolean
+        safeServerConnect:
+          type: boolean
+        networkKademlia:
+          type: boolean
+        networkEd2k:
+          type: boolean
     StatusEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
@@ -1385,12 +1424,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/Category"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     Category:
       type: object
       required: [id, name]
@@ -1429,12 +1477,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/Transfer"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     TransferEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
@@ -1485,6 +1542,7 @@ components:
       enum: [veryLow, low, normal, high, veryHigh, release, auto]
     TransferCreateRequest:
       type: object
+      additionalProperties: false
       properties:
         link:
           type: string
@@ -1546,12 +1604,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/TransferSource"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     TransferSource:
       type: object
       additionalProperties: true
@@ -1588,12 +1655,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/SharedFile"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     SharedFileEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
@@ -1631,6 +1707,7 @@ components:
           type: integer
     SharedFileCreateRequest:
       type: object
+      additionalProperties: false
       required: [path]
       properties:
         path:
@@ -1665,7 +1742,7 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
@@ -1678,6 +1755,15 @@ components:
                         type: integer
                       comment:
                         type: string
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     SharedDirectoryListEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
@@ -1685,12 +1771,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/SharedDirectory"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     SharedDirectory:
       type: object
       required: [path, recursive]
@@ -1705,6 +1800,7 @@ components:
           type: boolean
     SharedDirectoryReplaceRequest:
       type: object
+      additionalProperties: false
       required: [roots]
       properties:
         roots:
@@ -1718,12 +1814,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/Upload"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     Upload:
       type: object
       additionalProperties: true
@@ -1751,12 +1856,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/UploadQueueEntry"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     UploadQueueEntry:
       allOf:
         - $ref: "#/components/schemas/Upload"
@@ -1771,12 +1885,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/Server"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     ServerEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
@@ -1816,6 +1939,7 @@ components:
           $ref: "#/components/schemas/Server"
     ServerCreateRequest:
       type: object
+      additionalProperties: false
       required: [address, port]
       properties:
         address:
@@ -1844,6 +1968,7 @@ components:
           type: boolean
     UrlImportRequest:
       type: object
+      additionalProperties: false
       required: [url]
       properties:
         url:
@@ -1874,6 +1999,7 @@ components:
           type: integer
     KadBootstrapRequest:
       type: object
+      additionalProperties: false
       properties:
         address:
           type: string
@@ -1906,6 +2032,7 @@ components:
             $ref: "#/components/schemas/SearchResult"
     SearchCreateRequest:
       type: object
+      additionalProperties: false
       required: [query]
       properties:
         query:
@@ -1946,12 +2073,15 @@ components:
           type: string
     SearchResultDownloadRequest:
       type: object
+      additionalProperties: false
       properties:
         categoryId:
           type: integer
           minimum: 0
         categoryName:
           type: string
+        paused:
+          type: boolean
     FriendListEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
@@ -1959,12 +2089,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/Friend"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     FriendEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
@@ -1985,6 +2124,7 @@ components:
           format: date-time
     FriendCreateRequest:
       type: object
+      additionalProperties: false
       required: [userHash]
       properties:
         userHash:
@@ -1998,12 +2138,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/LogEntry"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     LogEntry:
       type: object
       required: [message]
@@ -2022,12 +2171,21 @@ components:
           properties:
             data:
               type: object
-              required: [items]
+              required: [items, total, offset, limit]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/BulkOperationResult"
+                total:
+                  type: integer
+                  minimum: 0
+                offset:
+                  type: integer
+                  minimum: 0
+                limit:
+                  type: integer
+                  minimum: 0
     BulkOperationResult:
       type: object
       required: [ok]
