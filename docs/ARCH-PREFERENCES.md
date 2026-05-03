@@ -491,7 +491,7 @@ Categories are saved under their own numbered sections rather than as one flat p
 | `Title`, `Incoming`, `Comment` | Category metadata. |
 | `Color` | Category color. |
 | `a4afPriority` | Category A4AF priority. |
-| `AutoCat`, `Autocat`, `RegularExpression`, `AutoCatAsRegularExpression` | Auto-categorization rules. |
+| `AutoCat`, `RegularExpression`, `AutoCatAsRegularExpression` | Auto-categorization rules. |
 | `Filter`, `FilterNegator` | Category filter behavior. |
 | `downloadInAlphabeticalOrder` | Per-category alphabetical ordering option. |
 | `Care4All` | Category-wide "care for all" behavior flag. |
@@ -502,7 +502,7 @@ The 2026-05-03 preference surface audit checked defaults, ranges, UI validation,
 
 | Item | Why it matters | Suggested follow-up |
 | --- | --- | --- |
-| INI lookup semantics | `preferences.ini` reads and writes use case-insensitive section/key matching in both the Windows profile API path and the long-path file-backed path. The `statsInterval` load / `StatsInterval` save spelling is therefore drop-in compatible. | Prefer the established written casing for new references, but do not add migration code just for casing aliases. |
+| INI lookup semantics | `preferences.ini` reads and writes use case-insensitive section/key matching in both the Windows profile API path and the long-path file-backed path. Current main now uses canonical written casing for the known case-only mismatches. | Prefer the established written casing for new references. |
 | Broadband upload policy bounds | Session-transfer limit values now use one mode-aware normalizer shared by INI load, setters, and the Tweaks page. Percent mode is `1..100`; MiB mode is `1..4096`; disabled mode ignores the value after bounding it for persistence. | Add new upload-policy keys through the same seam first, then wire UI/persistence. |
 | IP-filter update interval | INI load clamps to `1..365` for compatibility, while the Security page now rejects invalid user input instead of silently changing it. | Keep the tooltip, UI validation, `IPFilterUpdateSeams`, and docs in sync when changing the interval range. |
 | REST numeric bounds | REST now rejects values outside the same finite/UI/persistence ranges instead of silently normalizing them through setters. | Keep OpenAPI, `WebApiSurfaceSeams`, and `ApplyPreferencesJson` in lockstep when adding a REST preference. |

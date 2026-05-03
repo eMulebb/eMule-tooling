@@ -227,7 +227,7 @@ the main UI groupings above.
 | `VideoPlayerArgs` | `eMule` | empty string | String. | Files/player arguments field. | None |
 | `WebTemplateFile` | `eMule` | executable-dir `eMule.tmpl` | String path; if default executable template is selected and config-dir `eMule.tmpl` exists, config-dir template is used. | WebServer/template option. | None |
 | `FilenameCleanups` | `eMule` | `http|www.|.com|.de|.org|.net|shared|powered|sponsored|sharelive|filedonkey|` | Long string. | Files/download naming option. | None |
-| `UseSimpleTimeRemainingcomputation` | `eMule` | `false` | Boolean. | Tweaks/hidden transfer estimate option. | None |
+| `UseSimpleTimeRemainingComputation` | `eMule` | `false` | Boolean. | Tweaks/hidden transfer estimate option. | None |
 | `A4AFSaveCpu` | `eMule` | `false` | Boolean. | Tweaks/hidden download-manager option. | None |
 | `DebugLogLevel` | `eMule` | `DLP_VERYLOW` | Integer debug-log level. | Debug/tweaks option. | None |
 | `DebugServerTCP` | `eMule` | `0` | Debug-build integer; release builds force runtime value to `0`. | Debug/tweaks option. | None |
@@ -347,7 +347,7 @@ presentation settings rather than core behavior preferences.
 | Key | Section | Default | Persistence and range | UI behavior | REST |
 | --- | --- | --- | --- | --- | --- |
 | `StatGraphsInterval` | `eMule` | `3` | Clamped maximum `200`; direct negative values use default. | Statistics page graph update slider/field. | None |
-| `StatsInterval` / `statsInterval` | `eMule` | `5` | Load accepts case-insensitive `statsInterval`; save writes `StatsInterval`; clamped maximum `200`; direct negative values use default. | Statistics page tree update slider/field. | None |
+| `StatsInterval` | `eMule` | `5` | Clamped maximum `200`; direct negative values use default. | Statistics page tree update slider/field. | None |
 | `StatsFillGraphs` | `eMule` | `false` | Boolean. | Statistics page checkbox. | None |
 | `VariousStatisticsMaxValue` | `eMule` | `100` | Positive-or-default, then minimum `1`. | Statistics page graph scale field. | None |
 | `StatsAverageMinutes` | `eMule` | `5` | Clamped `1..100`. | Statistics page average-time slider/field. | None |
