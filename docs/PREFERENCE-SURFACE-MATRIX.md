@@ -70,7 +70,6 @@ HTML form fields are separate from that REST preference surface.
 | `MinFreeDiskSpaceIncoming` | `eMule` | `5` GiB | Persisted bytes; clamped to `5..5120` GiB. | Files page edits GiB. | None |
 | `AutoArchivePreviewStart` | `eMule` | `false` | Boolean. | Tweaks advanced tree checkbox. | None |
 | `ExtractMetaData` | `eMule` | `1` | Values above `1` normalize to `1`; UI exposes `0`/`1`. | Files page checkbox/radio behavior. | None |
-| `ResolveSharedShellLinks` | `eMule` | `false` | Boolean. | Files/directories page checkbox. | None |
 | `ShowSharedFilesDetails` | `eMule` | `true` | Boolean. | Shared files/UI page checkbox. | None |
 | `AutoShowLookups` | `eMule` | `true` | Boolean. | Kad/display page checkbox. | None |
 | `RemoveFilesToBin` | `eMule` | `true` | Boolean. | Files page checkbox. | None |
@@ -160,9 +159,9 @@ HTML form fields are separate from that REST preference surface.
 | `IPFilterUpdatePeriodDays` | `eMule` | `7` | Clamped `1..365`. | Security page rejects values outside `1..365`. | None |
 | `IPFilterLastUpdateTime` | `eMule` | `0` | Non-negative timestamp string. | Updated by IP-filter updater. | None |
 | `IPFilterUpdateUrl` | `eMule` | `http://upd.emule-security.org/ipfilter.zip` | String URL. | Security page text field. | None |
-| `RunCommandOnFileCompletion` | `FileCompletion` | `false` | Boolean. | Files page checkbox. | None |
-| `FileCompletionProgram` | `FileCompletion` | empty string | String path. | Files page text/path field. | None |
-| `FileCompletionArguments` | `FileCompletion` | empty string | String. | Files page text field. | None |
+| `RunCommandOnFileCompletion` | `FileCompletion` | `false` | Boolean. | Files page checkbox; when enabled, apply validates the configured program path. | None |
+| `FileCompletionProgram` | `FileCompletion` | empty string | Trimmed string path. | Files page text/path field; invalid paths are rejected when completion commands are enabled. | None |
+| `FileCompletionArguments` | `FileCompletion` | empty string | Trimmed string. | Files page text field. | None |
 
 ## WebServer Preference Matrix
 
@@ -258,10 +257,10 @@ the main UI groupings above.
 | `ProxyPassword` | `Proxy` | empty string | String. | Proxy page password field. | None |
 | `ProxyPort` | `Proxy` | `1080` | Valid port `1..65535`; invalid or `0` uses default. | Proxy page numeric field. | None |
 | `ProxyType` | `Proxy` | `PROXYTYPE_NOPROXY` | Clamped to valid proxy enum range through `PROXYTYPE_HTTP11`. | Proxy page combo. | None |
-| `Mode` | `PerfLog` | `0` | Integer mode. | Tweaks performance logging enable/mode. | None |
-| `FileFormat` | `PerfLog` | `0` | Integer format enum. | Tweaks performance logging format. | None |
-| `File` | `PerfLog` | config-dir default | String path. | Tweaks performance logging file field. | None |
-| `Interval` | `PerfLog` | `5` minutes | Integer interval. | Tweaks performance logging interval field. | None |
+| `Mode` | `PerfLog` | `0` | Valid modes are `0` disabled, `1` one sample, `2` all samples; invalid values normalize to disabled. | Tweaks performance logging checkbox maps enabled state to all-samples mode. | None |
+| `FileFormat` | `PerfLog` | `0` | Valid `0` CSV, `1` MRTG; invalid values normalize to CSV. | Tweaks performance logging format radio group. | None |
+| `File` | `PerfLog` | config-dir default | Empty direct values use the format-specific default path. | Tweaks performance logging file field. | None |
+| `Interval` | `PerfLog` | `5` minutes | Valid `1..1440` minutes; invalid values normalize to `5`. | Tweaks performance logging interval field rejects values outside `1..1440`. | None |
 
 ## Logging, IRC, And Hidden Runtime Matrix
 
