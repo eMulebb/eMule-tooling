@@ -9,6 +9,9 @@ It is based on:
 - the `PPg*.cpp` preference pages
 - [`AUDIT-DEFECTS.md`](AUDIT-DEFECTS.md)
 
+For the second-pass default/range/UI/persistence/REST matrix, see
+[`PREFERENCE-SURFACE-MATRIX.md`](PREFERENCE-SURFACE-MATRIX.md).
+
 ## Table of Contents
 
 - [Scope](#scope)
@@ -55,12 +58,12 @@ The last two groups are documented because they still live in the same file, but
 | INI key | Section | Mode | UI | Default | Explanation |
 | --- | --- | --- | --- | --- | --- |
 | `Nick` | `eMule` | `RW` | Yes | `DEFAULT_NICK` | The user nickname shown to peers. Saved as UTF-8. |
-| `Language` | `eMule` | `RW` | Yes | Current OS / app default | UI language identifier. Changing it reloads most windows. |
+| `Language` | `eMule` | `RW` | Yes | `0` | UI language identifier. Missing key uses `0`, then normal app language selection applies. Changing it reloads most windows. |
 | `BringToFront` | `eMule` | `RW` | Yes | `false` | Bring the main window to the foreground on relevant events. |
 | `OnlineSignature` | `eMule` | `RW` | Yes | `false` | Enables the online signature/status output used by external tools or web pages. |
 | `StartupMinimized` | `eMule` | `RW` | Yes | `false` | Start the main window minimized. This is persisted correctly. |
 | `AutoStart` | `eMule` | `RW` | Yes | `false` | Start eMule automatically with Windows. |
-| `PreventStandby` | `eMule` | `RW` | Yes | OS-dependent / `false` on old systems | Prevent system standby while the app is active. |
+| `PreventStandby` | `eMule` | `RW` | Yes | `false` | Prevent system standby while the app is active. Runtime support still depends on the OS power APIs. |
 
 ### Connection And Throughput
 
@@ -68,14 +71,14 @@ The last two groups are documented because they still live in the same file, but
 | --- | --- | --- | --- | --- | --- |
 | `MaxUpload` | `eMule` | `RW` | Yes | `6100` | Upload speed limit in KiB/s for this branch. |
 | `MaxDownload` | `eMule` | `RW` | Yes | `12207` | Download speed limit in KiB/s for this branch. |
-| `MaxConnections` | `eMule` | `RW` | Yes | recommended Windows TCP cap, usually `500` | Hard cap for total connections. |
+| `MaxConnections` | `eMule` | `RW` | Yes | `GetRecommendedMaxConnections()` | Hard cap for total connections. The computed default is `500` when the OS TCP cap is unlimited or above `520`. |
 | `MaxHalfConnections` | `eMule` | `RW` | Advanced tree | `50` | Cap for half-open TCP connections. |
 | `MaxConnectionsPerFiveSeconds` | `eMule` | `RW` | Advanced tree | `50` | Burst limiter for outbound connection attempts. |
-| `Port` | `eMule` | `RW` | Yes | existing app default | Main TCP listening port. |
-| `UDPPort` | `eMule` | `RW` | Yes | existing app default | Main UDP listening port. |
-| `ServerUDPPort` | `eMule` | `RW` | Yes | existing app default | UDP port used for server communication. |
-| `BindInterface` | `eMule` | `RW` | Yes | empty | Preferred network interface for P2P sockets. Empty means no interface restriction. |
-| `BindAddr` | `eMule` | `RW` | Yes | empty | Optional IPv4 address for P2P sockets. Empty means all addresses on the selected interface, or all interfaces when no interface is selected. |
+| `Port` | `eMule` | `RW` | Yes | random valid TCP port | Main TCP listening port. Missing or invalid direct INI values are replaced with a random valid port. |
+| `UDPPort` | `eMule` | `RW` | Yes | random valid UDP port | Main UDP listening port. Missing key gets a random valid port; `0` disables UDP. |
+| `ServerUDPPort` | `eMule` | `RW` | Yes | random/back-compatible sentinel | UDP port used for server communication. `0` disables server UDP. |
+| `BindInterface` | `eMule` | `RW` | Yes | empty string | Preferred network interface for P2P sockets. Empty means no interface restriction. |
+| `BindAddr` | `eMule` | `RW` | Yes | empty string | Optional IPv4 address for P2P sockets. Empty means all addresses on the selected interface, or all interfaces when no interface is selected. |
 | `ConditionalTCPAccept` | `eMule` | `RW` | Advanced tree | `false` | Controls conditional TCP accept behavior. This is an advanced network-side knob. |
 | `ConnectionTimeout` | `eMule` | `RW` | Advanced tree | `30` seconds | Default TCP peer-connection timeout used by `EMSocket` and related connect/disconnect paths. |
 | `DownloadTimeout` | `eMule` | `RW` | Advanced tree | `75` seconds | Inactivity timeout for receiving download payload blocks from a peer. |
@@ -84,7 +87,7 @@ The last two groups are documented because they still live in the same file, but
 
 | INI key | Section | Mode | UI | Default | Explanation |
 | --- | --- | --- | --- | --- | --- |
-| `Reconnect` | `eMule` | `RW` | Yes | existing app default | Automatically reconnect to a server after disconnects. |
+| `Reconnect` | `eMule` | `RW` | Yes | `true` | Automatically reconnect to a server after disconnects. |
 | `Serverlist` | `eMule` | `RW` | Yes | `false` | Auto-update the server list on startup. You asked to keep this default off. |
 | `AddServersFromServer` | `eMule` | `RW` | Yes | `false` | Update the server list using server-provided data when connecting to a server. |
 | `AddServersFromClient` | `eMule` | `RW` | Yes | `false` | Accept server addresses from clients. |
@@ -92,8 +95,8 @@ The last two groups are documented because they still live in the same file, but
 | `AutoConnectStaticOnly` | `eMule` | `RW` | Yes | `false` | Restrict auto-connect attempts to static servers only. |
 | `DeadServerRetry` | `eMule` | `RW` | Yes | `1` | Number of failed tries after which a server is treated as dead and removed. |
 | `SafeServerConnect` | `eMule` | `RW` | Yes | `false` | More cautious server-connect strategy. |
-| `ServerKeepAliveTimeout` | `eMule` | `RW` | Advanced tree | existing app default | Timeout used to keep the server connection alive. |
-| `YourHostname` | `eMule` | `RW` | Yes | empty | Optional hostname override displayed/used by the app. |
+| `ServerKeepAliveTimeout` | `eMule` | `RW` | Advanced tree | `0` ms | Timeout used to keep the server connection alive. Tweaks edits minutes; direct INI milliseconds are clamped to the `0..1440` minute equivalent. |
+| `YourHostname` | `eMule` | `RW` | Yes | empty string | Optional hostname override displayed/used by the app. |
 | `NetworkED2K` | `eMule` | `RW` | Yes | `true` | Enable the eD2k network layer. |
 | `NetworkKademlia` | `eMule` | `RW` | Yes | `true` | Enable the Kad network layer. |
 | `Ed2kSearchMaxResults` | `eMule` | `RW` | Advanced tree | `0` | Maximum eD2k search results; `0` keeps the search uncapped. |
@@ -107,18 +110,18 @@ The last two groups are documented because they still live in the same file, but
 
 | INI key | Section | Mode | UI | Default | Explanation |
 | --- | --- | --- | --- | --- | --- |
-| `IncomingDir` | `eMule` | `RW` | Yes | app default path | Directory used for completed downloads. |
-| `TempDir` | `eMule` | `RW` | Yes | app default path | Primary temp directory for `.part` files. |
-| `TempDirs` | `eMule` | `RW` | Yes | empty | Additional temp directories, stored as a `|`-separated list. |
+| `IncomingDir` | `eMule` | `RW` | Yes | default incoming directory | Directory used for completed downloads. Missing or empty values are replaced with `GetDefaultDirectory(EMULE_INCOMINGDIR, true)` and canonicalized. |
+| `TempDir` | `eMule` | `RW` | Yes | default temp directory | Primary temp directory for `.part` files. Missing or empty values are replaced with `GetDefaultDirectory(EMULE_TEMPDIR, true)` and canonicalized. |
+| `TempDirs` | `eMule` | `RW` | Yes | empty string | Additional temp directories, stored as a `|`-separated list. |
 | `MaxSourcesPerFile` | `eMule` | `RW` | Yes | `600` | Hard cap for sources tracked per file. |
 | `AddNewFilesPaused` | `eMule` | `RW` | Yes | `false` | Add new downloads in paused state instead of starting immediately. |
 | `PreviewPrio` | `eMule` | `RW` | Yes | `false` | Try to download preview chunks first. |
 | `AllocateFullFile` | `eMule` | `RW` | Yes | `false` | Preallocate the full output file size ahead of download progress. |
 | `SparsePartFiles` | `eMule` | `RW` | Yes | `false` | Use sparse part-file allocation where supported. |
 | `CommitFiles` | `eMule` | `RW` | Yes | `1` | Controls file commit behavior. Legacy low-level file I/O policy. |
-| `MinFreeDiskSpaceConfig` | `eMule` | `RW` | Yes | config floor | Minimum free-space floor for the config/log volume. |
-| `MinFreeDiskSpaceTemp` | `eMule` | `RW` | Yes | temp floor | Minimum free-space floor for temp/part-file volumes. |
-| `MinFreeDiskSpaceIncoming` | `eMule` | `RW` | Yes | incoming floor | Minimum free-space floor for completed-download volumes. |
+| `MinFreeDiskSpaceConfig` | `eMule` | `RW` | Yes | `1` GiB | Minimum free-space floor for the config/log volume. Persisted in bytes; UI edits GiB and clamps to `1..5120`. |
+| `MinFreeDiskSpaceTemp` | `eMule` | `RW` | Yes | `5` GiB | Minimum free-space floor for temp/part-file volumes. Persisted in bytes; UI edits GiB and clamps to `5..5120`. |
+| `MinFreeDiskSpaceIncoming` | `eMule` | `RW` | Yes | `5` GiB | Minimum free-space floor for completed-download volumes. Persisted in bytes; UI edits GiB and clamps to `5..5120`. |
 | `AutoArchivePreviewStart` | `eMule` | `RW` | Advanced tree | `false` | Automatically start archive preview extraction. |
 | `ExtractMetaData` | `eMule` | `RW` | Yes | `1` | Metadata extraction mode. |
 | `ResolveSharedShellLinks` | `eMule` | `RW` | Yes | `false` | Resolve shell links in shared directories. |
@@ -139,19 +142,19 @@ The last two groups are documented because they still live in the same file, but
 | `ShowExtControls` | `eMule` | Removed | No | ignored | Retired by `FEAT-051`; advanced/pro controls are now always on and old INI values are ignored. |
 | `ShowDwlPercentage` | `eMule` | `RW` | Yes | `true` | Show extra download percentage information. |
 | `IndicateRatings` | `eMule` | `RW` | Yes | `true` | Show file ratings in UI where supported. |
-| `ToolTipDelay` | `eMule` | `RW` | Yes | existing app default | Delay before tooltips appear. |
-| `ToolbarSetting` | `eMule` | `RW` | Yes | toolbar default | Toolbar layout/configuration string. |
-| `ToolbarBitmap` | `eMule` | `RW` | Yes | empty | Custom toolbar bitmap path. |
-| `ToolbarBitmapFolder` | `eMule` | `RW` | Yes | empty | Folder containing toolbar bitmaps. |
-| `ToolbarLabels` | `eMule` | `RW` | Yes | toolbar default | Label mode for toolbar buttons. |
+| `ToolTipDelay` | `eMule` | `RW` | Yes | `1` | Delay before tooltips appear; normalized to `0..32` seconds. |
+| `ToolbarSetting` | `eMule` | `RW` | Yes | `0099010203040506070899091011` | Toolbar layout/configuration string. |
+| `ToolbarBitmap` | `eMule` | `RW` | Yes | empty string | Custom toolbar bitmap path. |
+| `ToolbarBitmapFolder` | `eMule` | `RW` | Yes | default toolbar directory | Folder containing toolbar bitmaps. Empty INI values use `GetDefaultDirectory(EMULE_TOOLBARDIR, true)`. |
+| `ToolbarLabels` | `eMule` | `RW` | Yes | `CMuleToolbarCtrl::GetDefaultLabelType()` | Label mode for toolbar buttons. |
 | `ToolbarIconSize` | `eMule` | `RW` | Yes | `32` | Toolbar icon size in pixels. |
 | `WinaTransToolbar` | `eMule` | `RW` | Yes | `true` | Toolbar transparency integration on supported Windows versions. |
 | `ShowDownloadToolbar` | `eMule` | `RW` | Yes | `true` | Show the download toolbar. |
-| `SkinProfile` | `eMule` | `RW` | Yes | empty | Selected skin profile. |
-| `SkinProfileDir` | `eMule` | `RW` | Yes | empty | Selected skin directory. |
+| `SkinProfile` | `eMule` | `RW` | Yes | empty string | Selected skin profile. |
+| `SkinProfileDir` | `eMule` | `RW` | Yes | default skin directory | Selected skin directory. Empty INI values use `GetDefaultDirectory(EMULE_SKINDIR, true)`. |
 | `DateTimeFormat` | `eMule` | `RW` | Yes | `%A, %c` | Main date/time format string. |
 | `DateTimeFormat4Log` | `eMule` | `RW` | Yes | `%c` | Date/time format string used in logs. |
-| `TransferDoubleClick` | `eMule` | `RW` | Yes | existing app default | Double-click action in transfer lists. |
+| `TransferDoubleClick` | `eMule` | `RW` | Yes | `true` | Double-click action in transfer lists. |
 | `ShowOverhead` | `eMule` | `RW` | Yes | `false` | Show protocol overhead in transfer display. |
 | `ShowInfoOnCatTabs` | `eMule` | `RW` | Yes | `false` | Show info on category tabs. |
 | `ShowCopyEd2kLinkCmd` | `eMule` | `RW` | Yes | `false` in older code path | Show the copy-ed2k-link context command. |
@@ -160,16 +163,16 @@ The last two groups are documented because they still live in the same file, but
 
 | INI key | Section | Mode | UI | Default | Explanation |
 | --- | --- | --- | --- | --- | --- |
-| `FilterServersByIP` | `eMule` | `RW` | Yes | existing app default | Filter servers using the IP filter rules. |
+| `FilterServersByIP` | `eMule` | `RW` | Yes | `false` | Filter servers using the IP filter rules. |
 | `FilterLevel` | `eMule` | `RW` | Yes | `127` | IP filter aggressiveness level. |
-| `FilterBadIPs` | `eMule` | `RW` | Yes | existing app default | Filter LAN/bad IPs more generally. |
+| `FilterBadIPs` | `eMule` | `RW` | Yes | `true` | Filter LAN/bad IPs more generally. |
 | `SecureIdent` | `eMule` | `RW` | Yes | `true` | Enable secure identification support. |
 | `CryptLayerRequested` | `eMule` | `RW` | Yes | `true` | Request obfuscation when talking to peers. |
 | `CryptLayerRequired` | `eMule` | `RW` | Yes | `false` | Require obfuscation. |
 | `CryptLayerSupported` | `eMule` | `RW` | Yes | `true` | Advertise obfuscation support. |
 | `EnableSearchResultSpamFilter` | `eMule` | `RW` | Yes | `true` | Filter obviously spammy search results. |
 | `CheckFileOpen` | `eMule` | `RW` | Yes | `true` | Check for open/locked files before file operations. |
-| `SeeShare` | `eMule` | `RW` | Yes | existing app default | Controls who can see your shared files. |
+| `SeeShare` | `eMule` | `RW` | Yes | `vsfaNobody` | Controls who can see your shared files. |
 | `AdvancedSpamFilter` | `eMule` | `RW` | Yes | `true` | Enables the more advanced spam filter path. |
 
 ### Messaging / Chat
@@ -179,23 +182,23 @@ The last two groups are documented because they still live in the same file, but
 | `MessagesFromFriendsOnly` | `eMule` | `RW` | Yes | `false` | Restrict incoming messages to friends only. |
 | `MessageUseCaptchas` | `eMule` | `RW` | Yes | `true` | Require captchas for chat where the anti-spam path is active. |
 | `MessageEnableSmileys` | `eMule` | `RW` | Yes | `true` | Enable smiley rendering in messages. |
-| `MessageFilter` | `eMule` | `RW` | Yes | built-in filter string | Text filter applied to incoming messages. |
-| `CommentFilter` | `eMule` | `RW` | Yes | built-in filter string | Text filter applied to comments. |
+| `MessageFilter` | `eMule` | `RW` | Yes | `fastest download speed|fastest eMule` | Text filter applied to incoming messages. |
+| `CommentFilter` | `eMule` | `RW` | Yes | `http://|https://|ftp://|www.|ftp.` | Text filter applied to comments. Loaded value is lowercased. |
 
 ### Notifications
 
 | INI key | Section | Mode | UI | Default | Explanation |
 | --- | --- | --- | --- | --- | --- |
-| `NotifierConfiguration` | `eMule` | `RW` | Yes | notifier config path | Path to notifier configuration. |
-| `NotifyOnDownload` | `eMule` | `RW` | Yes | `false` unless enabled by user | Notify on completed downloads. |
-| `NotifyOnNewDownload` | `eMule` | `RW` | Yes | `false` unless enabled by user | Notify when a new download is added. |
-| `NotifyOnChat` | `eMule` | `RW` | Yes | `false` unless enabled by user | Notify on incoming chat. |
-| `NotifyOnLog` | `eMule` | `RW` | Yes | `false` unless enabled by user | Notify on log output. |
-| `NotifyOnImportantError` | `eMule` | `RW` | Yes | `false` unless enabled by user | Notify on important errors. |
+| `NotifierConfiguration` | `eMule` | `RW` | Yes | config-dir `Notifier.ini` | Path to notifier configuration. |
+| `NotifyOnDownload` | `eMule` | `RW` | Yes | `false` | Notify on completed downloads. |
+| `NotifyOnNewDownload` | `eMule` | `RW` | Yes | `false` | Notify when a new download is added. |
+| `NotifyOnChat` | `eMule` | `RW` | Yes | `false` | Notify on incoming chat. |
+| `NotifyOnLog` | `eMule` | `RW` | Yes | `false` | Notify on log output. |
+| `NotifyOnImportantError` | `eMule` | `RW` | Yes | `false` | Notify on important errors. |
 | `NotifierPopEveryChatMessage` | `eMule` | `RW` | Yes | `false` | Pop every chat message, not just first/important ones. |
 | `NotifierDisplayMode` | `eMule` | `RW` | Yes | `1` | Notification display mode: `0` custom popup, `1` Windows toast, `2` classic tray balloon. Windows toast falls back to tray balloon when unavailable. |
 | `NotifierUseSound` | `eMule` | `RW` | Yes | `ntfstNoSound` | Select notifier sound mode. |
-| `NotifierSoundPath` | `eMule` | `RW` | Yes | empty | Custom sound file path. |
+| `NotifierSoundPath` | `eMule` | `RW` | Yes | empty string | Custom sound file path. |
 
 ### UPnP
 
@@ -203,7 +206,7 @@ The last two groups are documented because they still live in the same file, but
 | --- | --- | --- | --- | --- | --- |
 | `EnableUPnP` | `UPnP` | `RW` | Yes | `true` | Enable UPnP. You asked for this default on, including wizard flow. |
 | `CloseUPnPOnExit` | `UPnP` | `RW` | Yes | `true` | Remove UPnP mappings on exit. |
-| `BackendMode` | `UPnP` | `RW` | Yes | automatic | Selects the active UPnP/NAT traversal backend mode. |
+| `BackendMode` | `UPnP` | `RW` | Yes | `0` | Selects the active UPnP/NAT traversal backend mode: `0` automatic, `1` MiniUPnP, `2` Windows service. |
 
 ### Broadband Branch Controls
 
@@ -269,14 +272,14 @@ These settings are active and meaningful. Most operator-safe knobs are now expos
 | `DateTimeFormat4Lists` | `eMule` | `RW` | Advanced tree | `%c` | Separate date/time format string for list controls. |
 | `TxtEditor` | `eMule` | `RW` | Advanced tree | `notepad.exe` | Command used to open text output. |
 | `RunCommandOnFileCompletion` | `FileCompletion` | `RW` | Files page | `false` | Enables a configured command when a download completes. |
-| `FileCompletionProgram` | `FileCompletion` | `RW` | Files page | empty | Program path for the file-completion command. |
-| `FileCompletionArguments` | `FileCompletion` | `RW` | Files page | empty | Argument template for the file-completion command. |
+| `FileCompletionProgram` | `FileCompletion` | `RW` | Files page | empty string | Program path for the file-completion command. |
+| `FileCompletionArguments` | `FileCompletion` | `RW` | Files page | empty string | Argument template for the file-completion command. |
 | `MaxChatHistoryLines` | `eMule` | `RW` | Advanced tree | `100` | Maximum retained chat/IRC history lines per view. Direct INI values are bounded on load. |
 | `MaxMessageSessions` | `eMule` | `RW` | Advanced tree | `50` | Maximum retained peer message sessions. Direct INI values are bounded on load. |
 | `RestoreLastMainWndDlg` | `eMule` | `RW` | Advanced tree | `false` | Restore the last active main tab on startup. |
 | `RestoreLastLogPane` | `eMule` | `RW` | Advanced tree | `false` | Restore the selected log pane. |
 | `FileBufferTimeLimit` | `eMule` | `RW` | Advanced tree | `120` seconds | Maximum age of buffered part-file data before forced flush. |
-| `PreviewCopiedArchives` | `eMule` | `RW` | Advanced tree | `true` | Allow preview/archive-recovery logic on copied archives. |
+| `PreviewCopiedArchives` | `eMule` | `RW` | Advanced tree | `false` | Allow preview/archive-recovery logic on copied archives. |
 | `InspectAllFileTypes` | `eMule` | `RW` | Advanced tree | `false` | Force metadata inspection on all file types, not just obvious media types. |
 | `PreviewOnIconDblClk` | `eMule` | `RW` | Advanced tree | `false` | Use icon double-click as a preview action in the download list. |
 | `ShowActiveDownloadsBold` | `eMule` | `RW` | Advanced tree | `false` | Render active downloads in bold. |
@@ -299,7 +302,7 @@ These settings are active and meaningful. Most operator-safe knobs are now expos
 | `PerfLog:File` | `PerfLog` | `RW` | Advanced tree | config-dir default | Performance logging base file path. |
 | `PerfLog:Interval` | `PerfLog` | `RW` | Advanced tree | `5` minutes | Performance logging sample interval. |
 | `MaxFileUploadSizeMB` | `WebServer` | `RW` | WebServer page | `5` | Maximum single WebServer upload size in MiB. |
-| `AllowedIPs` | `WebServer` | `RW` | WebServer page | empty | Optional semicolon-separated IPv4 allow-list for WebServer clients. |
+| `AllowedIPs` | `WebServer` | `RW` | WebServer page | empty string | Optional semicolon-separated IPv4 allow-list for WebServer clients. |
 | `IPFilterUpdateEnabled` | `eMule` | `RW` | Security page | `false` | Enables post-startup automatic `ipfilter.dat` refreshes. |
 | `IPFilterUpdatePeriodDays` | `eMule` | `RW` | Security page | `7` days | Day interval for automatic IP-filter update attempts; INI values are clamped to `1..365`, and the Security page rejects values outside that range. |
 | `IPFilterLastUpdateTime` | `eMule` | `RW` | Automatic updater | `0` | Last automatic IP-filter update attempt timestamp. |
@@ -315,8 +318,8 @@ Documented-only active keys:
 | `DontRecreateStatGraphsOnResize` | `eMule` | `RW` | `false` | Narrow rendering workaround. |
 | `StraightWindowStyles` | `eMule` | `RW` | `0` | Legacy window-style compatibility switch. |
 | `RTLWindowsLayout` | `eMule` | `RW` | `false` | Locale/layout compatibility state handled by the UI. |
-| `GeoLocationUpdateUrl` | `eMule` | `RW` | DB-IP template URL | Operational endpoint override; keep documented rather than casual UI. |
-| `NotifierConfiguration` | `eMule` | `RW` | notifier config path | Separate notifier configuration file path. |
+| `GeoLocationUpdateUrl` | `eMule` | `RW` | `https://download.db-ip.com/free/dbip-city-lite-%Y-%m.mmdb.gz` | Operational endpoint override; keep documented rather than casual UI. |
+| `NotifierConfiguration` | `eMule` | `RW` | config-dir `Notifier.ini` | Separate notifier configuration file path. |
 
 ## Retired INI Names Ignored By Current Main
 
