@@ -1,9 +1,11 @@
 # Preference Surface Matrix
 
-This is the second-pass audit matrix for current `main` on 2026-05-03. It is
-intended to make defaults, persisted normalization, UI validation, and REST
-coverage auditable without reading `Preferences.cpp`, every `PPg*.cpp` page,
-and the Web API parser together.
+This is the canonical exact active preference matrix for current `main`. It
+owns active preference keys, sections, defaults, persisted normalization, UI
+validation, and REST exposure.
+
+Architecture, compatibility policy, retired names, and non-preference INI state
+summaries live in [`ARCH-PREFERENCES.md`](ARCH-PREFERENCES.md).
 
 `None` in the REST column means the setting is not part of
 `GET /api/v1/app/preferences` or `PATCH /api/v1/app/preferences`. WebServer
@@ -392,5 +394,5 @@ errors instead of relying on silent INI/setter normalization.
 The transfer totals, overhead counters, connection counters, server high-water
 marks, splitter positions, category records, and last-selected UI panes stored
 in `preferences.ini` are intentionally excluded from this matrix. They are
-state/counter records, not user preference contracts. They remain summarized in
-[`ARCH-PREFERENCES.md`](ARCH-PREFERENCES.md#counters-statistics-and-state-stored-in-the-same-ini).
+state/counter records, not user preference contracts. They are summarized in
+the architecture document.

@@ -26,8 +26,9 @@ that behavior is landed on current `main`.
 | Document | Description |
 |---|---|
 | [ARCH-NETWORKING](ARCH-NETWORKING.md) | Networking-stack reference: sockets, `WSAPoll`, UPnP, throttling, encryption |
-| [ARCH-PREFERENCES](ARCH-PREFERENCES.md) | Preferences reference: INI keys, defaults, UI exposure, hidden prefs |
+| [ARCH-PREFERENCES](ARCH-PREFERENCES.md) | Preference architecture, compatibility policy, retired keys, and non-preference INI state |
 | [ARCH-THREADING](ARCH-THREADING.md) | Threading-model reference and migration background |
+| [PREFERENCE-SURFACE-MATRIX](PREFERENCE-SURFACE-MATRIX.md) | Canonical active preference key/default/range/UI/REST matrix |
 
 ## Audits
 
