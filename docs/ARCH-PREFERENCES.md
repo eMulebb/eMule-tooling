@@ -15,13 +15,14 @@ It is based on:
 - [Legend](#legend)
 - [UI-Exposed Preferences](#ui-exposed-preferences)
   - [General](#general) — [Connection And Throughput](#connection-and-throughput) — [Server / eD2k / Kad](#server--ed2k--kad) — [Directories, Files, And Download Behavior](#directories-files-and-download-behavior) — [Display / UI / Toolbar](#display--ui--toolbar) — [Security, Privacy, And Obfuscation](#security-privacy-and-obfuscation) — [Messaging / Chat](#messaging--chat) — [Notifications](#notifications) — [UPnP](#upnp) — [Broadband Branch Controls](#broadband-branch-controls)
+- [REST Preference Surface](#rest-preference-surface)
 - [Hidden Runtime Preferences](#hidden-runtime-preferences)
 - [Retired INI Names Ignored By Current Main](#retired-ini-names-ignored-by-current-main)
 - [UI Defaults Which Are Not First-Class CPreferences Keys](#ui-defaults-which-are-not-first-class-cpreferences-keys)
 - [Technical Notes For Non-Obvious Settings](#technical-notes-for-non-obvious-settings)
   - [Throughput And Connection Control](#throughput-and-connection-control) — [Server / Kad Behavior](#server--kad-behavior) — [File I/O And Download Mechanics](#file-io-and-download-mechanics) — [Security / Messaging / Obfuscation](#security--messaging--obfuscation) — [UI / Rendering Internals](#ui--rendering-internals) — [Broadband Branch Controls](#broadband-branch-controls-1) — [Hidden Maintenance Behavior Knobs](#hidden-maintenance-behavior-knobs)
 - [Counters, Statistics, And State Stored In The Same INI](#counters-statistics-and-state-stored-in-the-same-ini)
-- [TODO](#todo)
+- [Audit Status](#audit-status)
 - [Practical Reading Guide](#practical-reading-guide)
 
 ## Scope
@@ -67,20 +68,17 @@ The last two groups are documented because they still live in the same file, but
 | --- | --- | --- | --- | --- | --- |
 | `MaxUpload` | `eMule` | `RW` | Yes | `6100` | Upload speed limit in KiB/s for this branch. |
 | `MaxDownload` | `eMule` | `RW` | Yes | `12207` | Download speed limit in KiB/s for this branch. |
-| `MaxConnections` | `eMule` | `RW` | Yes | existing app default | Hard cap for total connections. |
-| `MaxHalfConnections` | `eMule` | `RW` | Yes | existing app default | Cap for half-open TCP connections. |
-| `MaxConnectionsPerFiveSeconds` | `eMule` | `RW` | Yes | existing app default | Burst limiter for outbound connection attempts. |
+| `MaxConnections` | `eMule` | `RW` | Yes | recommended Windows TCP cap, usually `500` | Hard cap for total connections. |
+| `MaxHalfConnections` | `eMule` | `RW` | Advanced tree | `50` | Cap for half-open TCP connections. |
+| `MaxConnectionsPerFiveSeconds` | `eMule` | `RW` | Advanced tree | `50` | Burst limiter for outbound connection attempts. |
 | `Port` | `eMule` | `RW` | Yes | existing app default | Main TCP listening port. |
 | `UDPPort` | `eMule` | `RW` | Yes | existing app default | Main UDP listening port. |
 | `ServerUDPPort` | `eMule` | `RW` | Yes | existing app default | UDP port used for server communication. |
 | `BindInterface` | `eMule` | `RW` | Yes | empty | Preferred network interface for P2P sockets. Empty means no interface restriction. |
 | `BindAddr` | `eMule` | `RW` | Yes | empty | Optional IPv4 address for P2P sockets. Empty means all addresses on the selected interface, or all interfaces when no interface is selected. |
-| `ConditionalTCPAccept` | `eMule` | `RW` | Yes | existing app default | Controls conditional TCP accept behavior. This is an advanced network-side knob. |
+| `ConditionalTCPAccept` | `eMule` | `RW` | Advanced tree | `false` | Controls conditional TCP accept behavior. This is an advanced network-side knob. |
 | `ConnectionTimeout` | `eMule` | `RW` | Advanced tree | `30` seconds | Default TCP peer-connection timeout used by `EMSocket` and related connect/disconnect paths. |
 | `DownloadTimeout` | `eMule` | `RW` | Advanced tree | `75` seconds | Inactivity timeout for receiving download payload blocks from a peer. |
-| `UDPReceiveBufferSize` | `eMule` | `RW` | Advanced tree | `512 * 1024` | UDP receive socket buffer size in bytes. Exposed in Tweaks as KiB. |
-| `BigSendBufferSize` | `eMule` | `RW` | Advanced tree | `512 * 1024` | Configured large TCP send buffer size in bytes for upload sockets. Exposed in Tweaks as KiB. |
-| `UploadClientDataRate` | `eMule` | `RW` | Advanced tree | `8 * 1024 * 1024` | Ceiling for the heuristic per-client upload target used by the broadband slot controller. Exposed in Tweaks as KiB/s. |
 
 ### Server / eD2k / Kad
 
@@ -88,12 +86,12 @@ The last two groups are documented because they still live in the same file, but
 | --- | --- | --- | --- | --- | --- |
 | `Reconnect` | `eMule` | `RW` | Yes | existing app default | Automatically reconnect to a server after disconnects. |
 | `Serverlist` | `eMule` | `RW` | Yes | `false` | Auto-update the server list on startup. You asked to keep this default off. |
-| `AddServersFromServer` | `eMule` | `RW` | Yes | `true` | Update the server list using server-provided data when connecting to a server. |
-| `AddServersFromClient` | `eMule` | `RW` | Yes | existing app default | Accept server addresses from clients. |
+| `AddServersFromServer` | `eMule` | `RW` | Yes | `false` | Update the server list using server-provided data when connecting to a server. |
+| `AddServersFromClient` | `eMule` | `RW` | Yes | `false` | Accept server addresses from clients. |
 | `Autoconnect` | `eMule` | `RW` | Yes | `false` | Automatically connect on startup. You asked to keep this default off because first launch can be messy otherwise. |
 | `AutoConnectStaticOnly` | `eMule` | `RW` | Yes | `false` | Restrict auto-connect attempts to static servers only. |
-| `DeadServerRetry` | `eMule` | `RW` | Yes | `5` | Number of failed tries after which a server is treated as dead and removed. |
-| `SafeServerConnect` | `eMule` | `RW` | Yes | existing app default | More cautious server-connect strategy. |
+| `DeadServerRetry` | `eMule` | `RW` | Yes | `1` | Number of failed tries after which a server is treated as dead and removed. |
+| `SafeServerConnect` | `eMule` | `RW` | Yes | `false` | More cautious server-connect strategy. |
 | `ServerKeepAliveTimeout` | `eMule` | `RW` | Advanced tree | existing app default | Timeout used to keep the server connection alive. |
 | `YourHostname` | `eMule` | `RW` | Yes | empty | Optional hostname override displayed/used by the app. |
 | `NetworkED2K` | `eMule` | `RW` | Yes | `true` | Enable the eD2k network layer. |
@@ -114,14 +112,14 @@ The last two groups are documented because they still live in the same file, but
 | `TempDirs` | `eMule` | `RW` | Yes | empty | Additional temp directories, stored as a `|`-separated list. |
 | `MaxSourcesPerFile` | `eMule` | `RW` | Yes | `600` | Hard cap for sources tracked per file. |
 | `AddNewFilesPaused` | `eMule` | `RW` | Yes | `false` | Add new downloads in paused state instead of starting immediately. |
-| `PreviewPrio` | `eMule` | `RW` | Yes | `true` | Try to download preview chunks first. This is the setting you just changed to default on. |
+| `PreviewPrio` | `eMule` | `RW` | Yes | `false` | Try to download preview chunks first. |
 | `AllocateFullFile` | `eMule` | `RW` | Yes | `false` | Preallocate the full output file size ahead of download progress. |
 | `SparsePartFiles` | `eMule` | `RW` | Yes | `false` | Use sparse part-file allocation where supported. |
 | `CommitFiles` | `eMule` | `RW` | Yes | `1` | Controls file commit behavior. Legacy low-level file I/O policy. |
 | `MinFreeDiskSpaceConfig` | `eMule` | `RW` | Yes | config floor | Minimum free-space floor for the config/log volume. |
 | `MinFreeDiskSpaceTemp` | `eMule` | `RW` | Yes | temp floor | Minimum free-space floor for temp/part-file volumes. |
 | `MinFreeDiskSpaceIncoming` | `eMule` | `RW` | Yes | incoming floor | Minimum free-space floor for completed-download volumes. |
-| `AutoArchivePreviewStart` | `eMule` | `RW` | Yes | `true` | Automatically start archive preview extraction. |
+| `AutoArchivePreviewStart` | `eMule` | `RW` | Advanced tree | `false` | Automatically start archive preview extraction. |
 | `ExtractMetaData` | `eMule` | `RW` | Yes | `1` | Metadata extraction mode. |
 | `ResolveSharedShellLinks` | `eMule` | `RW` | Yes | `false` | Resolve shell links in shared directories. |
 | `ShowSharedFilesDetails` | `eMule` | `RW` | Yes | `true` | Show the shared-files details area. |
@@ -131,7 +129,7 @@ The last two groups are documented because they still live in the same file, but
 | `RememberDownloadedFiles` | `eMule` | `RW` | Yes | `true` | Keep memory of already-downloaded files. |
 | `AutoClearCompleted` | `eMule` | `RW` | Yes | `false` | Automatically clear finished downloads from the list. |
 | `FileBufferSize` | `eMule` | `RW` | Yes | `64 * 1024 * 1024` | Global file buffer size in bytes. Exposed via the Tweaks slider. |
-| `QueueSize` | `eMule` | `RW` | Yes | derived from app default | Queue size cap. |
+| `QueueSize` | `eMule` | `RW` | Advanced tree / REST | `10000` | Queue size cap, clamped to `2000..10000`. |
 
 ### Display / UI / Toolbar
 
@@ -139,7 +137,7 @@ The last two groups are documented because they still live in the same file, but
 | --- | --- | --- | --- | --- | --- |
 | `ShowRatesOnTitle` | `eMule` | `RW` | Yes | `true` | Show current transfer rates in the window title. |
 | `ShowExtControls` | `eMule` | Removed | No | ignored | Retired by `FEAT-051`; advanced/pro controls are now always on and old INI values are ignored. |
-| `ShowDwlPercentage` | `eMule` | `RW` | Yes | `false` | Show extra download percentage information. |
+| `ShowDwlPercentage` | `eMule` | `RW` | Yes | `true` | Show extra download percentage information. |
 | `IndicateRatings` | `eMule` | `RW` | Yes | `true` | Show file ratings in UI where supported. |
 | `ToolTipDelay` | `eMule` | `RW` | Yes | existing app default | Delay before tooltips appear. |
 | `ToolbarSetting` | `eMule` | `RW` | Yes | toolbar default | Toolbar layout/configuration string. |
@@ -225,6 +223,30 @@ The last two groups are documented because they still live in the same file, but
 | `SessionTransferLimitValue` | `UploadPolicy` | `RW` | Yes | `55` | Upload session transfer-limit value interpreted by the selected mode. |
 | `SessionTimeLimitSeconds` | `UploadPolicy` | `RW` | Yes | `3600` | Upload session time limit in seconds; `0` disables time-based rotation. |
 
+## REST Preference Surface
+
+`GET /api/v1/app/preferences` and `PATCH /api/v1/app/preferences` expose a curated controller subset, not the whole `preferences.ini` file. REST writes are persisted through the normal preference save path.
+
+| REST field | Backing setting | GET | PATCH | Accepted PATCH range |
+| --- | --- | --- | --- | --- |
+| `uploadLimitKiBps` | `MaxUpload` | Yes | Yes | `1..4294967294`; `4294967295` is the legacy unlimited sentinel and is rejected. |
+| `downloadLimitKiBps` | `MaxDownload` | Yes | Yes | `1..4294967294`; same finite-limit rule as upload. |
+| `maxConnections` | `MaxConnections` | Yes | Yes | `1..2147483647` for UI and INI integer round-trip. |
+| `maxConnectionsPerFiveSeconds` | `MaxConnectionsPerFiveSeconds` | Yes | Yes | `1..2147483647`. |
+| `maxSourcesPerFile` | `MaxSourcesPerFile` | Yes | Yes | `1..2147483647`. |
+| `maxUploadSlots` | `[UploadPolicy] MaxUploadClientsAllowed` | Yes | Yes | `1..32`. |
+| `queueSize` | `QueueSize` | Yes | Yes | `2000..10000`. |
+| `uploadClientDataRate` | derived broadband slot target | Yes | Yes | `1..4294967295`; PATCH derives and persists `maxUploadSlots`, not a same-named INI key. |
+| `autoConnect` | `Autoconnect` | Yes | Yes | Boolean. |
+| `newAutoUp` | `UAPPref` | Yes | Yes | Boolean. |
+| `newAutoDown` | `DAPPref` | Yes | Yes | Boolean. |
+| `creditSystem` | `UseCreditSystem` | Yes | Yes | Boolean. |
+| `safeServerConnect` | `SafeServerConnect` | Yes | Yes | Boolean. |
+| `networkKademlia` | `NetworkKademlia` | Yes | Yes | Boolean. |
+| `networkEd2k` | `NetworkED2K` | Yes | Yes | Boolean. |
+
+WebServer HTML preferences such as `[WebServer] UseGzip` and `[WebServer] PageRefreshTime` are not part of this REST preferences surface.
+
 ## Hidden Runtime Preferences
 
 These settings are active and meaningful. Most operator-safe knobs are now exposed in the Tweaks advanced tree or on the WebServer page. Riskier compatibility/debug internals remain documented-only but are now written back when preferences are saved, so user edits are not silently discarded.
@@ -305,6 +327,7 @@ Documented-only active keys:
 | `MiniMule`, `AICHTrustEveryHash` | `eMule` | ignored | n/a | Retired names. Current main does not read, write, migrate, or delete them. |
 | `ResumeNextFromSameCat`, `AdjustNTFSDaylightFileTime` | `eMule` | ignored | n/a | No active preference member in current main. |
 | `SkipWANIPSetup`, `SkipWANPPPSetup`, `LastWorkingImplementation`, `DisableMiniUPNPLibImpl`, `DisableWinServImpl` | `eMule` | ignored | n/a | Retired UPnP implementation-selection names. Current main uses `[UPnP] BackendMode`. |
+| `UDPReceiveBufferSize`, `BigSendBufferSize`, `UploadClientDataRate` | `eMule` | ignored | n/a | No active persisted preference in current main. REST `uploadClientDataRate` is a derived controller input that updates upload slots. |
 
 ## UI Defaults Which Are Not First-Class `CPreferences` Keys
 
@@ -332,7 +355,7 @@ This section explains what the more technical settings actually do in runtime te
 | `ConditionalTCPAccept` | A lower-level network acceptance policy. It affects when the app accepts inbound TCP work under load instead of being a simple UI convenience setting. |
 | `ConnectionTimeout` | Sets the default timeout budget for peer TCP sockets. The listen-socket and download paths extend this base timeout in specific states, but this is now the shared baseline. |
 | `DownloadTimeout` | Controls how long a download peer may stay silent between completed payload blocks before the transfer is cancelled and put back on queue. |
-| `UploadClientDataRate` | Caps the heuristic target rate for one upload slot. It does not replace the global upload throttle; it bounds the per-slot target derived by the broadband upload controller. |
+| REST `uploadClientDataRate` | Caps the requested target rate for one upload slot only while deriving a new broadband upload-slot count. It does not persist as `UploadClientDataRate`. |
 
 ### Server / Kad Behavior
 
@@ -353,8 +376,6 @@ This section explains what the more technical settings actually do in runtime te
 | --- | --- |
 | `FileBufferSize` | Caps how much data a part file keeps buffered before flushing. Larger values reduce write frequency and can improve sequential write behavior, but increase memory use and delay flushes. |
 | `FileBufferTimeLimit` | Hidden companion to `FileBufferSize`. Even if the buffer does not fill, `PartFile.cpp` forces a flush once buffered data gets older than this threshold. |
-| `UDPReceiveBufferSize` | Controls the UDP socket receive buffer size. Larger fixed values reduce packet-drop risk during bursts at the cost of some kernel buffer memory. |
-| `BigSendBufferSize` | Controls the larger TCP send buffer target for upload sockets. Larger values can help keep fast upload slots fed without relying on tiny buffers. |
 | `QueueSize` | Caps the upload waiting queue size. It does not directly control upload slots; it limits how many clients can remain queued for service. |
 | `PreviewPrio` | Biases downloads toward preview-relevant chunks first. It changes chunk-request preference, not just UI sorting. |
 | `AllocateFullFile` | Causes destination files to be pre-sized up front. This can reduce fragmentation but increases upfront disk work and space reservation. |
@@ -472,15 +493,14 @@ Categories are saved under their own numbered sections rather than as one flat p
 | `downloadInAlphabeticalOrder` | Per-category alphabetical ordering option. |
 | `Care4All` | Category-wide "care for all" behavior flag. |
 
-## TODO
+## Audit Status
 
-The unresolved issues from [`AUDIT-DEFECTS.md`](AUDIT-DEFECTS.md) that matter
-most for the preference system are:
+The 2026-05-03 preference surface audit checked defaults, ranges, UI validation, INI persistence, and REST for the active settings documented above.
 
 | Item | Why it matters | Suggested follow-up |
 | --- | --- | --- |
-| WebServer exposure verification | `AllowedIPs` and `MaxFileUploadSizeMB` are now written back and exposed on the WebServer page. | Verify live WebServer allow-list and upload-limit behavior against running UI/REST scenarios. |
-| Hidden runtime prefs listed above | They are now exposed in the Advanced tree and written back, but several remain niche or diagnostic. | Verify each edited setting in its affected subsystem before treating the UI as fully validated. |
+| REST numeric bounds | REST now rejects values outside the same finite/UI/persistence ranges instead of silently normalizing them through setters. | Keep OpenAPI, `WebApiSurfaceSeams`, and `ApplyPreferencesJson` in lockstep when adding a REST preference. |
+| WebServer page preferences | `AllowedIPs` and `MaxFileUploadSizeMB` are written back and exposed on the WebServer page, but they are not REST preferences. | Add REST fields only if a controller workflow needs them. |
 | Documented-only active keys | Several low-level compatibility/security keys are intentionally not exposed. | Keep them documented and avoid adding UI without a specific operator workflow. |
 
 ## Practical Reading Guide
@@ -495,4 +515,4 @@ If you are auditing retired names or hidden behavior, also read:
 
 1. `Hidden Runtime Preferences`
 2. `Retired INI Names Ignored By Current Main`
-3. `TODO`
+3. `Audit Status`

@@ -42,13 +42,13 @@ contract.
 |---|---|---|---|
 | Show app/version/runtime information | `GET /app` | implemented | Current REST exposes app data; final route must include static capability map and elevation status. |
 | Show global status/statistics summary | `GET /status`, `GET /stats`, `GET /snapshot` | implemented | Current status/snapshot coverage exists; final split needs stable envelopes and richer stat fields. |
-| Update WebServer gzip preference | `PATCH /app/preferences` | implemented | Existing preferences route supports curated writes; final body uses `gzip`. |
-| Update WebServer refresh interval | `PATCH /app/preferences` | implemented | Final body uses `refreshSeconds`. |
-| Update max download speed | `PATCH /app/preferences` | implemented | Final body uses `downloadLimitKiBps`; UI text should present KiB/s and approximate MiB/s. |
-| Update max upload speed | `PATCH /app/preferences` | implemented | Final body uses `uploadLimitKiBps`; same unit rule as download. |
-| Update max sources per file | `PATCH /app/preferences` | implemented | Final body uses `maxSourcesPerFile`. |
-| Update max connections | `PATCH /app/preferences` | implemented | Final body uses `maxConnections`. |
-| Update max connections per five seconds | `PATCH /app/preferences` | implemented | Final body uses `maxConnectionsPerFiveSeconds`. |
+| Update WebServer gzip preference | none | deferred | The current REST preferences route is a curated controller subset and does not expose WebServer presentation preferences. |
+| Update WebServer refresh interval | none | deferred | HTML/WebServer refresh timing remains in `[WebServer] PageRefreshTime`, not REST. |
+| Update max download speed | `PATCH /app/preferences` | implemented | Uses `downloadLimitKiBps`; valid range is `1..4294967294` to match finite UI limits and avoid the unlimited sentinel. |
+| Update max upload speed | `PATCH /app/preferences` | implemented | Uses `uploadLimitKiBps`; same range as download. |
+| Update max sources per file | `PATCH /app/preferences` | implemented | Uses `maxSourcesPerFile`; valid range is `1..2147483647` for UI and INI integer round-trip. |
+| Update max connections | `PATCH /app/preferences` | implemented | Uses `maxConnections`; valid range is `1..2147483647`. |
+| Update max connections per five seconds | `PATCH /app/preferences` | implemented | Uses `maxConnectionsPerFiveSeconds`; valid range is `1..2147483647`. |
 | Start app shutdown | `POST /app/shutdown` | implemented | Keeps eMule-process shutdown only. Excluded from live destructive mutation loops. |
 | Host shutdown or reboot from web UI | none | obsolete | User explicitly excluded OS shutdown/reboot from REST. |
 | HTML login/logout/session state | none | obsolete | REST uses API-key auth only and must never fall back to HTML session behavior. |
