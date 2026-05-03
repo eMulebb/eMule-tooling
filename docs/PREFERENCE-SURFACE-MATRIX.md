@@ -64,7 +64,7 @@ HTML form fields are separate from that REST preference surface.
 | `PreviewPrio` | `eMule` | `false` | Boolean. | Files page checkbox. | None |
 | `AllocateFullFile` | `eMule` | `false` | Boolean. | Files page checkbox. | None |
 | `SparsePartFiles` | `eMule` | `false` | Boolean. | Files page checkbox. | None |
-| `CommitFiles` | `eMule` | `1` | Stored integer; UI radio exposes `0`, `1`, `2`. | Files page radio group. | None |
+| `CommitFiles` | `eMule` | `1` | Direct INI value is loaded as integer; Files page writes `0`, `1`, or `2`. | Files page radio group. | None |
 | `MinFreeDiskSpaceConfig` | `eMule` | `1` GiB | Persisted bytes; clamped to `1..5120` GiB. | Files page edits GiB. | None |
 | `MinFreeDiskSpaceTemp` | `eMule` | `5` GiB | Persisted bytes; clamped to `5..5120` GiB. | Files page edits GiB. | None |
 | `MinFreeDiskSpaceIncoming` | `eMule` | `5` GiB | Persisted bytes; clamped to `5..5120` GiB. | Files page edits GiB. | None |
@@ -90,7 +90,7 @@ HTML form fields are separate from that REST preference surface.
 | `ToolbarBitmap` | `eMule` | empty string | String. | Toolbar page path field. | None |
 | `ToolbarBitmapFolder` | `eMule` | default toolbar directory | Empty uses `GetDefaultDirectory(EMULE_TOOLBARDIR, true)`. | Toolbar page path field. | None |
 | `ToolbarLabels` | `eMule` | `CMuleToolbarCtrl::GetDefaultLabelType()` | Enum value from toolbar control. | Toolbar page combo/radio. | None |
-| `ToolbarIconSize` | `eMule` | `32` | Integer. | Toolbar page size control. | None |
+| `ToolbarIconSize` | `eMule` | `32` | Direct INI value is loaded as integer; toolbar menu writes `16` or `32`. | Toolbar context menu. | None |
 | `WinaTransToolbar` | `eMule` | `true` | Boolean. | Toolbar/display checkbox. | None |
 | `ShowDownloadToolbar` | `eMule` | `true` | Boolean. | Display/download checkbox. | None |
 | `SkinProfile` | `eMule` | empty string | String. | Display/skin selector. | None |
@@ -111,7 +111,7 @@ HTML form fields are separate from that REST preference surface.
 | `CryptLayerSupported` | `eMule` | `true` | Boolean. | Security/obfuscation page checkbox. | None |
 | `EnableSearchResultSpamFilter` | `eMule` | `true` | Boolean. | Security/search page checkbox. | None |
 | `CheckFileOpen` | `eMule` | `true` | Boolean. | Files/security checkbox. | None |
-| `SeeShare` | `eMule` | `vsfaNobody` | Enum value; no REST exposure. | Security/files page combo. | None |
+| `SeeShare` | `eMule` | `vsfaNobody` | Direct INI enum value; Security page writes `0` everybody, `1` friends, or `2` nobody. | Security page radio group. | None |
 | `AdvancedSpamFilter` | `eMule` | `true` | Boolean. | Security page checkbox. | None |
 | `MessagesFromFriendsOnly` | `eMule` | `false` | Boolean. | Messages page checkbox. | None |
 | `MessageFromValidSourcesOnly` | `eMule` | `true` | Boolean. | Tweaks advanced tree checkbox. | None |
@@ -206,15 +206,15 @@ the main UI groupings above.
 | `ConfirmExit` | `eMule` | `false` | Boolean. | General/display checkbox. | None |
 | `TransflstRemainOrder` | `eMule` | `false` | Boolean. | Transfer-list ordering state/option. | None |
 | `AutoTakeED2KLinks` | `eMule` | `false` | Boolean. | General/files link association option. | None |
-| `3DDepth` | `eMule` | `5` | Integer; UI presents the 3D-depth option. | Display page control. | None |
+| `3DDepth` | `eMule` | `5` | Direct INI value is loaded as integer; Display page slider writes `0..5`. | Display page slider. | None |
 | `UpdateQueueListPref` | `eMule` | `false` | Boolean. | Files/queue display option. | None |
 | `ManualHighPrio` | `eMule` | `false` | Boolean. | Server/files priority option. | None |
 | `FullChunkTransfers` | `eMule` | `true` | Boolean. | Files/transfer behavior option. | None |
-| `StartNextFile` | `eMule` | `0` | Integer mode. | Files/download-completion option. | None |
+| `StartNextFile` | `eMule` | `0` | Direct INI value is loaded as integer; Files page writes `0` disabled, `1` next, `2` prefer same category, or `3` only same category. | Files/download-completion option. | None |
 | `VideoPreviewBackupped` | `eMule` | `false` | Boolean. | Files/preview behavior option. | None |
 | `Check4NewVersionDelay` | `eMule` | `5` days | Clamped `1..30`. | General/update option when available. | None |
 | `WatchClipboard4ED2kFilelinks` | `eMule` | `false` | Boolean. | General/files checkbox. | None |
-| `SearchMethod` | `eMule` | `0` | Integer mode. | Search preferences. | None |
+| `SearchMethod` | `eMule` | `0` | Startup normalizes to `0..3`; invalid stored values fall back to `1` server. Search UI writes `0` automatic, `1` server, `2` global, or `3` Kad. | Search method combo. | None |
 | `VersionCheckLastAutomatic` | `eMule` | `0` | Integer timestamp/state. | Updated by version check. | None |
 | `DisableKnownClientList` | `eMule` | `false` | Boolean. | Tweaks/diagnostic option. | None |
 | `DisableQueueList` | `eMule` | `false` | Boolean. | Tweaks/diagnostic option. | None |
@@ -321,7 +321,7 @@ the main UI groupings above.
 | `IRCAddTimestamp` | `eMule` | `true` | Boolean. | IRC page checkbox. | None |
 | `IRCUseFilter` | `eMule` | `true`, then false if filter name is empty | Boolean; empty `IRCFilterName` disables it after load. | IRC page checkbox. | None |
 | `IRCFilterName` | `eMule` | empty string | String. | IRC page text field. | None |
-| `IRCFilterUser` | `eMule` | `0` | Integer. | IRC page numeric field. | None |
+| `IRCFilterUser` | `eMule` | `0` | Direct INI value is loaded as integer; IRC page numeric field accepts unsigned text up to five digits. | IRC page numeric field. | None |
 | `IRCPerformString` | `eMule` | empty string | String. | IRC page text field. | None |
 | `IRCUsePerform` | `eMule` | `false` | Boolean. | IRC page checkbox. | None |
 | `IRCListOnConnect` | `eMule` | `false` | Boolean. | IRC page checkbox. | None |
@@ -352,7 +352,7 @@ presentation settings rather than core behavior preferences.
 | `StatsFillGraphs` | `eMule` | `false` | Boolean. | Statistics page checkbox. | None |
 | `VariousStatisticsMaxValue` | `eMule` | `100` | Positive-or-default, then minimum `1`. | Statistics page graph scale field. | None |
 | `StatsAverageMinutes` | `eMule` | `5` | Clamped `1..100`. | Statistics page average-time slider/field. | None |
-| `SaveInterval` | `Statistics` | `60` | Integer. | Statistics preferences. | None |
+| `SaveInterval` | `Statistics` | `60` | Direct INI value is loaded as integer; no current UI control found. | Internal statistics save cadence. | None |
 | `statsConnectionsGraphRatio` | `Statistics` | `3` | Valid set `1,2,3,4,5,10,20`; invalid direct values use `3`. | Statistics preferences. | None |
 | `statsExpandedTreeItems` | `Statistics` | `111000000100000110000010000011110000010010` | String state. | Statistics tree state. | None |
 | `StatColor0`..`StatColor14` | `Statistics` | `ResetStatsColor` defaults | Color values. | Statistics color UI. | None |
