@@ -12,6 +12,10 @@ library, or pinned dependency APIs before writing custom logic.
 - `Ini2Helpers.h` already uses the same strict Windows decoder for UTF-8 INI
   text, so REST search validation is aligned with existing workspace encoding
   practice.
+- `StringConversion.cpp::utf8towc` now delegates to the Windows
+  `MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, ...)` decoder instead of
+  carrying a hand-written UTF-8 scanner. Existing `ByteStreamToWideChar`
+  fallback behavior remains responsible for non-UTF-8 legacy byte streams.
 - `WebServerJsonSeams::UrlEncodeUtf8`, `UrlDecodeUtf8`,
   `TryParseQueryString`, and `WebServerQBitCompatSeams::TryParseFormBody`
   remain local helpers intentionally. Windows URL canonicalization helpers such
@@ -31,10 +35,8 @@ library, or pinned dependency APIs before writing custom logic.
   `MultiByteToWideChar(CP_UTF8, 0, ...)`; if malformed UTF-8 should be rejected
   there, switch it to `MB_ERR_INVALID_CHARS` or a shared strict conversion
   helper.
-- Consolidate duplicated ASCII trim/lower/decimal helpers across REST seams
-  into one small shared surface. This is a maintainability cleanup, not a
-  Windows API replacement.
-- Harden percent-decoding diagnostics in `UrlDecodeUtf8` if the REST contract
-  should reject malformed `%` escapes instead of preserving them literally.
-  This should stay local unless a pinned URL parser with exact RFC3986 component
-  semantics is introduced.
+- ASCII trim/lower/decimal parsing now lives in shared REST parser primitives
+  consumed by both native `/api/v1` routing and compatibility command helpers.
+- Percent decoding now rejects malformed `%` escapes for REST path/query and
+  qBittorrent form parsing. This remains local unless a pinned URL parser with
+  exact RFC3986 component semantics is introduced.
