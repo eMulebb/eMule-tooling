@@ -63,6 +63,9 @@ library, or pinned dependency APIs before writing custom logic.
   exact method tokens instead of classifying by string prefix. Native `/api/v1`
   and qBittorrent compatibility already validate method tokens downstream;
   Torznab compatibility now rejects non-GET requests before search handling.
+- qBittorrent compatibility route specs now use the exact HTTP method token and
+  their declared auth requirement during dispatch, avoiding a second path-based
+  auth allowlist.
 - REST hash validation remains local and domain-specific because the public API
   requires exactly 32 lowercase MD4 hex characters, not general binary or hash
   parsing.
