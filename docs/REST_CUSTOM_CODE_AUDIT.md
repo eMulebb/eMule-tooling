@@ -25,6 +25,14 @@ library, or pinned dependency APIs before writing custom logic.
   as `InternetCanonicalizeUrl` operate on whole URLs and browser-style
   canonicalization rules, which are not a safe replacement for strict REST path
   segments, Torznab query parameters, and nested qBittorrent form values.
+- Torznab API-key checks now reuse the same normalized Torznab query parser as
+  request dispatch, so malformed or duplicate query parameters are classified
+  as `400 Bad Request` before authentication instead of being hidden as an auth
+  miss.
+- qBittorrent compatibility filters now reuse the shared query parser for the
+  optional `category` filter. Malformed or duplicate category query fields fail
+  closed with `400 Bad Request` instead of widening to an unfiltered transfer
+  list.
 - REST hash validation remains local and domain-specific because the public API
   requires exactly 32 lowercase MD4 hex characters, not general binary or hash
   parsing.
