@@ -15,6 +15,12 @@ source: broadband release live E2E and REST completeness planning
 Expose native REST operations for controlled server and Kad bootstrap/import
 flows.
 
+## Release 1.0 Classification
+
+**Release Candidate.** Server import and Kad bootstrap coverage already exist
+on current `main`. Finish Kad import for 1.0 only if live-wire bootstrap needs
+a native refresh path; otherwise keep the remaining import work as a follow-up.
+
 Default live sources are the already-persisted eMule Security URLs:
 
 - `https://emule-security.org/`

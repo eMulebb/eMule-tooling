@@ -15,6 +15,12 @@ source: broadband release live E2E and REST completeness planning
 Hydrate aMuTorrent transfer detail views from eMule BB REST once the backend
 exposes the required detail endpoint.
 
+## Release 1.0 Classification
+
+**Release Candidate.** This depends on `FEAT-045`. It becomes a 1.0 blocker
+only if `AMUT-001` cannot provide useful release transfer views without detail
+hydration; otherwise it remains a compatible enhancement.
+
 ## Current Gap
 
 The eMule BB adapter currently maps transfer rows and sources, but leaves

@@ -15,6 +15,12 @@ source: broadband release live E2E and REST completeness planning
 Add a transfer detail endpoint for controller views that need more than the
 current transfer row plus source list.
 
+## Release 1.0 Classification
+
+**Release Candidate.** Pull this into the 1.0 gate only if the aMuTorrent smoke
+proves the current transfer row plus source list cannot provide useful release
+views. Otherwise keep it as a documented 1.1 controller-parity follow-up.
+
 Target route:
 
 - `GET /api/v1/transfers/{hash}/details`

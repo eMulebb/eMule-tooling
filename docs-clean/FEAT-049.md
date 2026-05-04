@@ -15,6 +15,12 @@ source: broadband release live E2E and REST completeness planning
 Expand `/api/v1/app/preferences` only for settings that are useful to local
 controllers and safe to mutate through REST.
 
+## Release 1.0 Classification
+
+**Release Candidate.** Keep the first-release preference surface curated. Add
+only settings required by aMuTorrent or release automation; risky debug,
+compatibility, and protocol internals stay private.
+
 ## Acceptance Criteria
 
 - [ ] missing aMuTorrent-relevant settings are identified by direct adapter/UI

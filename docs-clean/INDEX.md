@@ -15,9 +15,11 @@ reference reading.
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
 **Current non-done count:** `78`
 **Latest status refresh:** 2026-05-02
+**First-release backlog view:** [RELEASE-1.0](RELEASE-1.0.md)
 
 Latest review trail:
 
+- [RELEASE-1.0](RELEASE-1.0.md)
 - [REVIEW-2026-05-02-outbound-bind-compliance-audit](REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
 - [REVIEW-2026-05-01-release-readiness-regression-scan](REVIEW-2026-05-01-release-readiness-regression-scan.md)
 - [REVIEW-2026-04-26-main-bug-concurrency-scan](REVIEW-2026-04-26-main-bug-concurrency-scan.md)
@@ -291,41 +293,29 @@ is meaningful.
 
 ## Priority Triage
 
-### Do First — stabilization / hardening with minimal drift
+The first-release gate is tracked in [RELEASE-1.0](RELEASE-1.0.md). Use that
+page when deciding what must land before `emule-bb-v1.0.0`.
 
-1. **CI-011, CI-014, CI-015** — make the release live E2E and REST completeness gates first-class
-2. **BUG-075, BUG-076** — harden REST/WebServer error and malformed-request behavior before adding more API surface
-3. **FEAT-045, AMUT-002** — add transfer-detail data needed by aMuTorrent parity
-4. **BUG-034, BUG-035** — continue targeted runtime logging/recovery work; the broad scan is still noisy
+### Release Gate
 
-### Do Second — narrow stability items still close to current behavior
+1. **BUG-075, BUG-076** — stabilize REST/WebServer error and malformed-request behavior before broadening the live gate
+2. **CI-014, CI-015** — make REST contract completeness and malformed/concurrent coverage manifest-driven
+3. **BUG-077** — prove concurrent REST and legacy HTML traffic under smoke/soak budgets
+4. **CI-011, AMUT-001** — publish one release live-E2E command and prove aMuTorrent against a live eMule BB instance
 
-1. **CI-008** — keep expanding live and targeted regression coverage after the long-path and config-stability slices
-2. **CI-012, CI-013, AMUT-001** — complete the UI-driven release smoke lanes
-3. **FEAT-046, FEAT-047, FEAT-048, FEAT-049** — fill REST completeness gaps after the hardening gates
-4. **FEAT-050** — add opt-in completion command automation with a narrow no-shell launch model
-5. **BUG-077** — run WebServer concurrency soak after malformed-request behavior is stable
-6. **CI-010** — continue lowering the remaining app-local warning floor now that SDK and third-party warning mass is contained *(explicitly deferred / Blocked)*
-7. **REF-028** — MbedTLS 4.0 upgrade once the current WebServer/TLS surface is stable
-8. **FEAT-002** — SafeKad CGNAT fix
-9. **FEAT-001** — FastKad diversity/stale-decay follow-through after the landed core port *(explicitly deferred / Blocked)*
+### Release Candidates
 
-### Do Later — useful, but not part of the current stabilization milestone
+1. **FEAT-045, AMUT-002** — add transfer-detail data only if aMuTorrent needs it for useful release views
+2. **FEAT-046** — finish Kad import only if live-wire bootstrap needs it
+3. **FEAT-047** — close the remaining search paging/bounds documentation gap
+4. **FEAT-048, FEAT-049** — audit upload and preference REST gaps; add only controller-required keys/operations
 
-- **FEAT-017, REF-026, REF-032** — DPI/manifest/MFC-host modernization
-- **FEAT-034** — keep manual shared-files reload/hash paths responsive on large trees; watcher/live sync is separate and done in FEAT-038
-- **FEAT-043** — Known Clients list/history responsiveness for very large client histories
-- **FEAT-044** — richer IP-filter input policy after the safe updater foundation
-- **CI-001 through CI-006** — broader build/tooling modernization
-- **REF-017, REF-018, REF-020, REF-021, REF-023, REF-025** — cleanup and legacy removal passes
-- **REF-027** — CaptchaGenerator rewrite
-- **REF-035, REF-036** — narrow modern-library hardening; WIL first, GSL only at tested parser/buffer boundaries
-- **REF-029, REF-030** — async socket / resolver work; explicitly future phase, not part of the current stabilization plan
-- **FEAT-014** — optional OpenAPI/external gateway follow-up after FEAT-013
-- **FEAT-018 through FEAT-021** — larger product features outside the hardening milestone
+### Deferred Beyond 1.0
+
+- broad networking rewrites, Boost migration, dependency upgrades, warning-floor cleanup, and large UI/product features stay outside the first-release gate
+- **BUG-034, BUG-035** remain useful runtime-hardening watchpoints, but they are not release blockers unless a later scan finds a concrete rollback-level failure
+- **CI-012, CI-013, CI-016** remain valuable E2E expansions, but the first 1.0 gate is REST completeness plus aMuTorrent smoke
 - **CI-007** — Kad fuzz tests after the broader CI/toolchain stack is ready
-- **CI-016** — broaden REST-only community parity once the v1 contract and live gates are stable
-- **CI-017** — keep workspace-owned line-ending policy consistent after the LF-default normalization pass
 
 ### Expansion Track — explicitly beyond stock
 
@@ -541,6 +531,7 @@ historical reference only.*
 *Release-readiness scan through 2026-05-01: current `main` was reviewed from `10a6c20` through `6697302`; no rollback-level regression was found in the recent broadband stabilization slices; `BUG-034` / `BUG-035` stay active with `ClientUDPSocket.cpp` unknown UDP exception diagnostics as the next high-signal target; the GitHub release update checker has one small parser hardening follow-up for overflowed version components.*
 *REST live proof on 2026-05-01: the redesigned `/api/v1` surface passed the isolated Debug x64 live smoke with one server search, one Kad search, and clean shutdown; report `repos\eMule-build-tests\reports\rest-api-smoke\20260501-154017-eMule-main-debug`.*
 *Modern-library hardening review on 2026-05-01: added `REF-035` and `REF-036` for narrow WIL RAII and GSL buffer/pointer contracts; WIL is the preferred first slice, while GSL should stay limited to tested parser, persistence, REST, or byte-buffer boundaries.*
+*First-release backlog consolidation on 2026-05-04: added [RELEASE-1.0](RELEASE-1.0.md) as the release-gate view for `emule-bb-v1.0.0`; REST typed errors, malformed/concurrent WebServer coverage, manifest-driven REST completeness, release live E2E artifacts, and aMuTorrent smoke are the blocking line. Transfer detail and remaining REST controller gaps are candidates, not blockers unless live integration proves they are required.*
 
 ## History
 

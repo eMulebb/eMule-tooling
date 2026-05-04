@@ -15,6 +15,12 @@ source: broadband release live E2E and REST completeness planning
 Audit and fill release-critical search API gaps for aMuTorrent and other local
 controllers.
 
+## Release 1.0 Classification
+
+**Release Candidate.** The search API is mostly complete for 1.0. The remaining
+release work is to document paging/bounds behavior and keep live corpus
+coverage meaningful; do not change stock search semantics for this item.
+
 ## Acceptance Criteria
 
 - [x] aMuTorrent search views can render useful result rows without private

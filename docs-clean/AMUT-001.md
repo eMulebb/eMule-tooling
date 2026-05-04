@@ -14,6 +14,12 @@ source: broadband release live E2E and REST completeness planning
 
 Add a browser smoke lane that runs aMuTorrent against a live eMule BB instance.
 
+## Release 1.0 Classification
+
+**Release Gate.** eMule BB's first release positions REST/controller support as
+a product feature, so aMuTorrent needs at least one browser smoke against a live
+instance with request and console artifacts.
+
 ## Acceptance Criteria
 
 - [ ] aMuTorrent can connect to the eMule BB REST API with configured host,
