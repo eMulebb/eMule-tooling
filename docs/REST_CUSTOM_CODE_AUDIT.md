@@ -33,6 +33,10 @@ library, or pinned dependency APIs before writing custom logic.
   optional `category` filter. Malformed or duplicate category query fields fail
   closed with `400 Bad Request` instead of widening to an unfiltered transfer
   list.
+- Torznab bounded integers, Torznab category IDs, and qBittorrent magnet size
+  fields now reuse `WebServerJsonSeams::TryParseUnsignedDecimalValue` instead
+  of carrying compatibility-local `atoi`/`strtoul`/`strtoull` conversions.
+  Overflow handling is therefore shared with native `/api/v1` REST validation.
 - REST hash validation remains local and domain-specific because the public API
   requires exactly 32 lowercase MD4 hex characters, not general binary or hash
   parsing.
