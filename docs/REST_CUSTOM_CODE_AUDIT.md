@@ -52,6 +52,9 @@ library, or pinned dependency APIs before writing custom logic.
   fields now reuse `WebServerJsonSeams::TryParseUnsignedDecimalValue` instead
   of carrying compatibility-local `atoi`/`strtoul`/`strtoull` conversions.
   Overflow handling is therefore shared with native `/api/v1` REST validation.
+- Native REST endpoint ports, path IDs, and bounded query integers now route
+  through the same strict unsigned-decimal parser before applying route-specific
+  bounds. This removes remaining route-local `strtoul`/`strtoull` conversions.
 - REST hash validation remains local and domain-specific because the public API
   requires exactly 32 lowercase MD4 hex characters, not general binary or hash
   parsing.
