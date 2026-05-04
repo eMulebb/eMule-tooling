@@ -33,6 +33,10 @@ library, or pinned dependency APIs before writing custom logic.
   optional `category` filter. Malformed or duplicate category query fields fail
   closed with `400 Bad Request` instead of widening to an unfiltered transfer
   list.
+- qBittorrent compatibility request classification now mirrors native `/api/v1`
+  routing: the dispatcher recognizes the raw `/api/v2` namespace first, then
+  the compatibility handler runs strict shared path decoding and returns
+  `400 Bad Request` for malformed path escapes.
 - Torznab bounded integers, Torznab category IDs, and qBittorrent magnet size
   fields now reuse `WebServerJsonSeams::TryParseUnsignedDecimalValue` instead
   of carrying compatibility-local `atoi`/`strtoul`/`strtoull` conversions.
