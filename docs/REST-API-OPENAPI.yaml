@@ -77,6 +77,12 @@ paths:
         This endpoint closes eMule only. Operating-system shutdown and reboot
         actions from the legacy WebServer are intentionally not part of the
         REST API.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShutdownRequest"
       responses:
         "202":
           $ref: "#/components/responses/OkAcceptedResponse"
@@ -198,6 +204,12 @@ paths:
       tags: [Transfers]
       summary: Clear completed transfers from the transfer list.
       operationId: clearCompletedTransfers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClearCompletedTransfersRequest"
       responses:
         "200":
           $ref: "#/components/responses/OkResponse"
@@ -229,7 +241,7 @@ paths:
       summary: Cancel a transfer, optionally deleting local files.
       operationId: deleteTransfer
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
@@ -447,7 +459,7 @@ paths:
       summary: Unshare a file, optionally deleting the local file.
       operationId: deleteSharedFile
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
@@ -817,6 +829,12 @@ paths:
       tags: [Searches]
       summary: Delete all search sessions.
       operationId: deleteSearches
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteAllSearchesRequest"
       responses:
         "200":
           $ref: "#/components/responses/OkResponse"
@@ -1667,10 +1685,35 @@ components:
     DeleteFilesRequest:
       type: object
       additionalProperties: false
+      required: [deleteFiles]
       properties:
         deleteFiles:
           type: boolean
           default: false
+    ClearCompletedTransfersRequest:
+      type: object
+      additionalProperties: false
+      required: [confirmClearCompleted]
+      properties:
+        confirmClearCompleted:
+          type: boolean
+          enum: [true]
+    ShutdownRequest:
+      type: object
+      additionalProperties: false
+      required: [confirmShutdown]
+      properties:
+        confirmShutdown:
+          type: boolean
+          enum: [true]
+    DeleteAllSearchesRequest:
+      type: object
+      additionalProperties: false
+      required: [confirmDeleteAllSearches]
+      properties:
+        confirmDeleteAllSearches:
+          type: boolean
+          enum: [true]
     SharedFileListEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
