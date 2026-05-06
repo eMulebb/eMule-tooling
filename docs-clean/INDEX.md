@@ -18,12 +18,14 @@ reference reading.
 **First-release backlog view:** [RELEASE-1.0](RELEASE-1.0.md)
 **First-release checklist:** [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
 **First-release runbook:** [RELEASE-1.0-RUNBOOK](RELEASE-1.0-RUNBOOK.md)
+**First-release REST/Arr execution plan:** [RELEASE-1.0-REST-ARR-EXECUTION-PLAN](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md)
 
 Latest review trail:
 
 - [RELEASE-1.0](RELEASE-1.0.md)
 - [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
 - [RELEASE-1.0-RUNBOOK](RELEASE-1.0-RUNBOOK.md)
+- [RELEASE-1.0-REST-ARR-EXECUTION-PLAN](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md)
 - [REVIEW-2026-05-02-outbound-bind-compliance-audit](REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
 - [REVIEW-2026-05-01-release-readiness-regression-scan](REVIEW-2026-05-01-release-readiness-regression-scan.md)
 - [REVIEW-2026-04-26-main-bug-concurrency-scan](REVIEW-2026-04-26-main-bug-concurrency-scan.md)

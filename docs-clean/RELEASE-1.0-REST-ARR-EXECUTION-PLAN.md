@@ -1,0 +1,382 @@
+# Release 1.0 REST and Arr Execution Plan
+
+This is the tracked working plan for completing the Release 1 REST, Arr,
+aMuTorrent, robustness, long-path, and WebServer-boundary gates.
+
+It complements, but does not replace, the release backlog, checklist, and
+runbook:
+
+- [RELEASE-1.0](RELEASE-1.0.md)
+- [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
+- [RELEASE-1.0-RUNBOOK](RELEASE-1.0-RUNBOOK.md)
+
+## Decisions
+
+- Native `/api/v1` cleanliness wins over current client compatibility.
+- Breaking pre-release REST contracts is allowed when it makes eMule BB cleaner.
+- aMuTorrent adapts to the native REST API; it does not define that API.
+- Arr compatibility is an adapter layer over shared native logic.
+- Legacy WebServer cleanup is limited to REST/WebServer boundary safety and
+  shared request/path/concurrency code. Do not rewrite or retire the legacy HTML
+  UI for Release 1.
+- Release 1 requires full live aMuTorrent and Arr gate success. Public-network
+  or external-service failures must be fixed and rerun successfully before the
+  tag.
+
+## Tracking Rules
+
+Use these status values in this document:
+
+- `Open`
+- `In Progress`
+- `Ready For Validation`
+- `Passed`
+- `Blocked`
+- `Deferred By Decision`
+
+For each completed implementation slice, record:
+
+- implementation commit
+- validation command
+- artifact path or report path
+- blocker notes, if any
+
+Only promote release checklist rows to `Passed` when the exact gate validation
+has completed and the artifact is recorded in
+[RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md).
+
+## Recent Progress
+
+| ID | Status | Evidence | Notes |
+|----|--------|----------|-------|
+| `BUG-075` | In Progress | `fcedfe3` app, `28f17db` tests | Explicit destructive REST confirmations and content-type seam coverage landed. Full typed error consistency remains open. |
+| `ARR-001` | In Progress | `87b6f24` app | qBit form parsing shares native URL-encoded parser logic. Full live Arr gate remains open. |
+| `CI-014` | In Progress | `3bc65d6` tests, `89810c5` tooling | REST smoke consumes OpenAPI body metadata and OpenAPI documents explicit confirmation bodies. Native route/docs drift checks still need completion and live evidence. |
+
+## Gate Checklist
+
+### 1. `BUG-075` REST Typed Error Consistency
+
+Goal: every native `/api/v1` failure uses a stable JSON error envelope and
+status map. Legacy HTML and qBit/Torznab compatibility responses remain
+adapter-specific.
+
+- [ ] Inventory every native REST failure source:
+  - [ ] route miss
+  - [ ] method miss
+  - [ ] missing API key
+  - [ ] wrong API key
+  - [ ] malformed path/query
+  - [ ] malformed JSON
+  - [ ] non-object JSON
+  - [ ] unsupported content type
+  - [ ] unknown field
+  - [ ] validation failure
+  - [ ] missing object
+  - [ ] invalid state
+  - [ ] internal command failure
+- [ ] Define one native REST error envelope with `error.code`,
+      `error.message`, and optional bounded `error.details`.
+- [ ] Centralize native REST status mapping in the REST seam layer.
+- [ ] Keep qBit text responses and Torznab XML responses adapter-specific.
+- [ ] Keep legacy HTML failures as legacy HTML/text where appropriate.
+- [x] Require explicit confirmation bodies for destructive/broad native
+      operations.
+- [x] Reject non-empty native REST bodies without `application/json`.
+- [ ] Add seam tests for all error classes and status mappings.
+- [ ] Add live smoke assertions that native REST failures are JSON, never
+      legacy HTML.
+- [ ] Update OpenAPI shared error schemas if the implementation exposes new
+      precise status/error codes.
+- [ ] Validate with `workspace.ps1 validate`.
+- [ ] Validate with Debug x64 `build-tests` and `test`.
+- [ ] Record final implementation commits and artifacts in the release
+      checklist.
+
+### 2. `BUG-076` Malformed WebServer/REST Boundary Hardening
+
+Goal: malformed REST requests fail as REST and never fall through into legacy
+HTML login/session behavior.
+
+- [ ] Harden request-line and method parsing before dispatch.
+- [ ] Ensure unsupported `/api/v1` methods return native REST failures.
+- [ ] Ensure malformed REST path escapes do not enter legacy HTML routing.
+- [ ] Ensure body-size and `Content-Length` limits fail cleanly.
+- [ ] Ensure truncated or partial bodies do not dispatch unpredictably.
+- [ ] Add malformed cases:
+  - [ ] invalid JSON syntax
+  - [ ] JSON array/string/number body
+  - [ ] wrong `Content-Type`
+  - [ ] missing `Content-Type` with body
+  - [ ] lowercase method
+  - [ ] overlong method token
+  - [ ] malformed query escape
+  - [ ] duplicate query parameter
+  - [ ] malformed path escape
+  - [ ] uppercase hash where lowercase is required
+  - [ ] overlong identifiers
+  - [ ] unsupported `/api/v1` route
+- [ ] Add a legacy HTML smoke GET after REST hardening.
+- [ ] Validate with `workspace.ps1 validate`.
+- [ ] Validate with Debug x64 `build-tests` and `test`.
+- [ ] Record evidence in the release checklist.
+
+### 3. `CI-014` Contract-Driven REST Completeness
+
+Goal: OpenAPI is the canonical executable `/api/v1` contract for tests and live
+coverage.
+
+- [x] Keep `docs/REST-API-OPENAPI.yaml` as the machine-readable contract.
+- [x] Parse OpenAPI route, method, operation, tag, and request-body metadata in
+      the live REST smoke runner.
+- [x] Fail static smoke parity when a required request body has no safe live
+      payload.
+- [ ] Extend contract validation to response envelope class and safety
+      classification.
+- [ ] Make native route seam tests fail on OpenAPI drift:
+  - [ ] missing route
+  - [ ] extra undocumented route
+  - [ ] method mismatch
+  - [ ] request body field mismatch
+  - [ ] query field mismatch
+- [ ] Add a docs drift check for `REST-API-CONTRACT.md`, or remove duplicated
+      route tables from the human doc and point to OpenAPI.
+- [ ] Ensure `/app/shutdown` is always excluded from live mutation loops.
+- [ ] Record route coverage by family in live reports.
+- [ ] Validate with Release x64 `build-tests`.
+- [ ] Validate with `live-e2e -Config Release -Platform x64 -LiveSuite rest-api`.
+- [ ] Record REST child report and aggregate result JSON in the release
+      checklist.
+
+### 4. `CI-015` and `BUG-077` Stress, Malformed, and Concurrency Matrix
+
+Goal: release-gate smoke and operator soak budgets prove REST, adapters, and
+legacy WebServer boundary traffic stay stable under mixed concurrent load.
+
+- [ ] Make stress budgets explicit and selectable:
+  - [ ] `smoke`
+  - [ ] `soak`
+  - [ ] `contract-stress`
+- [ ] Cover concurrent request classes:
+  - [ ] native REST reads
+  - [ ] safe native REST mutations
+  - [ ] malformed native REST requests
+  - [ ] qBit adapter reads/missing-hash mutations
+  - [ ] Torznab caps/search validation requests
+  - [ ] legacy HTML GET requests
+- [ ] Add stress metrics:
+  - [ ] requests started/completed
+  - [ ] status counts
+  - [ ] method counts
+  - [ ] route family counts
+  - [ ] scenario counts
+  - [ ] p50/p95/max latency
+  - [ ] timeout count
+  - [ ] sampled failures
+  - [ ] shutdown duration after stress
+- [ ] Enforce invariants:
+  - [ ] no native REST response unexpectedly HTML/text
+  - [ ] no request exceeds configured timeout
+  - [ ] no REST listener disappearance
+  - [ ] app shuts down cleanly after stress
+  - [ ] no session or bad-login corruption symptoms under mixed traffic
+- [ ] Validate release smoke with
+      `live-e2e -Config Release -Platform x64 -LiveSuite rest-api
+      -RestStressBudget smoke`.
+- [ ] Validate operator soak with
+      `live-e2e -Config Release -Platform x64 -LiveSuite rest-api
+      -RestStressBudget soak`.
+- [ ] Record stress reports and aggregate result JSON in the release checklist.
+
+### 5. Native `/api/v1` Clean Contract Pass
+
+Goal: native REST is internally clean and stable; aMuTorrent and adapters follow
+it.
+
+- [ ] Audit every OpenAPI route against implementation and aMuTorrent usage.
+- [ ] Break or rename pre-release routes where needed for a clean resource and
+      operation model.
+- [ ] Keep strict field rules:
+  - [ ] lowercase 32-character eD2K hashes
+  - [ ] explicit booleans for destructive intent
+  - [ ] bounded unsigned integers
+  - [ ] UTF-8 text without controls
+  - [ ] mutually exclusive selectors rejected early
+- [ ] Close `FEAT-047` search documentation gap:
+  - [ ] document search paging/bounds behavior
+  - [ ] verify server/global/Kad/automatic live corpus coverage
+  - [ ] preserve stock eD2K/Kad search semantics
+- [ ] Promote release candidates only from live evidence:
+  - [ ] `FEAT-045` only if transfer details are required
+  - [ ] `FEAT-046` only if bootstrap/import is required
+  - [ ] `FEAT-048` only if upload controls are required
+  - [ ] `FEAT-049` only if preferences are required
+
+### 6. Shared Native REST and Arr Adapter Logic
+
+Goal: adapters do not duplicate native parser, validation, or normalization
+logic.
+
+- [x] Share URL-encoded key/value parsing between native query handling and
+      qBit form parsing.
+- [ ] Share or prove shared behavior for:
+  - [ ] strict percent decoding
+  - [ ] hash normalization and validation
+  - [ ] search text normalization
+  - [ ] bounded unsigned parsing
+  - [ ] category selector validation
+  - [ ] magnet/eD2K conversion safety
+- [ ] Keep adapter-specific code only for:
+  - [ ] Torznab XML/feed shape
+  - [ ] qBit text responses and session-cookie compatibility
+  - [ ] Prowlarr/Radarr/Sonarr harness setup
+- [ ] Add seam tests proving identical behavior across:
+  - [ ] native query strings
+  - [ ] Torznab query strings
+  - [ ] qBit form bodies
+  - [ ] nested qBit magnet query strings
+
+### 7. `ARR-001` Full Arr Live E2E
+
+Goal: Prowlarr, Radarr, Sonarr, and qBit-compatible flows pass against live
+eMule BB.
+
+- [x] Add low-risk direct Torznab/qBit smoke inside the REST live smoke lane.
+- [ ] Stabilize direct eMule BB adapter checks:
+  - [ ] Torznab caps
+  - [ ] Torznab auth by header and query API key
+  - [ ] Torznab malformed query errors
+  - [ ] Torznab direct search results
+  - [ ] qBit login/session
+  - [ ] qBit categories
+  - [ ] qBit info/properties/files
+  - [ ] qBit add invalid and synthetic magnet paths
+  - [ ] qBit pause/resume/stop/start/delete/setCategory flows
+- [ ] Validate Prowlarr:
+  - [ ] create/update Generic Torznab indexer
+  - [ ] test indexer
+  - [ ] run direct search stress
+  - [ ] redact API keys in artifacts
+- [ ] Validate Radarr/Sonarr:
+  - [ ] sync Prowlarr indexer into both apps
+  - [ ] configure temporary qBit-compatible download clients
+  - [ ] run release/RSS/search checks
+  - [ ] trigger qBit-compatible add/mutate/delete into live eMule BB
+- [ ] Extend reports with:
+  - [ ] indexer/client IDs
+  - [ ] redacted endpoint summaries
+  - [ ] route coverage summaries
+  - [ ] exact failure bodies with secrets redacted
+  - [ ] cleanup results
+- [ ] Validate with
+      `live-e2e -Config Release -Platform x64 -LiveSuite prowlarr-emulebb
+      -LiveSuite radarr-sonarr-emulebb`.
+- [ ] Record Prowlarr, Radarr, Sonarr, and aggregate Arr artifacts in the
+      release checklist.
+
+### 8. `AMUT-001` aMuTorrent Browser Smoke
+
+Goal: aMuTorrent runs as a UI consumer of the clean native API.
+
+- [ ] Verify aMuTorrent can configure eMule BB host, port, and API key.
+- [ ] Verify dashboard connection state renders eD2K and Kad status.
+- [ ] Verify these views render without console/request errors:
+  - [ ] transfers
+  - [ ] shared files
+  - [ ] shared directories
+  - [ ] categories
+  - [ ] searches
+  - [ ] uploads/upload queue
+  - [ ] logs/status where present
+- [ ] Exercise UI flows only where backed by clean native routes:
+  - [ ] create/edit/delete category
+  - [ ] shared-directory save/reload
+  - [ ] search start/stop/result download
+  - [ ] transfer pause/resume/delete test item
+- [ ] Capture browser console, network artifacts, screenshot or DOM summary,
+      and final REST status snapshot.
+- [ ] Validate with
+      `live-e2e -Config Release -Platform x64 -LiveSuite
+      amutorrent-browser-smoke`.
+- [ ] Record aMuTorrent artifacts in the release checklist.
+
+### 9. Long Path and Unicode Release Proof
+
+Goal: REST and adapters preserve eMule BB long-path guarantees.
+
+- [ ] Add REST/API-level tests for:
+  - [ ] shared-directory roots
+  - [ ] shared-file add/reload/list
+  - [ ] category incoming paths if exposed
+  - [ ] transfer file names from ED2K/magnet conversion
+  - [ ] logs/error messages with Unicode text
+- [ ] Use existing `LongPathSeams` and Windows APIs instead of direct raw file
+      or path calls.
+- [ ] Cover edge cases:
+  - [ ] paths over `MAX_PATH`
+  - [ ] Unicode folder/file names
+  - [ ] trailing dot and trailing space preservation where Windows allows it
+  - [ ] reserved device names rejected
+  - [ ] path traversal rejected
+  - [ ] missing parent handled predictably
+  - [ ] no API output truncation
+- [ ] Add live E2E coverage using existing long-path shared roots where
+      possible.
+- [ ] Verify no REST/adapter path code uses raw `CFile`, CRT, or Win32 file
+      calls where a `LongPathSeams` helper exists.
+
+### 10. Windows API and Custom-Code Audit
+
+Goal: replace custom REST/Arr code with project helpers, standard library, or
+Windows APIs where the behavior is already owned.
+
+- [ ] Continue `docs/REST_CUSTOM_CODE_AUDIT.md` for every REST/Arr helper.
+- [ ] Audit and mark each helper as:
+  - [ ] replaced
+  - [ ] kept with reason
+  - [ ] deferred
+- [ ] Prefer existing helpers/APIs for:
+  - [ ] path canonicalization
+  - [ ] file I/O
+  - [ ] UTF-8/UTF-16 conversion
+  - [ ] URL/form parsing
+  - [ ] JSON construction
+  - [ ] numeric parsing
+  - [ ] concurrency/lifetime synchronization
+- [ ] Keep local XML escaping only if no pinned XML writer is available and
+      tests prove correctness.
+- [ ] Require tests and a short comment for every retained custom helper that
+      has no existing owner.
+
+### 11. Legacy Boundary Cleanup
+
+Goal: preserve legacy HTML while preventing it from contaminating REST behavior.
+
+- [ ] Prevent REST requests from falling into legacy login/session paths.
+- [ ] Keep shared request parsing safe for REST and legacy HTML.
+- [ ] Add legacy HTML GETs to concurrent WebServer stress.
+- [ ] Fix session or bad-login synchronization only if `BUG-073` or stress
+      evidence requires it.
+- [ ] Do not redesign templates.
+- [ ] Do not migrate HTML routes to REST.
+- [ ] Do not remove legacy commands for Release 1.
+
+### 12. Final Release Evidence
+
+- [ ] `workspace.ps1 validate`
+- [ ] Debug x64 app build
+- [ ] Release x64 app build
+- [ ] Debug x64 test build
+- [ ] Release x64 test build
+- [ ] supported native test command
+- [ ] Release x64 `live-e2e -LiveSuite rest-api`
+- [ ] Release x64 `live-e2e -LiveSuite rest-api -RestStressBudget soak`
+- [ ] Release x64 `live-e2e -LiveSuite amutorrent-browser-smoke`
+- [ ] Release x64 `live-e2e -LiveSuite prowlarr-emulebb -LiveSuite
+      radarr-sonarr-emulebb`
+- [ ] full Release x64 `live-e2e`
+- [ ] clean worktrees in active workspace repos
+- [ ] release notes reviewed for `eMule broadband edition`
+- [ ] release assets named:
+  - [ ] `eMule-broadband-1.0.0-x64.zip`
+  - [ ] `eMule-broadband-1.0.0-arm64.zip`

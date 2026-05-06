@@ -8,6 +8,7 @@ Operator docs:
 
 - [Release 1.0 checklist](RELEASE-1.0-CHECKLIST.md)
 - [Release 1.0 runbook](RELEASE-1.0-RUNBOOK.md)
+- [Release 1.0 REST/Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md)
 
 ## Release Identity
 
