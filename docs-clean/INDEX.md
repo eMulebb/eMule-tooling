@@ -144,7 +144,7 @@ is meaningful.
 | [BUG-074](BUG-074.md) | Minor | Wont-Fix | Archive preview scanner uses volatile cancellation and synchronous UI handoff |
 | [BUG-075](BUG-075.md) | Major | **Done** | REST and WebServer typed error consistency |
 | [BUG-076](BUG-076.md) | Major | **Done** | WebServer malformed request hardening for REST and legacy HTML |
-| [BUG-077](BUG-077.md) | Minor | Open | WebServer concurrent REST and legacy HTML soak coverage |
+| [BUG-077](BUG-077.md) | Minor | **Done** | WebServer concurrent REST and legacy HTML soak coverage |
 
 ---
 
