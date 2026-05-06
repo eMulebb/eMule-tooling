@@ -57,7 +57,7 @@ has completed and the artifact is recorded in
 | `BUG-077` | Passed | `f6cc0f9`, `75b4ce7`, `331f70d`, `fe6ee8c` tests | Release x64 REST live soak passed with mixed native REST, qBit, Torznab, and legacy HTML traffic: 10997 completed requests, 0 failures, 0 timeouts, 0 non-JSON native REST responses, and clean app shutdown after stress. |
 | `AMUT-001` | Passed | `affc4d6`, `11365ca` tests | aMuTorrent browser smoke now fails on browser console errors, page exceptions, failed page requests, and HTTP-200 error payloads. Release x64 `live-e2e -LiveSuite amutorrent-browser-smoke` passed in `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260506-193606-eMule-main-release`, with browser diagnostics showing 0 console errors, 0 page errors, and 0 request failures. The smoke covers configured eMule BB host/port/API key, dashboard/network status, category create/delete, ED2K add, search start/results, server action, and shared-directory reload. |
 | `FEAT-050` | Passed | `b6ce2ef`, `1db8f7c` app; `ea9f163` tests | The completion hook is disabled by default, executable-only, launched through direct `CreateProcess`, skipped on failed/duplicate/shutdown paths, and covered by native tests for token expansion, literal shell metacharacters, missing executable validation, and retained-success launch request construction. Debug x64 `build-tests` and `test` passed with `483/483` native cases and `2686/2686` assertions. |
-| `CI-011` | In Progress | `13f1487` tests | Shared-directories REST live E2E now covers an over-`MAX_PATH` Unicode root, native `/api/v1/shared-directories` mutation, `/api/v1/shared-files` listing, persistence, and relaunch reload. Focused Release x64 `live-e2e -LiveSuite shared-directories-rest` passed in `repos\eMule-build-tests\reports\shared-directories-rest\20260506-202103-eMule-main-release`; the report records a 325-character root and `unicode-U+00DF-U+6F22.txt` fixture evidence. Full Release x64 umbrella E2E remains open. |
+| `CI-011` | In Progress | `13f1487`, `1058ac2` tests | Shared-directories REST live E2E now covers an over-`MAX_PATH` Unicode root, native `/api/v1/shared-directories` mutation, `/api/v1/shared-files` listing, persistence, relaunch reload, malformed shared-directory PATCH errors, and missing-parent root handling. Focused Release x64 `live-e2e -LiveSuite shared-directories-rest` passed in `repos\eMule-build-tests\reports\shared-directories-rest\20260506-202644-eMule-main-release`; the report records a 325-character root, `unicode-U+00DF-U+6F22.txt` fixture evidence, 400 JSON errors for blank paths and non-boolean recursive flags, and a missing-parent root reported as `accessible=false` with no shared files before clearing. Full Release x64 umbrella E2E remains open. |
 
 ## Gate Checklist
 
@@ -333,15 +333,19 @@ Goal: REST and adapters preserve eMule BB long-path guarantees.
   - [ ] trailing dot and trailing space preservation where Windows allows it
   - [ ] reserved device names rejected
   - [ ] path traversal rejected
-  - [ ] missing parent handled predictably
+  - [x] missing parent handled predictably
   - [x] no API output truncation
 - [x] Add live E2E coverage using existing long-path shared roots where
       possible.
-      - Evidence: `repos\eMule-build-tests\reports\shared-directories-rest\20260506-202103-eMule-main-release\result.json`
+      - Evidence: `repos\eMule-build-tests\reports\shared-directories-rest\20260506-202644-eMule-main-release\result.json`
         records `long_path_unicode.path_length` as `325`, `over_max_path` as
         `true`, the long Unicode root in REST directory responses and
         persisted path lists, and `unicode-U+00DF-U+6F22.txt` in shared-file
         listings before and after relaunch.
+      - The same report records invalid PATCH checks for blank path and
+        non-boolean `recursive` fields, proves those errors do not mutate the
+        shared-directory model, and records missing-parent roots as accepted
+        but `accessible=false`, listable with no files, and clearable.
 - [ ] Verify no REST/adapter path code uses raw `CFile`, CRT, or Win32 file
       calls where a `LongPathSeams` helper exists.
 
