@@ -72,6 +72,12 @@ library, or pinned dependency APIs before writing custom logic.
   uses `LongPathSeams::MoveFileEx` plus `DeleteFileIfExists`. The broad app has
   older unrelated raw file-call sites, but those are outside the REST/Arr
   Release 1 ownership boundary.
+- qBittorrent compatibility session ID generation now has explicit
+  `CCriticalSection` ownership around the lazy session string. Arr
+  compatibility cache state already uses `CCriticalSection`, the Arr in-flight
+  search gate uses interlocked exchange operations, and native REST UI command
+  dispatch uses synchronous `SendMessage` so stack-owned dispatch context
+  remains live for the full UI-thread command.
 - HTTP `Content-Length` parsing now uses a shared WebSocket seam backed by the
   strict REST unsigned-decimal parser instead of `atol`, rejecting signed,
   partial, overflowed, and oversized request bodies before `/api/v1`, Torznab,
@@ -106,7 +112,7 @@ library, or pinned dependency APIs before writing custom logic.
 | Hash validation | REST and qBit eD2K hash selectors | Kept with reason | The API contract is domain-specific: exactly 32 lowercase MD4 hex characters for native selectors, with qBit compatibility normalizing accepted mutation hashes before native dispatch. General Windows or crypto parsers do not own this textual contract. |
 | JSON construction | Native `/api/v1` and qBittorrent compatibility response assembly | Replaced/shared | Native REST and qBittorrent compatibility now share `WebServerJson::SerializeJsonUtf8`, backed by pinned `nlohmann::json` and the native REST invalid-string replacement policy. Native `/api/v1` success/error envelopes remain centralized in `BuildSuccessEnvelope` and `BuildErrorEnvelope`; qBit compatibility keeps its adapter-specific response shapes while reusing the serializer. |
 | File I/O | REST-adjacent path and shared-file operations | Replaced/shared | Native REST shared-directory mutation, shared-file add/list/reload, transfer delete, and static file reads delegate filesystem work to `SharedDirectoryOps`, `SharedFileList`, `ShellDeleteFile`, `PathHelpers`, or `LongPathSeams`. Source audit covered REST controllers, Arr/qBit adapters, shared-directory enumeration, shared-file startup/duplicate cache reads and writes, and static reads; no REST-owned raw file I/O remains where a LongPath/project helper owns the behavior. |
-| Concurrency and lifetime | REST command dispatch, WebServer request parsing, session/auth state | Deferred | Stress evidence covers current behavior under mixed native REST, adapters, malformed traffic, and legacy HTML GETs. A source audit of synchronization ownership is still required before marking this fully reviewed. |
+| Concurrency and lifetime | REST command dispatch, Arr cache/search state, qBit session/auth state | Replaced/shared | qBit compatibility now guards lazy SID generation with `CCriticalSection`. Arr cache access is protected by `g_arrCompatCacheLock`, Arr search reservation uses interlocked compare/exchange, and native REST bridge commands use synchronous UI-thread `SendMessage` to keep stack dispatch context lifetime bounded. Stress evidence covers mixed native REST, adapters, malformed traffic, and legacy HTML GETs. |
 
 ## Resolved Cleanup
 

@@ -379,14 +379,14 @@ Windows APIs where the behavior is already owned.
   - [x] replaced
   - [x] kept with reason
   - [x] deferred
-- [ ] Prefer existing helpers/APIs for:
+- [x] Prefer existing helpers/APIs for:
   - [x] path canonicalization
   - [x] file I/O
   - [x] UTF-8/UTF-16 conversion
   - [x] URL/form parsing
   - [x] JSON construction
   - [x] numeric parsing
-  - [ ] concurrency/lifetime synchronization
+  - [x] concurrency/lifetime synchronization
 - [x] Keep local XML escaping only if no pinned XML writer is available and
       tests prove correctness.
 - [x] Require tests and a short comment for every retained custom helper that
