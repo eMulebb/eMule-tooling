@@ -325,7 +325,7 @@ Goal: REST and adapters preserve eMule BB long-path guarantees.
   - [x] category incoming paths if exposed
   - [x] transfer file names from ED2K/magnet conversion
   - [ ] logs/error messages with Unicode text
-- [ ] Use existing `LongPathSeams` and Windows APIs instead of direct raw file
+- [x] Use existing `LongPathSeams` and Windows APIs instead of direct raw file
       or path calls.
 - [ ] Cover edge cases:
   - [x] paths over `MAX_PATH`
@@ -347,8 +347,13 @@ Goal: REST and adapters preserve eMule BB long-path guarantees.
         non-boolean `recursive` fields, proves those errors do not mutate the
         shared-directory model, and records missing-parent roots as accepted
         but `accessible=false`, listable with no files, and clearable.
-- [ ] Verify no REST/adapter path code uses raw `CFile`, CRT, or Win32 file
+- [x] Verify no REST/adapter path code uses raw `CFile`, CRT, or Win32 file
       calls where a `LongPathSeams` helper exists.
+      - Evidence: source audit covered `WebServerJson`, `WebServerArrCompat`,
+        `WebServerQBitCompat`, and static-file path seams. REST/adapter files
+        have no direct `CFile`, CRT stream, raw open, raw find, or raw
+        attribute probes; REST delete operations call `ShellDeleteFile`, which
+        delegates direct deletes to `LongPathSeams::DeleteFile`.
 
 ### 10. Windows API and Custom-Code Audit
 
