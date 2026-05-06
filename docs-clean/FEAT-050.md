@@ -1,7 +1,7 @@
 ---
 id: FEAT-050
 title: Launch external program on completed download
-status: Open
+status: Passed
 priority: Minor
 category: feature
 labels: [downloads, completion, automation, preferences]
@@ -52,11 +52,21 @@ user quoting.
 
 ## Acceptance Criteria
 
-- [ ] command does not run for failed completion or duplicate-discard paths
-- [ ] command runs after final UI-thread completion success and notifier/log
+- [x] command does not run for failed completion or duplicate-discard paths
+- [x] command runs after final UI-thread completion success and notifier/log
       work
-- [ ] missing executable is rejected when enabling the feature
-- [ ] disabled preference allows empty command fields
-- [ ] token expansion is covered by native tests
-- [ ] launch helper closes process and thread handles immediately
-- [ ] app validation and targeted tests pass
+- [x] missing executable is rejected when enabling the feature
+- [x] disabled preference allows empty command fields
+- [x] token expansion is covered by native tests
+- [x] launch helper closes process and thread handles immediately
+- [x] app validation and targeted tests pass
+
+## Completion Evidence
+
+- app: `b6ce2ef`, `1db8f7c`
+- tests: `ea9f163`
+- command: `pwsh -File repos\eMule-build\workspace.ps1 build-tests -Config Debug -Platform x64`
+- command: `pwsh -File repos\eMule-build\workspace.ps1 test -Config Debug -Platform x64`
+- build logs: `workspaces\v0.72a\state\build-logs\20260506-201517`
+- native coverage: `repos\eMule-build-tests\reports\native-coverage\20260506-201526-eMulebb-workspace-v0.72a-eMule-main-x64-Debug`
+- result: native tests passed `483/483` cases and `2686/2686` assertions
