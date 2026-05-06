@@ -78,6 +78,23 @@ library, or pinned dependency APIs before writing custom logic.
   hostnames or addresses with ports. Windows IP parsers such as `InetPton` are
   useful only after the API deliberately narrows a route to numeric IP input.
 
+## Reviewed Helper Ledger
+
+| Area | Helper or surface | Decision | Reason and evidence |
+|------|-------------------|----------|---------------------|
+| UTF-8 validation | `WebServerJsonSeams::TryNormalizeSearchText`, `StringConversion.cpp::utf8towc`, `GeoLocation.cpp` MMDB text conversion | Replaced | Strict UTF-8 validation now uses Windows `MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, ...)`; malformed text is rejected or ignored at the owning boundary instead of guessed by a custom scanner. |
+| URL encoding | `WebServerJsonSeams::UrlEncodeUtf8` | Kept with reason | Compatibility links need RFC3986 component escaping for already-validated UTF-8 bytes. Windows whole-URL canonicalizers would also normalize URL shape, which is not the contract. Covered by native seam tests for spaces, plus signs, percent signs, and Torznab magnet display names. |
+| URL decoding | `WebServerJsonSeams::TryUrlDecodeUtf8` | Kept with reason | REST route segments, query fields, Torznab parameters, qBit form fields, and nested magnet query strings share one strict percent decoder. It rejects malformed escapes before dispatch; Windows browser-style URL helpers are not a safe component-level replacement. |
+| Query parsing | `WebServerJsonSeams::TryParseQueryString` and `TryParseUrlEncodedFields` | Kept with reason | Native REST and Torznab use one duplicate-rejecting decoded-field parser. Tests cover malformed escapes, duplicate query parameters, native query strings, Torznab query strings, and nested qBit magnet query strings. |
+| qBit form parsing | `WebServerQBitCompatSeams::TryParseFormBody` | Kept with reason | qBittorrent compatibility needs `application/x-www-form-urlencoded` decoding with unique decoded field names and adapter-specific error text. The implementation delegates to the shared REST URL-encoded field parser; tests cover duplicate fields, empty names, malformed escapes, and required field checks. |
+| XML escaping | `WebServerArrCompatSeams::XmlEscape` | Kept with reason | No pinned XML writer is currently part of the lightweight Torznab feed path. The helper is intentionally narrow, has a Doxygen comment, and seam tests cover element and attribute metacharacters used by feed result titles, descriptions, links, GUIDs, and Torznab attributes. |
+| Numeric parsing | `WebServerJsonSeams::TryParseUnsignedDecimalValue` consumers | Replaced/shared | Adapter-local `atoi`/`strtoul`/`strtoull` paths were removed. Native route bounds, Torznab season/episode/year/category values, qBit magnet sizes, and HTTP `Content-Length` now share strict unsigned decimal parsing and overflow rejection. |
+| Path canonicalization | Shared-directory REST, shared-file REST, static-file path seams, and category incoming paths | Replaced/shared | REST path entry points now route through `PathHelpers::CanonicalizePath`, `ParsePathRoot`, or `CanonicalizePathForComparison` before ownership checks and output echoing. Live evidence covers over-`MAX_PATH` Unicode roots, traversal rejection, missing-parent roots, category incoming-path echo, and shared-file long-path reload/list behavior. |
+| Hash validation | REST and qBit eD2K hash selectors | Kept with reason | The API contract is domain-specific: exactly 32 lowercase MD4 hex characters for native selectors, with qBit compatibility normalizing accepted mutation hashes before native dispatch. General Windows or crypto parsers do not own this textual contract. |
+| JSON construction | Native `/api/v1` response assembly | Deferred | The active implementation already uses the pinned `nlohmann::json` dependency for native response envelopes. A separate route-by-route cleanup pass is still needed to audit remaining manual response-shape assembly and naming consistency. |
+| File I/O | REST-adjacent path and shared-file operations | Deferred | Recent REST path work moved ownership and canonicalization checks to `PathHelpers`, but a raw file-call audit is still open for code that touches file contents or filesystem state below the REST controller boundary. |
+| Concurrency and lifetime | REST command dispatch, WebServer request parsing, session/auth state | Deferred | Stress evidence covers current behavior under mixed native REST, adapters, malformed traffic, and legacy HTML GETs. A source audit of synchronization ownership is still required before marking this fully reviewed. |
+
 ## Resolved Cleanup
 
 - ASCII trim/lower/decimal parsing now lives in shared REST parser primitives

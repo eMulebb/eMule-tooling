@@ -356,21 +356,21 @@ Goal: replace custom REST/Arr code with project helpers, standard library, or
 Windows APIs where the behavior is already owned.
 
 - [x] Continue `docs/REST_CUSTOM_CODE_AUDIT.md` for every REST/Arr helper.
-- [ ] Audit and mark each helper as:
-  - [ ] replaced
-  - [ ] kept with reason
-  - [ ] deferred
+- [x] Audit and mark each helper as:
+  - [x] replaced
+  - [x] kept with reason
+  - [x] deferred
 - [ ] Prefer existing helpers/APIs for:
-  - [ ] path canonicalization
+  - [x] path canonicalization
   - [ ] file I/O
   - [x] UTF-8/UTF-16 conversion
-  - [ ] URL/form parsing
+  - [x] URL/form parsing
   - [ ] JSON construction
-  - [ ] numeric parsing
+  - [x] numeric parsing
   - [ ] concurrency/lifetime synchronization
-- [ ] Keep local XML escaping only if no pinned XML writer is available and
+- [x] Keep local XML escaping only if no pinned XML writer is available and
       tests prove correctness.
-- [ ] Require tests and a short comment for every retained custom helper that
+- [x] Require tests and a short comment for every retained custom helper that
       has no existing owner.
 
 ### 11. Legacy Boundary Cleanup
