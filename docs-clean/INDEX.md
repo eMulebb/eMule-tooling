@@ -313,11 +313,11 @@ page when deciding what must land before `emule-bb-v1.0.0`.
 
 ### Release Candidates
 
-1. **FEAT-032** — close NAT mapping live validation if the available network can prove it cleanly
-2. **FEAT-045, AMUT-002** — add transfer-detail data only if aMuTorrent needs it for useful release views
-3. **FEAT-046** — finish Kad import only if live-wire bootstrap needs it
+1. **FEAT-032** — Deferred By Decision for 1.0; release E2E did not require NAT proof
+2. **FEAT-045, AMUT-002** — Deferred By Decision for 1.0; aMuTorrent passed without hydrated transfer detail
+3. **FEAT-046** — Deferred By Decision for 1.0; live-wire gates passed without Kad import
 4. **FEAT-047** — passed; search paging/bounds behavior is documented for Release 1.0
-5. **FEAT-048, FEAT-049** — audit upload and preference REST gaps; add only controller-required keys/operations
+5. **FEAT-048, FEAT-049** — Deferred By Decision for 1.0; no release gate required extra upload or preference operations
 
 ### Deferred Beyond 1.0
 

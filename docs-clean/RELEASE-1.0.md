@@ -43,13 +43,13 @@ the gate work proves that a controller cannot ship without them.
 
 | ID | Candidate | Ship decision |
 |----|-----------|---------------|
-| [FEAT-032](FEAT-032.md) | NAT mapping live validation | Finish MiniUPnP and PCP/NAT-PMP live validation if the local network can prove it cleanly; do not delay 1.0 solely for unavailable PCP/NAT-PMP conditions. |
-| [FEAT-045](FEAT-045.md) | Transfer detail endpoint | Ship if aMuTorrent needs hydrated transfer detail for useful release views; otherwise document as 1.1 follow-up. |
-| [FEAT-046](FEAT-046.md) | Server/Kad bootstrap/import APIs | Finish Kad import if live-wire bootstrap needs it; otherwise keep server import/bootstrap coverage and defer the rest. |
+| [FEAT-032](FEAT-032.md) | NAT mapping live validation | Deferred By Decision for 1.0; release E2E did not require NAT proof, and unavailable PCP/NAT-PMP or browse-capable public-network conditions must not delay the tag. |
+| [FEAT-045](FEAT-045.md) | Transfer detail endpoint | Deferred By Decision for 1.0; aMuTorrent and Arr release gates passed without hydrated transfer detail, so keep this as a 1.1 controller enhancement. |
+| [FEAT-046](FEAT-046.md) | Server/Kad bootstrap/import APIs | Deferred By Decision for 1.0; release live-wire gates passed with current server/search/bootstrap coverage, and Kad import remains post-1.0 work. |
 | [FEAT-047](FEAT-047.md) | Search API completeness | Passed; paging/bounds semantics are documented for Release 1.0. |
-| [FEAT-048](FEAT-048.md) | Upload queue control completeness | Audit and test existing upload controls first; add only release-critical missing operations. |
-| [FEAT-049](FEAT-049.md) | Curated REST preference expansion | Add only settings directly required by aMuTorrent or release E2E automation. |
-| [AMUT-002](AMUT-002.md) | aMuTorrent transfer detail hydration | Depends on FEAT-045; degrade cleanly when the endpoint is absent. |
+| [FEAT-048](FEAT-048.md) | Upload queue control completeness | Deferred By Decision for 1.0; existing upload controller coverage is sufficient, and no aMuTorrent or Arr gate required additional queue mutations. |
+| [FEAT-049](FEAT-049.md) | Curated REST preference expansion | Deferred By Decision for 1.0; release E2E and preference UI gates passed with the current curated preference surface. |
+| [AMUT-002](AMUT-002.md) | aMuTorrent transfer detail hydration | Deferred By Decision for 1.0; depends on deferred `FEAT-045`, and aMuTorrent browser smoke passed with current list/snapshot data. |
 
 ## Explicitly Deferred From 1.0
 

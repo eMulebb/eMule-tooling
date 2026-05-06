@@ -235,13 +235,16 @@ it.
     result snapshot, intentionally does not expose `limit`/`offset` paging in
     Release 1.0, and preserves stock eD2K/Kad search behavior.
 - [x] Promote release candidates only from live evidence:
+  - [x] `FEAT-032` only if NAT proof is available and release E2E needs it
   - [x] `FEAT-045` only if transfer details are required
   - [x] `FEAT-046` only if bootstrap/import is required
   - [x] `FEAT-048` only if upload controls are required
   - [x] `FEAT-049` only if preferences are required
+  - [x] `AMUT-002` only if `FEAT-045` is promoted
   - Evidence: aMuTorrent, Prowlarr, Radarr/Sonarr, direct REST adapter smoke,
     and shared-directory REST E2E gates passed without proving a release
-    blocker for `FEAT-045`, `FEAT-046`, `FEAT-048`, or `FEAT-049`; those remain
+    blocker for `FEAT-032`, `FEAT-045`, `FEAT-046`, `FEAT-048`, `FEAT-049`,
+    or `AMUT-002`. These are deferred by decision for Release 1.0 and remain
     backlog candidates unless a future live gate fails for a concrete missing
     operation.
 
