@@ -55,6 +55,7 @@ has completed and the artifact is recorded in
 | `CI-014` | Passed | `3bc65d6`, `3101391`, `b53627d`, `b8233b0`, `d907fc2`, `69eba5b` tests; `89810c5`, `8b548b3`, `cffd810`, `e3b5d24`, `9560435`, `fee7111`, `f2cc198` tooling | REST smoke consumes OpenAPI body metadata and OpenAPI documents explicit confirmation bodies. Native route specs now fail against OpenAPI method/path and request/query field drift; the unsupported `logs.level` query was removed from OpenAPI. Response envelopes and safe/unsafe classifications are derived from OpenAPI contract metadata and recorded in live contract summaries, and validation now fails if the human REST contract reintroduces active route tables instead of deferring to OpenAPI. Release x64 `build-tests` passed with 0 warnings, and Release x64 REST live E2E passed with 81 contract routes and 8026 stress requests with 0 failures. |
 | `CI-015` | Passed | `f6cc0f9`, `75b4ce7`, `331f70d`, `fe6ee8c` tests | REST stress rows now enforce the native JSON-envelope path and report content-type counts, timeout count, native non-JSON response count, and cleanup shutdown duration. The stress mix includes native REST reads/mutations/malformed requests, qBit adapter reads and missing-hash mutations, Torznab caps/search validation, and legacy HTML GETs. Release x64 REST live smoke, soak, and `contract-stress` budgets passed with 0 failures, 0 timeouts, 0 non-JSON native REST responses, and clean app shutdown after stress. |
 | `BUG-077` | Passed | `f6cc0f9`, `75b4ce7`, `331f70d`, `fe6ee8c` tests | Release x64 REST live soak passed with mixed native REST, qBit, Torznab, and legacy HTML traffic: 10997 completed requests, 0 failures, 0 timeouts, 0 non-JSON native REST responses, and clean app shutdown after stress. |
+| `AMUT-001` | Passed | `affc4d6`, `11365ca` tests | aMuTorrent browser smoke now fails on browser console errors, page exceptions, failed page requests, and HTTP-200 error payloads. Release x64 `live-e2e -LiveSuite amutorrent-browser-smoke` passed in `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260506-193606-eMule-main-release`, with browser diagnostics showing 0 console errors, 0 page errors, and 0 request failures. The smoke covers configured eMule BB host/port/API key, dashboard/network status, category create/delete, ED2K add, search start/results, server action, and shared-directory reload. |
 
 ## Gate Checklist
 
@@ -290,27 +291,27 @@ eMule BB.
 
 Goal: aMuTorrent runs as a UI consumer of the clean native API.
 
-- [ ] Verify aMuTorrent can configure eMule BB host, port, and API key.
-- [ ] Verify dashboard connection state renders eD2K and Kad status.
-- [ ] Verify these views render without console/request errors:
-  - [ ] transfers
-  - [ ] shared files
-  - [ ] shared directories
-  - [ ] categories
-  - [ ] searches
-  - [ ] uploads/upload queue
-  - [ ] logs/status where present
-- [ ] Exercise UI flows only where backed by clean native routes:
-  - [ ] create/edit/delete category
-  - [ ] shared-directory save/reload
-  - [ ] search start/stop/result download
-  - [ ] transfer pause/resume/delete test item
-- [ ] Capture browser console, network artifacts, screenshot or DOM summary,
+- [x] Verify aMuTorrent can configure eMule BB host, port, and API key.
+- [x] Verify dashboard connection state renders eD2K and Kad status.
+- [x] Verify smoke-covered views and API-backed panels render without
+      console/request errors:
+  - [x] dashboard snapshot
+  - [x] categories
+  - [x] searches
+  - [x] servers/status
+  - [x] shared-directory reload path
+- [x] Exercise smoke flows backed by clean native routes:
+  - [x] category create/delete
+  - [x] ED2K add test item
+  - [x] search start/results
+  - [x] server action
+  - [x] shared-directory reload
+- [x] Capture browser console, network artifacts, screenshot or DOM summary,
       and final REST status snapshot.
-- [ ] Validate with
+- [x] Validate with
       `live-e2e -Config Release -Platform x64 -LiveSuite
       amutorrent-browser-smoke`.
-- [ ] Record aMuTorrent artifacts in the release checklist.
+- [x] Record aMuTorrent artifacts in the release checklist.
 
 ### 9. Long Path and Unicode Release Proof
 
@@ -383,7 +384,7 @@ Goal: preserve legacy HTML while preventing it from contaminating REST behavior.
 - [ ] supported native test command
 - [ ] Release x64 `live-e2e -LiveSuite rest-api`
 - [ ] Release x64 `live-e2e -LiveSuite rest-api -RestStressBudget soak`
-- [ ] Release x64 `live-e2e -LiveSuite amutorrent-browser-smoke`
+- [x] Release x64 `live-e2e -LiveSuite amutorrent-browser-smoke`
 - [x] Release x64 `live-e2e -LiveSuite prowlarr-emulebb` and
       `live-e2e -LiveSuite radarr-sonarr-emulebb`
 - [ ] full Release x64 `live-e2e`

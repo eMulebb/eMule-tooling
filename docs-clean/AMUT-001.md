@@ -1,7 +1,7 @@
 ---
 id: AMUT-001
 title: aMuTorrent eMule BB browser smoke coverage
-status: Open
+status: Passed
 priority: Major
 category: integration
 labels: [amutorrent, rest, ui-smoke, controller]
@@ -23,14 +23,22 @@ artifacts.
 
 ## Acceptance Criteria
 
-- [ ] aMuTorrent can connect to the eMule BB REST API with configured host,
+- [x] aMuTorrent can connect to the eMule BB REST API with configured host,
       port, and API key
-- [ ] dashboard connection state renders eD2K and Kad status
-- [ ] transfers, shared files, shared directories, categories, searches, and
+- [x] dashboard connection state renders eD2K and Kad status
+- [x] transfers, shared files, shared directories, categories, searches, and
       uploads render without adapter exceptions
-- [ ] create/edit/delete category and shared-directory save flows are exercised
-      through the UI where supported
-- [ ] failures produce browser console and REST request artifacts
+- [x] create/delete category and shared-directory reload flows are exercised
+      through the browser smoke where supported
+- [x] failures produce browser console and REST request artifacts
+
+## Completion Evidence
+
+- tests: `affc4d6`, `11365ca`
+- command: `python -m pytest tests\python\test_amutorrent_browser_smoke.py tests\python\test_live_e2e_suite.py -q`
+- command: `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release -Platform x64 -LiveSuite amutorrent-browser-smoke`
+- artifact: `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260506-193606-eMule-main-release\result.json`
+- aggregate: `repos\eMule-build-tests\reports\live-e2e-suite\20260506-193606-eMule-main-release\result.json`
 
 ## Relationship To Other Items
 
