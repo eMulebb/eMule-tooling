@@ -48,6 +48,11 @@ library, or pinned dependency APIs before writing custom logic.
   requires the exact configured username plus API key. This keeps credential
   parsing local to the form decoder while avoiding another controller-only
   auth rule.
+- Native REST, qBittorrent compatibility, and Torznab compatibility now share
+  the same exported `WebServerJson` CString/std::string conversion helpers for
+  raw request bytes, UTF-8 JSON payload text, and API-key comparisons. This
+  removed adapter-local copies of the same conversion code while preserving the
+  compatibility-specific response formats.
 - Torznab bounded integers, Torznab category IDs, and qBittorrent magnet size
   fields now reuse `WebServerJsonSeams::TryParseUnsignedDecimalValue` instead
   of carrying compatibility-local `atoi`/`strtoul`/`strtoull` conversions.
