@@ -49,7 +49,7 @@ has completed and the artifact is recorded in
 
 | ID | Status | Evidence | Notes |
 |----|--------|----------|-------|
-| `BUG-075` | In Progress | `fcedfe3` app, `28f17db` tests | Explicit destructive REST confirmations and content-type seam coverage landed. Full typed error consistency remains open. |
+| `BUG-075` | In Progress | `fcedfe3`, `c8e6609` app; `28f17db`, `83093a6` tests | Explicit destructive REST confirmations, content-type seam coverage, centralized native error envelope, and direct envelope seam coverage landed. Full typed error-class coverage remains open. |
 | `ARR-001` | In Progress | `87b6f24` app | qBit form parsing shares native URL-encoded parser logic. Full live Arr gate remains open. |
 | `CI-014` | In Progress | `3bc65d6` tests, `89810c5` tooling | REST smoke consumes OpenAPI body metadata and OpenAPI documents explicit confirmation bodies. Native route/docs drift checks still need completion and live evidence. |
 
@@ -75,14 +75,17 @@ adapter-specific.
   - [ ] missing object
   - [ ] invalid state
   - [ ] internal command failure
-- [ ] Define one native REST error envelope with `error.code`,
+- [x] Define one native REST error envelope with `error.code`,
       `error.message`, and optional bounded `error.details`.
-- [ ] Centralize native REST status mapping in the REST seam layer.
+- [x] Centralize native REST status mapping and envelope construction in the
+      REST seam layer.
 - [ ] Keep qBit text responses and Torznab XML responses adapter-specific.
 - [ ] Keep legacy HTML failures as legacy HTML/text where appropriate.
 - [x] Require explicit confirmation bodies for destructive/broad native
       operations.
 - [x] Reject non-empty native REST bodies without `application/json`.
+- [x] Add seam coverage for stable native error status mapping and envelope
+      shape.
 - [ ] Add seam tests for all error classes and status mappings.
 - [ ] Add live smoke assertions that native REST failures are JSON, never
       legacy HTML.
