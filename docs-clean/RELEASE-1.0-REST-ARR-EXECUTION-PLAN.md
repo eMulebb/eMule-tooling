@@ -49,7 +49,7 @@ has completed and the artifact is recorded in
 
 | ID | Status | Evidence | Notes |
 |----|--------|----------|-------|
-| `BUG-075` | In Progress | `fcedfe3`, `c8e6609`, `1e2ff57`, `69d9262` app; `28f17db`, `83093a6`, `c10f2a8`, `8e67131` tests | Explicit destructive REST confirmations, content-type seam coverage, centralized native error envelope, method-miss and API-key failure classification, and direct seam coverage landed. Full typed error-class coverage remains open. |
+| `BUG-075` | In Progress | `fcedfe3`, `c8e6609`, `1e2ff57`, `69d9262` app; `28f17db`, `83093a6`, `c10f2a8`, `8e67131`, `b7406d9` tests | Explicit destructive REST confirmations, content-type seam coverage, centralized native error envelope, method/API-key failure classification, and direct route-failure seam coverage landed. Runtime command failure coverage remains open. |
 | `ARR-001` | In Progress | `87b6f24` app | qBit form parsing shares native URL-encoded parser logic. Full live Arr gate remains open. |
 | `CI-014` | In Progress | `3bc65d6` tests, `89810c5` tooling | REST smoke consumes OpenAPI body metadata and OpenAPI documents explicit confirmation bodies. Native route/docs drift checks still need completion and live evidence. |
 
@@ -62,16 +62,16 @@ status map. Legacy HTML and qBit/Torznab compatibility responses remain
 adapter-specific.
 
 - [ ] Inventory every native REST failure source:
-  - [ ] route miss
+  - [x] route miss
   - [x] method miss
   - [x] missing API key
   - [x] wrong API key
-  - [ ] malformed path/query
-  - [ ] malformed JSON
-  - [ ] non-object JSON
-  - [ ] unsupported content type
-  - [ ] unknown field
-  - [ ] validation failure
+  - [x] malformed path/query
+  - [x] malformed JSON
+  - [x] non-object JSON
+  - [x] unsupported content type
+  - [x] unknown field
+  - [x] validation failure
   - [ ] missing object
   - [ ] invalid state
   - [ ] internal command failure
