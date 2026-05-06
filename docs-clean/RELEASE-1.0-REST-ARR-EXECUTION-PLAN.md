@@ -319,15 +319,15 @@ Goal: aMuTorrent runs as a UI consumer of the clean native API.
 
 Goal: REST and adapters preserve eMule BB long-path guarantees.
 
-- [ ] Add REST/API-level tests for:
+- [x] Add REST/API-level tests for:
   - [x] shared-directory roots
   - [x] shared-file add/reload/list
   - [x] category incoming paths if exposed
   - [x] transfer file names from ED2K/magnet conversion
-  - [ ] logs/error messages with Unicode text
+  - [x] logs/error messages with Unicode text
 - [x] Use existing `LongPathSeams` and Windows APIs instead of direct raw file
       or path calls.
-- [ ] Cover edge cases:
+- [x] Cover edge cases:
   - [x] paths over `MAX_PATH`
   - [x] Unicode folder/file names
   - [x] trailing dot and trailing space preservation where Windows allows it
@@ -353,6 +353,10 @@ Goal: REST and adapters preserve eMule BB long-path guarantees.
         `NUL .txt`, verifies REST exposes the created transfer as `NUL_.txt`,
         and deletes the transfer. This proves reserved Win32 device names are
         not accepted as raw download file leaves.
+      - Evidence: `repos\eMule-build-tests\reports\rest-api-smoke\20260506-213004-eMule-main-release`
+        records a live `/api/v1/logs` match for
+        the Unicode ED2K transfer filename after the transfer add, proving
+        Unicode text survives REST log serialization.
       - The same report records invalid PATCH checks for blank path and
         non-boolean `recursive` fields, proves those errors do not mutate the
         shared-directory model, and records missing-parent roots as accepted
