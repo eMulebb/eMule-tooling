@@ -50,7 +50,7 @@ has completed and the artifact is recorded in
 | ID | Status | Evidence | Notes |
 |----|--------|----------|-------|
 | `BUG-075` | In Progress | `fcedfe3`, `c8e6609`, `1e2ff57`, `69d9262` app; `28f17db`, `83093a6`, `c10f2a8`, `8e67131`, `b7406d9` tests | Explicit destructive REST confirmations, content-type seam coverage, centralized native error envelope, method/API-key failure classification, and direct route-failure seam coverage landed. Runtime command failure coverage remains open. |
-| `ARR-001` | In Progress | `87b6f24` app; `8786847`, `4e02b3d` tests | qBit form parsing shares native URL-encoded parser logic; strict percent-decoding parity is covered across native, Torznab, qBit form, and nested magnet parsing; qBit-compatible hash inputs normalize while native `/api/v1` hashes stay strict lowercase eD2K identifiers. Full live Arr gate remains open. |
+| `ARR-001` | In Progress | `87b6f24` app; `8786847`, `4e02b3d`, `0fd6e77` tests | qBit form parsing shares native URL-encoded parser logic; strict percent-decoding parity is covered across native, Torznab, qBit form, and nested magnet parsing; qBit-compatible hash inputs normalize while native `/api/v1` hashes stay strict lowercase eD2K identifiers; native and Torznab search text normalization share the same rules. Full live Arr gate remains open. |
 | `CI-014` | In Progress | `3bc65d6` tests, `89810c5` tooling | REST smoke consumes OpenAPI body metadata and OpenAPI documents explicit confirmation bodies. Native route/docs drift checks still need completion and live evidence. |
 
 ## Gate Checklist
@@ -225,7 +225,7 @@ logic.
 - [ ] Share or prove shared behavior for:
   - [x] strict percent decoding
   - [x] hash normalization and validation
-  - [ ] search text normalization
+  - [x] search text normalization
   - [ ] bounded unsigned parsing
   - [ ] category selector validation
   - [ ] magnet/eD2K conversion safety
