@@ -1198,10 +1198,21 @@ components:
           properties:
             code:
               type: string
+              description: Stable machine-readable native REST error code.
+              enum:
+                - INVALID_ARGUMENT
+                - UNAUTHORIZED
+                - METHOD_NOT_ALLOWED
+                - NOT_FOUND
+                - INVALID_STATE
+                - EMULE_UNAVAILABLE
+                - EMULE_ERROR
             message:
               type: string
+              description: Human-readable error summary.
             details:
               type: object
+              description: Optional bounded structured diagnostic fields.
               additionalProperties: true
     Collection:
       type: object
