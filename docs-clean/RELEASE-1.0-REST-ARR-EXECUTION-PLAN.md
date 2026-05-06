@@ -444,19 +444,43 @@ Goal: preserve legacy HTML while preventing it from contaminating REST behavior.
 
 ### 12. Final Release Evidence
 
-- [ ] `workspace.ps1 validate`
-- [ ] Debug x64 app build
-- [ ] Release x64 app build
-- [ ] Debug x64 test build
-- [ ] Release x64 test build
+- [x] `workspace.ps1 validate`
+  - Evidence: `pwsh -File repos\eMule-build\workspace.ps1 validate` passed
+    after the final REST/Arr checklist documentation updates.
+- [x] Debug x64 app build
+  - Evidence: `pwsh -File repos\eMule-build\workspace.ps1 build-app
+    -Config Debug -Platform x64` passed with log
+    `workspaces\v0.72a\state\build-logs\20260506-215932`.
+- [x] Release x64 app build
+  - Evidence: `pwsh -File repos\eMule-build\workspace.ps1 build-app
+    -Config Release -Platform x64` passed with log
+    `workspaces\v0.72a\state\build-logs\20260506-215950`.
+- [x] Debug x64 test build
+  - Evidence: `pwsh -File repos\eMule-build\workspace.ps1 build-tests
+    -Config Debug -Platform x64` passed with log
+    `workspaces\v0.72a\state\build-logs\20260506-220000`.
+- [x] Release x64 test build
+  - Evidence: `pwsh -File repos\eMule-build\workspace.ps1 build-tests
+    -Config Release -Platform x64` passed with log
+    `workspaces\v0.72a\state\build-logs\20260506-220009`.
 - [x] supported native test command
-- [ ] Release x64 `live-e2e -LiveSuite rest-api`
-- [ ] Release x64 `live-e2e -LiveSuite rest-api -RestStressBudget soak`
+- [x] Release x64 `live-e2e -LiveSuite rest-api`
+  - Evidence: `repos\eMule-build-tests\reports\rest-api-smoke\20260506-220016-eMule-main-release`
+    passed after final Debug/Release app and test builds.
+- [x] Release x64 `live-e2e -LiveSuite rest-api -RestStressBudget soak`
+  - Evidence: `repos\eMule-build-tests\reports\rest-api-smoke\20260506-220422-eMule-main-release`
+    passed after the final focused REST gate.
 - [x] Release x64 `live-e2e -LiveSuite amutorrent-browser-smoke`
 - [x] Release x64 `live-e2e -LiveSuite prowlarr-emulebb` and
       `live-e2e -LiveSuite radarr-sonarr-emulebb`
 - [x] Release x64 `live-e2e -LiveSuite shared-directories-rest`
-- [ ] full Release x64 `live-e2e`
+- [x] full Release x64 `live-e2e`
+  - Evidence: `repos\eMule-build-tests\reports\live-e2e-suite\20260506-224844-eMule-main-release\result.json`
+    passed after refreshing the preference UI harness to the current IP filter
+    setting names. The umbrella recorded `auto-browse-live` as inconclusive
+    because no browse-capable live source was available; all release-blocking
+    REST, aMuTorrent, Prowlarr, Radarr/Sonarr, shared-directory, and stability
+    suites passed.
 - [ ] clean worktrees in active workspace repos
 - [ ] release notes reviewed for `eMule broadband edition`
 - [ ] release assets named:
