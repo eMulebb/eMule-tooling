@@ -50,7 +50,7 @@ has completed and the artifact is recorded in
 | ID | Status | Evidence | Notes |
 |----|--------|----------|-------|
 | `BUG-075` | In Progress | `fcedfe3`, `c8e6609`, `1e2ff57`, `69d9262` app; `28f17db`, `83093a6`, `c10f2a8`, `8e67131`, `b7406d9` tests | Explicit destructive REST confirmations, content-type seam coverage, centralized native error envelope, method/API-key failure classification, and direct route-failure seam coverage landed. Runtime command failure coverage remains open. |
-| `ARR-001` | In Progress | `87b6f24`, `385273c` app; `8786847`, `4e02b3d`, `0fd6e77`, `4339716`, `3c5c963` tests | qBit form parsing shares native URL-encoded parser logic; strict percent-decoding parity is covered across native, Torznab, qBit form, and nested magnet parsing; qBit-compatible hash inputs normalize while native `/api/v1` hashes stay strict lowercase eD2K identifiers; native and Torznab search text normalization share the same rules; strict unsigned parsing rejects signs, whitespace, overflow, and adapter-bound violations; native and qBit category selectors share category-name trim, UTF-8/control, and length validation. Full live Arr gate remains open. |
+| `ARR-001` | In Progress | `87b6f24`, `385273c`, `324c7f7` app; `8786847`, `4e02b3d`, `0fd6e77`, `4339716`, `3c5c963`, `8a85158` tests | qBit form parsing shares native URL-encoded parser logic; strict percent-decoding parity is covered across native, Torznab, qBit form, and nested magnet parsing; qBit-compatible hash inputs normalize while native `/api/v1` hashes stay strict lowercase eD2K identifiers; native and Torznab search text normalization share the same rules; strict unsigned parsing rejects signs, whitespace, overflow, and adapter-bound violations; native and qBit category selectors share category-name trim, UTF-8/control, and length validation; magnet/eD2K conversion rejects unsafe hashes, names, sizes, and percent escapes in both directions. Full live Arr gate remains open. |
 | `CI-014` | In Progress | `3bc65d6` tests, `89810c5` tooling | REST smoke consumes OpenAPI body metadata and OpenAPI documents explicit confirmation bodies. Native route/docs drift checks still need completion and live evidence. |
 
 ## Gate Checklist
@@ -222,13 +222,13 @@ logic.
 
 - [x] Share URL-encoded key/value parsing between native query handling and
       qBit form parsing.
-- [ ] Share or prove shared behavior for:
+- [x] Share or prove shared behavior for:
   - [x] strict percent decoding
   - [x] hash normalization and validation
   - [x] search text normalization
   - [x] bounded unsigned parsing
   - [x] category selector validation
-  - [ ] magnet/eD2K conversion safety
+  - [x] magnet/eD2K conversion safety
 - [ ] Keep adapter-specific code only for:
   - [ ] Torznab XML/feed shape
   - [ ] qBit text responses and session-cookie compatibility
