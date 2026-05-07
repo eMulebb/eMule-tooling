@@ -43,6 +43,15 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
 - command: `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release -Platform x64 -LiveSuite amutorrent-browser-smoke`
 - artifact: `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260506-193606-eMule-main-release\result.json`
 - aggregate: `repos\eMule-build-tests\reports\live-e2e-suite\20260506-193606-eMule-main-release\result.json`
+- Follow-up debug live proof:
+  `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260508-001203-eMule-main-debug\result.json`.
+  The run passed with browser workflows covering automatic, server, and Kad
+  search modes twice, and the report now records `launch_inputs` with
+  `p2p_bind_interface_name=hide.me` and `enable_upnp=true`. The isolated
+  profile used `BindInterface=hide.me`, empty P2P `BindAddr`, WebServer
+  `BindAddr=127.0.0.1`, and `EnableUPnP=1`.
+- Test commit: `fa55046` keeps the aMuTorrent browser report on native `/api/v1`
+  and records live-network launch inputs without ever writing `BindAddr=hide.me`.
 
 ## Pending Revalidation Focus
 
