@@ -249,7 +249,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/DeleteFilesRequest"
+              $ref: "#/components/schemas/TransferDeleteFilesRequest"
       responses:
         "200":
           $ref: "#/components/responses/OkResponse"
@@ -1721,6 +1721,14 @@ components:
         deleteFiles:
           type: boolean
           default: false
+    TransferDeleteFilesRequest:
+      type: object
+      additionalProperties: false
+      required: [deleteFiles]
+      properties:
+        deleteFiles:
+          type: boolean
+          enum: [true]
     ClearCompletedTransfersRequest:
       type: object
       additionalProperties: false

@@ -90,6 +90,10 @@ library, or pinned dependency APIs before writing custom logic.
 - qBittorrent compatibility route specs now use the exact HTTP method token and
   their declared auth requirement during dispatch, avoiding a second path-based
   auth allowlist.
+- Native transfer delete confirmation now fails in the shared `/api/v1` route
+  validator unless `deleteFiles` is explicitly `true`; shared-file removal
+  still accepts either boolean because `false` is the clean unshare/exclude
+  operation.
 - REST hash validation remains local and domain-specific because the public API
   requires exactly 32 lowercase MD4 hex characters, not general binary or hash
   parsing.

@@ -31,7 +31,7 @@ contract.
 | Field names are `camelCase` | implemented | Pre-release aliases were removed from public route parsing; final names include `searchId`, `categoryId`, `deleteFiles`, and `*KiBps` speed fields. |
 | Mutations return the updated resource when practical | implemented | Preference, category, transfer property, shared-file metadata, and shared-directory mutations now return the updated model. Async/operation routes return operation envelopes. |
 | Bulk endpoints use HTTP 200 with per-item results | implemented | Transfer delete and multi-link add use `{items:[...]}` per-item result envelopes. |
-| Destructive file deletion requires explicit `deleteFiles: true` | implemented | Transfer and shared-file deletes use final `deleteFiles`; `delete_files` is no longer public API. |
+| Destructive file deletion requires explicit confirmation | implemented | Transfer deletes require `deleteFiles: true`; shared-file deletes require an explicit boolean because `false` means unshare/exclude without deleting the local file. `delete_files` is no longer public API. |
 | aMuTorrent consumes this OpenAPI surface statically | implemented | The integration branch unwraps native envelopes and consumes final resource/operation routes and field names. |
 | Native REST commands are serialized through the UI thread | implemented | `/api/v1` dispatch uses a synchronous main-window command before touching UI-owned eMule state, with exception containment at the dispatch boundary. |
 | OpenAPI and smoke registry stay in sync | implemented | The Python smoke unit tests parse `REST-API-OPENAPI.yaml` and fail if route coverage drifts from the documented contract. |
