@@ -236,6 +236,19 @@ The canonical workspace currently materializes these app worktrees:
   release prep, or explicit hygiene passes, but are not the default requirement
   for every in-progress feature branch.
 
+## Live Test Network Policy
+
+- Every live test that launches an eMule profile must enable the main P2P UPnP
+  preference.
+- Every live test that launches an eMule profile must bind the P2P stack through
+  the `hide.me` interface by writing `BindInterface=hide.me`.
+- Live test harnesses must not write `hide.me` into `BindAddr`; `BindAddr` is an
+  address override and should remain empty when the bind target is an interface
+  name.
+- Standalone live test entrypoints must use the same defaults as aggregate live
+  runners. Do not make UPnP or the `hide.me` bind depend on aggregate-only
+  wrapper flags.
+
 ## Backport And Baseline Maintenance Rules
 
 - `release/v0.72a-broadband` is the active broadband pre-release
