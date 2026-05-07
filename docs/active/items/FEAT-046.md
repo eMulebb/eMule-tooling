@@ -40,7 +40,7 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
 - [x] endpoints support configured URLs and do not silently depend on bundled
       external lists
 - [ ] live E2E records source URL, size, hash, and import outcome
-- [ ] malformed downloads preserve the previous live files
+- [x] malformed downloads preserve the previous live files
 
 ## Progress
 
@@ -51,8 +51,11 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
 - 2026-05-07: Native `main` added `POST /api/v1/kad/nodes-url-imports`,
   wired it to the existing validated `nodes.dat` URL import path, and added
   native route plus OpenAPI contract coverage. Live E2E still needs to record
-  source URL, size, hash, import outcome, and malformed-download preservation
-  evidence.
+  source URL, size, hash, and import outcome evidence.
+- 2026-05-07: Added native malformed `nodes.dat` install preservation coverage
+  in `eMule-build-tests`; this complements existing malformed `server.met`
+  preservation coverage. Live E2E still needs source URL, size, hash, and
+  import outcome evidence.
 
 ## Relationship To Other Items
 
