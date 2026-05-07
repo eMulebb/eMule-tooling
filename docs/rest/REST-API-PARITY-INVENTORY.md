@@ -75,7 +75,7 @@ contract.
 | Pause transfer | `POST /transfers/{hash}/operations/pause` | implemented | Existing command route must be aligned to resource operation route. |
 | Resume transfer | `POST /transfers/{hash}/operations/resume` | implemented | Same route-shape alignment needed. |
 | Stop transfer | `POST /transfers/{hash}/operations/stop` | implemented | Same route-shape alignment needed. |
-| Cancel transfer | `DELETE /transfers/{hash}` | implemented | Final destructive-body behavior must use `deleteFiles`. |
+| Cancel transfer | `DELETE /transfers/{hash}` with `deleteFiles: true` | implemented | Native eMule cancel removes partial `.part` state; adapters must not send `deleteFiles:false` for incomplete transfers. |
 | Delete transfer local files | `DELETE /transfers/{hash}` with `deleteFiles: true` | implemented | `deleteFiles` is the preferred spelling. |
 | Clear completed transfers | `POST /transfers/operations/clear-completed` | implemented | Uses the existing main-window clear-completed path. |
 | Rename incomplete transfer | `PATCH /transfers/{hash}` | implemented | Current main includes rename support for incomplete files only. |

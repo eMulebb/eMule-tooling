@@ -93,6 +93,11 @@ search resource.
 `POST /api/v1/searches/{searchId}/results/{hash}/operations/download` starts a
 download from one visible search result by lowercase 32-character eD2K hash.
 
+`DELETE /api/v1/transfers/{hash}` cancels an incomplete native transfer. eMule
+does not preserve partial `.part` state on cancel, so controllers must send
+`deleteFiles: true` for incomplete transfers and treat that as native cancel
+semantics rather than an optional disk-delete toggle.
+
 ## Implementation Status
 
 The OpenAPI contract is the implemented target contract for the current

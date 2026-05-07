@@ -238,7 +238,11 @@ paths:
           $ref: "#/components/responses/TransferResponse"
     delete:
       tags: [Transfers]
-      summary: Cancel a transfer, optionally deleting local files.
+      summary: Cancel an incomplete transfer.
+      description: >
+        Cancels an incomplete native eMule transfer. Native cancel does not
+        preserve partial .part state, so callers must send deleteFiles=true for
+        incomplete transfers.
       operationId: deleteTransfer
       requestBody:
         required: true
