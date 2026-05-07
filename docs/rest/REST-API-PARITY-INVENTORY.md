@@ -148,6 +148,7 @@ contract.
 | Stop Kad | `POST /kad/operations/stop` | implemented | Existing command route must align to final route. |
 | Recheck Kad firewall | `POST /kad/operations/recheck-firewall` | implemented | Existing route exists. |
 | Bootstrap Kad | `POST /kad/operations/bootstrap` | implemented | Supports optional `{address, port}` and otherwise starts Kad through the legacy UI action. |
+| Update nodes.dat from URL | `POST /kad/nodes-url-imports` | implemented | Marshalled through the existing validated nodes.dat import path. |
 
 ## Searches
 

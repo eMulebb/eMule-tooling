@@ -266,7 +266,7 @@ where that comparison is meaningful.
 | [FEAT-043](items/FEAT-043.md) | Minor | Open | Known Clients history and incremental list refresh performance |
 | [FEAT-044](items/FEAT-044.md) | Minor | Open | IP filter input policy - PeerGuardian lists, whitelist, and private-IP exemption |
 | [FEAT-045](items/FEAT-045.md) | Major | In Progress | REST transfer detail endpoint for controller parity |
-| [FEAT-046](items/FEAT-046.md) | Major | Open | REST server and Kad bootstrap/import APIs |
+| [FEAT-046](items/FEAT-046.md) | Major | In Progress | REST server and Kad bootstrap/import APIs |
 | [FEAT-047](items/FEAT-047.md) | Minor | Passed | REST search API completeness pass |
 | [FEAT-048](items/FEAT-048.md) | Minor | Open | REST upload queue control completeness |
 | [FEAT-049](items/FEAT-049.md) | Minor | Open | Curated REST preference expansion |

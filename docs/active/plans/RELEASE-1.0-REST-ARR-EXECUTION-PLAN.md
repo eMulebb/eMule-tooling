@@ -82,8 +82,9 @@ package authorization document.
 
 - [FEAT-045](../items/FEAT-045.md) is promoted only if Release 1 controller views need a
   dedicated transfer detail endpoint.
-- [FEAT-046](../items/FEAT-046.md) is promoted only if live-wire bootstrap requires Kad
-  import before the first release.
+- [FEAT-046](../items/FEAT-046.md) has been partially promoted for the API surface:
+  server.met import, Kad bootstrap, and nodes.dat URL import are implemented.
+  Live import evidence remains deferred unless a release gate requires it.
 - [FEAT-048](../items/FEAT-048.md) is promoted only if a release controller or live E2E
   lane needs upload queue mutations beyond the current surface.
 - [FEAT-049](../items/FEAT-049.md) is promoted only for settings required by aMuTorrent
@@ -104,7 +105,7 @@ package authorization document.
 ## Deferred REST/Arr Work
 
 - [FEAT-045](../items/FEAT-045.md): transfer detail endpoint
-- [FEAT-046](../items/FEAT-046.md): server/Kad bootstrap/import APIs
+- [FEAT-046](../items/FEAT-046.md): live import evidence for server/Kad URL imports
 - [FEAT-048](../items/FEAT-048.md): upload queue control completeness
 - [FEAT-049](../items/FEAT-049.md): curated REST preference expansion
 - [AMUT-002](../items/AMUT-002.md): aMuTorrent transfer detail hydration
