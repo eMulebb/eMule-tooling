@@ -132,7 +132,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CategoryPatch"
+              $ref: "#/components/schemas/CategoryCreateRequest"
       responses:
         "201":
           $ref: "#/components/responses/CategoryResponse"
@@ -1524,22 +1524,63 @@ components:
           type: string
         color:
           type: integer
+          minimum: 0
+          maximum: 16777215
         priority:
-          $ref: "#/components/schemas/TransferPriority"
-    CategoryPatch:
+          $ref: "#/components/schemas/CategoryPriority"
+    CategoryPriority:
+      type: string
+      enum: [veryLow, low, normal, high, veryHigh]
+    CategoryCreateRequest:
       type: object
       additionalProperties: false
+      required: [name]
       properties:
         name:
           type: string
+          minLength: 1
         path:
-          type: string
+          type:
+            - string
+            - "null"
         comment:
           type: string
         color:
-          type: integer
+          type:
+            - integer
+            - "null"
+          minimum: 0
+          maximum: 16777215
         priority:
-          $ref: "#/components/schemas/TransferPriority"
+          oneOf:
+            - $ref: "#/components/schemas/CategoryPriority"
+            - type: integer
+              minimum: 0
+    CategoryPatch:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        name:
+          type: string
+          minLength: 1
+        path:
+          type:
+            - string
+            - "null"
+        comment:
+          type: string
+        color:
+          type:
+            - integer
+            - "null"
+          minimum: 0
+          maximum: 16777215
+        priority:
+          oneOf:
+            - $ref: "#/components/schemas/CategoryPriority"
+            - type: integer
+              minimum: 0
     TransferListEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
@@ -2150,17 +2191,24 @@ components:
       properties:
         query:
           type: string
+          minLength: 1
+          maxLength: 160
         method:
           type: string
           enum: [automatic, server, global, kad]
         type:
           type: string
+          enum: [any, archive, audio, cdimage, iso, image, program, video, document, emulecollection]
         minSizeBytes:
           type: integer
+          minimum: 0
         maxSizeBytes:
           type: integer
+          minimum: 0
         minAvailability:
           type: integer
+          minimum: 0
+          maximum: 1000000
         extension:
           type: string
         clearExisting:
@@ -2245,8 +2293,10 @@ components:
       properties:
         userHash:
           type: string
+          pattern: "^[0-9a-f]{32}$"
         name:
           type: string
+          maxLength: 128
     LogListEnvelope:
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
