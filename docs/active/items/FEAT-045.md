@@ -1,7 +1,7 @@
 ---
 id: FEAT-045
 title: REST transfer detail endpoint for controller parity
-status: In Progress
+status: Deferred
 priority: Major
 category: feature
 labels: [rest, transfers, controller, amutorrent]
@@ -53,6 +53,9 @@ remaining gap is controller consumption and compatibility fallback in
   seams cover routing and hash validation, and the live REST smoke now verifies
   both the missing-transfer error path and the detail payload for an added
   paused transfer. `AMUT-002` remains open for controller-side hydration.
+- 2026-05-07: Release 1 keeps controller-side detail hydration deferred because
+  `AMUT-001` and Arr gates provide useful release transfer views without
+  requiring aMuTorrent to consume the detail endpoint.
 
 ## Relationship To Other Items
 

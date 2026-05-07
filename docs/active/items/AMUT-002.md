@@ -1,7 +1,7 @@
 ---
 id: AMUT-002
 title: aMuTorrent transfer detail hydration
-status: Open
+status: Deferred
 priority: Major
 category: integration
 labels: [amutorrent, rest, transfers, controller]
@@ -30,6 +30,13 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
 The eMule BB adapter currently maps transfer rows and sources, but leaves
 segment-oriented fields such as `partStatus`, `gapStatus`, and `reqStatus` as
 placeholders.
+
+## Release 1 Decision
+
+Deferred for Release 1. `AMUT-001` and the Arr gates already provide useful
+release transfer views without hydrated segment detail. Keep this as a
+controller-parity follow-up unless a future release gate proves that transfer
+detail hydration is required.
 
 ## Acceptance Criteria
 
