@@ -141,6 +141,10 @@ library, or pinned dependency APIs before writing custom logic.
 - qBittorrent compatibility transfer delete parsing now adapts the optional
   qBit `deleteFiles` flag to eMule's native cancel semantics by always
   forwarding `deleteFiles:true` to the shared transfer-delete command.
+- qBittorrent compatibility optional boolean form fields now use one strict
+  parser for add/delete requests. Accepted qBit truthy/falsey tokens are
+  normalized, while malformed `paused`, `stopped`, or `deleteFiles` values fail
+  before native dispatch.
 - qBittorrent-compatible category creation now uses the same shared
   category-name normalization and UTF-8/control-character validation as native
   REST and qBit add/set-category requests.
