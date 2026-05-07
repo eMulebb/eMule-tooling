@@ -57,6 +57,9 @@ library, or pinned dependency APIs before writing custom logic.
   raw request bytes, UTF-8 JSON payload text, and API-key comparisons. This
   removed adapter-local copies of the same conversion code while preserving the
   compatibility-specific response formats.
+- The native OpenAPI contract now declares HTTP 200 for successful native REST
+  command dispatch, matching the embedded handler's centralized success
+  envelope behavior instead of stale create/accepted status declarations.
 - Torznab bounded integers, Torznab category IDs, qBittorrent magnet size
   fields, and adapter JSON result sizes now reuse `WebServerJsonSeams`
   unsigned parsing helpers instead of carrying compatibility-local

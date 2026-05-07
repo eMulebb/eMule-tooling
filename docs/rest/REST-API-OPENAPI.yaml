@@ -84,7 +84,7 @@ paths:
             schema:
               $ref: "#/components/schemas/ShutdownRequest"
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /status:
     get:
@@ -134,7 +134,7 @@ paths:
             schema:
               $ref: "#/components/schemas/CategoryCreateRequest"
       responses:
-        "201":
+        "200":
           $ref: "#/components/responses/CategoryResponse"
   /categories/{categoryId}:
     parameters:
@@ -285,7 +285,7 @@ paths:
       summary: Request source browsing for one transfer source.
       operationId: browseTransferSource
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /transfers/{hash}/sources/{clientId}/operations/add-friend:
     parameters:
@@ -391,7 +391,7 @@ paths:
       summary: Request a file recheck.
       operationId: recheckTransfer
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /transfers/{hash}/operations/preview:
     parameters:
@@ -401,7 +401,7 @@ paths:
       summary: Start the configured preview action for one transfer.
       operationId: previewTransfer
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /shared-files:
     get:
@@ -425,7 +425,7 @@ paths:
             schema:
               $ref: "#/components/schemas/SharedFileCreateRequest"
       responses:
-        "201":
+        "200":
           $ref: "#/components/responses/SharedFileResponse"
   /shared-files/operations/reload:
     post:
@@ -433,7 +433,7 @@ paths:
       summary: Request a shared-file reload.
       operationId: reloadSharedFiles
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /shared-files/{hash}:
     parameters:
@@ -521,7 +521,7 @@ paths:
       summary: Request a shared-directory and shared-file reload.
       operationId: reloadSharedDirectories
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /uploads:
     get:
@@ -697,7 +697,7 @@ paths:
             schema:
               $ref: "#/components/schemas/ServerCreateRequest"
       responses:
-        "201":
+        "200":
           $ref: "#/components/responses/ServerResponse"
   /servers/operations/connect:
     post:
@@ -705,7 +705,7 @@ paths:
       summary: Connect to the best available server.
       operationId: connectServerAny
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /servers/operations/disconnect:
     post:
@@ -713,7 +713,7 @@ paths:
       summary: Disconnect or stop connecting to ED2K servers.
       operationId: disconnectServers
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /servers/met-url-imports:
     post:
@@ -727,7 +727,7 @@ paths:
             schema:
               $ref: "#/components/schemas/UrlImportRequest"
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /servers/{serverId}:
     parameters:
@@ -767,7 +767,7 @@ paths:
       summary: Connect to one ED2K server.
       operationId: connectServer
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /kad:
     get:
@@ -789,7 +789,7 @@ paths:
             schema:
               $ref: "#/components/schemas/UrlImportRequest"
       responses:
-        "202":
+        "200":
           $ref: "#/components/responses/OkAcceptedResponse"
   /kad/operations/start:
     post:
@@ -841,7 +841,7 @@ paths:
             schema:
               $ref: "#/components/schemas/SearchCreateRequest"
       responses:
-        "201":
+        "200":
           $ref: "#/components/responses/SearchResponse"
     delete:
       tags: [Searches]
@@ -919,7 +919,7 @@ paths:
             schema:
               $ref: "#/components/schemas/FriendCreateRequest"
       responses:
-        "201":
+        "200":
           $ref: "#/components/responses/FriendResponse"
   /friends/{userHash}:
     parameters:
