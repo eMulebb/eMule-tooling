@@ -252,7 +252,7 @@ where that comparison is meaningful.
 | [FEAT-029](items/FEAT-029.md) | Minor | **Done** | Search result ceilings — configurable ed2k expansion plus moderate Kad totals/lifetimes |
 | [FEAT-030](items/FEAT-030.md) | Minor | **Done** | Bind policy completion — global `BindAddr` everywhere else, separate `WebBindAddr` for WebServer |
 | [FEAT-031](items/FEAT-031.md) | Minor | Open | Auto-browse compatible remote shared-file inventories with persisted cache |
-| [FEAT-032](items/FEAT-032.md) | Minor | In Progress | NAT mapping modernization — keep MiniUPnP, drop WinServ, add PCP/NAT-PMP |
+| [FEAT-032](items/FEAT-032.md) | Minor | Deferred | NAT mapping modernization — keep MiniUPnP, drop WinServ, add PCP/NAT-PMP |
 | [FEAT-033](items/FEAT-033.md) | Minor | **Done** | Disk-space floor hardening and legacy import-flow retirement |
 | [FEAT-034](items/FEAT-034.md) | Minor | In Progress | Shared-files reload should stop blocking the UI on large trees |
 | [FEAT-035](items/FEAT-035.md) | Major | Open | IPv6 dual-stack networking for peers, friends, Kad, and server surfaces |

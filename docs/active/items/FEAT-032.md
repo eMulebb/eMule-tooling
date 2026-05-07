@@ -1,7 +1,7 @@
 ---
 id: FEAT-032
 title: NAT mapping modernization — keep MiniUPnP, drop WinServ, add PCP/NAT-PMP
-status: In Progress
+status: Deferred
 priority: Minor
 category: feature
 labels: [networking, upnp, nat-pmp, pcp, miniupnp, preferences]
@@ -50,3 +50,11 @@ Covered by the [Release 1.0 NAT Mapping execution plan](../plans/RELEASE-1.0-NAT
 - [x] WinServ-only active prefs are removed from runtime behavior
 - [x] supported `eMule-build` app builds pass for active architectures
 - [ ] live-network NAT-mapping validation completed on current `main`
+
+## Release 1 Decision
+
+Deferred for Release 1 live proof. The code/build slice is accepted by the
+release plan, but available release validation must not block the tag solely on
+the absence of a PCP/NAT-PMP-capable network. Complete the remaining live proof
+when a suitable router or lab network can exercise MiniUPnP success,
+PCP/NAT-PMP fallback, explicit PCP/NAT-PMP-only mode, and WebServer TCP mapping.
