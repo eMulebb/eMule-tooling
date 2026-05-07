@@ -86,7 +86,7 @@ release-readiness review promotes a concrete blocker:
   `FEAT-031`, `FEAT-037`, `FEAT-039` through `FEAT-044`
 - non-release hardening watchpoints: `BUG-031`, `BUG-034`, `BUG-035`,
   `FEAT-001` through `FEAT-006`, `FEAT-034`, `CI-008`, `CI-012`,
-  `CI-013`, `CI-016`
+  `CI-013`
 
 ## Validation
 
