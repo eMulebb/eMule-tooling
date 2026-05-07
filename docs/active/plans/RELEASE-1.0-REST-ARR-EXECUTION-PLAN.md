@@ -88,8 +88,9 @@ package authorization document.
 - [FEAT-048](../items/FEAT-048.md) is closed for Release 1 by audit: existing
   upload controls are covered, unsupported operations return typed errors, and
   no additional queue mutation was promoted.
-- [FEAT-049](../items/FEAT-049.md) is promoted only for settings required by aMuTorrent
-  or release automation and safe to expose through curated preferences.
+- [FEAT-049](../items/FEAT-049.md) is closed for Release 1 by audit: aMuTorrent
+  needs no additional runtime preference keys, risky internals remain private,
+  and the curated surface has live round-trip plus bad-value coverage.
 
 ## Release Test Matrix
 
@@ -107,7 +108,6 @@ package authorization document.
 
 - [FEAT-045](../items/FEAT-045.md): transfer detail endpoint
 - [FEAT-046](../items/FEAT-046.md): live import evidence for server/Kad URL imports
-- [FEAT-049](../items/FEAT-049.md): curated REST preference expansion
 - [AMUT-002](../items/AMUT-002.md): aMuTorrent transfer detail hydration
 
 These remain candidates for later controller work unless a future Release 1

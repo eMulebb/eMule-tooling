@@ -1,7 +1,7 @@
 ---
 id: FEAT-049
 title: Curated REST preference expansion
-status: Open
+status: Passed
 priority: Minor
 category: feature
 labels: [rest, preferences, controller, settings]
@@ -27,12 +27,24 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
 
 ## Acceptance Criteria
 
-- [ ] missing aMuTorrent-relevant settings are identified by direct adapter/UI
+- [x] missing aMuTorrent-relevant settings are identified by direct adapter/UI
       needs
-- [ ] risky compatibility, debug, and protocol internals remain unexposed
-- [ ] all mutable preferences round-trip through normal preference persistence
-- [ ] bad values return typed REST errors
-- [ ] native and live REST tests cover every new key
+- [x] risky compatibility, debug, and protocol internals remain unexposed
+- [x] all mutable preferences round-trip through normal preference persistence
+- [x] bad values return typed REST errors
+- [x] native and live REST tests cover every new key
+
+## Progress
+
+- 2026-05-07: Audited the active aMuTorrent eMule BB integration. It needs
+  connection metadata and the configured API key, not additional eMule runtime
+  preference keys for Release 1. The current curated preference surface stays
+  intentionally narrow.
+- 2026-05-07: Strengthened live REST smoke coverage so every currently curated
+  preference key is read and no-op patched back through `/api/v1/app/preferences`.
+  The smoke also verifies a typed `INVALID_ARGUMENT` response for a bad
+  preference value, while existing native tests cover the mutable key registry
+  and range helpers. No new preference key was promoted for Release 1.
 
 ## Relationship To Other Items
 
