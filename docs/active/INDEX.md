@@ -291,7 +291,7 @@ where that comparison is meaningful.
 | [CI-007](items/CI-007.md) | Minor | Open | Kad — Expand integration and fuzz test coverage |
 | [CI-008](items/CI-008.md) | Minor | **Done** | Expand regression coverage for part files, long paths, and WebServer/REST |
 | [CI-009](items/CI-009.md) | Minor | **Done** | Share-ignore regression coverage and Release test-build stabilization |
-| [CI-010](items/CI-010.md) | Minor | Blocked | Reduce remaining app-local warning debt after external noise cleanup |
+| [CI-010](items/CI-010.md) | Minor | In Progress | Reduce remaining app-local warning debt after external noise cleanup |
 | [CI-011](items/CI-011.md) | Major | **Done** | Broadband release live E2E coverage umbrella |
 | [CI-012](items/CI-012.md) | Major | Open | Stabilize Shared Files dynamic folder lifecycle E2E |
 | [CI-013](items/CI-013.md) | Major | Open | Download and search UI live scenarios |
