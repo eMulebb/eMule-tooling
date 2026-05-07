@@ -52,7 +52,7 @@ failure proves that they are required.
 |----|-----------|--------------------|
 | [FEAT-032](items/FEAT-032.md) | NAT mapping live validation | Deferred; Release E2E did not require NAT proof |
 | [FEAT-045](items/FEAT-045.md) | Transfer detail endpoint | Deferred; aMuTorrent and Arr passed without hydrated transfer detail |
-| [FEAT-046](items/FEAT-046.md) | Server/Kad bootstrap/import APIs | Partially promoted; server.met import, Kad bootstrap, and nodes.dat URL import are implemented, with live import evidence still deferred unless a gate requires it |
+| [FEAT-046](items/FEAT-046.md) | Server/Kad bootstrap/import APIs | Passed; server.met import, Kad bootstrap, nodes.dat URL import, malformed preservation, and live seed import evidence are covered |
 | [FEAT-047](items/FEAT-047.md) | Search API completeness | Passed; OpenAPI and REST contract document Release 1 behavior |
 | [FEAT-048](items/FEAT-048.md) | Upload queue control completeness | Passed; existing controls are covered, unsupported operations return typed errors, and no new queue mutation was promoted |
 | [FEAT-049](items/FEAT-049.md) | Curated REST preference expansion | Passed; aMuTorrent needs no additional runtime preference keys and the curated surface has live round-trip plus bad-value coverage |

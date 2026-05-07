@@ -82,9 +82,9 @@ package authorization document.
 
 - [FEAT-045](../items/FEAT-045.md) is promoted only if Release 1 controller views need a
   dedicated transfer detail endpoint.
-- [FEAT-046](../items/FEAT-046.md) has been partially promoted for the API surface:
-  server.met import, Kad bootstrap, and nodes.dat URL import are implemented.
-  Live import evidence remains deferred unless a release gate requires it.
+- [FEAT-046](../items/FEAT-046.md) is closed for Release 1: server.met import,
+  Kad bootstrap, nodes.dat URL import, malformed preservation, and live seed
+  import evidence are covered.
 - [FEAT-048](../items/FEAT-048.md) is closed for Release 1 by audit: existing
   upload controls are covered, unsupported operations return typed errors, and
   no additional queue mutation was promoted.
@@ -107,7 +107,6 @@ package authorization document.
 ## Deferred REST/Arr Work
 
 - [FEAT-045](../items/FEAT-045.md): transfer detail endpoint
-- [FEAT-046](../items/FEAT-046.md): live import evidence for server/Kad URL imports
 - [AMUT-002](../items/AMUT-002.md): aMuTorrent transfer detail hydration
 
 These remain candidates for later controller work unless a future Release 1

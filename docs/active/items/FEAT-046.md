@@ -1,7 +1,7 @@
 ---
 id: FEAT-046
 title: REST server and Kad bootstrap/import APIs
-status: In Progress
+status: Passed
 priority: Major
 category: feature
 labels: [rest, servers, kad, bootstrap, live-wire]
@@ -39,7 +39,7 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
       bootstrap-empty guard
 - [x] endpoints support configured URLs and do not silently depend on bundled
       external lists
-- [ ] live E2E records source URL, size, hash, and import outcome
+- [x] live E2E records source URL, size, hash, and import outcome
 - [x] malformed downloads preserve the previous live files
 
 ## Progress
@@ -50,12 +50,14 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
   coverage were updated in `eMule-build-tests`.
 - 2026-05-07: Native `main` added `POST /api/v1/kad/nodes-url-imports`,
   wired it to the existing validated `nodes.dat` URL import path, and added
-  native route plus OpenAPI contract coverage. Live E2E still needs to record
-  source URL, size, hash, and import outcome evidence.
+  native route plus OpenAPI contract coverage.
 - 2026-05-07: Added native malformed `nodes.dat` install preservation coverage
   in `eMule-build-tests`; this complements existing malformed `server.met`
-  preservation coverage. Live E2E still needs source URL, size, hash, and
-  import outcome evidence.
+  preservation coverage.
+- 2026-05-07: Import routes now report the synchronous import outcome, and the
+  live REST smoke records source URL, byte count, SHA-256, REST route, HTTP
+  response, and imported outcome for both `server.met` and `nodes.dat` seed
+  imports.
 
 ## Relationship To Other Items
 
