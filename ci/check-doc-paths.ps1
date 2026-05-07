@@ -138,6 +138,39 @@ function Assert-RestApiContractDefersToOpenApi([string]$RepoRoot) {
     }
 }
 
+function Assert-ActiveIndexNonDoneCount([string]$RepoRoot) {
+    $relativePath = 'docs\active\INDEX.md'
+    $text = Get-TrackedFileText $RepoRoot $relativePath
+    if ($null -eq $text) {
+        $issues.Add(("{0}: missing required file: {1}" -f $RepoRoot, $relativePath)) | Out-Null
+        return
+    }
+
+    $declaredMatch = [regex]::Match($text, '\*\*Current non-done count:\*\*\s*`(?<Count>\d+)`')
+    if (-not $declaredMatch.Success) {
+        $issues.Add(("{0}\{1}: missing Current non-done count metadata." -f $RepoRoot, $relativePath)) | Out-Null
+        return
+    }
+
+    $itemRowPattern = '(?m)^\| \[[A-Z]+-\d+\]\([^)]+\) \| [^|]+ \| \**(?<Status>Open|In Progress|Blocked|Deferred|Passed|Done|Wont-Fix)\** \|'
+    $nonDoneStatuses = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
+    foreach ($status in @('Open', 'In Progress', 'Blocked', 'Deferred')) {
+        $nonDoneStatuses.Add($status) | Out-Null
+    }
+
+    $actualCount = 0
+    foreach ($match in [regex]::Matches($text, $itemRowPattern)) {
+        if ($nonDoneStatuses.Contains($match.Groups['Status'].Value)) {
+            $actualCount++
+        }
+    }
+
+    $declaredCount = [int]$declaredMatch.Groups['Count'].Value
+    if ($declaredCount -ne $actualCount) {
+        $issues.Add(("{0}\{1}: Current non-done count is {2}, but active item tables contain {3} Open/In Progress/Blocked/Deferred items." -f $RepoRoot, $relativePath, $declaredCount, $actualCount)) | Out-Null
+    }
+}
+
 foreach ($scope in $scanScopes) {
     $repoRoot = [System.IO.Path]::GetFullPath($scope.RepoRoot)
     if (-not (Test-Path -LiteralPath $repoRoot)) {
@@ -251,6 +284,7 @@ Assert-TextNotContains (Resolve-WorkspacePath 'repos\eMule-tooling') 'README.md'
 ) 'active tooling README must not reference abandoned eMule-remote entrypoints'
 
 Assert-RestApiContractDefersToOpenApi (Resolve-WorkspacePath 'repos\eMule-tooling')
+Assert-ActiveIndexNonDoneCount (Resolve-WorkspacePath 'repos\eMule-tooling')
 
 if ($issues.Count -gt 0) {
     throw ($issues -join [Environment]::NewLine)
