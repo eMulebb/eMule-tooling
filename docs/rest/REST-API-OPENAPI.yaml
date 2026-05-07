@@ -773,6 +773,20 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/KadResponse"
+  /kad/nodes-url-imports:
+    post:
+      tags: [Kad]
+      summary: Import or update nodes.dat from a URL.
+      operationId: createKadNodesUrlImport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UrlImportRequest"
+      responses:
+        "202":
+          $ref: "#/components/responses/OkAcceptedResponse"
   /kad/operations/start:
     post:
       tags: [Kad]
