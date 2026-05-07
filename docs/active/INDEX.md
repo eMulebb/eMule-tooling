@@ -12,7 +12,7 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `65`
+**Current non-done count:** `66`
 **Latest status refresh:** 2026-05-07
 **Broadband release status:** pre-release stabilization; no official release
 tag or package should be cut until the Release 1.0 gates are revalidated and
