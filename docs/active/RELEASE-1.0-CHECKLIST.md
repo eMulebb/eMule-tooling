@@ -25,7 +25,8 @@ tag or package Release 1 until this checklist is complete.
 - [ ] `pwsh -File repos\eMule-build\workspace.ps1 build-app -Config Release -Platform x64`
 - [ ] `pwsh -File repos\eMule-build\workspace.ps1 build-tests -Config Debug -Platform x64`
 - [ ] `pwsh -File repos\eMule-build\workspace.ps1 build-tests -Config Release -Platform x64`
-- [ ] supported native test command
+- [ ] `pwsh -File repos\eMule-build\workspace.ps1 test -Config Debug -Platform x64`
+- [ ] `pwsh -File repos\eMule-build\workspace.ps1 test -Config Release -Platform x64`
 - [ ] full Release x64 `live-e2e`
 - [ ] `pwsh -File repos\eMule-tooling\ci\check-clean-worktree.ps1 -EmuleWorkspaceRoot .`
 
