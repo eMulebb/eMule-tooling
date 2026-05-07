@@ -65,6 +65,10 @@ library, or pinned dependency APIs before writing custom logic.
   unsigned parsing helpers instead of carrying compatibility-local
   `atoi`/`strtoul`/`strtoull` conversions. Overflow handling is therefore
   shared with native `/api/v1` REST validation.
+- Torznab `cat` lists now fail closed for malformed, signed, overflowing, or
+  empty comma-list category tokens instead of widening those bad requests to a
+  successful empty feed. Well-formed but unsupported category IDs still map to
+  an empty result family.
 - Native REST endpoint ports, path IDs, and bounded query integers now route
   through the same strict unsigned-decimal parser before applying route-specific
   bounds. This removes remaining route-local `strtoul`/`strtoull` conversions.
