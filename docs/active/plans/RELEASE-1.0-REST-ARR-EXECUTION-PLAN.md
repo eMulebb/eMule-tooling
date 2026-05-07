@@ -16,7 +16,9 @@ package authorization document.
 - aMuTorrent is the primary UI target, but it adapts to the clean native
   `/api/v1` design; it does not define route names, envelopes, field aliases,
   validation rules, or compatibility drift.
-- Arr compatibility is an adapter layer over shared native logic.
+- Sonarr, Radarr, and Prowlarr clients integrate with eMule BB directly. Arr
+  compatibility is an eMule BB adapter layer over shared native logic, not an
+  aMuTorrent proxy path.
 - Prowlarr/Radarr/Sonarr/qBittorrent-compatible behavior is release-critical
   evidence, but it must not force native `/api/v1` to mimic Arr or qBit quirks.
 - Legacy WebServer cleanup is limited to REST/WebServer boundary safety and
@@ -99,6 +101,9 @@ should revalidate the API surfaces below before treating that evidence as fresh.
   `/api/v1` remains strict.
 - Torznab XML/feed shape and qBit text/session-cookie behavior stay
   adapter-specific.
+- `/api/v2` is reserved for direct Arr/qBittorrent-compatible clients talking
+  to eMule BB. aMuTorrent release proof must stay on the native `/api/v1`
+  surface.
 - Transfer progress ratio math is shared by native `/api/v1` and qBit-compatible
   transfer rows so UI adapters see bounded precision without defining the
   native contract.
