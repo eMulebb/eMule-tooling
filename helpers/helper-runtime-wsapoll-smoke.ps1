@@ -216,8 +216,7 @@ function Set-SmokePreferences {
         IncomingDir         = $IncomingDir
         TempDir             = $TempDir
         TempDirs            = ''
-        BindInterface       = ''
-        BindInterfaceName   = $BindInterfaceName
+        BindInterface       = $BindInterfaceName
         BindAddr            = ''
         RandomizePortsOnStartup = '0'
         Reconnect           = '1'

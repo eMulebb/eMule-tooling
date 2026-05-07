@@ -661,8 +661,7 @@ function Set-LiveSessionPreferences {
         TempDir               = $tempDir
         TempDirs              = ''
         CreateCrashDump       = '2'
-        BindInterface         = ''
-        BindInterfaceName     = $BindInterfaceName
+        BindInterface         = $BindInterfaceName
         BindAddr              = ''
         RandomizePortsOnStartup = '0'
         Reconnect             = '1'
@@ -702,7 +701,7 @@ function Set-LiveSessionPreferences {
         @{ Key = 'IncomingDir'; Value = $incomingDir },
         @{ Key = 'TempDir'; Value = $tempDir },
         @{ Key = 'TempDirs'; Value = '' },
-        @{ Key = 'BindInterfaceName'; Value = $BindInterfaceName },
+        @{ Key = 'BindInterface'; Value = $BindInterfaceName },
         @{ Key = 'EnablePipeApiServer'; Value = '1' }
     )) {
         Set-IniValueEverywhere -IniPath $PreferencesPath -Key $globalEntry.Key -Value $globalEntry.Value

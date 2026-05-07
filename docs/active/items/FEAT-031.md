@@ -55,7 +55,7 @@ through a new `Cached Clients` UI tab.
 - This item is intentionally parked on a dedicated feature branch and is not
   merged into `main`.
 - Current supporting live scenario defaults include:
-  - P2P bind through the `hide.me` interface via the tooling helper
+  - P2P bind through `BindInterface=hide.me`
   - P2P `UPnP=1`
   - autoconnect through preferences only
   - fallback transfer bootstrap hash `28EAB1A0AB1B9416AAF534E27A234941`

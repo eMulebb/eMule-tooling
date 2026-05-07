@@ -5,7 +5,7 @@ Runs a clean end-to-end debug launch against the repo eMule build.
 
 .DESCRIPTION
 This helper resets LocalAppData state, downloads fresh emule-security bootstrap
-artifacts, binds the session to a caller-provided VPN IPv4 address, enables
+artifacts, binds the session to a caller-provided VPN interface name, enables
 maximum disk logging, recursively shares a target directory tree, starts the
 repo debug executable, and monitors process plus log activity for a bounded
 time window.
@@ -17,7 +17,7 @@ param(
     [string]$ShareRoot = 'C:\tmp\videodupez',
 
     [Parameter(Mandatory = $false)]
-    [string]$BindAddress = '10.54.218.144',
+    [string]$BindInterfaceName = 'hide.me',
 
     [Parameter(Mandatory = $false)]
     [int]$MonitorSec = 240,
@@ -147,7 +147,7 @@ function Write-LaunchPreferences {
         [string]$TempDir,
 
         [Parameter(Mandatory = $true)]
-        [string]$BindAddress,
+        [string]$BindInterfaceName,
 
         [Parameter(Mandatory = $true)]
         [string]$NodesDatUrl
@@ -163,9 +163,8 @@ TempDir=$TempDir
 TempDirs=
 Port=27198
 UDPPort=27208
-BindInterface=
-BindInterfaceName=
-BindAddr=$BindAddress
+BindInterface=$BindInterfaceName
+BindAddr=
 RandomizePortsOnStartup=0
 ServerUDPPort=65535
 Reconnect=1
@@ -253,9 +252,9 @@ if (-not (Test-Path -LiteralPath $shareRoot -PathType Container)) {
     throw "Share root '$shareRoot' does not exist."
 }
 
-$bindCandidate = Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue | Where-Object { $_.IPAddress -eq $BindAddress }
+$bindCandidate = Get-NetAdapter -Name $BindInterfaceName -ErrorAction SilentlyContinue
 if ($null -eq $bindCandidate) {
-    throw "Bind address '$BindAddress' is not assigned on this machine."
+    throw "Bind interface '$BindInterfaceName' was not found."
 }
 
 if (-not $SkipBuild) {
@@ -287,14 +286,13 @@ $serverInfo = Download-File -Url $ServerMetUrl -DestinationPath $serverMetPath
 Set-Content -LiteralPath $addressesPath -Value $ServerMetUrl -Encoding ascii
 Set-Content -LiteralPath $serverUrlsPath -Value $ServerMetUrl -Encoding ascii
 $sharedDirCount = Write-RecursiveSharedDirs -ShareRoot $shareRoot -DestinationPath $sharedDirsPath
-Write-LaunchPreferences -PreferencesPath $preferencesPath -IncomingDir $shareRoot -TempDir (Get-FolderPath -Path $tempDir) -BindAddress $BindAddress -NodesDatUrl $NodesDatUrl
+Write-LaunchPreferences -PreferencesPath $preferencesPath -IncomingDir $shareRoot -TempDir (Get-FolderPath -Path $tempDir) -BindInterfaceName $BindInterfaceName -NodesDatUrl $NodesDatUrl
 
 $manifest = [ordered]@{
     helper = 'e2e-vpn-launch.ps1'
     started_at = (Get-Date).ToString('o')
     exe_path = $exePath
-    bind_address = $BindAddress
-    bind_interface = $bindCandidate.InterfaceAlias
+    bind_interface_name = $BindInterfaceName
     share_root = $shareRoot
     shareddir_entries = $sharedDirCount
     state_root = $stateRoot
@@ -365,7 +363,7 @@ if (Test-Path -LiteralPath $logDir) {
 
 $summary = @(
     "eMule VPN e2e launch"
-    "bind_address=$BindAddress"
+    "bind_interface_name=$BindInterfaceName"
     "bind_interface=$($bindCandidate.InterfaceAlias)"
     "share_root=$shareRoot"
     "shareddir_entries=$sharedDirCount"
