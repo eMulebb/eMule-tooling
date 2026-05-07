@@ -61,19 +61,19 @@ A modern link works better with 12 strong slots at ~500 KiB/s each.
 
 ## Implemented Controller Design
 
-### Preferences (active stabilization branch)
+### Preferences
 
 | Key | Type | Default | Meaning |
 |-----|------|---------|---------|
-| `BBMaxUpClientsAllowed` | int | 8 | Steady-state slot target |
-| `BBSlowThresholdFactor` | float | 0.33 | Slow-slot threshold as a fraction of per-slot target |
-| `BBSlowGraceSeconds` | int | 30 | Slow-rate recycle grace after warm-up |
-| `BBSlowWarmupSeconds` | int | 60 | Startup protection before slow/zero recycle can apply |
-| `BBZeroRateGraceSeconds` | int | 10 | Zero-rate recycle grace after warm-up |
-| `BBSlowCooldownSeconds` | int | 120 | Score suppression after weak-slot recycle |
-| `BBSessionTransferMode` | enum | Percent of file size | Transfer-rotation mode |
-| `BBSessionTransferValue` | int | 55 | Value for the selected transfer-rotation mode |
-| `BBSessionTimeLimitSeconds` | int | 3600 | Time-based session rotation backstop |
+| `[UploadPolicy] MaxUploadClientsAllowed` | int | 8 | Steady-state slot target |
+| `[UploadPolicy] SlowUploadThresholdFactor` | float | 0.33 | Slow-slot threshold as a fraction of per-slot target |
+| `[UploadPolicy] SlowUploadGraceSeconds` | int | 30 | Slow-rate recycle grace after warm-up |
+| `[UploadPolicy] SlowUploadWarmupSeconds` | int | 60 | Startup protection before slow/zero recycle can apply |
+| `[UploadPolicy] ZeroUploadRateGraceSeconds` | int | 10 | Zero-rate recycle grace after warm-up |
+| `[UploadPolicy] SlowUploadCooldownSeconds` | int | 120 | Score suppression after weak-slot recycle |
+| `[UploadPolicy] SessionTransferLimitMode` | enum | Percent of file size | Transfer-rotation mode |
+| `[UploadPolicy] SessionTransferLimitValue` | int | 55 | Value for the selected transfer-rotation mode |
+| `[UploadPolicy] SessionTimeLimitSeconds` | int | 3600 | Time-based session rotation backstop |
 
 ### Configured upload budget
 
@@ -89,14 +89,14 @@ On `feature/broadband-stabilization`, upload is always finite:
 ### Per-slot target
 
 ```cpp
-uint32 targetPerSlot = max(3u, configuredBudget / BBMaxUpClientsAllowed);  // KiB/s floor 3
+uint32 targetPerSlot = max(3u, configuredBudget / MaxUploadClientsAllowed);  // KiB/s floor 3
 ```
 
 Existing 75% admission threshold applies to `targetPerSlot`.
 
 ### Slot admission (current stabilization branch)
 
-- Fill until `BBMaxUpClientsAllowed` is reached
+- Fill until `MaxUploadClientsAllowed` is reached
 - Do not open temporary overflow slots above the configured cap
 - `MAX_UP_CLIENTS_ALLOWED = 100` kept as absolute ceiling only
 - Underfill is still evaluated, but only to justify reclaiming weak slots
@@ -122,8 +122,8 @@ Good samples reduce accumulated slow time. Neutral periods freeze timers.
 ### Session rotation overrides
 
 Replace `SESSIONMAXTRANS`/`SESSIONMAXTIME` checks in upload slot logic with:
-- `BBSessionTransferMode` + `BBSessionTransferValue`
-- `BBSessionTimeLimitSeconds`
+- `SessionTransferLimitMode` + `SessionTransferLimitValue`
+- `SessionTimeLimitSeconds`
 
 Current default:
 - percent-of-file transfer mode with value `55`
@@ -139,7 +139,7 @@ Replace fixed `75 KiB/s` / `100 KiB/s` thresholds in `UploadDiskIOThread.cpp`:
 
 | File | Change |
 |------|--------|
-| `Preferences.h/cpp` | Slot-controller BB* preference keys with load/save/defaults |
+| `Preferences.h/cpp` | Slot-controller `UploadPolicy` preference keys with load/save/defaults |
 | `Opcodes.h` | No change to existing constants |
 | `UploadQueue.h/cpp` | Replace slot-count formula; add budget/target computation; add weak-slot recycle gates |
 | `UploadBandwidthThrottler.h/cpp` | Replace `UPLOAD_CLIENT_MAXDATARATE` guard with `targetPerSlot` |
@@ -150,7 +150,7 @@ Replace fixed `75 KiB/s` / `100 KiB/s` thresholds in `UploadDiskIOThread.cpp`:
 
 ## Implementation Order
 
-1. `Preferences.h/cpp` — slot-controller BB* keys
+1. `Preferences.h/cpp` — slot-controller `UploadPolicy` keys
 2. `UploadQueue.cpp` — fixed-cap admission and weak-slot recycle
 3. `UploadBandwidthThrottler.cpp` — cap-aware slot pressure
 4. `UpdownClient.h` / `UploadClient.cpp` — slow-slot tracking and cooldown
@@ -160,13 +160,13 @@ Replace fixed `75 KiB/s` / `100 KiB/s` thresholds in `UploadDiskIOThread.cpp`:
 
 ## Acceptance Criteria
 
-- [ ] Default `BBMaxUpClientsAllowed=8` holds slot count near 8 on a 50 Mbit/s link (does not grow to 100)
-- [ ] Manually setting `BBMaxUpClientsAllowed=12` holds slot count at or below 12 on a 50 Mbit/s link
+- [ ] Default `MaxUploadClientsAllowed=8` holds slot count near 8 on a 50 Mbit/s link (does not grow to 100)
+- [ ] Manually setting `MaxUploadClientsAllowed=12` holds slot count at or below 12 on a 50 Mbit/s link
 - [ ] Fresh upload slots are protected from recycle for the first 60 s
 - [ ] Slow uploaders (< `targetPerSlot / 3`) are evicted after 30 s and enter 120 s cooldown
 - [ ] Zero-rate slots are evicted after 10 s once warm-up has completed
 - [ ] Cooldown prevents immediate slot re-entry; column shows remaining time
-- [ ] `BBSessionTransferMode` / `BBSessionTransferValue` / `BBSessionTimeLimitSeconds` override stock session rotation
+- [ ] `SessionTransferLimitMode` / `SessionTransferLimitValue` / `SessionTimeLimitSeconds` override stock session rotation
 - [ ] `Preferences > Tweaks > Broadband` page loads, saves, applies without restart
 - [ ] Missing or legacy-unlimited upload config normalizes to `6100 KiB/s`
 - [ ] Friend slots remain the only deliberate scheduling exception

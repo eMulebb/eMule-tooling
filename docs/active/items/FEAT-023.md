@@ -33,9 +33,9 @@ LowID divisor, old-client penalty, and final truncation.
 
 ## Current Branch Extras
 
-- `BBLowRatioBoostEnabled`, `BBLowRatioThreshold`, and `BBLowRatioBonus` add a
+- `LowRatioBoostEnabled`, `LowRatioThreshold`, and `LowRatioScoreBonus` add a
   low-ratio queue-score bonus for files with low all-time upload ratio
-- `BBLowIDDivisor` reduces queue score for LowID clients
+- `LowIDScoreDivisor` reduces queue score for LowID clients
 - `All-Time Ratio` / `Session Ratio` columns are shown in shared, upload, and
   queue views
 - `Cooldown` column is shown in upload and queue views
@@ -68,7 +68,7 @@ The items here are different in kind:
   - file-priority multiplier
   - legacy old-client penalty
 - keep cooldown as a hard effective-score suppression to `0`
-- keep `BBLowIDDivisor` in the effective full-score path
+- keep `LowIDScoreDivisor` in the effective full-score path
 - restore stale broadband low-ratio semantics:
   - apply the low-ratio bonus before the LowID divisor
   - apply the low-ratio bonus before the old-client penalty
