@@ -9,18 +9,18 @@ review records.
 | Source | Salvaged into |
 |--------|---------------|
 | `AUDIT-BUGS.md` | early `BUG-*` triage and fixed/wont-fix decisions |
-| `AUDIT-DEFECTS.md` | [BUG-001](../../docs-clean/BUG-001.md), [REF-004](../../docs-clean/REF-004.md) |
-| `AUDIT-SECURITY.md` | [BUG-006](../../docs-clean/BUG-006.md), [REF-021](../../docs-clean/REF-021.md), [REF-028](../../docs-clean/REF-028.md) |
-| `AUDIT-DEADCODE.md` | [REF-002](../../docs-clean/REF-002.md) through [REF-007](../../docs-clean/REF-007.md), [REF-017](../../docs-clean/REF-017.md) through [REF-019](../../docs-clean/REF-019.md) |
-| `AUDIT-KAD.md` | [FEAT-001](../../docs-clean/FEAT-001.md) through [FEAT-006](../../docs-clean/FEAT-006.md), [CI-007](../../docs-clean/CI-007.md) |
-| `AUDIT-CODEQUALITY.md` | [CI-001](../../docs-clean/CI-001.md) through [CI-006](../../docs-clean/CI-006.md) |
-| `PLAN-BOOST.md` | [REF-008](../../docs-clean/REF-008.md) through [REF-014](../../docs-clean/REF-014.md) |
-| `GUIDE-LONGPATHS.md` | [FEAT-010](../../docs-clean/FEAT-010.md) |
-| `PLAN-API-SERVER.md` | [FEAT-013](../../docs-clean/FEAT-013.md), [FEAT-014](../../docs-clean/FEAT-014.md) |
-| `FEATURE-BROADBAND.md` | [FEAT-015](../../docs-clean/FEAT-015.md), [FEAT-023](../../docs-clean/FEAT-023.md) |
-| `FEATURE-MODERN-LIMITS.md` | [FEAT-016](../../docs-clean/FEAT-016.md) |
+| `AUDIT-DEFECTS.md` | [BUG-001](../active/items/BUG-001.md), [REF-004](../active/items/REF-004.md) |
+| `AUDIT-SECURITY.md` | [BUG-006](../active/items/BUG-006.md), [REF-021](../active/items/REF-021.md), [REF-028](../active/items/REF-028.md) |
+| `AUDIT-DEADCODE.md` | [REF-002](../active/items/REF-002.md) through [REF-007](../active/items/REF-007.md), [REF-017](../active/items/REF-017.md) through [REF-019](../active/items/REF-019.md) |
+| `AUDIT-KAD.md` | [FEAT-001](../active/items/FEAT-001.md) through [FEAT-006](../active/items/FEAT-006.md), [CI-007](../active/items/CI-007.md) |
+| `AUDIT-CODEQUALITY.md` | [CI-001](../active/items/CI-001.md) through [CI-006](../active/items/CI-006.md) |
+| `IDEA-BOOST.md` | [REF-008](../active/items/REF-008.md) through [REF-014](../active/items/REF-014.md) |
+| `GUIDE-LONGPATHS.md` | [FEAT-010](../active/items/FEAT-010.md) |
+| `PLAN-API-SERVER.md` | [FEAT-013](../active/items/FEAT-013.md), [FEAT-014](../active/items/FEAT-014.md) |
+| `FEATURE-BROADBAND.md` | [FEAT-015](../active/items/FEAT-015.md), [FEAT-023](../active/items/FEAT-023.md) |
+| `FEATURE-MODERN-LIMITS.md` | [FEAT-016](../active/items/FEAT-016.md) |
 | `AUDIT-WWMOD.md` | Windows modernization refactors and UI/build policy items |
-| `AUDIT-CODEREVIEW.md` | [BUG-007](../../docs-clean/BUG-007.md), [BUG-008](../../docs-clean/BUG-008.md), [REF-028](../../docs-clean/REF-028.md) |
+| `AUDIT-CODEREVIEW.md` | [BUG-007](../active/items/BUG-007.md), [BUG-008](../active/items/BUG-008.md), [REF-028](../active/items/REF-028.md) |
 
 ## Analysis Inputs
 
@@ -33,6 +33,6 @@ review records.
 ## Confirmed Done Provenance
 
 Do not use this file as a complete done ledger. For complete status, use
-[docs-clean/INDEX](../../docs-clean/INDEX.md). Representative early confirmed
+[docs/active/INDEX](../active/INDEX.md). Representative early confirmed
 items include `BUG-009` through `BUG-012`, `BUG-015`, `BUG-016`, `FEAT-015`,
 `FEAT-016`, `FEAT-023`, `FEAT-024`, `FEAT-025`, `FEAT-038`, and `FEAT-013`.

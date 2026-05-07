@@ -2,12 +2,12 @@
 
 This graph captures useful implementation ordering hints. It is not a release
 gate; Release 1 status is controlled by
-[RELEASE-1.0](../../docs-clean/RELEASE-1.0.md).
+[RELEASE-1.0](../active/RELEASE-1.0.md).
 
 ## Build And Tooling
 
 ```text
-CI-001 (CMake)
+CI-001 (CMake idea only; not an active plan)
   -> CI-002 (clang-format)
   -> CI-003 (MSVC hardening)
        -> CI-006 (ASan)

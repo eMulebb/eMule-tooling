@@ -14,7 +14,7 @@ is:
 ## Start Here
 
 - active backlog and landed/open status:
-  [`docs-clean/INDEX.md`](docs-clean/INDEX.md)
+  [`docs/active/INDEX.md`](docs/active/INDEX.md)
 - long-form reference docs and topic map: [`docs/INDEX.md`](docs/INDEX.md)
 - historical-reference rules for the stale experimental branch:
   [`docs/HISTORICAL-REFERENCES.md`](docs/HISTORICAL-REFERENCES.md)
@@ -24,25 +24,30 @@ is:
 ## What This Repo Owns
 
 - central workspace policy: [`docs/WORKSPACE_POLICY.md`](docs/WORKSPACE_POLICY.md)
+- documentation ownership policy: [`docs/DOCS_POLICY.md`](docs/DOCS_POLICY.md)
 - reference-doc index: [`docs/INDEX.md`](docs/INDEX.md)
-- active backlog index: [`docs-clean/INDEX.md`](docs-clean/INDEX.md)
-- broadband feature notes: [`docs/FEATURE-BROADBAND.md`](docs/FEATURE-BROADBAND.md)
-- API server contract: [`docs/PLAN-API-SERVER.md`](docs/PLAN-API-SERVER.md)
-- modernization roadmap: [`docs/PLAN-MODERNIZATION-2026.md`](docs/PLAN-MODERNIZATION-2026.md)
+- active backlog index: [`docs/active/INDEX.md`](docs/active/INDEX.md)
+- broadband feature notes: [`docs/reference/FEATURE-BROADBAND.md`](docs/reference/FEATURE-BROADBAND.md)
+- API server reference: [`docs/rest/PLAN-API-SERVER.md`](docs/rest/PLAN-API-SERVER.md)
+- modernization roadmap: [`docs/reference/PLAN-MODERNIZATION-2026.md`](docs/reference/PLAN-MODERNIZATION-2026.md)
 
 This repo does not own workspace materialization, app source, or build/test
 execution contracts. It is the authoritative documentation home for
 workspace-wide policy and the place for deeper engineering notes and helper
 scripts that operate inside the canonical workspace.
 
-Documentation is intentionally split into two tiers:
+Documentation is intentionally organized by document role:
 
-- `docs/` = reference analyses, architecture notes, audits, plans, and history
-- `docs-clean/` = active revalidated backlog, landed/open status, and dated
-  review trail
+- `docs/active/` = active revalidated backlog, release control, item evidence,
+  execution plans, and dated review trail
+- `docs/architecture/`, `docs/rest/`, and `docs/reference/` = durable technical
+  and product reference
+- `docs/audits/`, `docs/dependencies/`, and `docs/history/` = provenance and
+  historical analysis
+- `docs/ideas/` = exploratory proposals only, not active implementation plans
 
-If a status statement in `docs/` conflicts with `docs-clean`, treat
-`docs-clean` as authoritative for the current backlog state.
+If a status statement in `docs/` conflicts with `docs/active`, treat
+`docs/active` as authoritative for the current backlog state.
 
 The central policy defaults to low-drift hardening and bug-fix work. Major
 behavioral changes are exception work and must be explicitly justified rather

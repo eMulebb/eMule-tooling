@@ -32,7 +32,7 @@ When a doc mentions the stale experimental branch, the preferred interpretation
 is:
 
 - current backlog state is determined against `main`
-- `docs-clean/INDEX.md` owns the active landed/open status
+- `docs/active/INDEX.md` owns the active landed/open status
 - the stale branch is there to explain where an idea came from, not to revive
   that branch as an active workflow
 
@@ -58,5 +58,5 @@ Those all point at the same historical source family.
 ## Related Docs
 
 - [WORKSPACE_POLICY](WORKSPACE_POLICY.md)
-- [../docs-clean/INDEX.md](../docs-clean/INDEX.md)
+- [../docs/active/INDEX.md](active/INDEX.md)
 - [../README.md](../README.md)

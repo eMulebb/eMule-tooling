@@ -1,8 +1,8 @@
 # Backlog History
 
 This is a compact historical reference for the active backlog. It is not the
-current status source; use [docs-clean/INDEX](../../docs-clean/INDEX.md) and
-[Release 1.0 control](../../docs-clean/RELEASE-1.0.md) for active decisions.
+current status source; use [docs/active/INDEX](../active/INDEX.md) and
+[Release 1.0 control](../active/RELEASE-1.0.md) for active decisions.
 
 ## Revalidation Trail
 
@@ -26,14 +26,14 @@ current status source; use [docs-clean/INDEX](../../docs-clean/INDEX.md) and
 
 ## Review Records
 
-- [2026-05-02 outbound bind compliance audit](../../docs-clean/REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
-- [2026-05-01 release readiness regression scan](../../docs-clean/REVIEW-2026-05-01-release-readiness-regression-scan.md)
-- [2026-04-26 main bug/concurrency scan](../../docs-clean/REVIEW-2026-04-26-main-bug-concurrency-scan.md)
-- [2026-04-26 eMuleAI/mods broadband scan](../../docs-clean/REVIEW-2026-04-26-emuleai-mods-broadband-scan.md)
-- [2026-04-25 current-main backlog refresh](../../docs-clean/REVIEW-2026-04-25-current-main-backlog-refresh.md)
-- [2026-04-20 eMuleAI/mods main backlog pass](../../docs-clean/REVIEW-2026-04-20-emuleai-mods-main-backlog-pass.md)
-- [2026-04-20 feature expansion beyond stock](../../docs-clean/REVIEW-2026-04-20-feature-expansion-beyond-stock.md)
-- [2026-04-18 eMuleAI vs main hardening pass](../../docs-clean/REVIEW-2026-04-18-emuleai-vs-main-hardening-pass.md)
+- [2026-05-02 outbound bind compliance audit](../active/reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
+- [2026-05-01 release readiness regression scan](../active/reviews/REVIEW-2026-05-01-release-readiness-regression-scan.md)
+- [2026-04-26 main bug/concurrency scan](../active/reviews/REVIEW-2026-04-26-main-bug-concurrency-scan.md)
+- [2026-04-26 eMuleAI/mods broadband scan](../active/reviews/REVIEW-2026-04-26-emuleai-mods-broadband-scan.md)
+- [2026-04-25 current-main backlog refresh](../active/reviews/REVIEW-2026-04-25-current-main-backlog-refresh.md)
+- [2026-04-20 eMuleAI/mods main backlog pass](../active/reviews/REVIEW-2026-04-20-emuleai-mods-main-backlog-pass.md)
+- [2026-04-20 feature expansion beyond stock](../active/reviews/REVIEW-2026-04-20-feature-expansion-beyond-stock.md)
+- [2026-04-18 eMuleAI vs main hardening pass](../active/reviews/REVIEW-2026-04-18-emuleai-vs-main-hardening-pass.md)
 
 Older item-level history lives in the individual `BUG-*`, `REF-*`, `FEAT-*`,
 `CI-*`, `AMUT-*`, and `ARR-*` files.

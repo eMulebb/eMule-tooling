@@ -38,7 +38,12 @@ $scanScopes = @(
     }
     @{
         RepoRoot = Resolve-WorkspacePath 'repos\eMule-tooling'
-        Paths = @('docs-clean\*.md')
+        Paths = @(
+            'docs\active\*.md',
+            'docs\active\items\*.md',
+            'docs\active\plans\*.md',
+            'docs\active\reviews\*.md'
+        )
     }
     @{
         RepoRoot = Resolve-WorkspacePath 'repos\eMule-build'
@@ -105,7 +110,7 @@ function Assert-TextNotContains([string]$RepoRoot, [string]$RelativePath, [strin
 }
 
 function Assert-RestApiContractDefersToOpenApi([string]$RepoRoot) {
-    $relativePath = 'docs\REST-API-CONTRACT.md'
+    $relativePath = 'docs\rest\REST-API-CONTRACT.md'
     $text = Get-TrackedFileText $RepoRoot $relativePath
     if ($null -eq $text) {
         $issues.Add(("{0}: missing required file: {1}" -f $RepoRoot, $relativePath)) | Out-Null
