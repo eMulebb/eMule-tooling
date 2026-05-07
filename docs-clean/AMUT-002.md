@@ -21,6 +21,10 @@ exposes the required detail endpoint.
 only if `AMUT-001` cannot provide useful release transfer views without detail
 hydration; otherwise it remains a compatible enhancement.
 
+## Execution Plan
+
+Covered by the [Release 1.0 REST and Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+
 ## Current Gap
 
 The eMule BB adapter currently maps transfer rows and sources, but leaves

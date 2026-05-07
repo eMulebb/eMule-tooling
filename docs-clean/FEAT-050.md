@@ -23,32 +23,10 @@ in addition to the REST/controller gate. It must stay disabled by default,
 executable-only, asynchronous, and covered by targeted native tests so it adds
 automation value without creating a shell-execution surface.
 
-## Product Contract
+## Execution Plan
 
-- disabled by default
-- global setting only
-- configured from Files preferences
-- executable file only; scripts can be run by explicitly choosing
-  `powershell.exe` or `cmd.exe`
-- no shell expansion, pipes, or environment-variable expansion
-- asynchronous launch; eMule does not wait for exit
-- minimized normal window
-- skipped while the app is closing
-- launch failures are logged, not shown as modal dialogs
-
-## Argument Tokens
-
-The first release supports these tokens in the argument string:
-
-- `%F` completed full file path
-- `%D` completed directory
-- `%N` completed file name
-- `%H` lowercase file hash
-- `%S` file size in bytes
-- `%C` category name
-
-Path tokens are quoted automatically so paths with spaces work without fragile
-user quoting.
+Covered by the
+[Release 1.0 Download Completion Hook execution plan](RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md).
 
 ## Acceptance Criteria
 

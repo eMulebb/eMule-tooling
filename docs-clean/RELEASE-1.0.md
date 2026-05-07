@@ -12,7 +12,10 @@ Operator docs:
 
 - [Release 1.0 checklist](RELEASE-1.0-CHECKLIST.md)
 - [Release 1.0 runbook](RELEASE-1.0-RUNBOOK.md)
-- [REST/Arr deep plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md)
+- [REST/Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md)
+- [Live E2E execution plan](RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md)
+- [Download completion hook execution plan](RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)
+- [NAT mapping execution plan](RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md)
 
 ## Release Identity
 
@@ -54,6 +57,19 @@ failure proves that they are required.
 | [FEAT-048](FEAT-048.md) | Upload queue control completeness | Deferred; no Release 1 gate required extra queue mutations |
 | [FEAT-049](FEAT-049.md) | Curated REST preference expansion | Deferred; current curated preference surface passed release gates |
 | [AMUT-002](AMUT-002.md) | aMuTorrent transfer detail hydration | Deferred; depends on deferred `FEAT-045` |
+
+## Execution Plans
+
+Each Release 1 gate and candidate is covered by exactly one cluster execution
+plan. Item docs keep acceptance criteria and evidence; the plans own detailed
+closure and revalidation flow.
+
+| Plan | Covered items |
+|------|---------------|
+| [REST/Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md) | [BUG-075](BUG-075.md), [BUG-076](BUG-076.md), [BUG-077](BUG-077.md), [CI-014](CI-014.md), [CI-015](CI-015.md), [AMUT-001](AMUT-001.md), [ARR-001](ARR-001.md), [FEAT-045](FEAT-045.md), [FEAT-046](FEAT-046.md), [FEAT-047](FEAT-047.md), [FEAT-048](FEAT-048.md), [FEAT-049](FEAT-049.md), [AMUT-002](AMUT-002.md) |
+| [Live E2E execution plan](RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md) | [CI-011](CI-011.md) |
+| [Download completion hook execution plan](RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md) | [FEAT-050](FEAT-050.md) |
+| [NAT mapping execution plan](RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md) | [FEAT-032](FEAT-032.md) |
 
 ## Deferred Scope
 

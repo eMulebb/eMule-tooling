@@ -25,6 +25,10 @@ Target route:
 
 - `GET /api/v1/transfers/{hash}/details`
 
+## Execution Plan
+
+Covered by the [Release 1.0 REST and Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+
 ## Current Gap
 
 The REST API already exposes transfer rows and

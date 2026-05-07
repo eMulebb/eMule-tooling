@@ -21,14 +21,20 @@ the operator steps are complete.
 **First-release backlog view:** [RELEASE-1.0](RELEASE-1.0.md)
 **First-release checklist:** [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
 **First-release runbook:** [RELEASE-1.0-RUNBOOK](RELEASE-1.0-RUNBOOK.md)
-**First-release REST/Arr deep plan:** [RELEASE-1.0 REST/Arr deep plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md)
+**First-release execution plans:** [REST/Arr](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md),
+[Live E2E](RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md),
+[Download completion hook](RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
+[NAT mapping](RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md)
 
 Latest review trail:
 
 - [RELEASE-1.0](RELEASE-1.0.md)
 - [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
 - [RELEASE-1.0-RUNBOOK](RELEASE-1.0-RUNBOOK.md)
-- [RELEASE-1.0 REST/Arr deep plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md)
+- [RELEASE-1.0 REST/Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md)
+- [RELEASE-1.0 Live E2E execution plan](RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md)
+- [RELEASE-1.0 Download completion hook execution plan](RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)
+- [RELEASE-1.0 NAT mapping execution plan](RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md)
 - [REVIEW-2026-05-02-outbound-bind-compliance-audit](REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
 - [REVIEW-2026-05-01-release-readiness-regression-scan](REVIEW-2026-05-01-release-readiness-regression-scan.md)
 - [REVIEW-2026-04-26-main-bug-concurrency-scan](REVIEW-2026-04-26-main-bug-concurrency-scan.md)
@@ -311,8 +317,11 @@ where that comparison is meaningful.
 The first-release gate is controlled by [RELEASE-1.0](RELEASE-1.0.md). Use
 that page for gate status, candidate decisions, and release validation scope.
 
-REST, aMuTorrent, and Arr implementation detail lives in the
-[RELEASE-1.0 REST/Arr deep plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+Release 1 implementation detail lives in the cluster execution plans:
+[REST/Arr](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md),
+[Live E2E](RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md),
+[Download completion hook](RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
+and [NAT mapping](RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md).
 
 ## Reference Material
 

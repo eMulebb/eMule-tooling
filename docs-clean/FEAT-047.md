@@ -21,6 +21,10 @@ controllers.
 release work is to document paging/bounds behavior and keep live corpus
 coverage meaningful; do not change stock search semantics for this item.
 
+## Execution Plan
+
+Covered by the [Release 1.0 REST and Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+
 ## Acceptance Criteria
 
 - [x] aMuTorrent search views can render useful result rows without private

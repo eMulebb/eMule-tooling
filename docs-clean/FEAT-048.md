@@ -21,6 +21,10 @@ add only missing release-critical controls.
 Only add operations that aMuTorrent or the release live-E2E lane actually
 needs; unsupported actions should return typed errors.
 
+## Execution Plan
+
+Covered by the [Release 1.0 REST and Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+
 ## Acceptance Criteria
 
 - [ ] existing upload list, queue list, remove, and release-slot behavior is

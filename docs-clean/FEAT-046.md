@@ -27,6 +27,10 @@ Default live sources are the already-persisted eMule Security URLs:
 - `https://upd.emule-security.org/server.met`
 - `https://upd.emule-security.org/nodes.dat`
 
+## Execution Plan
+
+Covered by the [Release 1.0 REST and Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+
 ## Acceptance Criteria
 
 - [x] server import can refresh `server.met` through the same safe validation

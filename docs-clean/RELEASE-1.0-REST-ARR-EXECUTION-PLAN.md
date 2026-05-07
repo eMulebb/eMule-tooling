@@ -1,6 +1,6 @@
-# Release 1.0 REST and Arr Deep Plan
+# Release 1.0 REST and Arr Execution Plan
 
-This is the active deep plan for Release 1 REST, aMuTorrent, and Arr work. It
+This is the active execution plan for Release 1 REST, aMuTorrent, and Arr work. It
 does not own gate status; use [RELEASE-1.0](RELEASE-1.0.md) for current release
 decisions and item docs for completion evidence.
 
@@ -28,7 +28,7 @@ package authorization document.
 | Contract completeness | [CI-014](CI-014.md), [CI-015](CI-015.md), [FEAT-047](FEAT-047.md) | OpenAPI-backed smoke, route drift checks, stress budgets |
 | aMuTorrent | [AMUT-001](AMUT-001.md), [AMUT-002](AMUT-002.md) | UI consumer proof and transfer-detail deferral boundary |
 | Arr adapters | [ARR-001](ARR-001.md) | Torznab/qBittorrent adapter proof without native API drift |
-| Completion hook | [FEAT-050](FEAT-050.md) | disabled-by-default executable-only hook contract |
+| REST controller candidates | [FEAT-045](FEAT-045.md), [FEAT-046](FEAT-046.md), [FEAT-048](FEAT-048.md), [FEAT-049](FEAT-049.md) | documented deferral or promotion path for controller parity work |
 
 ## Native REST Contract
 
@@ -48,6 +48,46 @@ package authorization document.
 - Shared behavior should reuse native parser, validation, normalization,
   serialization, and path-safety helpers.
 - aMuTorrent and Arr gates must not force native route names or envelope shape.
+
+## Execution Lanes
+
+### REST and WebServer Robustness
+
+- Keep [BUG-075](BUG-075.md) as the typed error contract owner.
+- Keep [BUG-076](BUG-076.md) as the malformed request boundary owner.
+- Keep [BUG-077](BUG-077.md) as the mixed REST and legacy HTML stress owner.
+- Any future route, parser, auth, or WebServer concurrency change must rerun the
+  REST smoke and malformed/concurrent matrix before Release 1 evidence is
+  reused.
+
+### Contract Completeness
+
+- Keep [CI-014](CI-014.md) as the OpenAPI and route drift gate.
+- Keep [CI-015](CI-015.md) as the malformed and concurrent request matrix gate.
+- Keep [FEAT-047](FEAT-047.md) closed by documenting the Release 1 search
+  snapshot behavior instead of adding paging or bounds changes.
+- New `/api/v1` routes require OpenAPI, native route seam, live smoke, and
+  REST contract documentation updates in the same closure slice.
+
+### Controller Integrations
+
+- Keep [AMUT-001](AMUT-001.md) as the live aMuTorrent browser proof.
+- Keep [ARR-001](ARR-001.md) as the live Prowlarr, Radarr, Sonarr, Torznab,
+  and qBittorrent-compatible proof.
+- Treat [AMUT-002](AMUT-002.md) as deferred unless [FEAT-045](FEAT-045.md) is
+  promoted and the aMuTorrent smoke stops providing useful release transfer
+  views.
+
+### Candidate Promotion Rules
+
+- [FEAT-045](FEAT-045.md) is promoted only if Release 1 controller views need a
+  dedicated transfer detail endpoint.
+- [FEAT-046](FEAT-046.md) is promoted only if live-wire bootstrap requires Kad
+  import before the first release.
+- [FEAT-048](FEAT-048.md) is promoted only if a release controller or live E2E
+  lane needs upload queue mutations beyond the current surface.
+- [FEAT-049](FEAT-049.md) is promoted only for settings required by aMuTorrent
+  or release automation and safe to expose through curated preferences.
 
 ## Release Test Matrix
 

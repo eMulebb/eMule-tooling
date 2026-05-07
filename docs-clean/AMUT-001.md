@@ -21,6 +21,10 @@ suite is part of Release 1. This item owns the aMuTorrent side of that gate:
 at least one browser smoke against a live instance with request and console
 artifacts.
 
+## Execution Plan
+
+Covered by the [Release 1.0 REST and Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+
 ## Acceptance Criteria
 
 - [x] aMuTorrent can connect to the eMule BB REST API with configured host,

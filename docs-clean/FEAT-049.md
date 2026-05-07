@@ -21,6 +21,10 @@ controllers and safe to mutate through REST.
 only settings required by aMuTorrent or release automation; risky debug,
 compatibility, and protocol internals stay private.
 
+## Execution Plan
+
+Covered by the [Release 1.0 REST and Arr execution plan](RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+
 ## Acceptance Criteria
 
 - [ ] missing aMuTorrent-relevant settings are identified by direct adapter/UI
