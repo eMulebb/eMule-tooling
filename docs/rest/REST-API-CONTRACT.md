@@ -30,7 +30,8 @@ Radarr/Sonarr controller flows, and qBittorrent-compatible download-client
 routes may keep adapter-specific quirks where those clients require them, but
 shared parsing, validation, safety, and serialization should come from the same
 native helpers wherever practical. Adapter compatibility must not broaden or
-weaken the native `/api/v1` OpenAPI contract.
+weaken the native `/api/v1` OpenAPI contract. Torznab searches use the native
+default `automatic` search method instead of pinning an adapter-only Kad policy.
 
 ## Contract Rules
 

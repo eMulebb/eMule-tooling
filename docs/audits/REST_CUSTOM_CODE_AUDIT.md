@@ -94,6 +94,9 @@ library, or pinned dependency APIs before writing custom logic.
   validator unless `deleteFiles` is explicitly `true`; shared-file removal
   still accepts either boolean because `false` is the clean unshare/exclude
   operation.
+- Torznab compatibility search dispatch now consumes the native command seam's
+  default search method token (`automatic`) instead of carrying an adapter-local
+  Kad-only default.
 - REST hash validation remains local and domain-specific because the public API
   requires exactly 32 lowercase MD4 hex characters, not general binary or hash
   parsing.
