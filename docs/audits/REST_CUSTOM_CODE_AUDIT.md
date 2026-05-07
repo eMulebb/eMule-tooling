@@ -160,6 +160,9 @@ library, or pinned dependency APIs before writing custom logic.
   `topPrio`, and `setForceStart`) now still parse their `hashes` form field
   through the shared qBit-to-native eD2K hash validator before returning
   success.
+- qBittorrent-compatible `setForceStart` also validates its optional `value`
+  form field through the shared qBit boolean parser before returning the
+  accepted no-op response.
 - Native `/api/v1` transfer responses and qBittorrent-compatible torrent info
   now share `WebApiSurfaceSeams::BuildTransferProgressRatio`. This keeps
   progress clamping and display precision consistent across the clean native
