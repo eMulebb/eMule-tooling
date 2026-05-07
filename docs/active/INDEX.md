@@ -93,7 +93,7 @@ where that comparison is meaningful.
 | [BUG-009](items/BUG-009.md) | Minor | **Done** | PartFile — non-atomic part.met replacement (_tremove + _trename crash window) |
 | [BUG-010](items/BUG-010.md) | Minor | **Done** | PartFile — part.met write on low disk space risks truncation/corruption |
 | [BUG-011](items/BUG-011.md) | Minor | **Done** | Race — shareddir_list iterated without lock in SendSharedDirectories |
-| [BUG-012](items/BUG-012.md) | Minor | **Done** | CPartFile destructor calls FlushBuffer after write thread has already exited |
+| [BUG-012](items/BUG-012.md) | Minor | In Progress | CPartFile destructor calls FlushBuffer after write thread has already exited |
 | [BUG-013](items/BUG-013.md) | Minor | Wont-Fix | ArchiveRecovery.cpp — three unchecked malloc() calls crash on OOM *(kept as-is by product decision)* |
 | [BUG-014](items/BUG-014.md) | Minor | **Done** | ZIPFile.cpp — WriteFile return value silently discarded on two paths |
 | [BUG-015](items/BUG-015.md) | Minor | **Done** | GetTickCount() 49-day overflow in ban expiry and download timeout checks |
