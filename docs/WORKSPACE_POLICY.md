@@ -77,21 +77,24 @@ Directive precedence is:
   - `feature/<topic>`
   - `fix/<topic>`
   - `chore/<topic>`
-- `release/v0.72a-community` is the active seam-enabled community baseline.
-- `release/v0.72a-broadband` is the active broadband release line.
-- `tracing-harness/v0.72a-community` is the behavior-changing parity harness
-  branch derived directly from `release/v0.72a-community`.
+- Active app branch roles are:
+
+  | Branch | Role | Release status |
+  |---|---|---|
+  | `main` | active eMule BB integration line | not a release branch |
+  | `release/v0.72a-broadband` | broadband pre-release stabilization line | only release-intent branch, not ready for an official release until the Release 1.0 gates and operator steps are complete |
+  | `release/v0.72a-community` | seam-enabled parity and regression baseline | test-only branch; the `release/` prefix is legacy branch naming |
+  | `tracing-harness/v0.72a-community` | variant-client parity harness | not a release branch and not the default regression baseline |
 - `release/v0.72a-build`, `release/v0.72a-bugfix`,
   `oracle/v0.72a-build`, `tracing/v0.72a`, and
   `tracing-harness/v0.72a` are retired historical references.
-- Small merge work on frozen release branches is allowed only to backport
-  reviewed fixes or keep those branches buildable.
+- Small merge work on the broadband pre-release stabilization branch is allowed
+  only to backport reviewed fixes or keep the branch buildable.
 - Future release work should branch from reviewed commits already present on
   `main`.
-- Release branches are downstream stabilization lines:
-  - `release/v0.72a-community`
-  - `release/v0.72a-broadband`
-- Promotion flows from reviewed commits already present on `main`.
+- The only branch with release intent in the policy sense is
+  `release/v0.72a-broadband`; promotion flows from reviewed commits already
+  present on `main`.
 - Do not start normal feature work directly on release branches.
 
 ### Supporting Repos
@@ -217,8 +220,9 @@ The canonical workspace currently materializes these app worktrees:
 - For feature and fix work on `main`, targeted regression checks are the
   default expectation.
 - When a change affects observable behavior, compare `main` against
-  `release/v0.72a-community` as the seam-enabled baseline where the existing
-  targeted test or live-diff flow makes that comparison meaningful.
+  `release/v0.72a-community` as the seam-enabled parity and regression
+  baseline where the existing targeted test or live-diff flow makes that
+  comparison meaningful.
 - Full matrix validation is expected for:
   - build-system changes
   - dependency pin or dependency project changes
@@ -232,17 +236,26 @@ The canonical workspace currently materializes these app worktrees:
   release prep, or explicit hygiene passes, but are not the default requirement
   for every in-progress feature branch.
 
-## Backport Rules
+## Backport And Baseline Maintenance Rules
 
-- `release/v0.72a-community` and `release/v0.72a-broadband` are active release
-  lines.
+- `release/v0.72a-broadband` is the active broadband pre-release
+  stabilization branch. It is release-intent, but it is not ready for an
+  official release until the Release 1.0 gates and operator steps are complete.
+- `release/v0.72a-community` is the seam-enabled parity and regression
+  baseline. It is test-only even though its legacy branch name uses the
+  `release/` prefix.
 - Retired refs such as `release/v0.72a-build`, `release/v0.72a-bugfix`,
   `oracle/v0.72a-build`, `tracing/v0.72a`, and
   `tracing-harness/v0.72a` are historical references only.
-- Acceptable backports are narrow and selective:
+- Acceptable broadband backports are narrow and selective:
   - buildability fixes
   - important low-risk fixes
   - narrowly scoped release maintenance
+- Acceptable parity/regression baseline maintenance is limited to:
+  - inert test seams
+  - deterministic probes or adapters
+  - narrow logging or tracing needed by regression and parity tests
+  - buildability fixes required to keep the baseline usable
 - Unacceptable backports include:
   - normal feature work
   - broad refactors
@@ -252,12 +265,14 @@ The canonical workspace currently materializes these app worktrees:
 
 ## Community Baseline Rules
 
-- `release/v0.72a-community` is the seam-enabled comparison baseline and a
-  product release line.
-- Allowed community baseline changes are limited to:
+- `release/v0.72a-community` is the seam-enabled comparison baseline for
+  parity and regression testing. It is not an actual release, not a product
+  release, and not a packaging or public-tag target.
+- Allowed parity/regression baseline changes are limited to:
   - test seams
   - deterministic probes or adapters
   - narrow logging or tracing needed by the test harness
+  - buildability fixes required to keep the baseline usable
 - Community seams must be inert unless explicitly exercised by the test
   harness.
 - Community baseline changes must not alter normal runtime behavior,
@@ -270,16 +285,18 @@ The canonical workspace currently materializes these app worktrees:
 - `tracing-harness/v0.72a-community` derives from
   `release/v0.72a-community`.
 - `tracing-harness/v0.72a-community` is the only sanctioned place for
-  deterministic
-  parity-harness behavior such as:
+  deterministic parity-harness behavior used for explicit variant P2P client
+  comparisons, such as:
   - CLI orchestration hooks
   - ready-file / startup automation
   - seeded source-publish or source-search overrides
   - swarm-control or parity-seed behavior that intentionally changes runtime
     decisions
+- The tracing harness is not a release branch, not a product baseline, and not
+  the default regression baseline.
 - `release/v0.72a-community` remains the default comparison baseline for
-  live-diff and parity work unless a task explicitly requires
-  `tracing-harness`.
+  live-diff, regression, and comparable parity work unless a task explicitly
+  requires `tracing-harness`.
 
 ## Setup and Dependency Authority
 
@@ -466,7 +483,6 @@ The canonical workspace currently materializes these app worktrees:
 - Official releases should be marked with annotated tags on the chosen
   release-branch commit.
 - Recommended tag families:
-  - `v0.72a-community.N`
   - `emule-bb-vMAJOR.MINOR.PATCH` for eMule broadband edition releases,
     starting with `emule-bb-v1.0.0`
 - eMule broadband edition release packages should include a platform-specific

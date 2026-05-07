@@ -15,6 +15,9 @@ reference reading.
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
 **Current non-done count:** `78`
 **Latest status refresh:** 2026-05-02
+**Broadband release status:** pre-release stabilization; no official release
+tag or package should be cut until the Release 1.0 gates are revalidated and
+the operator steps are complete.
 **First-release backlog view:** [RELEASE-1.0](RELEASE-1.0.md)
 **First-release checklist:** [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
 **First-release runbook:** [RELEASE-1.0-RUNBOOK](RELEASE-1.0-RUNBOOK.md)
@@ -54,13 +57,17 @@ and current dependency pins.
 
 **Regression rule:** New feature/fix work from this backlog should include targeted
 regression checks. When behavior changes, compare `main` against
-`release/v0.72a-community` as the seam-enabled baseline where that comparison
-is meaningful.
+`release/v0.72a-community` as the seam-enabled parity and regression baseline
+where that comparison is meaningful.
 
 **Baseline stack rule:**
 
-- `release/v0.72a-community` = seam-enabled community baseline
-- `tracing-harness/v0.72a-community` = behavior-changing parity harness
+- `release/v0.72a-community` = seam-enabled parity and regression baseline,
+  test-only
+- `tracing-harness/v0.72a-community` = behavior-changing variant-client parity
+  harness, not the default baseline
+- `release/v0.72a-broadband` = broadband pre-release stabilization branch and
+  the only release-intent branch
 
 ---
 

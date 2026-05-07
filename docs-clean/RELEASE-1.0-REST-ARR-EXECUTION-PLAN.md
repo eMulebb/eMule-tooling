@@ -3,6 +3,11 @@
 This is the tracked working plan for completing the Release 1 REST, Arr,
 aMuTorrent, robustness, long-path, and WebServer-boundary gates.
 
+Current status: the broadband branch remains pre-release stabilization. This
+plan can record gate evidence, but it does not make `release/v0.72a-broadband`
+ready for an official release until the release checklist and operator steps are
+complete.
+
 It complements, but does not replace, the release backlog, checklist, and
 runbook:
 

@@ -4,6 +4,10 @@ This runbook is the operator path for proving `emule-bb-v1.0.0`. Use it with
 [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md); the checklist records the
 evidence and final ship decisions.
 
+Current status: `release/v0.72a-broadband` is pre-release stabilization and
+not ready for an official release. The runbook is the path to prove and cut a
+release; it is not evidence that a release already exists.
+
 ## Preflight
 
 Start from the workspace root and keep all build/test operations behind the

@@ -4,6 +4,11 @@ This page is the release-focused view over the active backlog. It does not
 replace `INDEX.md`; it narrows the backlog into the work that matters for
 `emule-bb-v1.0.0`.
 
+Current status: `release/v0.72a-broadband` is a pre-release stabilization
+branch, not ready for an official release. Do not tag or package
+`emule-bb-v1.0.0` until the gates below are revalidated and the operator steps
+in the checklist and runbook are complete.
+
 Operator docs:
 
 - [Release 1.0 checklist](RELEASE-1.0-CHECKLIST.md)
