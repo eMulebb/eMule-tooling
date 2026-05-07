@@ -31,6 +31,14 @@ Operator docs:
 These gates must remain passed, or be explicitly revalidated if their evidence
 ages out or related code changes.
 
+Current REST hardening focus: revalidate both the native `/api/v1` contract and
+the Arr/qBittorrent-compatible adapter APIs before tagging. The detailed pending
+task queue lives in the
+[REST/Arr execution plan](plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md#current-revalidation-focus).
+aMuTorrent remains the primary UI proof target, but it adapts to the clean
+native `/api/v1` design and must not drive native route shape, aliases,
+envelopes, or validation policy.
+
 | ID | Gate | Status | Evidence pointer |
 |----|------|--------|------------------|
 | [BUG-075](items/BUG-075.md) | REST typed error consistency | Passed | item completion evidence |

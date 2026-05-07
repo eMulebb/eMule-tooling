@@ -13,8 +13,12 @@ package authorization document.
 - Native `/api/v1` cleanliness wins over current client compatibility.
 - Breaking pre-release REST contracts is allowed when it makes eMule BB
   cleaner.
-- aMuTorrent adapts to the native REST API; it does not define that API.
+- aMuTorrent is the primary UI target, but it adapts to the clean native
+  `/api/v1` design; it does not define route names, envelopes, field aliases,
+  validation rules, or compatibility drift.
 - Arr compatibility is an adapter layer over shared native logic.
+- Prowlarr/Radarr/Sonarr/qBittorrent-compatible behavior is release-critical
+  evidence, but it must not force native `/api/v1` to mimic Arr or qBit quirks.
 - Legacy WebServer cleanup is limited to REST/WebServer boundary safety and
   shared request/path/concurrency code.
 - Do not rewrite or retire the legacy HTML UI for Release 1.
@@ -29,6 +33,54 @@ package authorization document.
 | aMuTorrent | [AMUT-001](../items/AMUT-001.md), [AMUT-002](../items/AMUT-002.md) | UI consumer proof and transfer-detail deferral boundary |
 | Arr adapters | [ARR-001](../items/ARR-001.md) | Torznab/qBittorrent adapter proof without native API drift |
 | REST controller candidates | [FEAT-045](../items/FEAT-045.md), [FEAT-046](../items/FEAT-046.md), [FEAT-048](../items/FEAT-048.md), [FEAT-049](../items/FEAT-049.md) | documented deferral or promotion path for controller parity work |
+
+## Current Revalidation Focus
+
+The earlier gates have passing evidence, but the next Release 1 hardening pass
+should revalidate the API surfaces below before treating that evidence as fresh.
+
+### Native `/api/v1`
+
+- [ ] Re-run the OpenAPI route-drift check against every implemented native
+      route, including methods, required bodies, path parameters, and response
+      envelopes.
+- [ ] Re-run live REST completeness with representative read routes, safe
+      mutations, destructive confirmation bodies, and unsupported-method checks.
+- [ ] Re-run malformed-input coverage for bad JSON, non-object JSON, unknown
+      fields, malformed query parameters, bad hashes, missing auth, wrong auth,
+      unsupported content types, missing resources, and invalid state.
+- [ ] Re-run mixed REST/legacy WebServer stress with native `/api/v1` errors
+      checked for JSON-only responses and no HTML fallback.
+- [ ] Audit every destructive native operation for explicit confirmation or
+      explicit intent fields, especially transfer delete, shared-file delete,
+      delete-all searches, clear-completed transfers, directory replacement, and
+      app shutdown exclusion from broad mutation loops.
+
+### Arr And qBit-Compatible Adapters
+
+- [ ] Revalidate Prowlarr Torznab indexer add/test/search against live eMule BB
+      and confirm adapter errors are bounded, redacted, and diagnosable.
+- [ ] Revalidate Radarr and Sonarr indexer sync through Prowlarr plus
+      qBittorrent-compatible download-client add/test flows.
+- [ ] Revalidate qBittorrent-compatible login, app preferences, transfer add,
+      transfer info/properties/files, category mutation, pause/resume, and
+      delete flows against live eMule BB.
+- [ ] Confirm adapter compatibility parsing reuses shared native validation,
+      normalization, path-safety, and serialization helpers where applicable
+      instead of carrying divergent behavior.
+- [ ] Confirm Arr/qBit compatibility errors stay adapter-shaped for those
+      clients while native `/api/v1` remains the clean OpenAPI-shaped contract.
+
+### aMuTorrent Consumer Proof
+
+- [ ] Re-run the aMuTorrent browser smoke after native `/api/v1` and adapter
+      revalidation so UI regressions are caught without making aMuTorrent the
+      native API authority.
+- [ ] Confirm the eMule BB adapter keeps translating aMuTorrent expectations to
+      final native fields/routes and does not require native aliases for old UI
+      state.
+- [ ] Confirm status, ED2K/Kad search selection, progress formatting, and
+      download-row delete remain covered by the aMuTorrent integration branch.
 
 ## Native REST Contract
 

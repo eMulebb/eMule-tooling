@@ -44,6 +44,19 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
 - artifact: `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260506-193606-eMule-main-release\result.json`
 - aggregate: `repos\eMule-build-tests\reports\live-e2e-suite\20260506-193606-eMule-main-release\result.json`
 
+## Pending Revalidation Focus
+
+This gate proves the UI target, not native API ownership. The next Release 1
+hardening pass should rerun the browser smoke after native `/api/v1` and
+Arr-adapter validation and confirm:
+
+- [ ] aMuTorrent still adapts to final native `/api/v1` routes, envelopes, and
+      field names without requiring native compatibility aliases.
+- [ ] dashboard ED2K/Kad status, ED2K Server vs Kad search selection, progress
+      percentage formatting, and download-row delete remain covered.
+- [ ] browser console, page, and request artifacts remain sufficient to
+      distinguish UI adapter failures from native REST failures.
+
 ## Relationship To Other Items
 
 - backs `CI-011`

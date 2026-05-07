@@ -17,6 +17,21 @@ BB and aMuTorrent are both pre-release, so the final contract intentionally
 prioritizes consistency and aMuTorrent completeness over preserving old
 command-style route names.
 
+## Controller Boundary
+
+aMuTorrent is the primary UI consumer and Release 1 proof target, but it is not
+the authority for native route shape. The aMuTorrent eMule BB adapter must
+translate UI expectations to the clean `/api/v1` contract instead of requiring
+native aliases, qBittorrent-compatible response shapes, or legacy command-style
+routes.
+
+Arr integrations are separate compatibility adapters. Prowlarr Torznab,
+Radarr/Sonarr controller flows, and qBittorrent-compatible download-client
+routes may keep adapter-specific quirks where those clients require them, but
+shared parsing, validation, safety, and serialization should come from the same
+native helpers wherever practical. Adapter compatibility must not broaden or
+weaken the native `/api/v1` OpenAPI contract.
+
 ## Contract Rules
 
 - root every endpoint at `/api/v1/...`
