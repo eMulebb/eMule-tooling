@@ -53,10 +53,11 @@ library, or pinned dependency APIs before writing custom logic.
   raw request bytes, UTF-8 JSON payload text, and API-key comparisons. This
   removed adapter-local copies of the same conversion code while preserving the
   compatibility-specific response formats.
-- Torznab bounded integers, Torznab category IDs, and qBittorrent magnet size
-  fields now reuse `WebServerJsonSeams::TryParseUnsignedDecimalValue` instead
-  of carrying compatibility-local `atoi`/`strtoul`/`strtoull` conversions.
-  Overflow handling is therefore shared with native `/api/v1` REST validation.
+- Torznab bounded integers, Torznab category IDs, qBittorrent magnet size
+  fields, and adapter JSON result sizes now reuse `WebServerJsonSeams`
+  unsigned parsing helpers instead of carrying compatibility-local
+  `atoi`/`strtoul`/`strtoull` conversions. Overflow handling is therefore
+  shared with native `/api/v1` REST validation.
 - Native REST endpoint ports, path IDs, and bounded query integers now route
   through the same strict unsigned-decimal parser before applying route-specific
   bounds. This removes remaining route-local `strtoul`/`strtoull` conversions.
@@ -106,7 +107,7 @@ library, or pinned dependency APIs before writing custom logic.
 | Query parsing | `WebServerJsonSeams::TryParseQueryString` and `TryParseUrlEncodedFields` | Kept with reason | Native REST and Torznab use one duplicate-rejecting decoded-field parser. Tests cover malformed escapes, duplicate query parameters, native query strings, Torznab query strings, and nested qBit magnet query strings. |
 | qBit form parsing | `WebServerQBitCompatSeams::TryParseFormBody` | Kept with reason | qBittorrent compatibility needs `application/x-www-form-urlencoded` decoding with unique decoded field names and adapter-specific error text. The implementation delegates to the shared REST URL-encoded field parser; tests cover duplicate fields, empty names, malformed escapes, and required field checks. |
 | XML escaping | `WebServerArrCompatSeams::XmlEscape` | Kept with reason | No pinned XML writer is currently part of the lightweight Torznab feed path. The helper is intentionally narrow, has a Doxygen comment, and seam tests cover element and attribute metacharacters used by feed result titles, descriptions, links, GUIDs, and Torznab attributes. |
-| Numeric parsing | `WebServerJsonSeams::TryParseUnsignedDecimalValue` consumers | Replaced/shared | Adapter-local `atoi`/`strtoul`/`strtoull` paths were removed. Native route bounds, Torznab season/episode/year/category values, qBit magnet sizes, and HTTP `Content-Length` now share strict unsigned decimal parsing and overflow rejection. |
+| Numeric parsing | `WebServerJsonSeams::TryParseUnsignedDecimalValue` and `TryParseJsonUInt64` consumers | Replaced/shared | Adapter-local `atoi`/`strtoul`/`strtoull` paths were removed. Native route bounds, native JSON numeric bodies, Torznab season/episode/year/category values, Torznab result size adaptation, qBit magnet sizes, and HTTP `Content-Length` now share strict unsigned parsing and overflow rejection. |
 | Path canonicalization | Shared-directory REST, shared-file REST, static-file path seams, and category incoming paths | Replaced/shared | REST path entry points now route through `PathHelpers::CanonicalizePath`, `ParsePathRoot`, or `CanonicalizePathForComparison` before ownership checks and output echoing. Live evidence covers over-`MAX_PATH` Unicode roots, traversal rejection, missing-parent roots, category incoming-path echo, and shared-file long-path reload/list behavior. |
 | REST/adapter file operations | Native REST shared-file and transfer delete commands plus Arr/qBit adapters | Replaced/shared | Source audit found no raw `CFile`, CRT stream, `CreateFile`, `FindFirstFile`, or attribute probes in the REST/adapter files. The only REST-side file deletion path is `ShellDeleteFile`, which delegates existence and direct deletion to `LongPathSeams`; native seam tests cover deep Unicode delete routing with and without recycle-bin mode. |
 | Hash validation | REST and qBit eD2K hash selectors | Kept with reason | The API contract is domain-specific: exactly 32 lowercase MD4 hex characters for native selectors, with qBit compatibility normalizing accepted mutation hashes before native dispatch. General Windows or crypto parsers do not own this textual contract. |
