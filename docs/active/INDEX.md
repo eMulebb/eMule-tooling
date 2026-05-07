@@ -12,8 +12,8 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `78`
-**Latest status refresh:** 2026-05-02
+**Current non-done count:** `65`
+**Latest status refresh:** 2026-05-07
 **Broadband release status:** pre-release stabilization; no official release
 tag or package should be cut until the Release 1.0 gates are revalidated and
 the operator steps are complete.
@@ -329,5 +329,6 @@ and [NAT mapping](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md).
 - [Backlog dependency graph](../history/BACKLOG-DEPENDENCY-GRAPH.md)
 - [Backlog source salvage](../history/BACKLOG-SOURCE-SALVAGE.md)
 
-Issues are tracked here, not in the old `docs/` folder. The `docs/` folder
-contains historical reference, architecture notes, audits, and plans.
+Current issue status is tracked here. Other `docs/` areas contain reference,
+history, architecture notes, audits, ideas, and active execution plans according
+to [DOCS_POLICY](../DOCS_POLICY.md).
