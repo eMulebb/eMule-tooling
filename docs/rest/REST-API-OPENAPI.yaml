@@ -1947,8 +1947,11 @@ components:
     SharedDirectoryReplaceRequest:
       type: object
       additionalProperties: false
-      required: [roots]
+      required: [confirmReplaceRoots, roots]
       properties:
+        confirmReplaceRoots:
+          type: boolean
+          enum: [true]
         roots:
           type: array
           items:

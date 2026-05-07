@@ -86,6 +86,8 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 
 - Native REST failures return JSON, not legacy HTML.
 - Destructive native operations require explicit confirmation bodies.
+- Shared-directory root replacement requires `confirmReplaceRoots: true`; this
+  route is treated as destructive because it replaces the configured share set.
 - Native `/api/v1` hashes stay strict lowercase eD2K identifiers.
 - Search result paging is intentionally not exposed in Release 1; controllers
   poll the current visible native result snapshot.
