@@ -12,7 +12,7 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `66`
+**Current non-done count:** `65`
 **Latest status refresh:** 2026-05-07
 **Broadband release status:** pre-release stabilization; no official release
 tag or package should be cut until the Release 1.0 gates are revalidated and
@@ -289,7 +289,7 @@ where that comparison is meaningful.
 | [CI-005](items/CI-005.md) | Minor | Open | cppcheck — integrate complementary bug-class analysis |
 | [CI-006](items/CI-006.md) | Minor | Open | MSVC AddressSanitizer — enable for debug builds |
 | [CI-007](items/CI-007.md) | Minor | Open | Kad — Expand integration and fuzz test coverage |
-| [CI-008](items/CI-008.md) | Minor | In Progress | Expand regression coverage for part files, long paths, and WebServer/REST |
+| [CI-008](items/CI-008.md) | Minor | **Done** | Expand regression coverage for part files, long paths, and WebServer/REST |
 | [CI-009](items/CI-009.md) | Minor | **Done** | Share-ignore regression coverage and Release test-build stabilization |
 | [CI-010](items/CI-010.md) | Minor | Blocked | Reduce remaining app-local warning debt after external noise cleanup |
 | [CI-011](items/CI-011.md) | Major | **Done** | Broadband release live E2E coverage umbrella |
