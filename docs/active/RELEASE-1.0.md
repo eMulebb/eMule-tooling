@@ -54,7 +54,7 @@ failure proves that they are required.
 | [FEAT-045](items/FEAT-045.md) | Transfer detail endpoint | Deferred; aMuTorrent and Arr passed without hydrated transfer detail |
 | [FEAT-046](items/FEAT-046.md) | Server/Kad bootstrap/import APIs | Partially promoted; server.met import, Kad bootstrap, and nodes.dat URL import are implemented, with live import evidence still deferred unless a gate requires it |
 | [FEAT-047](items/FEAT-047.md) | Search API completeness | Passed; OpenAPI and REST contract document Release 1 behavior |
-| [FEAT-048](items/FEAT-048.md) | Upload queue control completeness | Deferred; no Release 1 gate required extra queue mutations |
+| [FEAT-048](items/FEAT-048.md) | Upload queue control completeness | Passed; existing controls are covered, unsupported operations return typed errors, and no new queue mutation was promoted |
 | [FEAT-049](items/FEAT-049.md) | Curated REST preference expansion | Deferred; current curated preference surface passed release gates |
 | [AMUT-002](items/AMUT-002.md) | aMuTorrent transfer detail hydration | Deferred; depends on deferred `FEAT-045` |
 

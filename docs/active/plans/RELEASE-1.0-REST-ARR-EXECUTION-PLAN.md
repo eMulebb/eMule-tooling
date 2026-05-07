@@ -85,8 +85,9 @@ package authorization document.
 - [FEAT-046](../items/FEAT-046.md) has been partially promoted for the API surface:
   server.met import, Kad bootstrap, and nodes.dat URL import are implemented.
   Live import evidence remains deferred unless a release gate requires it.
-- [FEAT-048](../items/FEAT-048.md) is promoted only if a release controller or live E2E
-  lane needs upload queue mutations beyond the current surface.
+- [FEAT-048](../items/FEAT-048.md) is closed for Release 1 by audit: existing
+  upload controls are covered, unsupported operations return typed errors, and
+  no additional queue mutation was promoted.
 - [FEAT-049](../items/FEAT-049.md) is promoted only for settings required by aMuTorrent
   or release automation and safe to expose through curated preferences.
 
@@ -106,7 +107,6 @@ package authorization document.
 
 - [FEAT-045](../items/FEAT-045.md): transfer detail endpoint
 - [FEAT-046](../items/FEAT-046.md): live import evidence for server/Kad URL imports
-- [FEAT-048](../items/FEAT-048.md): upload queue control completeness
 - [FEAT-049](../items/FEAT-049.md): curated REST preference expansion
 - [AMUT-002](../items/AMUT-002.md): aMuTorrent transfer detail hydration
 

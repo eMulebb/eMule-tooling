@@ -1,7 +1,7 @@
 ---
 id: FEAT-048
 title: REST upload queue control completeness
-status: Open
+status: Passed
 priority: Minor
 category: feature
 labels: [rest, uploads, queue, controller]
@@ -31,9 +31,9 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
       live-smoked
 - [x] client selectors are documented and tested for hash and `ip` plus `port`
       inputs
-- [ ] unsupported queue operations return typed errors instead of silent no-op
+- [x] unsupported queue operations return typed errors instead of silent no-op
       behavior
-- [ ] any new action preserves current upload scheduling semantics
+- [x] any new action preserves current upload scheduling semantics
 
 ## Progress
 
@@ -42,6 +42,10 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
   malformed queue selectors. Native route seams now cover both lowercase
   user-hash selectors and `ip:port` selectors for uploads and upload-queue
   operations, including invalid port bounds.
+- 2026-05-07: Added live-smoke and native route coverage proving unsupported
+  upload and upload-queue operations return typed `NOT_FOUND` REST errors with
+  the stable error envelope. No new upload scheduling action was promoted for
+  Release 1.
 
 ## Relationship To Other Items
 
