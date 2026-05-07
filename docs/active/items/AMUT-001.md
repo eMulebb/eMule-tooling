@@ -52,8 +52,10 @@ Arr-adapter validation and confirm:
 
 - [ ] aMuTorrent still adapts to final native `/api/v1` routes, envelopes, and
       field names without requiring native compatibility aliases.
-- [ ] dashboard ED2K/Kad status, ED2K Server vs Kad search selection, progress
-      percentage formatting, and download-row delete remain covered.
+- [ ] dashboard ED2K/Kad status, ED2K Server vs Kad search selection, and
+      download-row delete remain covered.
+- [ ] progress percentage formatting remains acceptable with the shared
+      native/qBit backend progress ratio helper.
 - [ ] browser console, page, and request artifacts remain sufficient to
       distinguish UI adapter failures from native REST failures.
 

@@ -97,6 +97,9 @@ should revalidate the API surfaces below before treating that evidence as fresh.
   `/api/v1` remains strict.
 - Torznab XML/feed shape and qBit text/session-cookie behavior stay
   adapter-specific.
+- Transfer progress ratio math is shared by native `/api/v1` and qBit-compatible
+  transfer rows so UI adapters see bounded precision without defining the
+  native contract.
 - Shared behavior should reuse native parser, validation, normalization,
   serialization, and path-safety helpers.
 - aMuTorrent and Arr gates must not force native route names or envelope shape.
