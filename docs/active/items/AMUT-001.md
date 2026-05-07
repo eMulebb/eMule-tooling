@@ -52,6 +52,16 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
   `BindAddr=127.0.0.1`, and `EnableUPnP=1`.
 - Test commit: `fa55046` keeps the aMuTorrent browser report on native `/api/v1`
   and records live-network launch inputs without ever writing `BindAddr=hide.me`.
+- Follow-up delete hardening: live browser smoke now adds a synthetic eD2K
+  transfer, deletes it through aMuTorrent's native `/api/v1/downloads/delete`
+  bridge, and verifies the next browser snapshot no longer contains that hash.
+  aMuTorrent commit `3c23c1b` fixes the stale snapshot cache after mutation
+  refreshes; test commit `5a7565d` keeps the browser regression covered.
+- Debug live artifact after the delete fix:
+  `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260508-004347-eMule-main-debug\result.json`.
+  The run passed with delete result `Deleted 1/1 files`, post-delete item count
+  `0`, automatic/server/Kad search mode coverage, `BindInterface=hide.me`,
+  empty P2P `BindAddr`, and `EnableUPnP=1`.
 
 ## Pending Revalidation Focus
 
@@ -61,7 +71,7 @@ Arr-adapter validation and confirm:
 
 - [ ] aMuTorrent still adapts to final native `/api/v1` routes, envelopes, and
       field names without requiring native compatibility aliases.
-- [ ] dashboard ED2K/Kad status, ED2K Server vs Kad search selection, and
+- [x] dashboard ED2K/Kad status, ED2K Server vs Kad search selection, and
       download-row delete remain covered.
 - [ ] progress percentage formatting remains acceptable with the shared
       native/qBit backend progress ratio helper.
