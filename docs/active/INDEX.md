@@ -12,7 +12,7 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `64`
+**Current non-done count:** `63`
 **Latest status refresh:** 2026-05-07
 **Broadband release status:** pre-release stabilization; no official release
 tag or package should be cut until the Release 1.0 gates are revalidated and
@@ -181,7 +181,7 @@ where that comparison is meaningful.
 | [REF-020](items/REF-020.md) | Minor | **Done** | Replace dynamic loading of always-present Win10 APIs with static linking |
 | [REF-021](items/REF-021.md) | Minor | Blocked | Remove blanket warning suppressions and replace deprecated Winsock APIs |
 | [REF-022](items/REF-022.md) | Trivial | Open | Replace custom type aliases in types.h with \<cstdint\> standard types |
-| [REF-023](items/REF-023.md) | Minor | In Progress | Replace unsafe sprintf/_stprintf/wsprintf with safe equivalents |
+| [REF-023](items/REF-023.md) | Minor | **Done** | Replace unsafe sprintf/_stprintf/wsprintf with safe equivalents |
 | [REF-024](items/REF-024.md) | Trivial | Open | Convert #define constants in Opcodes.h to constexpr in namespace |
 | [REF-025](items/REF-025.md) | Minor | In Progress | Remove legacy feature set — IRC, SMTP, Scheduler, MiniMule, wizard, splash, update checker |
 | [REF-026](items/REF-026.md) | Minor | **Done** | Manifest — keep Win10/11+ compatibility GUID only and move Common Controls into manifests |
