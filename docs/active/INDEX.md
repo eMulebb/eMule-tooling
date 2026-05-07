@@ -297,7 +297,7 @@ where that comparison is meaningful.
 | [CI-013](items/CI-013.md) | Major | Open | Download and search UI live scenarios |
 | [CI-014](items/CI-014.md) | Major | **Done** | REST contract manifest and live completeness gate |
 | [CI-015](items/CI-015.md) | Major | **Done** | REST malformed and concurrent request matrix |
-| [CI-016](items/CI-016.md) | Minor | Open | REST-only main vs community regression lane |
+| [CI-016](items/CI-016.md) | Minor | Passed | REST-only main vs community regression lane |
 | [CI-017](items/CI-017.md) | Minor | **Done** | Normalize active workspace line-ending policy to LF by default |
 
 ---
