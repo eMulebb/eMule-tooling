@@ -2111,7 +2111,7 @@ components:
               $ref: "#/components/schemas/Search"
     Search:
       type: object
-      required: [id, query, status, results]
+      required: [id, query, method, status, results]
       properties:
         id:
           type: string
@@ -2158,6 +2158,9 @@ components:
       type: object
       additionalProperties: true
       properties:
+        method:
+          type: string
+          enum: [automatic, server, global, kad]
         hash:
           type: string
         name:

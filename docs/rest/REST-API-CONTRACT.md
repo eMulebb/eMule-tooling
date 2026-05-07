@@ -77,14 +77,18 @@ The release API intentionally excludes:
 `POST /api/v1/searches` starts a native eMule search using the requested method:
 `automatic`, `server`, `global`, or `kad`. The route maps directly to the
 existing eD2K/Kad search modes and must not change stock search semantics for
-Release 1.0.
+Release 1.0. Search resources echo the resolved method so controllers can
+distinguish eD2K server/global searches from Kad searches without inferring from
+result timing or counts.
 
 `GET /api/v1/searches/{searchId}` returns the current native visible result
 snapshot for that search. Release 1.0 intentionally does not expose search
 result paging; the route does not accept `limit` or `offset`, and the strict
 route table rejects unknown query parameters. Controllers should poll the search
 resource and treat `results` as a bounded native snapshot governed by eMule's
-existing search-result retention and visibility behavior.
+existing search-result retention and visibility behavior. Each native result
+also carries the resolved search method when the result is returned through a
+search resource.
 
 `POST /api/v1/searches/{searchId}/results/{hash}/operations/download` starts a
 download from one visible search result by lowercase 32-character eD2K hash.

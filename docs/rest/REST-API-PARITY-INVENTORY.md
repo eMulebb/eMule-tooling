@@ -154,8 +154,8 @@ contract.
 
 | Legacy action | REST target | Status | Impact and notes |
 |---|---|---|---|
-| Start search | `POST /searches` | implemented | Returns `{id, query, status, results}` for async polling. |
-| Get search results | `GET /searches/{searchId}` | implemented | aMuTorrent should poll this until stable. |
+| Start search | `POST /searches` | implemented | Returns `{id, query, method, status, results}` for async polling. |
+| Get search results | `GET /searches/{searchId}` | implemented | aMuTorrent should poll this until stable and verify the echoed `method`. |
 | Stop/delete one search | `DELETE /searches/{searchId}` | implemented | Existing stop route exists; final route deletes the search session. |
 | Delete all searches | `DELETE /searches` | implemented | Uses the existing delete-all-searches UI action. |
 | Start search with method/type/min/max/availability/extension filters | `POST /searches` | implemented | Method, type, size, and extension filters are parsed by the native command seam. |
