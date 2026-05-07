@@ -97,6 +97,9 @@ library, or pinned dependency APIs before writing custom logic.
 - Torznab compatibility search dispatch now consumes the native command seam's
   default search method token (`automatic`) instead of carrying an adapter-local
   Kad-only default.
+- qBittorrent compatibility transfer delete parsing now adapts the optional
+  qBit `deleteFiles` flag to eMule's native cancel semantics by always
+  forwarding `deleteFiles:true` to the shared transfer-delete command.
 - REST hash validation remains local and domain-specific because the public API
   requires exactly 32 lowercase MD4 hex characters, not general binary or hash
   parsing.

@@ -32,6 +32,9 @@ shared parsing, validation, safety, and serialization should come from the same
 native helpers wherever practical. Adapter compatibility must not broaden or
 weaken the native `/api/v1` OpenAPI contract. Torznab searches use the native
 default `automatic` search method instead of pinning an adapter-only Kad policy.
+qBittorrent-compatible transfer delete requests are adapted to native cancel
+semantics and therefore forward `deleteFiles: true` to the shared transfer
+delete command even when a qBit caller omits or clears its optional flag.
 
 ## Contract Rules
 
