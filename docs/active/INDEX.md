@@ -12,7 +12,7 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `65`
+**Current non-done count:** `64`
 **Latest status refresh:** 2026-05-07
 **Broadband release status:** pre-release stabilization; no official release
 tag or package should be cut until the Release 1.0 gates are revalidated and
@@ -170,7 +170,7 @@ where that comparison is meaningful.
 | [REF-002](items/REF-002.md) | Major | **Done** | Remove Source Exchange v1 branches |
 | [REF-003](items/REF-003.md) | Trivial | Open | Rename stale IRC string resources *(or full IRC removal — see REF-025)* |
 | [REF-004](items/REF-004.md) | Minor | **Done** | Audit and disposition 17 load-only preference keys |
-| [REF-005](items/REF-005.md) | Trivial | Open | Remove dead DebugSourceExchange commented-out calls |
+| [REF-005](items/REF-005.md) | Trivial | **Done** | Remove dead DebugSourceExchange commented-out calls |
 | [REF-006](items/REF-006.md) | Trivial | **Done** | GetCategory should be const in DownloadListCtrl |
 | [REF-007](items/REF-007.md) | Trivial | **Done** | WebM vs MKV disambiguation in MIME detection |
 | [REF-015](items/REF-015.md) | Minor | Wont-Fix | Keep miniupnpc as the active UPnP backend |
