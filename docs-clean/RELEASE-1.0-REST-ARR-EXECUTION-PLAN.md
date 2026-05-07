@@ -23,6 +23,27 @@ runbook:
   or external-service failures must be fixed and rerun successfully before the
   tag.
 
+## Doc-Only Validation Boundary
+
+This document now records the Release 1 REST/Arr validation outcome only. The
+requested completion artifact is documentation in
+[RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md) and this plan; this pass does
+not include code, OpenAPI, harness, release-branch, package, or tag changes.
+
+The validation focus remains:
+
+- native `/api/v1` completeness, robustness, safety, and typed error checking
+- Arr adapter completeness for Torznab/Prowlarr and qBittorrent/Radarr/Sonarr
+  without compromising the clean native `/api/v1` contract
+- aMuTorrent as the UI target and native API consumer, not the driver of native
+  route, envelope, or field design
+- common parsing, validation, normalization, serialization, and path-safety
+  logic shared between native REST and Arr compatibility layers
+- stress, E2E stress, live-wire multi-search and download-trigger stress,
+  malformed traffic, long-path, Unicode, and edge-scenario evidence
+- audit coverage for custom REST/Arr helpers, replacing local code with project
+  helpers, pinned dependencies, or Windows APIs where those own the behavior
+
 ## Tracking Rules
 
 Use these status values in this document:

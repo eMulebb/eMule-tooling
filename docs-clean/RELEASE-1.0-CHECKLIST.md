@@ -26,6 +26,28 @@ Allowed gate statuses:
 - `Inconclusive Accepted`
 - `Deferred By Decision`
 
+## REST/Arr Validation Focus
+
+This checklist records the doc-only release status for the REST, Arr, and
+aMuTorrent gates. It does not authorize code, OpenAPI, harness, branch,
+package, or tag changes by itself.
+
+The Release 1 REST/Arr acceptance focus is:
+
+- native `/api/v1` completeness, robustness, safety, and typed error handling
+- Torznab/qBittorrent Arr adapter completeness without compromising the native
+  `/api/v1` resource model
+- aMuTorrent as a UI consumer that adapts to eMule BB's clean native REST
+  design, not as the source of native API shape
+- shared parser, validation, normalization, serialization, and path-safety
+  logic between native REST and Arr compatibility layers wherever the behavior
+  is intentionally common
+- stress, E2E stress, live-wire search/download-trigger stress, malformed
+  traffic, long-path, and Unicode evidence
+- REST/Arr custom-code audit evidence showing retained local helpers have a
+  documented reason and replacement candidates use project helpers, pinned
+  dependencies, or Windows APIs
+
 ## Gate Ledger
 
 | ID | Gate | Status | Implementation evidence | Validation command | Required artifact | Ship decision |
