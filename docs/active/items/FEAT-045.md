@@ -1,7 +1,7 @@
 ---
 id: FEAT-045
 title: REST transfer detail endpoint for controller parity
-status: Deferred
+status: Passed
 priority: Major
 category: feature
 labels: [rest, transfers, controller, amutorrent]
@@ -17,9 +17,8 @@ current transfer row plus source list.
 
 ## Release 1.0 Classification
 
-**Release Candidate.** Pull this into the 1.0 gate only if the aMuTorrent smoke
-proves the current transfer row plus source list cannot provide useful release
-views. Otherwise keep it as a documented 1.1 controller-parity follow-up.
+**Promoted for Release 1.** The native endpoint is implemented and aMuTorrent
+now consumes it through capability-gated `AMUT-002` hydration.
 
 Target route:
 
@@ -33,8 +32,8 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
 
 The backend now exposes `GET /api/v1/transfers/{hash}/details` as a dedicated
 detail payload with the transfer row, per-part state, and source rows. The
-remaining gap is controller consumption and compatibility fallback in
-`AMUT-002`, not the native REST route itself.
+native app advertises the `transferDetails` capability, and aMuTorrent consumes
+the endpoint with compatibility fallback for older eMule BB builds.
 
 ## Acceptance Criteria
 
@@ -43,19 +42,24 @@ remaining gap is controller consumption and compatibility fallback in
 - [x] missing or malformed hashes return the stable REST error envelope
 - [x] the endpoint is covered by native route tests, live REST smoke, and the
       contract manifest
-- [ ] aMuTorrent consumes the endpoint when capability metadata indicates it is
+- [x] aMuTorrent consumes the endpoint when capability metadata indicates it is
       available
 
 ## Progress
 
 - 2026-05-07: Revalidated the native detail route on current `main`. The
   OpenAPI contract includes `GET /api/v1/transfers/{hash}/details`, native route
-  seams cover routing and hash validation, and the live REST smoke now verifies
+  seams cover routing and hash validation, and the live REST smoke verifies
   both the missing-transfer error path and the detail payload for an added
-  paused transfer. `AMUT-002` remains open for controller-side hydration.
-- 2026-05-07: Release 1 keeps controller-side detail hydration deferred because
-  `AMUT-001` and Arr gates provide useful release transfer views without
+  paused transfer.
+- 2026-05-07: Controller-side detail hydration was initially deferred because
+  `AMUT-001` and Arr gates provided useful release transfer views without
   requiring aMuTorrent to consume the detail endpoint.
+- 2026-05-08: Promoted for Release 1 with `AMUT-002`. The native app advertises
+  `capabilities.transferDetails`, the aMuTorrent adapter consumes the endpoint
+  when that capability is present, and
+  `repos/eMule-build-tests/reports/amutorrent-browser-smoke-latest/result.json`
+  records passing browser smoke proof.
 
 ## Relationship To Other Items
 

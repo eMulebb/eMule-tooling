@@ -32,7 +32,7 @@ package authorization document.
 | Native REST errors | [BUG-075](../items/BUG-075.md) | stable JSON error envelope and status mapping |
 | WebServer boundary | [BUG-076](../items/BUG-076.md), [BUG-077](../items/BUG-077.md) | malformed REST isolation and mixed REST/legacy stress |
 | Contract completeness | [CI-014](../items/CI-014.md), [CI-015](../items/CI-015.md), [FEAT-047](../items/FEAT-047.md) | OpenAPI-backed smoke, route drift checks, stress budgets |
-| aMuTorrent | [AMUT-001](../items/AMUT-001.md), [AMUT-002](../items/AMUT-002.md) | UI consumer proof and transfer-detail deferral boundary |
+| aMuTorrent | [AMUT-001](../items/AMUT-001.md), [AMUT-002](../items/AMUT-002.md) | UI consumer proof and transfer-detail hydration |
 | Arr adapters | [ARR-001](../items/ARR-001.md) | Torznab/qBittorrent adapter proof without native API drift |
 | REST controller candidates | [FEAT-045](../items/FEAT-045.md), [FEAT-046](../items/FEAT-046.md), [FEAT-048](../items/FEAT-048.md), [FEAT-049](../items/FEAT-049.md) | documented deferral or promotion path for controller parity work |
 
@@ -136,14 +136,16 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - Keep [AMUT-001](../items/AMUT-001.md) as the live aMuTorrent browser proof.
 - Keep [ARR-001](../items/ARR-001.md) as the live Prowlarr, Radarr, Sonarr, Torznab,
   and qBittorrent-compatible proof.
-- Treat [AMUT-002](../items/AMUT-002.md) as deferred unless [FEAT-045](../items/FEAT-045.md) is
-  promoted and the aMuTorrent smoke stops providing useful release transfer
-  views.
+- Treat [AMUT-002](../items/AMUT-002.md) as promoted for Release 1. The
+  aMuTorrent adapter consumes [FEAT-045](../items/FEAT-045.md) only when eMule
+  BB advertises `transferDetails`, and browser smoke coverage verifies the
+  hydrated detail fields.
 
 ### Candidate Promotion Rules
 
-- [FEAT-045](../items/FEAT-045.md) is promoted only if Release 1 controller views need a
-  dedicated transfer detail endpoint.
+- [FEAT-045](../items/FEAT-045.md) is closed for Release 1: the dedicated
+  transfer detail endpoint is implemented, advertised through capability
+  metadata, and consumed by aMuTorrent through `AMUT-002`.
 - [FEAT-046](../items/FEAT-046.md) is closed for Release 1: server.met import,
   Kad bootstrap, nodes.dat URL import, malformed preservation, and live seed
   import evidence are covered.
@@ -168,8 +170,5 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 
 ## Deferred REST/Arr Work
 
-- [FEAT-045](../items/FEAT-045.md): transfer detail endpoint
-- [AMUT-002](../items/AMUT-002.md): aMuTorrent transfer detail hydration
-
-These remain candidates for later controller work unless a future Release 1
-gate failure proves that one is required.
+No REST/Arr controller candidate remains deferred in this execution plan.
+`FEAT-032` remains tracked separately by the NAT mapping execution plan.

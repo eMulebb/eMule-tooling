@@ -1,7 +1,7 @@
 ---
 id: AMUT-002
 title: aMuTorrent transfer detail hydration
-status: Deferred
+status: Passed
 priority: Major
 category: integration
 labels: [amutorrent, rest, transfers, controller]
@@ -17,35 +17,55 @@ exposes the required detail endpoint.
 
 ## Release 1.0 Classification
 
-**Release Candidate.** This depends on `FEAT-045`. It becomes a 1.0 blocker
-only if `AMUT-001` cannot provide useful release transfer views without detail
-hydration; otherwise it remains a compatible enhancement.
+**Promoted for Release 1.** `FEAT-045` now exposes the native detail endpoint,
+and aMuTorrent consumes it when eMule BB advertises the `transferDetails`
+capability.
 
 ## Execution Plan
 
 Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
 
-## Current Gap
+## Current State
 
-The eMule BB adapter currently maps transfer rows and sources, but leaves
-segment-oriented fields such as `partStatus`, `gapStatus`, and `reqStatus` as
-placeholders.
+The eMule BB adapter maps transfer rows, detects `transferDetails` capability
+metadata, hydrates per-transfer details from
+`GET /api/v1/transfers/{hash}/details`, and falls back to source-only hydration
+for older builds or transient detail failures.
 
 ## Release 1 Decision
 
-Deferred for Release 1. `AMUT-001` and the Arr gates already provide useful
-release transfer views without hydrated segment detail. Keep this as a
-controller-parity follow-up unless a future release gate proves that transfer
-detail hydration is required.
+Passed for Release 1. The native app advertises `transferDetails`, the
+aMuTorrent adapter consumes the endpoint with backward-compatible fallback, and
+the browser smoke verifies hydrated detail fields through the REST snapshot and
+the browser `segmentData` WebSocket subscription.
 
 ## Acceptance Criteria
 
-- [ ] adapter detects the transfer-detail capability before calling the new
+- [x] adapter detects the transfer-detail capability before calling the new
       endpoint
-- [ ] detail payload is merged into transfer models without breaking existing
+- [x] detail payload is merged into transfer models without breaking existing
       list rendering
-- [ ] missing detail support degrades cleanly on older eMule BB builds
-- [ ] Node adapter tests and browser smoke coverage verify hydrated details
+- [x] missing detail support degrades cleanly on older eMule BB builds
+- [x] Node adapter tests and browser smoke coverage verify hydrated details
+
+## Progress
+
+- 2026-05-08: Promoted for Release 1 on `main`. eMule BB now advertises
+  `capabilities.transferDetails`; aMuTorrent calls the native detail endpoint
+  only when that capability is present and falls back to `/sources` for older
+  builds.
+- 2026-05-08: Verification passed:
+  `npm run test:emulebb` in `repos/amutorrent`;
+  `pwsh -File repos/eMule-build/workspace.ps1 build-app -Config Debug -Platform x64`;
+  `pwsh -File repos/eMule-build/workspace.ps1 build-app -Config Release -Platform x64`;
+  `pwsh -File repos/eMule-build/workspace.ps1 build-tests -Config Debug -Platform x64 -TestRunVariant main -Clean`;
+  `pwsh -File repos/eMule-build/workspace.ps1 build-tests -Config Release -Platform x64 -TestRunVariant main -Clean`;
+  `pwsh -File repos/eMule-build/workspace.ps1 test -Config Debug -Platform x64`;
+  `pwsh -File repos/eMule-build/workspace.ps1 test -Config Release -Platform x64`;
+  and targeted live proof
+  `pwsh -File repos/eMule-build/workspace.ps1 live-e2e -Config Release -Platform x64 -LiveSuite amutorrent-browser-smoke`.
+  Latest live artifact:
+  `repos/eMule-build-tests/reports/amutorrent-browser-smoke-latest/result.json`.
 
 ## Relationship To Other Items
 

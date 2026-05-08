@@ -12,8 +12,8 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `63`
-**Latest status refresh:** 2026-05-07
+**Current non-done count:** `61`
+**Latest status refresh:** 2026-05-08
 **Broadband release status:** pre-release stabilization; no official release
 tag or package should be cut until the Release 1.0 gates are revalidated and
 the operator steps are complete.
@@ -265,7 +265,7 @@ where that comparison is meaningful.
 | [FEAT-042](items/FEAT-042.md) | Minor | **Done** | Automatic IP filter update scheduling |
 | [FEAT-043](items/FEAT-043.md) | Minor | Open | Known Clients history and incremental list refresh performance |
 | [FEAT-044](items/FEAT-044.md) | Minor | Open | IP filter input policy - PeerGuardian lists, whitelist, and private-IP exemption |
-| [FEAT-045](items/FEAT-045.md) | Major | Deferred | REST transfer detail endpoint for controller parity |
+| [FEAT-045](items/FEAT-045.md) | Major | Passed | REST transfer detail endpoint for controller parity |
 | [FEAT-046](items/FEAT-046.md) | Major | Passed | REST server and Kad bootstrap/import APIs |
 | [FEAT-047](items/FEAT-047.md) | Minor | Passed | REST search API completeness pass |
 | [FEAT-048](items/FEAT-048.md) | Minor | Passed | REST upload queue control completeness |
@@ -307,7 +307,7 @@ where that comparison is meaningful.
 | ID | Priority | Status | Title |
 |----|----------|--------|-------|
 | [AMUT-001](items/AMUT-001.md) | Major | **Done** | aMuTorrent eMule BB browser smoke coverage |
-| [AMUT-002](items/AMUT-002.md) | Major | Deferred | aMuTorrent transfer detail hydration |
+| [AMUT-002](items/AMUT-002.md) | Major | Passed | aMuTorrent transfer detail hydration |
 | [ARR-001](items/ARR-001.md) | Major | **Done** | Full Arr release E2E validation |
 
 ---

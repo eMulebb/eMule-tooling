@@ -48,6 +48,7 @@ envelopes, or validation policy.
 | [CI-014](items/CI-014.md) | REST manifest/live completeness gate | Passed | item completion evidence |
 | [CI-015](items/CI-015.md) | REST malformed/concurrent matrix | Passed | item completion evidence |
 | [AMUT-001](items/AMUT-001.md) | aMuTorrent live E2E validation | Passed | item completion evidence |
+| [AMUT-002](items/AMUT-002.md) | aMuTorrent transfer detail hydration | Passed | item completion evidence and latest aMuTorrent browser smoke report |
 | [ARR-001](items/ARR-001.md) | Arr live E2E validation | Passed | item completion evidence |
 | [FEAT-050](items/FEAT-050.md) | Download completion hook | Passed | item completion evidence |
 
@@ -59,12 +60,11 @@ failure proves that they are required.
 | ID | Candidate | Release 1 decision |
 |----|-----------|--------------------|
 | [FEAT-032](items/FEAT-032.md) | NAT mapping live validation | Deferred; Release E2E did not require NAT proof |
-| [FEAT-045](items/FEAT-045.md) | Transfer detail endpoint | Deferred; aMuTorrent and Arr passed without hydrated transfer detail |
+| [FEAT-045](items/FEAT-045.md) | Transfer detail endpoint | Passed; promoted with `AMUT-002` capability-gated aMuTorrent consumption |
 | [FEAT-046](items/FEAT-046.md) | Server/Kad bootstrap/import APIs | Passed; server.met import, Kad bootstrap, nodes.dat URL import, malformed preservation, and live seed import evidence are covered |
 | [FEAT-047](items/FEAT-047.md) | Search API completeness | Passed; OpenAPI and REST contract document Release 1 behavior |
 | [FEAT-048](items/FEAT-048.md) | Upload queue control completeness | Passed; existing controls are covered, unsupported operations return typed errors, and no new queue mutation was promoted |
 | [FEAT-049](items/FEAT-049.md) | Curated REST preference expansion | Passed; aMuTorrent needs no additional runtime preference keys and the curated surface has live round-trip plus bad-value coverage |
-| [AMUT-002](items/AMUT-002.md) | aMuTorrent transfer detail hydration | Deferred; depends on deferred `FEAT-045` |
 
 ## Execution Plans
 
