@@ -36,8 +36,11 @@ Directive precedence is:
   validation, test, commit, or cleanup commands.
 - Check `git status --short --branch` in each repo that will be read for
   current-state decisions or edited.
-- Routine active work happens through granular commits on each repo's `main`
-  branch unless the user explicitly requests a separate branch.
+- All active work must be broken into granular, coherent commits. Before
+  starting any new chunk of work, finish, verify, commit, and push the current
+  chunk unless the user explicitly asks to hold local commits.
+- Routine active work happens through those granular commits on each repo's
+  `main` branch unless the user explicitly requests a separate branch.
 - App edits belong in `workspaces\v0.72a\app\eMule-main`; do not edit the
   canonical `repos\eMule` branch-store checkout for normal app work.
 - Interactive build, validation, and test commands must go through
@@ -158,7 +161,12 @@ The canonical workspace currently materializes these app worktrees:
 - `main` history should stay curated and readable.
 - Do not push `WIP`, checkpoint, or debug commits to `main`.
 - One `main` commit should represent one coherent outcome.
-- Commits must stay granular and behavior-focused; do not bundle unrelated work into one commit.
+- Commits must stay granular and behavior-focused; do not bundle unrelated work
+  into one commit.
+- Always commit and push each completed chunk before starting a new independent
+  chunk of work. A later chunk must not be layered onto uncommitted changes from
+  an earlier chunk unless the work is inseparable and will be committed as one
+  coherent outcome.
 - When a change spans multiple repos, create and verify those commits sequentially; do not launch parallel commits.
 - Commit messages for feature, bug, refactor, and CI backlog work must include the tracked item id such as `BUG-017`, `FEAT-015`, `REF-021`, or `CI-003`.
 - Push each completed `main` commit to its `origin/main` before starting the
