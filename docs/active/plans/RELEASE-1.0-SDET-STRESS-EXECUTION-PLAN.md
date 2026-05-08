@@ -6,7 +6,7 @@ review. These are release-gate test items, not product feature work. They block
 
 Covered items:
 
-- [CI-018](../items/CI-018.md) - Shared Files 10k-node tree refresh stress gate
+- [CI-018](../items/CI-018.md) - Shared Files 50k-file tree refresh stress gate
 - [CI-019](../items/CI-019.md) - HTTPS and REST socket adversity stress gate
 - [CI-020](../items/CI-020.md) - REST and legacy WebServer error-path coverage gate
 - [CI-021](../items/CI-021.md) - WebSocket and legacy socket leak-churn gate
@@ -47,11 +47,11 @@ starts.
 
 ## Detailed Plan
 
-### CI-018 - Shared Files 10k-node tree refresh stress gate
+### CI-018 - Shared Files 50k-file tree refresh stress gate
 
 Implementation:
 
-- Add a 10k+ node fixture profile to the Shared Files fixture generator.
+- Add a 50k-file fixture profile to the Shared Files fixture generator.
 - Add tree collapse support and a rapid churn driver to the Shared Files UI
   live harness.
 - Combine expand/collapse/select/reload/sort/paint operations with monitored
@@ -82,6 +82,9 @@ Status:
 - Test harness commit `8d63a45` hardens the tree stress fixture to keep 10k+
   observable nodes with `1024` file rows, selects the stress subtree before the
   initial row-count gate, and extends the heavy scenario startup wait.
+- Test harness commit `e751fbb` updates the release target to `50000` shared
+  files while keeping the 10k observable-node floor, and raises the heavy
+  scenario waits to distinguish slow startup from a hard block.
 - Live smoke artifact
   `repos\eMule-build-tests\reports\shared-files-ui-e2e\20260508-125931-eMule-main-release\tree-refresh-stress-10k\result.json`
   failed before churn with `Timed out waiting for eMule main window`; this is

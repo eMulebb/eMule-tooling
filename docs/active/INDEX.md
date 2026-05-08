@@ -190,7 +190,7 @@ where that comparison is meaningful.
 | [BUG-098](items/BUG-098.md) | Minor | Wont-Fix | Archive recovery worker uses raw part-file owner across async work *(deprecated/frozen)* |
 | [BUG-099](items/BUG-099.md) | Major | **Done** | WebSocket listener startup is not exception-safe after global state initialization |
 | [BUG-100](items/BUG-100.md) | Major | **Done** | DirectDownload has bounded timeouts but no hard owner cancellation contract |
-| [BUG-101](items/BUG-101.md) | Major | Open | Shared Files 10k recursive tree stress profile does not reach main window |
+| [BUG-101](items/BUG-101.md) | Major | Open | Shared Files 50k recursive tree stress profile does not reach main window |
 
 ---
 
@@ -331,7 +331,7 @@ where that comparison is meaningful.
 | [CI-015](items/CI-015.md) | Major | **Done** | REST malformed and concurrent request matrix |
 | [CI-016](items/CI-016.md) | Minor | Passed | REST-only main vs community regression lane |
 | [CI-017](items/CI-017.md) | Minor | **Done** | Normalize active workspace line-ending policy to LF by default |
-| [CI-018](items/CI-018.md) | Major | In Progress | Shared Files 10k-node tree refresh stress gate |
+| [CI-018](items/CI-018.md) | Major | In Progress | Shared Files 50k-file tree refresh stress gate |
 | [CI-019](items/CI-019.md) | Major | In Progress | HTTPS and REST socket adversity stress gate |
 | [CI-020](items/CI-020.md) | Major | In Progress | REST and legacy WebServer error-path coverage gate |
 | [CI-021](items/CI-021.md) | Major | In Progress | WebSocket and legacy socket leak-churn gate |
