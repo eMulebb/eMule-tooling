@@ -42,8 +42,7 @@ policy audits.
 5. Prove or adjust Kad/client UDP encryption behavior:
    [BUG-085](../items/BUG-085.md).
 6. Fix the remaining HTTPS WebSocket transport and shutdown restart blockers:
-   [BUG-086](../items/BUG-086.md), [BUG-087](../items/BUG-087.md), and
-   [BUG-088](../items/BUG-088.md).
+   [BUG-087](../items/BUG-087.md) and [BUG-088](../items/BUG-088.md).
 7. Fix the UDP control sender exception-safety blocker:
    [BUG-089](../items/BUG-089.md).
 8. Fix the remaining background refresh completion-delivery blocker:
@@ -235,7 +234,11 @@ Validation:
 
 Status:
 
-- Open. Blocks R1.
+- Done 2026-05-08 in app commit `c6c1526`.
+- Validated with workspace `validate` and Release x64 main app build.
+- The implementation replaces the casted mbedTLS net context with
+  WebSocket-owned WinSock send/recv callbacks and closes accepted sockets
+  through the explicit accepted-thread cleanup path.
 
 ### BUG-087 - HTTPS WebSocket queued TLS writes after WANT_READ
 
@@ -348,6 +351,6 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-As of the 2026-05-08 follow-up review, [BUG-086](../items/BUG-086.md) through
+As of the 2026-05-08 follow-up review, [BUG-087](../items/BUG-087.md) through
 [BUG-091](../items/BUG-091.md) are open R1 blockers. R1 must not tag until they
 are fixed or explicitly reclassified by product decision.
