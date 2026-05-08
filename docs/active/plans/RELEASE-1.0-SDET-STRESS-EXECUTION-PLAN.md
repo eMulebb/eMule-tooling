@@ -118,9 +118,13 @@ Status:
   context, and aggregate suite scheme wiring. Build orchestration commit
   `a229e6c` exposes the scheme selector through the supported workspace
   `live-e2e` entrypoint.
-- Pending: HTTPS live contract-stress artifact, TLS handshake stall probes,
-  reset-during-response coverage, accepted-thread drain/resource assertions,
-  and 32/64-client stress artifacts.
+- Test harness commit `e216f44` adds an HTTPS-only TLS handshake adversity
+  budget covering stalled connect-close, partial TLS record reset, and partial
+  ClientHello reset. Build orchestration commit `17dc429` exposes the same
+  budget through the supported workspace `live-e2e` entrypoint.
+- Pending: HTTPS live contract-stress artifact, live TLS handshake drain
+  evidence, reset-during-response coverage, accepted-thread drain/resource
+  assertions, and 32/64-client stress artifacts.
 
 ### CI-020 - REST and legacy WebServer error-path coverage gate
 
