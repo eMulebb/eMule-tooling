@@ -98,8 +98,8 @@ churn. Keep their execution and closure flow in the
 | [BUG-101](items/BUG-101.md) | Shared Files 50k recursive tree stress profile reaches main window | Done | passing artifact `20260508-170043-eMule-main-release`; 50k rows converged cold, after churn, and cached relaunch |
 | [CI-018](items/CI-018.md) | Shared Files 50k-file tree refresh stress gate | In Progress | tests `92002da`, `aea5e55`, `6ebc3a7`, `8d63a45`, `e751fbb`, build `756819d`; 50k smoke artifact `20260508-170043-eMule-main-release` passed; long operator soak/resource thresholds pending |
 | [CI-019](items/CI-019.md) | HTTPS and REST socket adversity stress gate | In Progress | tests `ad2ac65`, `96f4759`, `e216f44`, `9e130c3`, `f00ad31`, build `4a531f6`, `a229e6c`, `17dc429`; HTTPS smoke artifact passed, contract-stress/resource-drain evidence pending |
-| [CI-020](items/CI-020.md) | REST and legacy WebServer error-path coverage gate | In Progress | tests `36a612a`, `f12b49d`, `69b8afa`; app `2263e64`, `4082be7`, `d1c8af6`, `1ca8c63`, `979ae8f`, `ddff25f`; HTTP contract matrix artifact passed, live 500/503 fault-injection evidence pending |
-| [CI-021](items/CI-021.md) | WebSocket and legacy socket leak-churn gate | In Progress | tests `1d97dd4`, `e88e067`, `ae3a840`, `941c439`, `b8729d3`, `352a2d2`, build `94d1044`, `3ec3674`; app `d75919a`, `1ca4d49`, `b33efb8`, `2cca5ac`; HTTP/HTTPS leak-churn soaks, thread-drain smoke, and HTTPS stop/start-after-churn proof passed |
+| [CI-020](items/CI-020.md) | REST and legacy WebServer error-path coverage gate | In Progress | tests `36a612a`, `f12b49d`, `69b8afa`; app `2263e64`, `4082be7`, `d1c8af6`, `1ca8c63`, `979ae8f`, `ddff25f`, `c6927cb`, `c062058`, `440e5e5`; HTTP contract matrix artifact passed, live 500/503 fault-injection evidence pending |
+| [CI-021](items/CI-021.md) | WebSocket and legacy socket leak-churn gate | In Progress | tests `1d97dd4`, `e88e067`, `ae3a840`, `941c439`, `b8729d3`, `352a2d2`, build `94d1044`, `3ec3674`; app `d75919a`, `1ca4d49`, `b33efb8`, `2cca5ac`, `942c484`; HTTP/HTTPS leak-churn soaks, thread-drain smoke, and HTTPS stop/start-after-churn proof passed |
 
 ## Candidate Decisions
 
