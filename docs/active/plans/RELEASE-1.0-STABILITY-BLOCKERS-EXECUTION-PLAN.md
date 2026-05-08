@@ -41,9 +41,7 @@ policy audits.
    [BUG-083](../items/BUG-083.md) and [BUG-084](../items/BUG-084.md).
 5. Prove or adjust Kad/client UDP encryption behavior:
    [BUG-085](../items/BUG-085.md).
-6. Fix the remaining background refresh completion-delivery blocker:
-   [BUG-090](../items/BUG-090.md).
-7. Fix the direct-download close-time persistence blocker:
+6. Fix the direct-download close-time persistence blocker:
    [BUG-091](../items/BUG-091.md).
 
 Each slice must be committed and pushed before the next independent slice starts.
@@ -331,7 +329,12 @@ Validation:
 
 Status:
 
-- Open. Blocks R1.
+- Done 2026-05-08 in app commit `1a09692`.
+- Validated with workspace `validate`, Release x64 main app build, Release x64
+  main test build, and the focused IP-filter refresh seam doctest.
+- GeoLocation and IPFilter refresh flags now use interlocked state, failed
+  completion posts fall back to synchronous delivery when possible, and a missing
+  notify window clears the queued flag instead of wedging refresh state.
 
 ### BUG-091 - DirectDownload close-time persistence failure
 
@@ -360,6 +363,6 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-As of the 2026-05-08 follow-up review, [BUG-090](../items/BUG-090.md) through
-[BUG-091](../items/BUG-091.md) are open R1 blockers. R1 must not tag until they
-are fixed or explicitly reclassified by product decision.
+As of the 2026-05-08 follow-up review, [BUG-091](../items/BUG-091.md) is an open
+R1 blocker. R1 must not tag until it is fixed or explicitly reclassified by
+product decision.
