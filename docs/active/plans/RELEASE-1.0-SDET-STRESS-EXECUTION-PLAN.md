@@ -76,6 +76,9 @@ Status:
   snapshots, and targeted Python coverage.
 - Test harness commit `aea5e55` enables REST in the tree stress profile and
   checks `/api/v1/shared-files` row-count convergence before and after churn.
+- Test harness commit `6ebc3a7` and build orchestration commit `756819d` expose
+  tree stress churn-cycle selection through the aggregate live suite and the
+  supported workspace `live-e2e` entrypoint.
 - Pending: live smoke artifact, live soak artifact, and documented resource
   thresholds.
 
