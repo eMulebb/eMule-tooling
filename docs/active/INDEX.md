@@ -12,10 +12,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `64`
+**Current non-done count:** `63`
 **Latest status refresh:** 2026-05-08
-**Non-done by status:** `43` Open, `8` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `7` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
+**Non-done by status:** `42` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `6` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** pre-release stabilization; no official release
@@ -170,7 +170,7 @@ where that comparison is meaningful.
 | [BUG-080](items/BUG-080.md) | Major | **Done** | WebSocket shutdown can forcibly terminate the listener thread |
 | [BUG-081](items/BUG-081.md) | Major | **Done** | HTTPS WebSocket handshake and read loops can spin on WANT_READ/WANT_WRITE |
 | [BUG-082](items/BUG-082.md) | Major | **Done** | GeoLocation and IPFilter background refresh flags can race and remain stuck |
-| [BUG-083](items/BUG-083.md) | Major | Open | Client UDP malformed-packet logging can read past a one-byte packet |
+| [BUG-083](items/BUG-083.md) | Major | **Done** | Client UDP malformed-packet logging can read past a one-byte packet |
 | [BUG-084](items/BUG-084.md) | Minor | Open | Web admin high-level actions leak the process token handle |
 | [BUG-085](items/BUG-085.md) | Major | Open | Kad/client UDP encryption preference gating needs Release 1 compatibility proof |
 

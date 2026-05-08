@@ -142,6 +142,12 @@ Validation:
 - Unit/seam coverage for one-byte malformed packets.
 - Live UDP packet handling remains unchanged for valid packets.
 
+Status:
+
+- Done 2026-05-08 in app commit `1af8bb5` and test commit `cfe9b96`.
+- Validated with workspace `validate`, Release x64 main app build, Release x64
+  main test build, and the focused Client UDP opcode logging doctest.
+
 ### BUG-084 - web admin token handle leak
 
 Implementation:
