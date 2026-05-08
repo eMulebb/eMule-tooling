@@ -132,6 +132,15 @@ Validation:
 - Legacy HTML/static-file errors are deterministic and stay bounded.
 - Fault-injected 500 paths clean up request state.
 
+Status:
+
+- In Progress. Test harness commit `36a612a` adds the
+  `rest_error_path_matrix` release artifact to live REST reports, including
+  observed status counts, covered release statuses, missing release statuses,
+  and sampled error responses.
+- Pending: explicit 500/503 rows, reset-during-error-response probes,
+  fault-injection coverage, and promotion from reporting artifact to hard gate.
+
 ### CI-021 - WebSocket and legacy socket leak-churn gate
 
 Implementation:
