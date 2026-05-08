@@ -14,12 +14,20 @@ Covered items:
 - [BUG-083](../items/BUG-083.md) - Client UDP malformed-packet logging can read past a one-byte packet
 - [BUG-084](../items/BUG-084.md) - Web admin high-level actions leak the process token handle
 - [BUG-085](../items/BUG-085.md) - Kad/client UDP encryption preference gating needs Release 1 compatibility proof
+- [BUG-086](../items/BUG-086.md) - HTTPS WebSocket casts SOCKET storage to mbedtls_net_context
+- [BUG-087](../items/BUG-087.md) - HTTPS WebSocket queued writes can stall after TLS WANT_READ
+- [BUG-088](../items/BUG-088.md) - WebSocket timeout shutdown leaves global state unsafe for restart
+- [BUG-089](../items/BUG-089.md) - UDP control sender can deadlock on exception while holding sendLocker
+- [BUG-090](../items/BUG-090.md) - Background refresh completion can wedge when UI PostMessage fails
+- [BUG-091](../items/BUG-091.md) - DirectDownload ignores close-time write failures
 
 ## Current State
 
-`eMule-main` was clean at review time and routine workspace validation passed.
-The findings are runtime safety, shutdown, remote input, and protocol-compatibility
-risks that are not covered by the static workspace policy audits.
+`eMule-main` was clean at the 2026-05-08 follow-up review time. The original
+R1 stability items through [BUG-085](../items/BUG-085.md) are done on `main`,
+but the follow-up adversarial pass found additional runtime safety, shutdown,
+remote input, and persistence risks that are not covered by the static workspace
+policy audits.
 
 ## Sequencing
 
@@ -33,6 +41,15 @@ risks that are not covered by the static workspace policy audits.
    [BUG-083](../items/BUG-083.md) and [BUG-084](../items/BUG-084.md).
 5. Prove or adjust Kad/client UDP encryption behavior:
    [BUG-085](../items/BUG-085.md).
+6. Fix the remaining HTTPS WebSocket transport and shutdown restart blockers:
+   [BUG-086](../items/BUG-086.md), [BUG-087](../items/BUG-087.md), and
+   [BUG-088](../items/BUG-088.md).
+7. Fix the UDP control sender exception-safety blocker:
+   [BUG-089](../items/BUG-089.md).
+8. Fix the remaining background refresh completion-delivery blocker:
+   [BUG-090](../items/BUG-090.md).
+9. Fix the direct-download close-time persistence blocker:
+   [BUG-091](../items/BUG-091.md).
 
 Each slice must be committed and pushed before the next independent slice starts.
 
@@ -198,6 +215,132 @@ Status:
   disabled keeps new outgoing client UDP sends plain while inbound encrypted
   datagrams remain accepted by the encrypted datagram receive path.
 
+### BUG-086 - HTTPS WebSocket mbedTLS socket context ABI
+
+Implementation:
+
+- Replace the casted `SOCKET` storage with an actual transport context that
+  preserves the full WinSock socket value on supported 64-bit builds.
+- Prefer narrow local mbedTLS send/recv/close callbacks if the pinned
+  `mbedtls_net_context` ABI cannot represent Windows `SOCKET` safely.
+- Make accepted-client socket ownership explicit so exactly one close path owns
+  each accepted socket.
+- Keep plain HTTP behavior unchanged.
+
+Validation:
+
+- HTTPS Web UI/REST smoke succeeds on x64.
+- Socket close paths do not truncate or double-close accepted sockets.
+- Shutdown coverage still passes after the transport context change.
+
+Status:
+
+- Open. Blocks R1.
+
+### BUG-087 - HTTPS WebSocket queued TLS writes after WANT_READ
+
+Implementation:
+
+- Track whether the pending TLS operation needs read readiness, write readiness,
+  or either.
+- Retry queued HTTPS writes after the readiness condition requested by mbedTLS,
+  including `MBEDTLS_ERR_SSL_WANT_READ`.
+- Return to socket/event waits between retries to avoid CPU spin.
+- Preserve existing queued-send ordering.
+
+Validation:
+
+- Seam coverage for a queued HTTPS write that returns `WANT_READ` before
+  completion.
+- Slow HTTPS client shutdown does not leave an accepted thread stuck with
+  `m_pHead` queued.
+- Existing REST malformed/concurrent request coverage remains green.
+
+Status:
+
+- Open. Blocks R1.
+
+### BUG-088 - WebSocket shutdown timeout restart safety
+
+Implementation:
+
+- Define explicit stopped/running/stopping/failed-stopping subsystem states.
+- Make `StartSockets` fail closed in release builds if previous shutdown left
+  live listener, accepted-thread, termination-handle, or SSL state behind.
+- Prevent overwriting live global handles or SSL state.
+- Add diagnostics that identify the thread class preventing shutdown.
+
+Validation:
+
+- Simulated listener wait timeout cannot be followed by unsafe restart.
+- Simulated accepted-client wait timeout cannot be followed by unsafe restart.
+- Successful HTTP and HTTPS stop/start cycles still work.
+
+Status:
+
+- Open. Blocks R1.
+
+### BUG-089 - UDP control sender exception safety
+
+Implementation:
+
+- Replace manual `sendLocker.Lock()`/`Unlock()` with scoped locking compatible
+  with existing MFC synchronization.
+- Make removed `UDPPack` and temporary send buffer ownership exception-safe.
+- Preserve packet ordering, resend-on-send-failure, and throttler signaling
+  semantics.
+
+Validation:
+
+- Injected allocation or send failure releases `sendLocker`.
+- Removed packets are sent, requeued, or destroyed exactly once.
+- Client UDP crypt-gating seam remains green.
+
+Status:
+
+- Open. Blocks R1.
+
+### BUG-090 - background refresh completion delivery
+
+Implementation:
+
+- Treat successful UI `PostMessage` as transferring completion ownership to the
+  UI thread.
+- Treat failed `PostMessage` as terminal cleanup or a deterministic shutdown
+  state; do not leave refresh permanently queued.
+- Handle `ResumeThread` failure so a never-started worker cannot wedge state.
+- Apply the same ownership model to GeoLocation and IPFilter refresh.
+
+Validation:
+
+- Failed completion post clears or terminally resolves GeoLocation refresh.
+- Failed completion post clears or terminally resolves IPFilter refresh.
+- Manual and automatic refresh attempts still serialize.
+
+Status:
+
+- Open. Blocks R1.
+
+### BUG-091 - DirectDownload close-time persistence failure
+
+Implementation:
+
+- Check `_close` after the download write loop and treat failure as a download
+  failure.
+- Preserve close-time `errno` for diagnostics before cleanup.
+- Delete failed artifacts just like earlier read/write failures.
+- Confirm GeoLocation and IPFilter callers do not promote failed artifacts.
+
+Validation:
+
+- Seam coverage for successful `_write` followed by failed `_close`.
+- GeoLocation and IPFilter update flows reject failed artifacts.
+- Existing successful direct-download behavior is unchanged.
+
+Status:
+
+- Open. Blocks R1.
+
 ## Release Exit Criteria
 
 All covered items must be either:
@@ -205,5 +348,6 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-All covered items are now `Done` on `main` with commit evidence. R1 should still
-run the final release checklist and any broader live E2E gates before tagging.
+As of the 2026-05-08 follow-up review, [BUG-086](../items/BUG-086.md) through
+[BUG-091](../items/BUG-091.md) are open R1 blockers. R1 must not tag until they
+are fixed or explicitly reclassified by product decision.

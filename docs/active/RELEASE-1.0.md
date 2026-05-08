@@ -40,10 +40,11 @@ aMuTorrent remains the primary UI proof target, but it adapts to the clean
 native `/api/v1` design and must not drive native route shape, aliases,
 envelopes, or validation policy.
 
-Current stability focus: the adversarial current-branch findings from the
-2026-05-08 R1 review are closed on `main`. Keep their evidence in the
-[R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
-available for final release revalidation.
+Current stability focus: the first adversarial current-branch findings from the
+2026-05-08 R1 review are closed on `main`, but the follow-up pass added
+[BUG-086](items/BUG-086.md) through [BUG-091](items/BUG-091.md) as open R1
+blockers. Keep their evidence and closure flow in the
+[R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
 
 | ID | Gate | Status | Evidence pointer |
 |----|------|--------|------------------|
@@ -65,6 +66,12 @@ available for final release revalidation.
 | [BUG-083](items/BUG-083.md) | Client UDP malformed-packet logging is bounds-safe | Done | app `1af8bb5`, tests `cfe9b96`, Release x64 validation |
 | [BUG-084](items/BUG-084.md) | Web admin process token handles are closed | Done | app `1513358`, Release x64 validation |
 | [BUG-085](items/BUG-085.md) | Kad/client UDP encryption gating has compatibility proof | Done | app `2ee49ab`, tests `2d5cc1a`, Release x64 validation |
+| [BUG-086](items/BUG-086.md) | HTTPS WebSocket mbedTLS socket context ABI is safe | Open | follow-up review finding; execution plan pending |
+| [BUG-087](items/BUG-087.md) | HTTPS WebSocket queued TLS writes cannot stall on WANT_READ | Open | follow-up review finding; execution plan pending |
+| [BUG-088](items/BUG-088.md) | WebSocket failed shutdown cannot poison restart | Open | follow-up review finding; execution plan pending |
+| [BUG-089](items/BUG-089.md) | UDP control sender is exception-safe under `sendLocker` | Open | follow-up review finding; execution plan pending |
+| [BUG-090](items/BUG-090.md) | Background refresh completion cannot wedge on failed UI post | Open | follow-up review finding; execution plan pending |
+| [BUG-091](items/BUG-091.md) | DirectDownload rejects close-time persistence failures | Open | follow-up review finding; execution plan pending |
 
 ## Candidate Decisions
 
@@ -92,7 +99,7 @@ closure and revalidation flow.
 | [Live E2E execution plan](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md) | [CI-011](items/CI-011.md) |
 | [Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md) | [FEAT-050](items/FEAT-050.md) |
 | [NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md) | [FEAT-032](items/FEAT-032.md) |
-| [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md) | [BUG-078](items/BUG-078.md), [BUG-079](items/BUG-079.md), [BUG-080](items/BUG-080.md), [BUG-081](items/BUG-081.md), [BUG-082](items/BUG-082.md), [BUG-083](items/BUG-083.md), [BUG-084](items/BUG-084.md), [BUG-085](items/BUG-085.md) |
+| [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md) | [BUG-078](items/BUG-078.md), [BUG-079](items/BUG-079.md), [BUG-080](items/BUG-080.md), [BUG-081](items/BUG-081.md), [BUG-082](items/BUG-082.md), [BUG-083](items/BUG-083.md), [BUG-084](items/BUG-084.md), [BUG-085](items/BUG-085.md), [BUG-086](items/BUG-086.md), [BUG-087](items/BUG-087.md), [BUG-088](items/BUG-088.md), [BUG-089](items/BUG-089.md), [BUG-090](items/BUG-090.md), [BUG-091](items/BUG-091.md) |
 
 ## Deferred Scope
 
