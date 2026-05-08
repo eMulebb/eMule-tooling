@@ -211,6 +211,8 @@ Status:
   reset cycles.
 - Test harness commit `941c439` adds R1 resource-threshold evaluation for
   leak-churn deltas and fails the run on threshold violations.
+- Test harness commit `b8729d3` adds process thread-count snapshots and
+  thread-count leak thresholds as accepted-client drain proxy evidence.
 - HTTPS smoke artifact
   `repos\eMule-build-tests\reports\rest-api-smoke\20260508-121849-eMule-main-release\result.json`
   passed 100/100 HTTPS leak-churn cycles with enforced thresholds,
@@ -229,8 +231,13 @@ Status:
   `resource_thresholds.ok=true`, and zero threshold violations. Observed
   post-drain deltas were GDI objects `+1`, private bytes `+131563520`, and
   working set bytes `+131661824`; handles finished below baseline.
-- Pending: accepted-client drain assertions, stop/start-after-churn proof, and
-  safe legacy listen-socket churn coverage.
+- Thread-count smoke artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-122517-eMule-main-release\result.json`
+  passed with process thread count `19 -> 19 -> 19` across baseline, peak, and
+  post-drain snapshots, `thread_count` delta `0`, and zero threshold
+  violations.
+- Pending: exact accepted-client drain assertions if a product seam is promoted,
+  stop/start-after-churn proof, and safe legacy listen-socket churn coverage.
 
 ## Release Exit Criteria
 
