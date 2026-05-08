@@ -40,10 +40,9 @@ aMuTorrent remains the primary UI proof target, but it adapts to the clean
 native `/api/v1` design and must not drive native route shape, aliases,
 envelopes, or validation policy.
 
-Current stability focus: the first adversarial current-branch findings from the
-2026-05-08 R1 review are closed on `main`, but the follow-up pass added
-[BUG-091](items/BUG-091.md) as an open R1
-blockers. Keep their evidence and closure flow in the
+Current stability focus: the adversarial current-branch findings from the
+2026-05-08 R1 review and follow-up pass are closed on `main`. Keep their
+evidence and closure flow in the
 [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
 
 | ID | Gate | Status | Evidence pointer |
@@ -71,7 +70,7 @@ blockers. Keep their evidence and closure flow in the
 | [BUG-088](items/BUG-088.md) | WebSocket failed shutdown cannot poison restart | Done | app `7a5de38`, Release x64 validation |
 | [BUG-089](items/BUG-089.md) | UDP control sender is exception-safe under `sendLocker` | Done | app `4796d2f`, Release x64 validation |
 | [BUG-090](items/BUG-090.md) | Background refresh completion cannot wedge on failed UI post | Done | app `1a09692`, Release x64 validation |
-| [BUG-091](items/BUG-091.md) | DirectDownload rejects close-time persistence failures | Open | follow-up review finding; execution plan pending |
+| [BUG-091](items/BUG-091.md) | DirectDownload rejects close-time persistence failures | Done | app `c237d48`, Release x64 validation |
 
 ## Candidate Decisions
 

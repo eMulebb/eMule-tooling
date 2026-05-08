@@ -41,9 +41,6 @@ policy audits.
    [BUG-083](../items/BUG-083.md) and [BUG-084](../items/BUG-084.md).
 5. Prove or adjust Kad/client UDP encryption behavior:
    [BUG-085](../items/BUG-085.md).
-6. Fix the direct-download close-time persistence blocker:
-   [BUG-091](../items/BUG-091.md).
-
 Each slice must be committed and pushed before the next independent slice starts.
 
 ## Shared Implementation Rules
@@ -354,7 +351,11 @@ Validation:
 
 Status:
 
-- Open. Blocks R1.
+- Done 2026-05-08 in app commit `c237d48`.
+- Validated with workspace `validate`, Release x64 main app build, Release x64
+  main test build, and the focused IP-filter update payload doctest.
+- `DirectDownload::DownloadUrlToFile` now treats `_close` failure as a download
+  failure and deletes the target artifact like earlier read/write failures.
 
 ## Release Exit Criteria
 
@@ -363,6 +364,5 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-As of the 2026-05-08 follow-up review, [BUG-091](../items/BUG-091.md) is an open
-R1 blocker. R1 must not tag until it is fixed or explicitly reclassified by
-product decision.
+All covered items are now `Done` on `main` with commit evidence. R1 should still
+run the final release checklist and any broader live E2E gates before tagging.

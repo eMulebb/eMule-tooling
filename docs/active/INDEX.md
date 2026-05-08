@@ -12,10 +12,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `62`
+**Current non-done count:** `61`
 **Latest status refresh:** 2026-05-08
-**Non-done by status:** `41` Open, `8` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `5` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
+**Non-done by status:** `40` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `4` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** pre-release stabilization; no official release
@@ -178,7 +178,7 @@ where that comparison is meaningful.
 | [BUG-088](items/BUG-088.md) | Major | **Done** | WebSocket timeout shutdown leaves global state unsafe for restart |
 | [BUG-089](items/BUG-089.md) | Major | **Done** | UDP control sender can deadlock on exception while holding sendLocker |
 | [BUG-090](items/BUG-090.md) | Major | **Done** | Background refresh completion can wedge when UI PostMessage fails |
-| [BUG-091](items/BUG-091.md) | Major | Open | DirectDownload ignores close-time write failures |
+| [BUG-091](items/BUG-091.md) | Major | **Done** | DirectDownload ignores close-time write failures |
 
 ---
 
