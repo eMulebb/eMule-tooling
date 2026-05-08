@@ -14,7 +14,7 @@ This directory is the active backlog and revalidation layer for this repo. Use
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
 **Current non-done count:** `65`
 **Latest status refresh:** 2026-05-08
-**Non-done by status:** `44` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by status:** `43` Open, `9` In Progress, `13` Deferred, `0` Blocked.
 **Non-done by area:** `4` Bugs, `21` Refactors, `26` Features, `14` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
@@ -330,7 +330,7 @@ where that comparison is meaningful.
 | [CI-015](items/CI-015.md) | Major | **Done** | REST malformed and concurrent request matrix |
 | [CI-016](items/CI-016.md) | Minor | Passed | REST-only main vs community regression lane |
 | [CI-017](items/CI-017.md) | Minor | **Done** | Normalize active workspace line-ending policy to LF by default |
-| [CI-018](items/CI-018.md) | Major | Open | Shared Files 10k-node tree refresh stress gate |
+| [CI-018](items/CI-018.md) | Major | In Progress | Shared Files 10k-node tree refresh stress gate |
 | [CI-019](items/CI-019.md) | Major | Open | HTTPS and REST socket adversity stress gate |
 | [CI-020](items/CI-020.md) | Major | Open | REST and legacy WebServer error-path coverage gate |
 | [CI-021](items/CI-021.md) | Major | Open | WebSocket and legacy socket leak-churn gate |

@@ -68,6 +68,15 @@ Validation:
 - Confirm no crash, hang, stale rows, duplicate rows, invalid row counts, or
   unbounded process resource growth.
 
+Status:
+
+- In Progress. Test harness commit `92002da` adds the opt-in 10k+ stress
+  fixture, `tree-refresh-stress-10k` scenario, tree collapse/expand churn,
+  reload/sort/paint churn, aggregate Shared Files UI suite wiring, resource
+  snapshots, and targeted Python coverage.
+- Pending: live smoke artifact, live soak artifact, REST convergence checks
+  during churn, and documented resource thresholds.
+
 ### CI-019 - HTTPS and REST socket adversity stress gate
 
 Implementation:
