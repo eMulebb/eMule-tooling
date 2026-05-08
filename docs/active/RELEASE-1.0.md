@@ -95,7 +95,8 @@ churn. Keep their execution and closure flow in the
 | [BUG-098](items/BUG-098.md) | Archive recovery worker uses raw part-file owner across async work | Wont-Fix | deprecated/frozen by product decision; app `8c2cc67` source comment |
 | [BUG-099](items/BUG-099.md) | WebSocket listener startup is exception-safe after global state initialization | Done | app `a4c4dc3`, Debug and Release x64 validation |
 | [BUG-100](items/BUG-100.md) | DirectDownload has hard owner cancellation for background refresh downloads | Done | app `9d765e3`, Debug and Release x64 validation |
-| [CI-018](items/CI-018.md) | Shared Files 10k-node tree refresh stress gate | In Progress | tests `92002da`, `aea5e55`, `6ebc3a7`, build `756819d`; smoke/soak live evidence pending |
+| [BUG-101](items/BUG-101.md) | Shared Files 10k recursive tree stress profile reaches main window | Open | discovered by CI-018 live smoke; tests `8d63a45`, failing artifact `20260508-125931-eMule-main-release` |
+| [CI-018](items/CI-018.md) | Shared Files 10k-node tree refresh stress gate | In Progress | tests `92002da`, `aea5e55`, `6ebc3a7`, `8d63a45`, build `756819d`; smoke blocked by [BUG-101](items/BUG-101.md) |
 | [CI-019](items/CI-019.md) | HTTPS and REST socket adversity stress gate | In Progress | tests `ad2ac65`, `96f4759`, `e216f44`, `9e130c3`, `f00ad31`, build `4a531f6`, `a229e6c`, `17dc429`; HTTPS smoke artifact passed, contract-stress/resource-drain evidence pending |
 | [CI-020](items/CI-020.md) | REST and legacy WebServer error-path coverage gate | In Progress | tests `36a612a`, `f12b49d`, `69b8afa`; HTTP contract matrix artifact passed, live 500/503 fault-injection evidence pending |
 | [CI-021](items/CI-021.md) | WebSocket and legacy socket leak-churn gate | In Progress | tests `1d97dd4`, `e88e067`, `ae3a840`, `941c439`, `b8729d3`, `352a2d2`, build `94d1044`, `3ec3674`; HTTP/HTTPS leak-churn soaks, thread-drain smoke, and HTTPS stop/start-after-churn proof passed |

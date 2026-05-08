@@ -12,10 +12,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `65`
+**Current non-done count:** `66`
 **Latest status refresh:** 2026-05-08
-**Non-done by status:** `40` Open, `12` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `4` Bugs, `21` Refactors, `26` Features, `14` Build/CI.
+**Non-done by status:** `41` Open, `12` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `5` Bugs, `21` Refactors, `26` Features, `14` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** pre-release stabilization; no official release
@@ -190,6 +190,7 @@ where that comparison is meaningful.
 | [BUG-098](items/BUG-098.md) | Minor | Wont-Fix | Archive recovery worker uses raw part-file owner across async work *(deprecated/frozen)* |
 | [BUG-099](items/BUG-099.md) | Major | **Done** | WebSocket listener startup is not exception-safe after global state initialization |
 | [BUG-100](items/BUG-100.md) | Major | **Done** | DirectDownload has bounded timeouts but no hard owner cancellation contract |
+| [BUG-101](items/BUG-101.md) | Major | Open | Shared Files 10k recursive tree stress profile does not reach main window |
 
 ---
 

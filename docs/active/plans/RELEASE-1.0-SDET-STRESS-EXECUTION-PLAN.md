@@ -79,8 +79,15 @@ Status:
 - Test harness commit `6ebc3a7` and build orchestration commit `756819d` expose
   tree stress churn-cycle selection through the aggregate live suite and the
   supported workspace `live-e2e` entrypoint.
-- Pending: live smoke artifact, live soak artifact, and documented resource
-  thresholds.
+- Test harness commit `8d63a45` hardens the tree stress fixture to keep 10k+
+  observable nodes with `1024` file rows, selects the stress subtree before the
+  initial row-count gate, and extends the heavy scenario startup wait.
+- Live smoke artifact
+  `repos\eMule-build-tests\reports\shared-files-ui-e2e\20260508-125931-eMule-main-release\tree-refresh-stress-10k\result.json`
+  failed before churn with `Timed out waiting for eMule main window`; this is
+  tracked as [BUG-101](../items/BUG-101.md).
+- Pending: passing live smoke artifact after [BUG-101](../items/BUG-101.md),
+  live soak artifact, and documented resource thresholds.
 
 ### CI-019 - HTTPS and REST socket adversity stress gate
 
