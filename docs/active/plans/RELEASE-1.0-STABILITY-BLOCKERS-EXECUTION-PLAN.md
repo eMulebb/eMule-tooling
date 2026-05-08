@@ -163,6 +163,13 @@ Validation:
   count.
 - Failure paths still log access denied or failed as before.
 
+Status:
+
+- Done 2026-05-08 in app commit `1513358`.
+- Validated with workspace `validate` and Release x64 main app build.
+- The web high-level action path now wraps the process token in a local RAII
+  guard so the token handle closes on normal and exception exits.
+
 ### BUG-085 - Kad/client UDP encryption compatibility proof
 
 Implementation:
