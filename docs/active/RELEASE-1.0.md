@@ -16,6 +16,7 @@ Operator docs:
 - [Live E2E execution plan](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md)
 - [Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)
 - [NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md)
+- [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
 
 ## Release Identity
 
@@ -39,6 +40,10 @@ aMuTorrent remains the primary UI proof target, but it adapts to the clean
 native `/api/v1` design and must not drive native route shape, aliases,
 envelopes, or validation policy.
 
+Current stability focus: close the adversarial current-branch findings from the
+2026-05-08 R1 review before any public tag. The detailed task queue lives in the
+[R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
+
 | ID | Gate | Status | Evidence pointer |
 |----|------|--------|------------------|
 | [BUG-075](items/BUG-075.md) | REST typed error consistency | Passed | item completion evidence |
@@ -51,6 +56,14 @@ envelopes, or validation policy.
 | [AMUT-002](items/AMUT-002.md) | aMuTorrent transfer detail hydration | Passed | item completion evidence and latest aMuTorrent browser smoke report |
 | [ARR-001](items/ARR-001.md) | Arr live E2E validation | Passed | item completion evidence |
 | [FEAT-050](items/FEAT-050.md) | Download completion hook | Passed | item completion evidence |
+| [BUG-078](items/BUG-078.md) | qBit auth fails closed on session RNG failure | Open | 2026-05-08 adversarial review |
+| [BUG-079](items/BUG-079.md) | WebSocket accepted-client shutdown lifetime | Open | 2026-05-08 adversarial review |
+| [BUG-080](items/BUG-080.md) | WebSocket shutdown avoids `TerminateThread` | Open | 2026-05-08 adversarial review |
+| [BUG-081](items/BUG-081.md) | HTTPS WebSocket WANT_READ/WANT_WRITE loops yield to socket waits | Open | 2026-05-08 adversarial review |
+| [BUG-082](items/BUG-082.md) | GeoLocation/IPFilter refresh state cannot wedge | Open | 2026-05-08 adversarial review |
+| [BUG-083](items/BUG-083.md) | Client UDP malformed-packet logging is bounds-safe | Open | 2026-05-08 adversarial review |
+| [BUG-084](items/BUG-084.md) | Web admin process token handles are closed | Open | 2026-05-08 adversarial review |
+| [BUG-085](items/BUG-085.md) | Kad/client UDP encryption gating has compatibility proof | Open | 2026-05-08 adversarial review |
 
 ## Candidate Decisions
 
@@ -78,6 +91,7 @@ closure and revalidation flow.
 | [Live E2E execution plan](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md) | [CI-011](items/CI-011.md) |
 | [Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md) | [FEAT-050](items/FEAT-050.md) |
 | [NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md) | [FEAT-032](items/FEAT-032.md) |
+| [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md) | [BUG-078](items/BUG-078.md), [BUG-079](items/BUG-079.md), [BUG-080](items/BUG-080.md), [BUG-081](items/BUG-081.md), [BUG-082](items/BUG-082.md), [BUG-083](items/BUG-083.md), [BUG-084](items/BUG-084.md), [BUG-085](items/BUG-085.md) |
 
 ## Deferred Scope
 
