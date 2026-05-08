@@ -37,7 +37,7 @@ Covered items:
 R1 stability items through [BUG-096](../items/BUG-096.md) are done on `main`.
 The latest follow-up adversarial pass promoted three R1 blockers.
 [BUG-097](../items/BUG-097.md) and [BUG-099](../items/BUG-099.md) are now done on
-`main`; [BUG-100](../items/BUG-100.md) remains open. Archive preview and recovery findings
+`main`; [BUG-100](../items/BUG-100.md) is now done on `main`. Archive preview and recovery findings
 [BUG-074](../items/BUG-074.md) and [BUG-098](../items/BUG-098.md) are Wont-Fix
 by product decision because those deprecated features are entirely frozen,
 including known bugs.
@@ -638,7 +638,14 @@ Validation:
 
 Status:
 
-- Open. See [BUG-100](../items/BUG-100.md).
+- Done 2026-05-08 in app commit `9d765e3`.
+- Validated with workspace `validate`, Debug x64 main app build, and Release
+  x64 main app build.
+- `DirectDownload` now supports an optional owner cancellation token that
+  synchronizes WinInet session, connection, and request handle close ownership.
+  GeoLocation and IPFilter background refresh owners cancel that token during
+  teardown while preserving the bounded-timeout fallback behavior from
+  [BUG-096](../items/BUG-096.md).
 
 ## Release Exit Criteria
 
@@ -647,9 +654,9 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-Covered items through [BUG-097](../items/BUG-097.md) are `Done` on `main` with
-commit evidence. Archive preview/recovery findings [BUG-074](../items/BUG-074.md)
-and [BUG-098](../items/BUG-098.md) are Wont-Fix because those deprecated
-features are frozen. The newly promoted follow-up blockers
-[BUG-100](../items/BUG-100.md) remains open and must be closed or explicitly
-reclassified before tagging.
+All current R1 stability blockers in this plan are either `Done` on `main` with
+commit evidence or Wont-Fix by explicit product decision. Archive
+preview/recovery findings [BUG-074](../items/BUG-074.md) and
+[BUG-098](../items/BUG-098.md) are Wont-Fix because those deprecated features
+are frozen. Remaining release work is the broader checklist/runbook validation
+outside this stability-blocker closure plan.

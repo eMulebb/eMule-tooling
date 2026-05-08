@@ -41,15 +41,15 @@ native `/api/v1` design and must not drive native route shape, aliases,
 envelopes, or validation policy.
 
 Current stability focus: the original adversarial current-branch findings from
-the 2026-05-08 R1 review are closed on `main`, and the first 2026-05-08
-follow-up pass findings [BUG-092](items/BUG-092.md) through
-[BUG-096](items/BUG-096.md) are also closed on `main`. The latest 2026-05-08
-follow-up review promoted three new R1 blockers. [BUG-097](items/BUG-097.md)
-and [BUG-099](items/BUG-099.md) are now closed on `main`;
-[BUG-100](items/BUG-100.md) remains open. Archive preview and recovery findings
-[BUG-074](items/BUG-074.md) and [BUG-098](items/BUG-098.md) are Wont-Fix by
-product decision because those deprecated features are entirely frozen,
-including known bugs. Keep their execution and closure flow in the
+the 2026-05-08 R1 review are closed on `main`, the first 2026-05-08 follow-up
+pass findings [BUG-092](items/BUG-092.md) through [BUG-096](items/BUG-096.md)
+are closed on `main`, and the latest follow-up blockers
+[BUG-097](items/BUG-097.md), [BUG-099](items/BUG-099.md), and
+[BUG-100](items/BUG-100.md) are now closed on `main`. Archive preview and
+recovery findings [BUG-074](items/BUG-074.md) and
+[BUG-098](items/BUG-098.md) are Wont-Fix by product decision because those
+deprecated features are entirely frozen, including known bugs. Keep their
+execution and closure flow in the
 [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
 
 | ID | Gate | Status | Evidence pointer |
@@ -87,7 +87,7 @@ including known bugs. Keep their execution and closure flow in the
 | [BUG-074](items/BUG-074.md) | Archive preview scanner uses volatile cancellation and synchronous UI handoff | Wont-Fix | deprecated/frozen by product decision; app `8c2cc67` source comment |
 | [BUG-098](items/BUG-098.md) | Archive recovery worker uses raw part-file owner across async work | Wont-Fix | deprecated/frozen by product decision; app `8c2cc67` source comment |
 | [BUG-099](items/BUG-099.md) | WebSocket listener startup is exception-safe after global state initialization | Done | app `a4c4dc3`, Debug and Release x64 validation |
-| [BUG-100](items/BUG-100.md) | DirectDownload has hard owner cancellation for background refresh downloads | Open | pending implementation and validation |
+| [BUG-100](items/BUG-100.md) | DirectDownload has hard owner cancellation for background refresh downloads | Done | app `9d765e3`, Debug and Release x64 validation |
 
 ## Candidate Decisions
 
