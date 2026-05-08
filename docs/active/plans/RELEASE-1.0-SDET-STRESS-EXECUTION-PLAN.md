@@ -101,6 +101,17 @@ Validation:
 - Accepted-client threads drain and resource deltas remain bounded.
 - Latency percentiles and timeout counts are included in the report.
 
+Status:
+
+- In Progress. Test harness commit `ad2ac65` adds the `rest_socket_adversity`
+  smoke budget with raw socket probes for partial-header reset,
+  declared-body reset, conflicting `Content-Length`, overlong headers, and
+  invalid UTF-8 JSON. Build orchestration commit `4a531f6` exposes the budget
+  through the supported workspace `live-e2e` entrypoint.
+- Pending: HTTPS profile/certificate support, TLS handshake stall probes,
+  reset-during-response coverage, accepted-thread drain/resource assertions,
+  and 32/64-client stress artifacts.
+
 ### CI-020 - REST and legacy WebServer error-path coverage gate
 
 Implementation:
