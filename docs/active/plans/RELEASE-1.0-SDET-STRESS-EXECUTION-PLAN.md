@@ -167,7 +167,11 @@ Status:
 - In Progress. Test harness commit `1d97dd4` adds live REST process resource
   snapshots after launch and after REST socket adversity/stress, plus deltas for
   handles, GDI objects, USER objects, private bytes, and working set bytes.
-- Pending: dedicated 1k+ HTTP/HTTPS churn modes, peak/post-drain snapshots,
+- Test harness commit `e88e067` adds selectable HTTP leak-churn smoke and soak
+  modes; soak defaults to 1000 connect/reset cycles and reports baseline, peak,
+  post-drain, and delta resource counts. Build orchestration commit `94d1044`
+  exposes the same controls through supported workspace `live-e2e` parameters.
+- Pending: HTTP soak artifact evidence, dedicated HTTPS churn mode,
   accepted-client drain assertions, stop/start-after-churn proof, and safe
   legacy listen-socket churn coverage.
 
