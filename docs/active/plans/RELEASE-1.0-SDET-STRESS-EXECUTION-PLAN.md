@@ -122,8 +122,11 @@ Status:
   budget covering stalled connect-close, partial TLS record reset, and partial
   ClientHello reset. Build orchestration commit `17dc429` exposes the same
   budget through the supported workspace `live-e2e` entrypoint.
+- Test harness commit `9e130c3` adds a full-request
+  `reset_during_response_send` raw socket probe to exercise queued-send cleanup
+  when the client resets before consuming the response.
 - Pending: HTTPS live contract-stress artifact, live TLS handshake drain
-  evidence, reset-during-response coverage, accepted-thread drain/resource
+  evidence, reset-during-response resource proof, accepted-thread drain/resource
   assertions, and 32/64-client stress artifacts.
 
 ### CI-020 - REST and legacy WebServer error-path coverage gate
