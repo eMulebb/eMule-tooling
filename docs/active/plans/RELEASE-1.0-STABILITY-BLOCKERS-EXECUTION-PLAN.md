@@ -36,8 +36,8 @@ Covered items:
 `eMule-main` was clean at the 2026-05-08 follow-up review time. The original
 R1 stability items through [BUG-096](../items/BUG-096.md) are done on `main`.
 The latest follow-up adversarial pass promoted three R1 blockers.
-[BUG-097](../items/BUG-097.md) is now done on `main`; [BUG-099](../items/BUG-099.md)
-and [BUG-100](../items/BUG-100.md) remain open. Archive preview and recovery findings
+[BUG-097](../items/BUG-097.md) and [BUG-099](../items/BUG-099.md) are now done on
+`main`; [BUG-100](../items/BUG-100.md) remains open. Archive preview and recovery findings
 [BUG-074](../items/BUG-074.md) and [BUG-098](../items/BUG-098.md) are Wont-Fix
 by product decision because those deprecated features are entirely frozen,
 including known bugs.
@@ -609,7 +609,11 @@ Validation:
 
 Status:
 
-- Open. See [BUG-099](../items/BUG-099.md).
+- Done 2026-05-08 in app commit `a4c4dc3`.
+- Validated with workspace `validate`, Debug x64 main app build, and Release
+  x64 main app build.
+- `StartSockets` now unwinds termination-event, SSL, and listener-thread object
+  state on allocation, exception, and `CreateThread` startup failure paths.
 
 ### BUG-100 - DirectDownload hard owner cancellation
 
@@ -647,5 +651,5 @@ Covered items through [BUG-097](../items/BUG-097.md) are `Done` on `main` with
 commit evidence. Archive preview/recovery findings [BUG-074](../items/BUG-074.md)
 and [BUG-098](../items/BUG-098.md) are Wont-Fix because those deprecated
 features are frozen. The newly promoted follow-up blockers
-[BUG-099](../items/BUG-099.md) and [BUG-100](../items/BUG-100.md) remain open and must be closed or explicitly
+[BUG-100](../items/BUG-100.md) remains open and must be closed or explicitly
 reclassified before tagging.
