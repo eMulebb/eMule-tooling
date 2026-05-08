@@ -40,9 +40,10 @@ aMuTorrent remains the primary UI proof target, but it adapts to the clean
 native `/api/v1` design and must not drive native route shape, aliases,
 envelopes, or validation policy.
 
-Current stability focus: the adversarial current-branch findings from the
-2026-05-08 R1 review and follow-up pass are closed on `main`. Keep their
-evidence and closure flow in the
+Current stability focus: the original adversarial current-branch findings from
+the 2026-05-08 R1 review are closed on `main`, but the 2026-05-08 follow-up
+pass added [BUG-092](items/BUG-092.md) through [BUG-096](items/BUG-096.md) as
+open R1 blockers. Keep their evidence and closure flow in the
 [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
 
 | ID | Gate | Status | Evidence pointer |
@@ -71,6 +72,11 @@ evidence and closure flow in the
 | [BUG-089](items/BUG-089.md) | UDP control sender is exception-safe under `sendLocker` | Done | app `4796d2f`, Release x64 validation |
 | [BUG-090](items/BUG-090.md) | Background refresh completion cannot wedge on failed UI post | Done | app `1a09692`, Release x64 validation |
 | [BUG-091](items/BUG-091.md) | DirectDownload rejects close-time persistence failures | Done | app `c237d48`, Release x64 validation |
+| [BUG-092](items/BUG-092.md) | Background refresh workers cannot write through freed owner memory | Open | pending |
+| [BUG-093](items/BUG-093.md) | Failed refresh completion cannot synchronously block worker on UI thread | Open | pending |
+| [BUG-094](items/BUG-094.md) | Refresh launch failure cannot leak suspended thread objects | Open | pending |
+| [BUG-095](items/BUG-095.md) | WebSocket accepted-client tracking is exception-safe after thread start | Open | pending |
+| [BUG-096](items/BUG-096.md) | DirectDownload has bounded timeout or cancellation semantics | Open | pending |
 
 ## Candidate Decisions
 
@@ -98,7 +104,7 @@ closure and revalidation flow.
 | [Live E2E execution plan](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md) | [CI-011](items/CI-011.md) |
 | [Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md) | [FEAT-050](items/FEAT-050.md) |
 | [NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md) | [FEAT-032](items/FEAT-032.md) |
-| [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md) | [BUG-078](items/BUG-078.md), [BUG-079](items/BUG-079.md), [BUG-080](items/BUG-080.md), [BUG-081](items/BUG-081.md), [BUG-082](items/BUG-082.md), [BUG-083](items/BUG-083.md), [BUG-084](items/BUG-084.md), [BUG-085](items/BUG-085.md), [BUG-086](items/BUG-086.md), [BUG-087](items/BUG-087.md), [BUG-088](items/BUG-088.md), [BUG-089](items/BUG-089.md), [BUG-090](items/BUG-090.md), [BUG-091](items/BUG-091.md) |
+| [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md) | [BUG-078](items/BUG-078.md), [BUG-079](items/BUG-079.md), [BUG-080](items/BUG-080.md), [BUG-081](items/BUG-081.md), [BUG-082](items/BUG-082.md), [BUG-083](items/BUG-083.md), [BUG-084](items/BUG-084.md), [BUG-085](items/BUG-085.md), [BUG-086](items/BUG-086.md), [BUG-087](items/BUG-087.md), [BUG-088](items/BUG-088.md), [BUG-089](items/BUG-089.md), [BUG-090](items/BUG-090.md), [BUG-091](items/BUG-091.md), [BUG-092](items/BUG-092.md), [BUG-093](items/BUG-093.md), [BUG-094](items/BUG-094.md), [BUG-095](items/BUG-095.md), [BUG-096](items/BUG-096.md) |
 
 ## Deferred Scope
 

@@ -20,14 +20,20 @@ Covered items:
 - [BUG-089](../items/BUG-089.md) - UDP control sender can deadlock on exception while holding sendLocker
 - [BUG-090](../items/BUG-090.md) - Background refresh completion can wedge when UI PostMessage fails
 - [BUG-091](../items/BUG-091.md) - DirectDownload ignores close-time write failures
+- [BUG-092](../items/BUG-092.md) - Background refresh workers can write through freed owner memory after shutdown
+- [BUG-093](../items/BUG-093.md) - Failed refresh completion can synchronously block worker on UI thread
+- [BUG-094](../items/BUG-094.md) - ResumeThread failure leaks suspended refresh thread objects
+- [BUG-095](../items/BUG-095.md) - WebSocket accepted-client tracking is not exception-safe after thread start
+- [BUG-096](../items/BUG-096.md) - DirectDownload lacks bounded timeout and cancellation contract
 
 ## Current State
 
 `eMule-main` was clean at the 2026-05-08 follow-up review time. The original
-R1 stability items through [BUG-085](../items/BUG-085.md) are done on `main`,
-but the follow-up adversarial pass found additional runtime safety, shutdown,
-remote input, and persistence risks that are not covered by the static workspace
-policy audits.
+R1 stability items through [BUG-091](../items/BUG-091.md) are done on `main`.
+The latest follow-up adversarial pass found additional refresh lifetime,
+worker/UI handoff, launch-failure, WebSocket tracking, and DirectDownload
+timeout risks tracked as [BUG-092](../items/BUG-092.md) through
+[BUG-096](../items/BUG-096.md). Those items are open R1 blockers.
 
 ## Sequencing
 
@@ -41,6 +47,15 @@ policy audits.
    [BUG-083](../items/BUG-083.md) and [BUG-084](../items/BUG-084.md).
 5. Prove or adjust Kad/client UDP encryption behavior:
    [BUG-085](../items/BUG-085.md).
+6. Close the refresh shutdown use-after-free and synchronous UI handoff as one
+   coherent lifetime slice: [BUG-092](../items/BUG-092.md) and
+   [BUG-093](../items/BUG-093.md).
+7. Close the refresh launch-failure leak in the same owner/context model:
+   [BUG-094](../items/BUG-094.md).
+8. Close WebSocket accepted-client tracking exception safety:
+   [BUG-095](../items/BUG-095.md).
+9. Add bounded timeout or cancellation semantics for refresh downloads:
+   [BUG-096](../items/BUG-096.md).
 Each slice must be committed and pushed before the next independent slice starts.
 
 ## Shared Implementation Rules
@@ -357,6 +372,119 @@ Status:
 - `DirectDownload::DownloadUrlToFile` now treats `_close` failure as a download
   failure and deletes the target artifact like earlier read/write failures.
 
+### BUG-092 - background refresh worker owner lifetime
+
+Implementation:
+
+- Remove raw worker-context pointers into `CGeoLocation` and
+  `CIPFilterUpdater` member storage, or replace them with an explicitly owned
+  completion/lifetime token.
+- If refresh workers remain owner-managed, make owner destruction cancel and
+  join outstanding workers before the owner memory is released.
+- Ensure normal completion, failed UI notification, and shutdown cleanup consume
+  the refresh context exactly once.
+- Preserve manual and scheduled refresh serialization.
+
+Validation:
+
+- Completion after owner shutdown cannot write through freed owner memory.
+- Failed notification delivery cannot leave the refresh state wedged.
+- GeoLocation and IPFilter refresh success paths still promote valid artifacts.
+
+Status:
+
+- Open. No app change has been made for this item yet.
+
+### BUG-093 - refresh completion synchronous UI fallback
+
+Implementation:
+
+- Remove worker-thread `SendMessage` fallback from GeoLocation and IPFilter
+  refresh completion delivery.
+- Treat successful `PostMessage` as the only UI-thread ownership transfer.
+- Treat failed post as deterministic terminal cleanup, or route it through the
+  owner cancellation/join model from [BUG-092](../items/BUG-092.md).
+- Keep UI-owned state transitions on the UI thread without blocking worker
+  threads on the UI message pump.
+
+Validation:
+
+- Simulated failed `PostMessage` does not call the completion handler through
+  worker-thread `SendMessage`.
+- Simulated blocked UI or shutdown cannot deadlock a refresh worker.
+- Refresh can be retried after failed completion delivery.
+
+Status:
+
+- Open. No app change has been made for this item yet.
+
+### BUG-094 - refresh ResumeThread failure cleanup
+
+Implementation:
+
+- Keep explicit ownership of suspended `CWinThread` objects until
+  `ResumeThread` succeeds.
+- Do not release refresh context ownership to a worker that never starts.
+- On resume failure, close/delete the suspended thread object using the correct
+  MFC ownership contract, reset refresh state, and remove any attempted
+  temporary artifact.
+- Apply the same launch-failure model to GeoLocation and IPFilter.
+
+Validation:
+
+- Injected `ResumeThread` failure leaves no suspended thread handle or
+  `CWinThread` object behind.
+- Refresh state is idle after launch failure.
+- Successful worker start remains unchanged.
+
+Status:
+
+- Open. No app change has been made for this item yet.
+
+### BUG-095 - WebSocket accepted-client tracking exception safety
+
+Implementation:
+
+- Make accepted-client thread tracking succeed before the thread can run, or
+  guard the started thread, socket, and SSL state until tracking succeeds.
+- If tracking allocation fails after thread creation, signal/close/join the
+  accepted client deterministically.
+- Keep accepted-client drain, shutdown, and restart-safety behavior from the
+  existing R1 WebSocket fixes.
+
+Validation:
+
+- Injected allocation failure in accepted-thread tracking cannot leave a running
+  untracked accepted client.
+- HTTP and HTTPS accepted-client shutdown still drains tracked clients.
+- WebSocket restart refusal still protects against incomplete shutdown.
+
+Status:
+
+- Open. No app change has been made for this item yet.
+
+### BUG-096 - DirectDownload timeout and cancellation contract
+
+Implementation:
+
+- Add bounded WinInet timeout behavior for background refresh downloads, or pass
+  an explicit cancellation/shutdown event into refresh downloads.
+- Keep successful download, proxy, temp-file cleanup, and BUG-091 close-time
+  persistence behavior compatible.
+- Define the timeout/cancellation contract in the DirectDownload call surface or
+  a narrow options structure rather than relying on implicit WinInet defaults.
+
+Validation:
+
+- Hanging send and read paths return within the documented bound or respond to
+  cancellation.
+- Timed-out downloads clean up artifacts and leave refresh state reusable.
+- GeoLocation and IPFilter refresh success paths remain unchanged.
+
+Status:
+
+- Open. No app change has been made for this item yet.
+
 ## Release Exit Criteria
 
 All covered items must be either:
@@ -364,5 +492,7 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-All covered items are now `Done` on `main` with commit evidence. R1 should still
-run the final release checklist and any broader live E2E gates before tagging.
+[BUG-092](../items/BUG-092.md) through [BUG-096](../items/BUG-096.md) are open
+R1 blockers. Do not tag `emule-bb-v1.0.0` until they are fixed, validated, and
+their item docs carry commit evidence, or until `RELEASE-1.0.md` explicitly
+reclassifies them by product decision.
