@@ -188,6 +188,16 @@ Validation:
 - Crypt disabled: behavior is either proven compatible or intentionally restored.
 - LowID and buddy/callback paths do not regress.
 
+Status:
+
+- Done 2026-05-08 in app commit `2ee49ab` and test commit `2d5cc1a`.
+- Validated with workspace `validate`, Release x64 main app build, Release x64
+  main test build, and the focused Client UDP crypt gating doctest.
+- Release 1 behavior is explicitly documented and tested: outgoing ED2K and Kad
+  client UDP obfuscation follows the global crypt-layer preference; crypt
+  disabled keeps new outgoing client UDP sends plain while inbound encrypted
+  datagrams remain accepted by the encrypted datagram receive path.
+
 ## Release Exit Criteria
 
 All covered items must be either:
@@ -195,5 +205,5 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-R1 remains blocked while any covered item is `Open`, `In Progress`, or
-unvalidated.
+All covered items are now `Done` on `main` with commit evidence. R1 should still
+run the final release checklist and any broader live E2E gates before tagging.

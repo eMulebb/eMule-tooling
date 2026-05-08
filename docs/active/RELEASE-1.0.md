@@ -40,9 +40,10 @@ aMuTorrent remains the primary UI proof target, but it adapts to the clean
 native `/api/v1` design and must not drive native route shape, aliases,
 envelopes, or validation policy.
 
-Current stability focus: close the adversarial current-branch findings from the
-2026-05-08 R1 review before any public tag. The detailed task queue lives in the
-[R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
+Current stability focus: the adversarial current-branch findings from the
+2026-05-08 R1 review are closed on `main`. Keep their evidence in the
+[R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
+available for final release revalidation.
 
 | ID | Gate | Status | Evidence pointer |
 |----|------|--------|------------------|
@@ -63,7 +64,7 @@ Current stability focus: close the adversarial current-branch findings from the
 | [BUG-082](items/BUG-082.md) | GeoLocation/IPFilter refresh state cannot wedge | Done | app `e5c8f81`, Release x64 validation |
 | [BUG-083](items/BUG-083.md) | Client UDP malformed-packet logging is bounds-safe | Done | app `1af8bb5`, tests `cfe9b96`, Release x64 validation |
 | [BUG-084](items/BUG-084.md) | Web admin process token handles are closed | Done | app `1513358`, Release x64 validation |
-| [BUG-085](items/BUG-085.md) | Kad/client UDP encryption gating has compatibility proof | Open | 2026-05-08 adversarial review |
+| [BUG-085](items/BUG-085.md) | Kad/client UDP encryption gating has compatibility proof | Done | app `2ee49ab`, tests `2d5cc1a`, Release x64 validation |
 
 ## Candidate Decisions
 
