@@ -113,7 +113,12 @@ Status:
   declared-body reset, conflicting `Content-Length`, overlong headers, and
   invalid UTF-8 JSON. Build orchestration commit `4a531f6` exposes the budget
   through the supported workspace `live-e2e` entrypoint.
-- Pending: HTTPS profile/certificate support, TLS handshake stall probes,
+- Test harness commit `96f4759` adds the HTTPS WebServer profile path,
+  generated local certificate/key material, unverified local HTTPS client
+  context, and aggregate suite scheme wiring. Build orchestration commit
+  `a229e6c` exposes the scheme selector through the supported workspace
+  `live-e2e` entrypoint.
+- Pending: HTTPS live contract-stress artifact, TLS handshake stall probes,
   reset-during-response coverage, accepted-thread drain/resource assertions,
   and 32/64-client stress artifacts.
 
