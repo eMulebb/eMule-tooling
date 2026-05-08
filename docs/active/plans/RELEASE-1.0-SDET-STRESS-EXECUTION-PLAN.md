@@ -223,8 +223,14 @@ Status:
   `resource_thresholds.ok=true`, and zero threshold violations. Observed
   post-drain deltas were handles `+1`, private bytes `+442368`, and working set
   bytes `+745472`.
-- Pending: HTTPS soak artifact evidence, accepted-client drain assertions,
-  stop/start-after-churn proof, and safe legacy listen-socket churn coverage.
+- HTTPS soak artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-122141-eMule-main-release\result.json`
+  passed 1000/1000 HTTPS leak-churn cycles with enforced thresholds,
+  `resource_thresholds.ok=true`, and zero threshold violations. Observed
+  post-drain deltas were GDI objects `+1`, private bytes `+131563520`, and
+  working set bytes `+131661824`; handles finished below baseline.
+- Pending: accepted-client drain assertions, stop/start-after-churn proof, and
+  safe legacy listen-socket churn coverage.
 
 ## Release Exit Criteria
 
