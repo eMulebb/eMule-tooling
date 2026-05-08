@@ -95,7 +95,7 @@ churn. Keep their execution and closure flow in the
 | [BUG-098](items/BUG-098.md) | Archive recovery worker uses raw part-file owner across async work | Wont-Fix | deprecated/frozen by product decision; app `8c2cc67` source comment |
 | [BUG-099](items/BUG-099.md) | WebSocket listener startup is exception-safe after global state initialization | Done | app `a4c4dc3`, Debug and Release x64 validation |
 | [BUG-100](items/BUG-100.md) | DirectDownload has hard owner cancellation for background refresh downloads | Done | app `9d765e3`, Debug and Release x64 validation |
-| [CI-018](items/CI-018.md) | Shared Files 10k-node tree refresh stress gate | In Progress | tests `92002da`; smoke/soak live evidence pending |
+| [CI-018](items/CI-018.md) | Shared Files 10k-node tree refresh stress gate | In Progress | tests `92002da`, `aea5e55`; smoke/soak live evidence pending |
 | [CI-019](items/CI-019.md) | HTTPS and REST socket adversity stress gate | In Progress | tests `ad2ac65`, build `4a531f6`; HTTPS/TLS evidence pending |
 | [CI-020](items/CI-020.md) | REST and legacy WebServer error-path coverage gate | In Progress | tests `36a612a`; 500/503 fault-injection evidence pending |
 | [CI-021](items/CI-021.md) | WebSocket and legacy socket leak-churn gate | In Progress | tests `1d97dd4`, `e88e067`, build `94d1044`; HTTP soak artifact and HTTPS churn evidence pending |

@@ -74,8 +74,10 @@ Status:
   fixture, `tree-refresh-stress-10k` scenario, tree collapse/expand churn,
   reload/sort/paint churn, aggregate Shared Files UI suite wiring, resource
   snapshots, and targeted Python coverage.
-- Pending: live smoke artifact, live soak artifact, REST convergence checks
-  during churn, and documented resource thresholds.
+- Test harness commit `aea5e55` enables REST in the tree stress profile and
+  checks `/api/v1/shared-files` row-count convergence before and after churn.
+- Pending: live smoke artifact, live soak artifact, and documented resource
+  thresholds.
 
 ### CI-019 - HTTPS and REST socket adversity stress gate
 
