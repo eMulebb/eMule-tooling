@@ -160,8 +160,13 @@ Status:
   `rest_error_path_matrix` release artifact to live REST reports, including
   observed status counts, covered release statuses, missing release statuses,
   and sampled error responses.
-- Pending: explicit 500/503 rows, reset-during-error-response probes,
-  fault-injection coverage, and promotion from reporting artifact to hard gate.
+- Test harness commit `f12b49d` adds explicit seam-backed 500 and 503 release
+  rows tied to existing `web_api.tests.cpp` coverage for `EMULE_ERROR` and
+  `EMULE_UNAVAILABLE`, while preserving `live_missing_release_statuses` for
+  live evidence gaps.
+- Pending: live or fault-injected 500/503 rows,
+  reset-during-error-response probes, fault-injection cleanup coverage, and
+  promotion from reporting artifact to hard gate.
 
 ### CI-021 - WebSocket and legacy socket leak-churn gate
 
