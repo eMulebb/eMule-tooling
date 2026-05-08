@@ -17,6 +17,7 @@ Operator docs:
 - [Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)
 - [NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md)
 - [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
+- [SDET stress execution plan](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md)
 
 ## Release Identity
 
@@ -51,6 +52,12 @@ recovery findings [BUG-074](items/BUG-074.md) and
 deprecated features are entirely frozen, including known bugs. Keep their
 execution and closure flow in the
 [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
+
+Current SDET stress focus: the 2026-05-08 test-robustness review promoted four
+additional R1 release gates for large Shared Files UI churn, HTTPS/socket
+adversity, explicit error-path coverage, and resource-accounted socket leak
+churn. Keep their execution and closure flow in the
+[SDET stress execution plan](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md).
 
 | ID | Gate | Status | Evidence pointer |
 |----|------|--------|------------------|
@@ -88,6 +95,10 @@ execution and closure flow in the
 | [BUG-098](items/BUG-098.md) | Archive recovery worker uses raw part-file owner across async work | Wont-Fix | deprecated/frozen by product decision; app `8c2cc67` source comment |
 | [BUG-099](items/BUG-099.md) | WebSocket listener startup is exception-safe after global state initialization | Done | app `a4c4dc3`, Debug and Release x64 validation |
 | [BUG-100](items/BUG-100.md) | DirectDownload has hard owner cancellation for background refresh downloads | Done | app `9d765e3`, Debug and Release x64 validation |
+| [CI-018](items/CI-018.md) | Shared Files 10k-node tree refresh stress gate | Open | SDET stress plan |
+| [CI-019](items/CI-019.md) | HTTPS and REST socket adversity stress gate | Open | SDET stress plan |
+| [CI-020](items/CI-020.md) | REST and legacy WebServer error-path coverage gate | Open | SDET stress plan |
+| [CI-021](items/CI-021.md) | WebSocket and legacy socket leak-churn gate | Open | SDET stress plan |
 
 ## Candidate Decisions
 
@@ -116,6 +127,7 @@ closure and revalidation flow.
 | [Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md) | [FEAT-050](items/FEAT-050.md) |
 | [NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md) | [FEAT-032](items/FEAT-032.md) |
 | [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md) | [BUG-078](items/BUG-078.md), [BUG-079](items/BUG-079.md), [BUG-080](items/BUG-080.md), [BUG-081](items/BUG-081.md), [BUG-082](items/BUG-082.md), [BUG-083](items/BUG-083.md), [BUG-084](items/BUG-084.md), [BUG-085](items/BUG-085.md), [BUG-086](items/BUG-086.md), [BUG-087](items/BUG-087.md), [BUG-088](items/BUG-088.md), [BUG-089](items/BUG-089.md), [BUG-090](items/BUG-090.md), [BUG-091](items/BUG-091.md), [BUG-092](items/BUG-092.md), [BUG-093](items/BUG-093.md), [BUG-094](items/BUG-094.md), [BUG-095](items/BUG-095.md), [BUG-096](items/BUG-096.md), [BUG-097](items/BUG-097.md), [BUG-074](items/BUG-074.md), [BUG-098](items/BUG-098.md), [BUG-099](items/BUG-099.md), [BUG-100](items/BUG-100.md) |
+| [SDET stress execution plan](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md) | [CI-018](items/CI-018.md), [CI-019](items/CI-019.md), [CI-020](items/CI-020.md), [CI-021](items/CI-021.md) |
 
 ## Deferred Scope
 

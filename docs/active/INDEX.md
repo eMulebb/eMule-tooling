@@ -12,10 +12,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `61`
+**Current non-done count:** `65`
 **Latest status refresh:** 2026-05-08
-**Non-done by status:** `40` Open, `8` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `4` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
+**Non-done by status:** `44` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `4` Bugs, `21` Refactors, `26` Features, `14` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** pre-release stabilization; no official release
@@ -28,7 +28,8 @@ the operator steps are complete.
 [Live E2E](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md),
 [Download completion hook](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
 [NAT mapping](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md),
-[R1 stability blockers](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
+[R1 stability blockers](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md),
+[SDET stress gates](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md)
 
 Latest review trail:
 
@@ -40,6 +41,7 @@ Latest review trail:
 - [RELEASE-1.0 Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)
 - [RELEASE-1.0 NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md)
 - [RELEASE-1.0 R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
+- [RELEASE-1.0 SDET stress execution plan](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md)
 - [REVIEW-2026-05-02-outbound-bind-compliance-audit](reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
 - [REVIEW-2026-05-01-release-readiness-regression-scan](reviews/REVIEW-2026-05-01-release-readiness-regression-scan.md)
 - [REVIEW-2026-04-26-main-bug-concurrency-scan](reviews/REVIEW-2026-04-26-main-bug-concurrency-scan.md)
@@ -328,6 +330,10 @@ where that comparison is meaningful.
 | [CI-015](items/CI-015.md) | Major | **Done** | REST malformed and concurrent request matrix |
 | [CI-016](items/CI-016.md) | Minor | Passed | REST-only main vs community regression lane |
 | [CI-017](items/CI-017.md) | Minor | **Done** | Normalize active workspace line-ending policy to LF by default |
+| [CI-018](items/CI-018.md) | Major | Open | Shared Files 10k-node tree refresh stress gate |
+| [CI-019](items/CI-019.md) | Major | Open | HTTPS and REST socket adversity stress gate |
+| [CI-020](items/CI-020.md) | Major | Open | REST and legacy WebServer error-path coverage gate |
+| [CI-021](items/CI-021.md) | Major | Open | WebSocket and legacy socket leak-churn gate |
 
 ---
 
@@ -351,7 +357,8 @@ Release 1 implementation detail lives in the cluster execution plans:
 [Live E2E](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md),
 [Download completion hook](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
 [NAT mapping](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md),
-and [R1 stability blockers](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
+[R1 stability blockers](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md),
+and [SDET stress gates](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md).
 
 ## Reference Material
 
