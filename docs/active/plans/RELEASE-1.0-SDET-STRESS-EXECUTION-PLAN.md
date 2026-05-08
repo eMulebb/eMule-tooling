@@ -164,6 +164,14 @@ Status:
   rows tied to existing `web_api.tests.cpp` coverage for `EMULE_ERROR` and
   `EMULE_UNAVAILABLE`, while preserving `live_missing_release_statuses` for
   live evidence gaps.
+- Test harness commit `69b8afa` adds explicit seam-backed 405 and 409 release
+  rows tied to existing `web_api.tests.cpp` coverage for `METHOD_NOT_ALLOWED`
+  and `INVALID_STATE`.
+- HTTP contract artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-120738-eMule-main-release\result.json`
+  passed with all release statuses covered by live or seam-backed rows,
+  `missing_release_statuses=[]`, and live gaps preserved for 405, 409, 500, and
+  503.
 - Pending: live or fault-injected 500/503 rows,
   reset-during-error-response probes, fault-injection cleanup coverage, and
   promotion from reporting artifact to hard gate.
