@@ -29,10 +29,9 @@ Covered items:
 ## Current State
 
 `eMule-main` was clean at the 2026-05-08 follow-up review time. The original
-R1 stability items through [BUG-094](../items/BUG-094.md) are done on `main`.
-The latest follow-up adversarial pass still has open WebSocket tracking and
-DirectDownload timeout risks tracked as [BUG-095](../items/BUG-095.md) and
-[BUG-096](../items/BUG-096.md).
+R1 stability items through [BUG-095](../items/BUG-095.md) are done on `main`.
+The latest follow-up adversarial pass still has an open DirectDownload timeout
+risk tracked as [BUG-096](../items/BUG-096.md).
 
 ## Sequencing
 
@@ -475,7 +474,12 @@ Validation:
 
 Status:
 
-- Open. No app change has been made for this item yet.
+- Done 2026-05-08 in app commit `219be75`.
+- Validated with workspace `validate`, Release x64 main app build, and Debug
+  x64 main app build.
+- Accepted WebSocket client threads are now inserted into the tracked-thread
+  list before `CreateThread` starts them; if tracking allocation fails, no
+  accepted-client thread has started and the accept path cleans up locally.
 
 ### BUG-096 - DirectDownload timeout and cancellation contract
 
@@ -506,7 +510,7 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-[BUG-095](../items/BUG-095.md) and [BUG-096](../items/BUG-096.md) are open
-R1 blockers. Do not tag `emule-bb-v1.0.0` until they are fixed, validated, and
-their item docs carry commit evidence, or until `RELEASE-1.0.md` explicitly
-reclassifies them by product decision.
+[BUG-096](../items/BUG-096.md) is an open R1 blocker. Do not tag
+`emule-bb-v1.0.0` until it is fixed, validated, and its item doc carries commit
+evidence, or until `RELEASE-1.0.md` explicitly reclassifies it by product
+decision.

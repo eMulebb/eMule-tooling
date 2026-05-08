@@ -43,7 +43,8 @@ envelopes, or validation policy.
 Current stability focus: the original adversarial current-branch findings from
 the 2026-05-08 R1 review are closed on `main`, and the 2026-05-08 follow-up
 pass has closed [BUG-092](items/BUG-092.md) through [BUG-094](items/BUG-094.md).
-[BUG-095](items/BUG-095.md) and [BUG-096](items/BUG-096.md) remain open R1 blockers. Keep their
+[BUG-095](items/BUG-095.md) is closed on `main`; [BUG-096](items/BUG-096.md)
+remains an open R1 blocker. Keep their
 evidence and closure flow in the
 [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
 
@@ -76,7 +77,7 @@ evidence and closure flow in the
 | [BUG-092](items/BUG-092.md) | Background refresh workers cannot write through freed owner memory | Done | app `cfb0625`, Debug and Release x64 validation |
 | [BUG-093](items/BUG-093.md) | Failed refresh completion cannot synchronously block worker on UI thread | Done | app `2823a5c`, Debug and Release x64 validation |
 | [BUG-094](items/BUG-094.md) | Refresh launch failure cannot leak suspended thread objects | Done | app `e5d770e`, Debug and Release x64 validation |
-| [BUG-095](items/BUG-095.md) | WebSocket accepted-client tracking is exception-safe after thread start | Open | pending |
+| [BUG-095](items/BUG-095.md) | WebSocket accepted-client tracking is exception-safe after thread start | Done | app `219be75`, Debug and Release x64 validation |
 | [BUG-096](items/BUG-096.md) | DirectDownload has bounded timeout or cancellation semantics | Open | pending |
 
 ## Candidate Decisions
