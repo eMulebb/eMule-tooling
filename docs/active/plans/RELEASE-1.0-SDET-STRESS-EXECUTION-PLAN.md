@@ -213,6 +213,9 @@ Status:
   leak-churn deltas and fails the run on threshold violations.
 - Test harness commit `b8729d3` adds process thread-count snapshots and
   thread-count leak thresholds as accepted-client drain proxy evidence.
+- Test harness commit `352a2d2` adds stop/start-after-churn proof for the REST
+  smoke harness; build orchestration commit `3ec3674` exposes it through
+  `-RestStopStartAfterChurn`.
 - HTTPS smoke artifact
   `repos\eMule-build-tests\reports\rest-api-smoke\20260508-121849-eMule-main-release\result.json`
   passed 100/100 HTTPS leak-churn cycles with enforced thresholds,
@@ -236,8 +239,14 @@ Status:
   passed with process thread count `19 -> 19 -> 19` across baseline, peak, and
   post-drain snapshots, `thread_count` delta `0`, and zero threshold
   violations.
+- HTTPS stop/start-after-churn artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-123736-eMule-main-release\result.json`
+  passed 100/100 HTTPS leak-churn cycles with enforced thresholds,
+  `resource_thresholds.ok=true`, and zero threshold violations. The old process
+  `15520` closed in `8590.308` ms, the same profile relaunched as process
+  `16760`, and REST readiness returned status `200`.
 - Pending: exact accepted-client drain assertions if a product seam is promoted,
-  stop/start-after-churn proof, and safe legacy listen-socket churn coverage.
+  and safe legacy listen-socket churn coverage.
 
 ## Release Exit Criteria
 
