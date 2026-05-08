@@ -66,6 +66,12 @@ Validation:
 - Protected qBit route returns forbidden/service unavailable when RNG fails.
 - Native `/api/v1` authentication behavior is unchanged.
 
+Status:
+
+- Done 2026-05-08 in app commit `02fd5bf` and test commit `dfc86d6`.
+- Validated with workspace `validate`, Release x64 main test build, focused
+  qBit cookie doctest, and Release x64 main app build.
+
 ### BUG-079/080/081 - WebSocket shutdown and TLS event loops
 
 Implementation:

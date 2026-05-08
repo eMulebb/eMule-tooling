@@ -56,7 +56,7 @@ Current stability focus: close the adversarial current-branch findings from the
 | [AMUT-002](items/AMUT-002.md) | aMuTorrent transfer detail hydration | Passed | item completion evidence and latest aMuTorrent browser smoke report |
 | [ARR-001](items/ARR-001.md) | Arr live E2E validation | Passed | item completion evidence |
 | [FEAT-050](items/FEAT-050.md) | Download completion hook | Passed | item completion evidence |
-| [BUG-078](items/BUG-078.md) | qBit auth fails closed on session RNG failure | Open | 2026-05-08 adversarial review |
+| [BUG-078](items/BUG-078.md) | qBit auth fails closed on session RNG failure | Done | app `02fd5bf`, tests `dfc86d6`, Release x64 validation |
 | [BUG-079](items/BUG-079.md) | WebSocket accepted-client shutdown lifetime | Open | 2026-05-08 adversarial review |
 | [BUG-080](items/BUG-080.md) | WebSocket shutdown avoids `TerminateThread` | Open | 2026-05-08 adversarial review |
 | [BUG-081](items/BUG-081.md) | HTTPS WebSocket WANT_READ/WANT_WRITE loops yield to socket waits | Open | 2026-05-08 adversarial review |
