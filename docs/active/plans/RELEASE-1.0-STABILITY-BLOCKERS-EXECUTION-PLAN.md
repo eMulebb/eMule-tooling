@@ -94,6 +94,15 @@ Validation:
 - Slow HTTPS handshake/read simulation does not spin a CPU core.
 - Existing REST malformed/concurrent matrix still passes.
 
+Status:
+
+- BUG-079, BUG-080, and BUG-081 are done 2026-05-08 in app commit `aa66699`.
+- Validated with workspace `validate` and Release x64 main app build.
+- The implementation tracks accepted-client thread objects until join/reap,
+  closes `s_hTerminate` only after socket threads are drained, removes the
+  listener `TerminateThread` fallback, and moves HTTPS WANT paths back to socket
+  readiness or queued sends instead of tight loops.
+
 ### BUG-082 - background refresh state ownership
 
 Implementation:
