@@ -42,7 +42,7 @@ envelopes, or validation policy.
 
 Current stability focus: the first adversarial current-branch findings from the
 2026-05-08 R1 review are closed on `main`, but the follow-up pass added
-[BUG-087](items/BUG-087.md) through [BUG-091](items/BUG-091.md) as open R1
+[BUG-088](items/BUG-088.md) through [BUG-091](items/BUG-091.md) as open R1
 blockers. Keep their evidence and closure flow in the
 [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
 
@@ -67,7 +67,7 @@ blockers. Keep their evidence and closure flow in the
 | [BUG-084](items/BUG-084.md) | Web admin process token handles are closed | Done | app `1513358`, Release x64 validation |
 | [BUG-085](items/BUG-085.md) | Kad/client UDP encryption gating has compatibility proof | Done | app `2ee49ab`, tests `2d5cc1a`, Release x64 validation |
 | [BUG-086](items/BUG-086.md) | HTTPS WebSocket mbedTLS socket context ABI is safe | Done | app `c6c1526`, Release x64 validation |
-| [BUG-087](items/BUG-087.md) | HTTPS WebSocket queued TLS writes cannot stall on WANT_READ | Open | follow-up review finding; execution plan pending |
+| [BUG-087](items/BUG-087.md) | HTTPS WebSocket queued TLS writes cannot stall on WANT_READ | Done | app `dfcf1fe`, Release x64 validation |
 | [BUG-088](items/BUG-088.md) | WebSocket failed shutdown cannot poison restart | Open | follow-up review finding; execution plan pending |
 | [BUG-089](items/BUG-089.md) | UDP control sender is exception-safe under `sendLocker` | Open | follow-up review finding; execution plan pending |
 | [BUG-090](items/BUG-090.md) | Background refresh completion cannot wedge on failed UI post | Open | follow-up review finding; execution plan pending |
