@@ -125,9 +125,14 @@ Status:
 - Test harness commit `9e130c3` adds a full-request
   `reset_during_response_send` raw socket probe to exercise queued-send cleanup
   when the client resets before consuming the response.
-- Pending: HTTPS live contract-stress artifact, live TLS handshake drain
-  evidence, reset-during-response resource proof, accepted-thread drain/resource
-  assertions, and 32/64-client stress artifacts.
+- HTTPS smoke artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-120119-eMule-main-release\result.json`
+  passed with `--webserver-scheme https`,
+  `--rest-tls-handshake-adversity-budget smoke`, three TLS handshake probes,
+  and process resource snapshots after launch and after adversity/stress.
+- Pending: HTTPS live contract-stress artifact, explicit accepted-client drain
+  assertions, reset-during-response resource proof, and 32/64-client stress
+  artifacts.
 
 ### CI-020 - REST and legacy WebServer error-path coverage gate
 
