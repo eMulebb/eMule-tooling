@@ -98,7 +98,7 @@ churn. Keep their execution and closure flow in the
 | [CI-018](items/CI-018.md) | Shared Files 10k-node tree refresh stress gate | In Progress | tests `92002da`; smoke/soak live evidence pending |
 | [CI-019](items/CI-019.md) | HTTPS and REST socket adversity stress gate | In Progress | tests `ad2ac65`, build `4a531f6`; HTTPS/TLS evidence pending |
 | [CI-020](items/CI-020.md) | REST and legacy WebServer error-path coverage gate | In Progress | tests `36a612a`; 500/503 fault-injection evidence pending |
-| [CI-021](items/CI-021.md) | WebSocket and legacy socket leak-churn gate | Open | SDET stress plan |
+| [CI-021](items/CI-021.md) | WebSocket and legacy socket leak-churn gate | In Progress | tests `1d97dd4`; 1k HTTP/HTTPS churn evidence pending |
 
 ## Candidate Decisions
 

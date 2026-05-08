@@ -162,6 +162,15 @@ Validation:
 - Stop/start succeeds only after a fully drained state.
 - The final report identifies any stuck thread, handle, or queued-send state.
 
+Status:
+
+- In Progress. Test harness commit `1d97dd4` adds live REST process resource
+  snapshots after launch and after REST socket adversity/stress, plus deltas for
+  handles, GDI objects, USER objects, private bytes, and working set bytes.
+- Pending: dedicated 1k+ HTTP/HTTPS churn modes, peak/post-drain snapshots,
+  accepted-client drain assertions, stop/start-after-churn proof, and safe
+  legacy listen-socket churn coverage.
+
 ## Release Exit Criteria
 
 All covered items must be `Done` or `Passed` with:
