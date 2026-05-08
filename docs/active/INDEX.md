@@ -12,10 +12,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `64`
+**Current non-done count:** `63`
 **Latest status refresh:** 2026-05-08
-**Non-done by status:** `43` Open, `8` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `7` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
+**Non-done by status:** `42` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `6` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** pre-release stabilization; no official release
@@ -181,7 +181,7 @@ where that comparison is meaningful.
 | [BUG-091](items/BUG-091.md) | Major | **Done** | DirectDownload ignores close-time write failures |
 | [BUG-092](items/BUG-092.md) | Critical | **Done** | Background refresh workers can write through freed owner memory after shutdown |
 | [BUG-093](items/BUG-093.md) | Critical | **Done** | Failed refresh completion can synchronously block worker on UI thread |
-| [BUG-094](items/BUG-094.md) | Major | Open | ResumeThread failure leaks suspended refresh thread objects |
+| [BUG-094](items/BUG-094.md) | Major | **Done** | ResumeThread failure leaks suspended refresh thread objects |
 | [BUG-095](items/BUG-095.md) | Major | Open | WebSocket accepted-client tracking is not exception-safe after thread start |
 | [BUG-096](items/BUG-096.md) | Major | Open | DirectDownload lacks bounded timeout and cancellation contract |
 
