@@ -70,7 +70,7 @@ Validation:
 
 Status:
 
-- In Progress. Test harness commit `92002da` adds the opt-in 10k+ stress
+- Done. Test harness commit `92002da` adds the opt-in 10k+ stress
   fixture, `tree-refresh-stress-10k` scenario, tree collapse/expand churn,
   reload/sort/paint churn, aggregate Shared Files UI suite wiring, resource
   snapshots, and targeted Python coverage.
@@ -89,8 +89,12 @@ Status:
   `repos\eMule-build-tests\reports\shared-files-ui-e2e\20260508-125931-eMule-main-release\tree-refresh-stress-10k\result.json`
   failed before churn with `Timed out waiting for eMule main window`; this is
   tracked as [BUG-101](../items/BUG-101.md).
-- Pending: passing live smoke artifact after [BUG-101](../items/BUG-101.md),
-  live soak artifact, and documented resource thresholds.
+- Passing 50k smoke artifact
+  `repos\eMule-build-tests\reports\shared-files-ui-e2e\20260508-170043-eMule-main-release\result.json`
+  and passing 160-cycle operator soak artifact
+  `repos\eMule-build-tests\reports\shared-files-ui-e2e\20260508-204401-eMule-main-release\tree-refresh-stress-10k\result.json`
+  close this gate with resource thresholds enforced by test harness commit
+  `f79199e`.
 
 ### CI-019 - HTTPS and REST socket adversity stress gate
 
@@ -118,7 +122,7 @@ Validation:
 
 Status:
 
-- In Progress. Test harness commit `ad2ac65` adds the `rest_socket_adversity`
+- Done. Test harness commit `ad2ac65` adds the `rest_socket_adversity`
   smoke budget with raw socket probes for partial-header reset,
   declared-body reset, conflicting `Content-Length`, overlong headers, and
   invalid UTF-8 JSON. Build orchestration commit `4a531f6` exposes the budget
@@ -140,9 +144,16 @@ Status:
   passed with `--webserver-scheme https`,
   `--rest-tls-handshake-adversity-budget smoke`, three TLS handshake probes,
   and process resource snapshots after launch and after adversity/stress.
-- Pending: HTTPS live contract-stress artifact, explicit accepted-client drain
-  assertions, reset-during-response resource proof, and 32/64-client stress
-  artifacts.
+- HTTPS 32-client contract-stress artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-201653-eMule-main-release\result.json`,
+  HTTPS 64-client contract-stress artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-202554-eMule-main-release\result.json`,
+  and HTTP 64-client socket-adversity artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-203041-eMule-main-release\result.json`
+  close this gate. App hardening commit `c5a2794` keeps accepted-client
+  concurrency bounded while adding release-gate headroom, and test harness
+  commit `d6b4f82` records transient reset retry recovery without masking
+  listener death, timeouts, or response-shape regressions.
 
 ### CI-020 - REST and legacy WebServer error-path coverage gate
 
@@ -166,7 +177,7 @@ Validation:
 
 Status:
 
-- In Progress. Test harness commit `36a612a` adds the
+- Done. Test harness commit `36a612a` adds the
   `rest_error_path_matrix` release artifact to live REST reports, including
   observed status counts, covered release statuses, missing release statuses,
   and sampled error responses.
@@ -182,9 +193,14 @@ Status:
   passed with all release statuses covered by live or seam-backed rows,
   `missing_release_statuses=[]`, and live gaps preserved for 405, 409, 500, and
   503.
-- Pending: live or fault-injected 500/503 rows,
-  reset-during-error-response probes, fault-injection cleanup coverage, and
-  promotion from reporting artifact to hard gate.
+- Test harness commit `704a97b` promotes the matrix to a hard release gate and
+  adds `reset_during_error_response_send` socket coverage. The R1 release
+  decision keeps 405, 409, 500, and 503 as deterministic seam-backed rows, with
+  live gaps visible in `live_missing_release_statuses`. HTTPS artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-202554-eMule-main-release\result.json`
+  and HTTP socket-adversity artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-203041-eMule-main-release\result.json`
+  both passed with `missing_release_statuses=[]`.
 
 ### CI-021 - WebSocket and legacy socket leak-churn gate
 
@@ -209,7 +225,7 @@ Validation:
 
 Status:
 
-- In Progress. Test harness commit `1d97dd4` adds live REST process resource
+- Done. Test harness commit `1d97dd4` adds live REST process resource
   snapshots after launch and after REST socket adversity/stress, plus deltas for
   handles, GDI objects, USER objects, private bytes, and working set bytes.
 - Test harness commit `e88e067` adds selectable HTTP leak-churn smoke and soak
@@ -255,8 +271,12 @@ Status:
   `resource_thresholds.ok=true`, and zero threshold violations. The old process
   `15520` closed in `8590.308` ms, the same profile relaunched as process
   `16760`, and REST readiness returned status `200`.
-- Pending: exact accepted-client drain assertions if a product seam is promoted,
-  and safe legacy listen-socket churn coverage.
+- Fresh HTTP stop/start soak artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-203500-eMule-main-release\result.json`
+  and HTTPS stop/start soak artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-203928-eMule-main-release\result.json`
+  close this gate with 1000/1000 churn cycles, `resource_thresholds.ok=true`,
+  zero threshold violations, and successful post-churn relaunch.
 
 ## Release Exit Criteria
 
