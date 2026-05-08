@@ -41,13 +41,11 @@ policy audits.
    [BUG-083](../items/BUG-083.md) and [BUG-084](../items/BUG-084.md).
 5. Prove or adjust Kad/client UDP encryption behavior:
    [BUG-085](../items/BUG-085.md).
-6. Fix the remaining WebSocket shutdown restart blocker:
-   [BUG-088](../items/BUG-088.md).
-7. Fix the UDP control sender exception-safety blocker:
+6. Fix the UDP control sender exception-safety blocker:
    [BUG-089](../items/BUG-089.md).
-8. Fix the remaining background refresh completion-delivery blocker:
+7. Fix the remaining background refresh completion-delivery blocker:
    [BUG-090](../items/BUG-090.md).
-9. Fix the direct-download close-time persistence blocker:
+8. Fix the direct-download close-time persistence blocker:
    [BUG-091](../items/BUG-091.md).
 
 Each slice must be committed and pushed before the next independent slice starts.
@@ -285,7 +283,11 @@ Validation:
 
 Status:
 
-- Open. Blocks R1.
+- Done 2026-05-08 in app commit `7a5de38`.
+- Validated with workspace `validate` and Release x64 main app build.
+- Startup now attempts to complete deferred shutdown cleanup and otherwise
+  refuses to overwrite live WebSocket listener, accepted-client, or termination
+  state in release builds.
 
 ### BUG-089 - UDP control sender exception safety
 
@@ -355,6 +357,6 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-As of the 2026-05-08 follow-up review, [BUG-088](../items/BUG-088.md) through
+As of the 2026-05-08 follow-up review, [BUG-089](../items/BUG-089.md) through
 [BUG-091](../items/BUG-091.md) are open R1 blockers. R1 must not tag until they
 are fixed or explicitly reclassified by product decision.
