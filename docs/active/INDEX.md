@@ -12,10 +12,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `61`
+**Current non-done count:** `64`
 **Latest status refresh:** 2026-05-08
-**Non-done by status:** `40` Open, `8` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `4` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
+**Non-done by status:** `43` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `7` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** pre-release stabilization; no official release
@@ -161,7 +161,7 @@ where that comparison is meaningful.
 | [BUG-071](items/BUG-071.md) | Major | **Done** | server.met persistence still uses destructive backup and promotion moves |
 | [BUG-072](items/BUG-072.md) | Minor | **Done** | Kad preferences and routing snapshots still save in place |
 | [BUG-073](items/BUG-073.md) | Major | **Done** | WebServer session and bad-login state is mutated from request threads without synchronization |
-| [BUG-074](items/BUG-074.md) | Minor | Wont-Fix | Archive preview scanner uses volatile cancellation and synchronous UI handoff |
+| [BUG-074](items/BUG-074.md) | Minor | Wont-Fix | Archive preview scanner uses volatile cancellation and synchronous UI handoff *(deprecated/frozen)* |
 | [BUG-075](items/BUG-075.md) | Major | **Done** | REST and WebServer typed error consistency |
 | [BUG-076](items/BUG-076.md) | Major | **Done** | WebServer malformed request hardening for REST and legacy HTML |
 | [BUG-077](items/BUG-077.md) | Minor | **Done** | WebServer concurrent REST and legacy HTML soak coverage |
@@ -184,6 +184,10 @@ where that comparison is meaningful.
 | [BUG-094](items/BUG-094.md) | Major | **Done** | ResumeThread failure leaks suspended refresh thread objects |
 | [BUG-095](items/BUG-095.md) | Major | **Done** | WebSocket accepted-client tracking is not exception-safe after thread start |
 | [BUG-096](items/BUG-096.md) | Major | **Done** | DirectDownload lacks bounded timeout and cancellation contract |
+| [BUG-097](items/BUG-097.md) | Critical | Open | Startup-cache save worker can outlive shared-file list owner |
+| [BUG-098](items/BUG-098.md) | Minor | Wont-Fix | Archive recovery worker uses raw part-file owner across async work *(deprecated/frozen)* |
+| [BUG-099](items/BUG-099.md) | Major | Open | WebSocket listener startup is not exception-safe after global state initialization |
+| [BUG-100](items/BUG-100.md) | Major | Open | DirectDownload has bounded timeouts but no hard owner cancellation contract |
 
 ---
 

@@ -41,9 +41,15 @@ native `/api/v1` design and must not drive native route shape, aliases,
 envelopes, or validation policy.
 
 Current stability focus: the original adversarial current-branch findings from
-the 2026-05-08 R1 review are closed on `main`, and the 2026-05-08 follow-up
-pass findings [BUG-092](items/BUG-092.md) through [BUG-096](items/BUG-096.md)
-are also closed on `main`. Keep their evidence and closure flow in the
+the 2026-05-08 R1 review are closed on `main`, and the first 2026-05-08
+follow-up pass findings [BUG-092](items/BUG-092.md) through
+[BUG-096](items/BUG-096.md) are also closed on `main`. The latest 2026-05-08
+follow-up review promoted three new open R1 blockers:
+[BUG-097](items/BUG-097.md), [BUG-099](items/BUG-099.md), and
+[BUG-100](items/BUG-100.md). Archive preview and recovery findings
+[BUG-074](items/BUG-074.md) and [BUG-098](items/BUG-098.md) are Wont-Fix by
+product decision because those deprecated features are entirely frozen,
+including known bugs. Keep their execution and closure flow in the
 [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
 
 | ID | Gate | Status | Evidence pointer |
@@ -77,6 +83,11 @@ are also closed on `main`. Keep their evidence and closure flow in the
 | [BUG-094](items/BUG-094.md) | Refresh launch failure cannot leak suspended thread objects | Done | app `e5d770e`, Debug and Release x64 validation |
 | [BUG-095](items/BUG-095.md) | WebSocket accepted-client tracking is exception-safe after thread start | Done | app `219be75`, Debug and Release x64 validation |
 | [BUG-096](items/BUG-096.md) | DirectDownload has bounded timeout or cancellation semantics | Done | app `84020af`, Debug and Release x64 validation |
+| [BUG-097](items/BUG-097.md) | Startup-cache save worker cannot outlive shared-file list owner | Open | pending implementation and validation |
+| [BUG-074](items/BUG-074.md) | Archive preview scanner uses volatile cancellation and synchronous UI handoff | Wont-Fix | deprecated/frozen by product decision; app `8c2cc67` source comment |
+| [BUG-098](items/BUG-098.md) | Archive recovery worker uses raw part-file owner across async work | Wont-Fix | deprecated/frozen by product decision; app `8c2cc67` source comment |
+| [BUG-099](items/BUG-099.md) | WebSocket listener startup is exception-safe after global state initialization | Open | pending implementation and validation |
+| [BUG-100](items/BUG-100.md) | DirectDownload has hard owner cancellation for background refresh downloads | Open | pending implementation and validation |
 
 ## Candidate Decisions
 
@@ -104,7 +115,7 @@ closure and revalidation flow.
 | [Live E2E execution plan](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md) | [CI-011](items/CI-011.md) |
 | [Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md) | [FEAT-050](items/FEAT-050.md) |
 | [NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md) | [FEAT-032](items/FEAT-032.md) |
-| [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md) | [BUG-078](items/BUG-078.md), [BUG-079](items/BUG-079.md), [BUG-080](items/BUG-080.md), [BUG-081](items/BUG-081.md), [BUG-082](items/BUG-082.md), [BUG-083](items/BUG-083.md), [BUG-084](items/BUG-084.md), [BUG-085](items/BUG-085.md), [BUG-086](items/BUG-086.md), [BUG-087](items/BUG-087.md), [BUG-088](items/BUG-088.md), [BUG-089](items/BUG-089.md), [BUG-090](items/BUG-090.md), [BUG-091](items/BUG-091.md), [BUG-092](items/BUG-092.md), [BUG-093](items/BUG-093.md), [BUG-094](items/BUG-094.md), [BUG-095](items/BUG-095.md), [BUG-096](items/BUG-096.md) |
+| [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md) | [BUG-078](items/BUG-078.md), [BUG-079](items/BUG-079.md), [BUG-080](items/BUG-080.md), [BUG-081](items/BUG-081.md), [BUG-082](items/BUG-082.md), [BUG-083](items/BUG-083.md), [BUG-084](items/BUG-084.md), [BUG-085](items/BUG-085.md), [BUG-086](items/BUG-086.md), [BUG-087](items/BUG-087.md), [BUG-088](items/BUG-088.md), [BUG-089](items/BUG-089.md), [BUG-090](items/BUG-090.md), [BUG-091](items/BUG-091.md), [BUG-092](items/BUG-092.md), [BUG-093](items/BUG-093.md), [BUG-094](items/BUG-094.md), [BUG-095](items/BUG-095.md), [BUG-096](items/BUG-096.md), [BUG-097](items/BUG-097.md), [BUG-074](items/BUG-074.md), [BUG-098](items/BUG-098.md), [BUG-099](items/BUG-099.md), [BUG-100](items/BUG-100.md) |
 
 ## Deferred Scope
 

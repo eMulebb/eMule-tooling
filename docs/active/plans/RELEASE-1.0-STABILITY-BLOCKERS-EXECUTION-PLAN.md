@@ -25,13 +25,22 @@ Covered items:
 - [BUG-094](../items/BUG-094.md) - ResumeThread failure leaks suspended refresh thread objects
 - [BUG-095](../items/BUG-095.md) - WebSocket accepted-client tracking is not exception-safe after thread start
 - [BUG-096](../items/BUG-096.md) - DirectDownload lacks bounded timeout and cancellation contract
+- [BUG-097](../items/BUG-097.md) - Startup-cache save worker can outlive shared-file list owner
+- [BUG-074](../items/BUG-074.md) - Archive preview scanner uses volatile cancellation and synchronous UI handoff
+- [BUG-098](../items/BUG-098.md) - Archive recovery worker uses raw part-file owner across async work
+- [BUG-099](../items/BUG-099.md) - WebSocket listener startup is not exception-safe after global state initialization
+- [BUG-100](../items/BUG-100.md) - DirectDownload has bounded timeouts but no hard owner cancellation contract
 
 ## Current State
 
 `eMule-main` was clean at the 2026-05-08 follow-up review time. The original
 R1 stability items through [BUG-096](../items/BUG-096.md) are done on `main`.
-The latest follow-up adversarial pass has no remaining open blockers in this
-plan.
+The latest follow-up adversarial pass promoted three open R1 blockers:
+[BUG-097](../items/BUG-097.md), [BUG-099](../items/BUG-099.md), and
+[BUG-100](../items/BUG-100.md). Archive preview and recovery findings
+[BUG-074](../items/BUG-074.md) and [BUG-098](../items/BUG-098.md) are Wont-Fix
+by product decision because those deprecated features are entirely frozen,
+including known bugs.
 
 ## Sequencing
 
@@ -54,6 +63,15 @@ plan.
    [BUG-095](../items/BUG-095.md).
 9. Add bounded timeout or cancellation semantics for refresh downloads:
    [BUG-096](../items/BUG-096.md).
+10. Close startup-cache save worker lifetime:
+    [BUG-097](../items/BUG-097.md).
+11. Do not implement archive preview or recovery bug fixes while those
+    deprecated features are frozen; keep [BUG-074](../items/BUG-074.md) and
+    [BUG-098](../items/BUG-098.md) marked Wont-Fix unless explicitly unfrozen.
+12. Close WebSocket listener startup exception safety:
+    [BUG-099](../items/BUG-099.md).
+13. Add hard owner cancellation for background direct downloads:
+    [BUG-100](../items/BUG-100.md).
 Each slice must be committed and pushed before the next independent slice starts.
 
 ## Shared Implementation Rules
@@ -509,6 +527,109 @@ Status:
   across repeated reads. Timeout failure returns `false` and preserves failed
   artifact cleanup.
 
+### BUG-097 - startup-cache save worker owner lifetime
+
+Implementation:
+
+- Replace the startup-cache worker request's raw `CSharedFileList*` authority
+  with an explicitly owned operation state or lifetime token.
+- Ensure worker completion, failed UI notification, shutdown abandon, and owner
+  destruction consume the operation state exactly once.
+- Stop passing raw owner pointers through `UM_STARTUP_CACHE_SAVE_COMPLETE` as
+  the lifetime authority.
+- Make failed `PostMessage` cleanup terminal without worker-thread mutation of
+  possibly destroyed owner state.
+- Preserve startup-cache file format, successful save behavior, skip behavior
+  after interrupted hashing, and startup performance assumptions.
+
+Validation:
+
+- Simulated late startup-cache save completion after shutdown abandon cannot
+  dereference deleted `CSharedFileList` state.
+- Failed completion post cleans up deterministically without worker-to-UI
+  blocking.
+- Debug and Release x64 app builds pass through supported workspace entrypoints.
+
+Status:
+
+- Open. See [BUG-097](../items/BUG-097.md).
+
+### BUG-074 - archive preview worker cancellation and UI handoff
+
+Disposition:
+
+- Wont-Fix by product decision. Archive preview is deprecated, entirely frozen,
+  and its known bugs are not part of R1 hardening unless the feature is
+  explicitly unfrozen.
+- Source comment added near the archive preview scanner thread launch in app
+  commit `8c2cc67` to make this status clear during future code review.
+
+Status:
+
+- Wont-Fix. See [BUG-074](../items/BUG-074.md).
+
+### BUG-098 - archive recovery worker part-file lifetime
+
+Disposition:
+
+- Wont-Fix by product decision. Archive recovery is deprecated, entirely
+  frozen, and its known bugs are not part of R1 hardening unless the feature is
+  explicitly unfrozen.
+- Source comment added near `CArchiveRecovery::recover` in app commit
+  `8c2cc67` to make this status clear during future code review.
+
+Status:
+
+- Wont-Fix. See [BUG-098](../items/BUG-098.md).
+
+### BUG-099 - WebSocket listener startup exception safety
+
+Implementation:
+
+- Add narrow RAII or structured cleanup around termination event, SSL state,
+  listener thread object, and startup flags before listener startup is fully
+  committed.
+- Wrap listener `CWinThread` allocation and `CreateThread` startup so all
+  failure paths unwind initialized state exactly once.
+- Preserve existing successful HTTP/HTTPS startup and previous R1 WebSocket
+  restart-safety behavior.
+
+Validation:
+
+- Injected allocation or thread-start failure cannot leave SSL or termination
+  state half-initialized.
+- Stop/start cycles still work for HTTP and HTTPS.
+- Debug and Release x64 app builds pass through supported workspace entrypoints.
+
+Status:
+
+- Open. See [BUG-099](../items/BUG-099.md).
+
+### BUG-100 - DirectDownload hard owner cancellation
+
+Implementation:
+
+- Keep BUG-096 bounded WinInet timeouts as the baseline fallback.
+- Add an explicit owner cancellation path for background direct downloads,
+  likely through options/context state that lets owner shutdown close active
+  WinInet handles safely.
+- Define single-owner or synchronized handle close semantics so cancellation and
+  normal worker cleanup cannot double-close.
+- Preserve successful download, proxy, temp-file cleanup, and BUG-091
+  close-time persistence behavior.
+
+Validation:
+
+- A blocked send/read seam responds to owner cancellation and returns failure.
+- Cancellation removes partial artifacts and leaves refresh state reusable.
+- GeoLocation/IPFilter refresh success, timeout, cancellation, retry, and
+  shutdown behavior remain deterministic.
+- Debug and Release x64 app builds pass through supported workspace entrypoints.
+
+Status:
+
+- Open. See [BUG-100](../items/BUG-100.md).
+
 ## Release Exit Criteria
 
 All covered items must be either:
@@ -516,5 +637,10 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-All covered items are now `Done` on `main` with commit evidence. R1 should still
-run the final release checklist and any broader live E2E gates before tagging.
+Covered items through [BUG-096](../items/BUG-096.md) are `Done` on `main` with
+commit evidence. Archive preview/recovery findings [BUG-074](../items/BUG-074.md)
+and [BUG-098](../items/BUG-098.md) are Wont-Fix because those deprecated
+features are frozen. The newly promoted follow-up blockers
+[BUG-097](../items/BUG-097.md), [BUG-099](../items/BUG-099.md), and
+[BUG-100](../items/BUG-100.md) remain open and must be closed or explicitly
+reclassified before tagging.
