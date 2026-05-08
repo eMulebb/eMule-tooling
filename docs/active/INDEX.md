@@ -12,10 +12,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `66`
+**Current non-done count:** `65`
 **Latest status refresh:** 2026-05-08
-**Non-done by status:** `45` Open, `8` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `9` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
+**Non-done by status:** `44` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `8` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** pre-release stabilization; no official release
@@ -179,7 +179,7 @@ where that comparison is meaningful.
 | [BUG-089](items/BUG-089.md) | Major | **Done** | UDP control sender can deadlock on exception while holding sendLocker |
 | [BUG-090](items/BUG-090.md) | Major | **Done** | Background refresh completion can wedge when UI PostMessage fails |
 | [BUG-091](items/BUG-091.md) | Major | **Done** | DirectDownload ignores close-time write failures |
-| [BUG-092](items/BUG-092.md) | Critical | Open | Background refresh workers can write through freed owner memory after shutdown |
+| [BUG-092](items/BUG-092.md) | Critical | **Done** | Background refresh workers can write through freed owner memory after shutdown |
 | [BUG-093](items/BUG-093.md) | Critical | Open | Failed refresh completion can synchronously block worker on UI thread |
 | [BUG-094](items/BUG-094.md) | Major | Open | ResumeThread failure leaks suspended refresh thread objects |
 | [BUG-095](items/BUG-095.md) | Major | Open | WebSocket accepted-client tracking is not exception-safe after thread start |

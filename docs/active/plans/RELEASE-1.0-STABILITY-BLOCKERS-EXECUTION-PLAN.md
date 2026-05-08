@@ -29,11 +29,10 @@ Covered items:
 ## Current State
 
 `eMule-main` was clean at the 2026-05-08 follow-up review time. The original
-R1 stability items through [BUG-091](../items/BUG-091.md) are done on `main`.
-The latest follow-up adversarial pass found additional refresh lifetime,
-worker/UI handoff, launch-failure, WebSocket tracking, and DirectDownload
-timeout risks tracked as [BUG-092](../items/BUG-092.md) through
-[BUG-096](../items/BUG-096.md). Those items are open R1 blockers.
+R1 stability items through [BUG-092](../items/BUG-092.md) are done on `main`.
+The latest follow-up adversarial pass still has open worker/UI handoff,
+launch-failure, WebSocket tracking, and DirectDownload timeout risks tracked as
+[BUG-093](../items/BUG-093.md) through [BUG-096](../items/BUG-096.md).
 
 ## Sequencing
 
@@ -393,7 +392,12 @@ Validation:
 
 Status:
 
-- Open. No app change has been made for this item yet.
+- Done 2026-05-08 in app commit `cfb0625`.
+- Validated with workspace `validate`, Release x64 main app build, and Debug
+  x64 main app build.
+- GeoLocation and IPFilter refresh workers now hold shared heap-owned refresh
+  state instead of raw pointers into owner member storage, so fallback cleanup
+  after owner destruction cannot write through freed owner memory.
 
 ### BUG-093 - refresh completion synchronous UI fallback
 
@@ -492,7 +496,7 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-[BUG-092](../items/BUG-092.md) through [BUG-096](../items/BUG-096.md) are open
+[BUG-093](../items/BUG-093.md) through [BUG-096](../items/BUG-096.md) are open
 R1 blockers. Do not tag `emule-bb-v1.0.0` until they are fixed, validated, and
 their item docs carry commit evidence, or until `RELEASE-1.0.md` explicitly
 reclassifies them by product decision.
