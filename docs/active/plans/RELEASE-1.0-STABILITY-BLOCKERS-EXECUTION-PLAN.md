@@ -35,9 +35,9 @@ Covered items:
 
 `eMule-main` was clean at the 2026-05-08 follow-up review time. The original
 R1 stability items through [BUG-096](../items/BUG-096.md) are done on `main`.
-The latest follow-up adversarial pass promoted three open R1 blockers:
-[BUG-097](../items/BUG-097.md), [BUG-099](../items/BUG-099.md), and
-[BUG-100](../items/BUG-100.md). Archive preview and recovery findings
+The latest follow-up adversarial pass promoted three R1 blockers.
+[BUG-097](../items/BUG-097.md) is now done on `main`; [BUG-099](../items/BUG-099.md)
+and [BUG-100](../items/BUG-100.md) remain open. Archive preview and recovery findings
 [BUG-074](../items/BUG-074.md) and [BUG-098](../items/BUG-098.md) are Wont-Fix
 by product decision because those deprecated features are entirely frozen,
 including known bugs.
@@ -552,7 +552,13 @@ Validation:
 
 Status:
 
-- Open. See [BUG-097](../items/BUG-097.md).
+- Done 2026-05-08 in app commit `bde9f16`.
+- Validated with workspace `validate`, Debug x64 main app build, and Release
+  x64 main app build.
+- The worker now carries an owner-independent operation token and posts a
+  completion payload without a raw `CSharedFileList*`; shutdown abandon detaches
+  the owner from the in-flight operation, and failed delivery discards persisted
+  output without touching owner state.
 
 ### BUG-074 - archive preview worker cancellation and UI handoff
 
@@ -637,10 +643,9 @@ All covered items must be either:
 - `Done` with commit evidence and targeted validation results, or
 - explicitly reclassified by product decision in `RELEASE-1.0.md`.
 
-Covered items through [BUG-096](../items/BUG-096.md) are `Done` on `main` with
+Covered items through [BUG-097](../items/BUG-097.md) are `Done` on `main` with
 commit evidence. Archive preview/recovery findings [BUG-074](../items/BUG-074.md)
 and [BUG-098](../items/BUG-098.md) are Wont-Fix because those deprecated
 features are frozen. The newly promoted follow-up blockers
-[BUG-097](../items/BUG-097.md), [BUG-099](../items/BUG-099.md), and
-[BUG-100](../items/BUG-100.md) remain open and must be closed or explicitly
+[BUG-099](../items/BUG-099.md) and [BUG-100](../items/BUG-100.md) remain open and must be closed or explicitly
 reclassified before tagging.
