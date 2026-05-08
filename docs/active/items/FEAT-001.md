@@ -1,7 +1,7 @@
 ---
 id: FEAT-001
 title: Kad FastKad — add diversity-aware bootstrap ranking and aggressive stale decay
-status: Blocked
+status: Deferred
 priority: Minor
 category: feature
 labels: [kad, fastkad, routing, bootstrap]
@@ -97,5 +97,5 @@ Remaining follow-through keeps this item short of `Done`:
 The landed FastKad core port in `main` is kept, but the remaining diversity and
 stale-decay follow-through is explicitly deferred for now.
 
-Because the backlog status model has no dedicated `Deferred` state, the item is
-tracked as `Blocked` until that follow-up becomes active again.
+The item is therefore tracked as `Deferred` until that follow-up becomes active
+again.

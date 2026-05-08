@@ -14,6 +14,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
 **Current non-done count:** `61`
 **Latest status refresh:** 2026-05-08
+**Non-done by status:** `40` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `4` Bugs, `21` Refactors, `26` Features, `10` Build/CI.
+**Release 1 relevance:** Most non-done items below are future or deferred work;
+Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** pre-release stabilization; no official release
 tag or package should be cut until the Release 1.0 gates are revalidated and
 the operator steps are complete.
@@ -179,7 +183,7 @@ where that comparison is meaningful.
 | [REF-018](items/REF-018.md) | Minor | **Done** | Remove defunct PeerCache surface and legacy INI fallback reads |
 | [REF-019](items/REF-019.md) | Minor | **Done** | Replace ASSERT(0) + "must be a bug" with OnError() in EncryptedStreamSocket |
 | [REF-020](items/REF-020.md) | Minor | **Done** | Replace dynamic loading of always-present Win10 APIs with static linking |
-| [REF-021](items/REF-021.md) | Minor | Blocked | Remove blanket warning suppressions and replace deprecated Winsock APIs |
+| [REF-021](items/REF-021.md) | Minor | Deferred | Remove blanket warning suppressions and replace deprecated Winsock APIs |
 | [REF-022](items/REF-022.md) | Trivial | Open | Replace custom type aliases in types.h with \<cstdint\> standard types |
 | [REF-023](items/REF-023.md) | Minor | **Done** | Replace unsafe sprintf/_stprintf/wsprintf with safe equivalents |
 | [REF-024](items/REF-024.md) | Trivial | Open | Convert #define constants in Opcodes.h to constexpr in namespace |
@@ -221,7 +225,7 @@ where that comparison is meaningful.
 
 | ID | Priority | Status | Title |
 |----|----------|--------|-------|
-| [FEAT-001](items/FEAT-001.md) | Minor | Blocked | Kad FastKad — diversity-aware bootstrap ranking + aggressive stale decay |
+| [FEAT-001](items/FEAT-001.md) | Minor | Deferred | Kad FastKad — diversity-aware bootstrap ranking + aggressive stale decay |
 | [FEAT-002](items/FEAT-002.md) | Major | Open | Kad SafeKad — layered trust model / CGNAT fix |
 | [FEAT-003](items/FEAT-003.md) | Minor | Open | Kad — Response usefulness scoring + subnet-diversity search fanout |
 | [FEAT-004](items/FEAT-004.md) | Minor | Open | Kad — Generalise KadPublishGuard abuse budget beyond PUBLISH_SOURCE |
@@ -257,7 +261,7 @@ where that comparison is meaningful.
 | [FEAT-034](items/FEAT-034.md) | Minor | In Progress | Shared-files reload should stop blocking the UI on large trees |
 | [FEAT-035](items/FEAT-035.md) | Major | Open | IPv6 dual-stack networking for peers, friends, Kad, and server surfaces |
 | [FEAT-036](items/FEAT-036.md) | Major | Open | NAT traversal and extended source exchange for LowID-to-LowID connectivity |
-| [FEAT-037](items/FEAT-037.md) | Minor | Open | Release-oriented sharing controls — PowerShare, Release Bonus, and Share Only The Need |
+| [FEAT-037](items/FEAT-037.md) | Minor | Deferred | Release-oriented sharing controls — PowerShare, Release Bonus, and Share Only The Need |
 | [FEAT-038](items/FEAT-038.md) | Minor | **Done** | Shared-files watcher and live recursive share sync |
 | [FEAT-039](items/FEAT-039.md) | Minor | Open | Download checker — duplicate and near-duplicate intake guard |
 | [FEAT-040](items/FEAT-040.md) | Major | Open | Headless core with modern web/mobile controller and multi-user permissions |

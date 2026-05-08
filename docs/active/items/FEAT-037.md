@@ -1,7 +1,7 @@
 ---
 id: FEAT-037
 title: Release-oriented sharing controls — PowerShare, Release Bonus, and Share Only The Need
-status: Open
+status: Deferred
 priority: Minor
 category: feature
 labels: [sharing, release, powershare, upload, queue, rarity, mods]

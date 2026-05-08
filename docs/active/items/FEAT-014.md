@@ -21,7 +21,7 @@ add external-facing tooling around it:
 
 This is no longer the primary architecture. It is an additive follow-up only.
 
-## Why This Is Deferred
+## Why Sidecar-First Work Is Deferred
 
 For the current milestone, adding a sidecar or separate transport first would create
 unnecessary drift and enlarge the stabilization surface:
