@@ -121,6 +121,14 @@ Validation:
 - Completion before the starter returns cannot leave the flag true.
 - Repeated manual and automatic refresh attempts serialize correctly.
 
+Status:
+
+- Done 2026-05-08 in app commit `e5c8f81`.
+- Validated with workspace `validate` and Release x64 main app build.
+- GeoLocation and IPFilter refresh workers now start suspended, mark queued
+  before they can run, clear the flag on launch failure, and transfer the
+  context before resuming the worker.
+
 ### BUG-083 - malformed client UDP logging bounds
 
 Implementation:

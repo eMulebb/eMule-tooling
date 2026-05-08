@@ -60,7 +60,7 @@ Current stability focus: close the adversarial current-branch findings from the
 | [BUG-079](items/BUG-079.md) | WebSocket accepted-client shutdown lifetime | Done | app `aa66699`, Release x64 validation |
 | [BUG-080](items/BUG-080.md) | WebSocket shutdown avoids `TerminateThread` | Done | app `aa66699`, Release x64 validation |
 | [BUG-081](items/BUG-081.md) | HTTPS WebSocket WANT_READ/WANT_WRITE loops yield to socket waits | Done | app `aa66699`, Release x64 validation |
-| [BUG-082](items/BUG-082.md) | GeoLocation/IPFilter refresh state cannot wedge | Open | 2026-05-08 adversarial review |
+| [BUG-082](items/BUG-082.md) | GeoLocation/IPFilter refresh state cannot wedge | Done | app `e5c8f81`, Release x64 validation |
 | [BUG-083](items/BUG-083.md) | Client UDP malformed-packet logging is bounds-safe | Open | 2026-05-08 adversarial review |
 | [BUG-084](items/BUG-084.md) | Web admin process token handles are closed | Open | 2026-05-08 adversarial review |
 | [BUG-085](items/BUG-085.md) | Kad/client UDP encryption gating has compatibility proof | Open | 2026-05-08 adversarial review |
