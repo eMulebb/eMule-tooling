@@ -209,15 +209,17 @@ Status:
 - Test harness commit `ae3a840` extends leak churn to HTTPS profiles with
   stalled TLS connect-close, partial TLS record reset, and partial ClientHello
   reset cycles.
+- Test harness commit `941c439` adds R1 resource-threshold evaluation for
+  leak-churn deltas and fails the run on threshold violations.
 - HTTPS smoke artifact
-  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-121014-eMule-main-release\result.json`
-  passed 100/100 HTTPS leak-churn cycles and emitted baseline, peak,
-  post-drain, and delta resource counts. Observed `before_to_peak` deltas were
-  handles `+6`, GDI objects `+3`, USER objects `+2`, private bytes
-  `+131026944`, and working set bytes `+130740224`.
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-121849-eMule-main-release\result.json`
+  passed 100/100 HTTPS leak-churn cycles with enforced thresholds,
+  `resource_thresholds.ok=true`, and zero threshold violations. Observed
+  post-drain deltas were handles `+1`, private bytes `+45056`, and working set
+  bytes `+57344`.
 - Pending: HTTP and HTTPS soak artifact evidence, documented resource
-  thresholds, accepted-client drain assertions, stop/start-after-churn proof,
-  and safe legacy listen-socket churn coverage.
+  threshold evidence, accepted-client drain assertions, stop/start-after-churn
+  proof, and safe legacy listen-socket churn coverage.
 
 ## Release Exit Criteria
 
