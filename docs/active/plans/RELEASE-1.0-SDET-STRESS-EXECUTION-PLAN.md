@@ -206,9 +206,18 @@ Status:
   modes; soak defaults to 1000 connect/reset cycles and reports baseline, peak,
   post-drain, and delta resource counts. Build orchestration commit `94d1044`
   exposes the same controls through supported workspace `live-e2e` parameters.
-- Pending: HTTP soak artifact evidence, dedicated HTTPS churn mode,
-  accepted-client drain assertions, stop/start-after-churn proof, and safe
-  legacy listen-socket churn coverage.
+- Test harness commit `ae3a840` extends leak churn to HTTPS profiles with
+  stalled TLS connect-close, partial TLS record reset, and partial ClientHello
+  reset cycles.
+- HTTPS smoke artifact
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260508-121014-eMule-main-release\result.json`
+  passed 100/100 HTTPS leak-churn cycles and emitted baseline, peak,
+  post-drain, and delta resource counts. Observed `before_to_peak` deltas were
+  handles `+6`, GDI objects `+3`, USER objects `+2`, private bytes
+  `+131026944`, and working set bytes `+130740224`.
+- Pending: HTTP and HTTPS soak artifact evidence, documented resource
+  thresholds, accepted-client drain assertions, stop/start-after-churn proof,
+  and safe legacy listen-socket churn coverage.
 
 ## Release Exit Criteria
 
