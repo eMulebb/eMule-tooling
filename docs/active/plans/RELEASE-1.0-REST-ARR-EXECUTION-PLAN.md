@@ -53,7 +53,7 @@ should revalidate the API surfaces below before treating that evidence as fresh.
       unsupported content types, missing resources, and invalid state.
 - [x] Re-run mixed REST/legacy WebServer stress with native `/api/v1` errors
       checked for JSON-only responses and no HTML fallback.
-- [ ] Audit every destructive native operation for explicit confirmation or
+- [x] Audit every destructive native operation for explicit confirmation or
       explicit intent fields, especially transfer delete, shared-file delete,
       delete-all searches, clear-completed transfers, directory replacement, and
       app shutdown exclusion from broad mutation loops.
@@ -227,6 +227,23 @@ Latest mixed REST/legacy stress proof:
   native error edges, Torznab and qBittorrent-compatible adapter traffic, and
   legacy HTML root traffic while keeping `/api/v1/app/shutdown` excluded from
   broad mutation loops.
+
+Latest destructive native operation audit:
+
+- Test commit: `c4db9e7`.
+- `python -m pytest
+  tests\python\test_rest_api_smoke.py::test_destructive_native_routes_require_explicit_confirmation_or_intent
+  tests\python\test_rest_api_smoke.py::test_native_route_specs_match_openapi_methods_paths_and_fields
+  tests\python\test_rest_api_smoke.py::test_openapi_contract_routes_are_the_live_completeness_source`
+- Result: 3 selected tests passed on 2026-05-09.
+- The audit checks native route specs against OpenAPI and requires explicit
+  confirmation fields for app shutdown, clear-completed transfers, transfer
+  delete, shared-file delete, shared-directory replacement, and delete-all
+  searches. It also inventories every native DELETE route so new destructive
+  routes must be classified.
+- Live artifact:
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260509-080825-eMule-main-release`
+  confirmed `/api/v1/app/shutdown` remains excluded from broad mutation loops.
 
 Latest Radarr/Sonarr video-category proof:
 
