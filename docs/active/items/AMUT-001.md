@@ -70,6 +70,11 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
   reload, synthetic eD2K add/delete, and post-delete snapshot cleanup. Focused
   aMuTorrent tests selected by `amutorrent or browser_smoke or search_modes or
   transfer_detail or segment_snapshot` also passed.
+- R-1.0.1 controller replay artifact:
+  `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260509-142532-eMule-main-release\result.json`.
+  The run passed through the supported `amutorrent-browser-smoke` suite with
+  browser workflows, eMule REST readiness, `BindInterface=hide.me`, empty P2P
+  `BindAddr`, and `EnableUPnP=1` evidence.
 
 ## Pending Revalidation Focus
 

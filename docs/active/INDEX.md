@@ -12,7 +12,7 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `71`
+**Current non-done count:** `70`
 **Latest status refresh:** 2026-05-09
 **Non-done by status:** `51` Open, `8` In Progress, `13` Deferred, `0` Blocked.
 **Non-done by area:** `4` Bugs, `22` Refactors, `27` Features, `19` Build/CI.
@@ -346,7 +346,7 @@ where that comparison is meaningful.
 | [CI-021](items/CI-021.md) | Major | **Done** | WebSocket and legacy socket leak-churn gate |
 | [CI-022](items/CI-022.md) | Major | **Done** | Release 1.0.1 community parity changed-surface ledger |
 | [CI-023](items/CI-023.md) | Major | **Done** | Release 1.0.1 post-1.0 hardening regression replay gate |
-| [CI-024](items/CI-024.md) | Major | Open | Release 1.0.1 controller integration full replay gate |
+| [CI-024](items/CI-024.md) | Major | Done | Release 1.0.1 controller integration full replay gate |
 | [CI-025](items/CI-025.md) | Major | Open | Release 1.0.1 REST and adapter contract drift gate |
 | [CI-026](items/CI-026.md) | Major | Open | Release 1.0.1 shared files, startup cache, and long-path parity gate |
 | [CI-027](items/CI-027.md) | Major | Open | Release 1.0.1 download and persistence replay gate |

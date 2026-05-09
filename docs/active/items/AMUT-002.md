@@ -71,6 +71,9 @@ the browser `segmentData` WebSocket subscription.
   `repos/eMule-build-tests/reports/amutorrent-browser-smoke/20260509-081711-eMule-main-release/result.json`.
   The report includes hydrated transfer progress/status/source fields and
   segment-subscribed `partStatus`, `gapStatus`, and `reqStatus` evidence.
+- 2026-05-09: R-1.0.1 controller replay passed at
+  `repos/eMule-build-tests/reports/amutorrent-browser-smoke/20260509-142532-eMule-main-release/result.json`.
+  The browser smoke remained green after CI-032 post-tag hardening coverage.
 
 ## Relationship To Other Items
 
