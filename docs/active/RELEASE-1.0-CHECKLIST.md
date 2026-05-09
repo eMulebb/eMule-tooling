@@ -40,7 +40,8 @@ Package creation and the annotated tag remain pending final operator execution.
       `auto-browse-live` was accepted as inconclusive because the live networks
       connected but no safe downloadable browse-capable sourced transfer was
       available.
-- [ ] `pwsh -File repos\eMule-tooling\ci\check-clean-worktree.ps1 -EmuleWorkspaceRoot .`
+- [x] `pwsh -File repos\eMule-tooling\ci\check-clean-worktree.ps1 -EmuleWorkspaceRoot .`
+      passed on 2026-05-09 after the fresh proof evidence commit.
 
 ## Release Identity
 
@@ -54,6 +55,6 @@ Package creation and the annotated tag remain pending final operator execution.
 
 - [x] record final command summaries and artifact paths in the relevant gate
       item docs
-- [ ] confirm no active workspace repo has unrelated uncommitted changes
+- [x] confirm no active workspace repo has unrelated uncommitted changes
 - [ ] create release packages
 - [ ] create the annotated tag only after package verification
