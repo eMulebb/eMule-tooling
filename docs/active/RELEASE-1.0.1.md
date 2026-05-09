@@ -52,10 +52,19 @@ the following:
 | [CI-031](items/CI-031.md) | Packaging and release asset parity | Done | x64 and ARM64 packaging, manifests, site config, dependency pins, and release assets are proven current. |
 | [REF-037](items/REF-037.md) | Legacy/frozen feature disposition | Done | Removed or frozen stock features are recorded as intentional, restored, or converted into release blockers. |
 | [FEAT-055](items/FEAT-055.md) | Improvement triage lane | Done | Non-blocking improvements are separated from R-1.0.1 blockers and queued without expanding release scope. |
+| [CI-033](items/CI-033.md) | Final release-candidate proof | Done | Current candidate passes the minimum release proof before tagging. |
 
 All R-1.0.1 release gates are closed. Post-release improvements discovered
 during the audit are queued in [FEAT-056](items/FEAT-056.md) and do not expand
 the `emule-bb-v1.0.1` blocking scope.
+
+The final release-candidate proof is recorded in [CI-033](items/CI-033.md).
+It passed on app commit `11e5966` with final package assets:
+
+- `eMule-broadband-1.0.1-x64.zip`:
+  `a9649e201c10d8866fa9d46fd01960c0bbf3daa1830c45c2c90d2616b59bdbeb`
+- `eMule-broadband-1.0.1-arm64.zip`:
+  `b58697f2678dce455e569dffa009355180be14cee243b982e412bb5a66c8de97`
 
 ## Candidate Decisions
 

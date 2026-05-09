@@ -357,6 +357,7 @@ where that comparison is meaningful.
 | [CI-030](items/CI-030.md) | Major | Done | Release 1.0.1 UI, preferences, tray, and language resource parity smoke gate |
 | [CI-031](items/CI-031.md) | Major | Done | Release 1.0.1 packaging, architecture, and release asset parity gate |
 | [CI-032](items/CI-032.md) | Major | Done | Release 1.0.1 post-tag focused coverage gaps |
+| [CI-033](items/CI-033.md) | Major | Done | Release 1.0.1 final release-candidate proof |
 
 ---
 
