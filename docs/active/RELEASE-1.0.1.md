@@ -40,7 +40,8 @@ the following:
 | ID | Gate | Status | Required outcome |
 |----|------|--------|------------------|
 | [CI-022](items/CI-022.md) | Changed-surface ledger | Done | Every changed file from community baseline is mapped to one release area, evidence lane, and item disposition. |
-| [CI-023](items/CI-023.md) | Post-1.0 hardening replay | Open | BUG-102 through BUG-110 app commits are replayed with focused validation and traceability. |
+| [CI-023](items/CI-023.md) | Post-1.0 hardening replay | Done | BUG-102 through BUG-110 app commits are replayed with focused validation and traceability. |
+| [CI-032](items/CI-032.md) | Post-tag focused coverage gaps | Open | Direct focused probes are added for post-1.0 fixes that currently have only indirect replay evidence. |
 | [CI-024](items/CI-024.md) | Controller full replay | Open | Prowlarr, Radarr, Sonarr, and aMuTorrent live workflows pass or produce accepted public-network inconclusive evidence. |
 | [CI-025](items/CI-025.md) | REST and adapter contract drift | Open | Native REST, qBit, and Torznab contracts are compared against manifests and live smoke artifacts. |
 | [CI-026](items/CI-026.md) | Shared files/startup/long-path parity | Open | Large-tree, cache, watcher, long-path, share-ignore, and shared-file REST behavior are replayed. |

@@ -38,6 +38,7 @@ Latest review trail:
 - [RELEASE-1.0.1](RELEASE-1.0.1.md)
 - [RELEASE-1.0.1 community parity audit plan](plans/RELEASE-1.0.1-COMMUNITY-PARITY-AUDIT.md)
 - [REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger](reviews/REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger.md)
+- [REVIEW-2026-05-09-release-1.0.1-post-tag-hardening-replay](reviews/REVIEW-2026-05-09-release-1.0.1-post-tag-hardening-replay.md)
 - [REVIEW-2026-05-09-release-1.0.1-community-parity](reviews/REVIEW-2026-05-09-release-1.0.1-community-parity.md)
 - [RELEASE-1.0](RELEASE-1.0.md)
 - [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
@@ -344,7 +345,7 @@ where that comparison is meaningful.
 | [CI-020](items/CI-020.md) | Major | **Done** | REST and legacy WebServer error-path coverage gate |
 | [CI-021](items/CI-021.md) | Major | **Done** | WebSocket and legacy socket leak-churn gate |
 | [CI-022](items/CI-022.md) | Major | **Done** | Release 1.0.1 community parity changed-surface ledger |
-| [CI-023](items/CI-023.md) | Major | Open | Release 1.0.1 post-1.0 hardening regression replay gate |
+| [CI-023](items/CI-023.md) | Major | **Done** | Release 1.0.1 post-1.0 hardening regression replay gate |
 | [CI-024](items/CI-024.md) | Major | Open | Release 1.0.1 controller integration full replay gate |
 | [CI-025](items/CI-025.md) | Major | Open | Release 1.0.1 REST and adapter contract drift gate |
 | [CI-026](items/CI-026.md) | Major | Open | Release 1.0.1 shared files, startup cache, and long-path parity gate |
@@ -353,6 +354,7 @@ where that comparison is meaningful.
 | [CI-029](items/CI-029.md) | Major | Open | Release 1.0.1 network socket, UDP, WebSocket, HTTPS, and UPnP adversity gate |
 | [CI-030](items/CI-030.md) | Major | Open | Release 1.0.1 UI, preferences, tray, and language resource parity smoke gate |
 | [CI-031](items/CI-031.md) | Major | Open | Release 1.0.1 packaging, architecture, and release asset parity gate |
+| [CI-032](items/CI-032.md) | Major | Open | Release 1.0.1 post-tag focused coverage gaps |
 
 ---
 
