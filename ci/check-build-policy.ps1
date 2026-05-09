@@ -71,6 +71,32 @@ function Assert-ClCompileValue($ProjectXml, [string]$ProjectLabel, [string]$Cond
     Assert-Value $ProjectLabel $Condition $PropertyName $group.ClCompile.$PropertyName $ExpectedValue
 }
 
+function Assert-AppMultiProcessorCompilation($ProjectXml, [string]$Condition) {
+    $group = Get-ItemDefinitionGroupByCondition $ProjectXml $Condition
+    if (-not $group -or -not $group.ClCompile) {
+        throw "emule.vcxproj is missing ClCompile settings for $Condition"
+    }
+
+    $nodes = @($group.ClCompile.MultiProcessorCompilation)
+    if ($nodes.Count -eq 1) {
+        Assert-Value 'emule.vcxproj' $Condition 'MultiProcessorCompilation' $nodes[0] 'true'
+        return
+    }
+
+    if ($nodes.Count -ne 2) {
+        throw "emule.vcxproj has unexpected MultiProcessorCompilation entries for $Condition"
+    }
+
+    $nonArm64 = $nodes | Where-Object { $_.Condition -eq "'`$(Platform)'!='ARM64'" } | Select-Object -First 1
+    $arm64 = $nodes | Where-Object { $_.Condition -eq "'`$(Platform)'=='ARM64'" } | Select-Object -First 1
+    if (-not $nonArm64 -or -not $arm64) {
+        throw "emule.vcxproj ARM64 MultiProcessorCompilation exception is missing required platform conditions for $Condition"
+    }
+
+    Assert-Value 'emule.vcxproj' $Condition 'MultiProcessorCompilation non-ARM64' $nonArm64.InnerText 'true'
+    Assert-Value 'emule.vcxproj' $Condition 'MultiProcessorCompilation ARM64' $arm64.InnerText 'false'
+}
+
 function Assert-LinkValue($ProjectXml, [string]$ProjectLabel, [string]$Condition, [string]$PropertyName, [string]$ExpectedValue) {
     $group = Get-ItemDefinitionGroupByCondition $ProjectXml $Condition
     if (-not $group -or -not $group.Link) {
@@ -155,7 +181,7 @@ Assert-ClCompileValue $appXml 'emule.vcxproj' $appDebugCondition 'RuntimeLibrary
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appDebugCondition 'BufferSecurityCheck' 'true'
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appDebugCondition 'SDLCheck' 'true'
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appDebugCondition 'DebugInformationFormat' 'ProgramDatabase'
-Assert-ClCompileValue $appXml 'emule.vcxproj' $appDebugCondition 'MultiProcessorCompilation' 'true'
+Assert-AppMultiProcessorCompilation $appXml $appDebugCondition
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appDebugCondition 'ControlFlowGuard' 'Guard'
 Assert-LinkValue $appXml 'emule.vcxproj' $appDebugCondition 'IncrementalLink' 'true'
 Assert-LinkValue $appXml 'emule.vcxproj' $appDebugCondition 'LinkControlFlowGuard' 'true'
@@ -166,7 +192,7 @@ Assert-ClCompileValue $appXml 'emule.vcxproj' $appReleaseCondition 'BufferSecuri
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appReleaseCondition 'SDLCheck' 'true'
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appReleaseCondition 'FunctionLevelLinking' 'true'
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appReleaseCondition 'IntrinsicFunctions' 'true'
-Assert-ClCompileValue $appXml 'emule.vcxproj' $appReleaseCondition 'MultiProcessorCompilation' 'true'
+Assert-AppMultiProcessorCompilation $appXml $appReleaseCondition
 Assert-ClCompileValue $appXml 'emule.vcxproj' $appReleaseCondition 'ControlFlowGuard' 'Guard'
 Assert-LinkValue $appXml 'emule.vcxproj' $appReleaseCondition 'IncrementalLink' 'false'
 Assert-LinkValue $appXml 'emule.vcxproj' $appReleaseCondition 'LinkControlFlowGuard' 'true'
