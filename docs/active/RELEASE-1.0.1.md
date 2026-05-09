@@ -1,16 +1,22 @@
 # eMule Broadband Edition 1.0.1 Release Control
 
-This is the active control document for `emule-bb-v1.0.1`. Release 1.0.1 is a
-hardening release whose purpose is to prove that the Broadband line has not
-regressed stock community behavior while preserving the advertised eMule BB,
-REST, Arr, and aMuTorrent functionality shipped after 1.0.0.
+This is the active control document for internal milestone `emule-bb-v1.0.1`.
+Release 1.0.1 is an internal pre-release hardening milestone whose purpose is
+to prove that the Broadband line has not regressed stock community behavior
+while preserving the advertised eMule BB, REST, Arr, and aMuTorrent
+functionality. It is not a public release and must not have published GitHub
+release packages.
 
 ## Release Identity
 
 - Product name: `eMule broadband edition`
 - Compact app/mod name: `eMule BB`
 - Target tag: `emule-bb-v1.0.1`
-- Tag status: annotated app tag pushed to `eMulebb/eMule` at app commit
+- Release visibility: internal pre-release/rehearsal only
+- Public release floor: `emule-bb-v1.1.1`
+- Package publication: prohibited for `1.0.1`; package artifacts below are
+  local rehearsal outputs only
+- Tag status: annotated internal app tag pushed to `eMulebb/eMule` at app commit
   `11e5966`
 - Baseline for stock/community behavior: `release/v0.72a-community`
 - Candidate app line: `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main`
@@ -19,8 +25,8 @@ REST, Arr, and aMuTorrent functionality shipped after 1.0.0.
 
 ## Definition Of 100% Functionality
 
-Release 1.0.1 is complete only when each touched area has evidence for all of
-the following:
+Internal milestone 1.0.1 is complete only when each touched area has evidence
+for all of the following:
 
 - No regression from `release/v0.72a-community` for behavior that still exists
   in eMule BB.
@@ -56,19 +62,21 @@ the following:
 | [FEAT-055](items/FEAT-055.md) | Improvement triage lane | Done | Non-blocking improvements are separated from R-1.0.1 blockers and queued without expanding release scope. |
 | [CI-033](items/CI-033.md) | Final release-candidate proof | Done | Current candidate passes the minimum release proof before tagging. |
 
-All R-1.0.1 release gates are closed. Post-release improvements discovered
+All R-1.0.1 internal proof gates are closed. Post-release improvements discovered
 during the audit are queued in [FEAT-056](items/FEAT-056.md) and do not expand
 the `emule-bb-v1.0.1` blocking scope.
 
 The final release-candidate proof is recorded in [CI-033](items/CI-033.md).
-It passed on app commit `11e5966` with final package assets:
+It passed on app commit `11e5966` with local package rehearsal assets:
 
 - `eMule-broadband-1.0.1-x64.zip`:
   `a9649e201c10d8866fa9d46fd01960c0bbf3daa1830c45c2c90d2616b59bdbeb`
 - `eMule-broadband-1.0.1-arm64.zip`:
   `b58697f2678dce455e569dffa009355180be14cee243b982e412bb5a66c8de97`
 
-The annotated app tag `emule-bb-v1.0.1` was pushed after CI-033 passed.
+The annotated app tag `emule-bb-v1.0.1` was pushed after CI-033 passed. Do not
+create a public GitHub release or upload packages for this tag; the first
+published package release is `emule-bb-v1.1.1`.
 
 ## Candidate Decisions
 
@@ -85,7 +93,7 @@ The annotated app tag `emule-bb-v1.0.1` was pushed after CI-033 passed.
 All build, test, and live validation commands must go through
 `EMULE_WORKSPACE_ROOT\repos\eMule-build\workspace.ps1`.
 
-Minimum release proof before tagging:
+Minimum internal proof before tagging:
 
 - `validate`
 - Debug and Release app builds for x64

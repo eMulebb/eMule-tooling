@@ -498,6 +498,10 @@ The canonical workspace currently materializes these app worktrees:
 - The full public product name is `eMule broadband edition`.
 - The compact app, UI, API, and protocol-facing mod name is `eMule BB`.
 - The GitHub organization, code name, and URL slug are `emulebb`.
+- The first publishable public release is `1.1.1`.
+- Versions before `1.1.1`, including `1.0.0` and `1.0.1`, are internal
+  pre-release/rehearsal milestones. Do not publish GitHub release packages for
+  those versions.
 - Release tags use the compact tag family `emule-bb-vMAJOR.MINOR.PATCH`.
 - Release ZIP assets use the public package family
   `eMule-broadband-MAJOR.MINOR.PATCH-ARCH.zip`.
@@ -508,10 +512,13 @@ The canonical workspace currently materializes these app worktrees:
 
 - Official releases should be marked with annotated tags on the chosen
   release-branch commit.
+- Public GitHub releases and uploaded release assets start at
+  `emule-bb-v1.1.1`. Earlier tags, if present, are internal evidence markers
+  only and must not have published package assets attached.
 - Recommended tag families:
   - `emule-bb-vMAJOR.MINOR.PATCH` for eMule broadband edition releases,
-    starting with `emule-bb-v1.0.0`
+    with the first public package release at `emule-bb-v1.1.1`
 - eMule broadband edition release packages should include a platform-specific
   ZIP asset whose name matches the release version, for example:
-  - `eMule-broadband-1.0.0-x64.zip`
-  - `eMule-broadband-1.0.0-arm64.zip`
+  - `eMule-broadband-1.1.1-x64.zip`
+  - `eMule-broadband-1.1.1-arm64.zip`

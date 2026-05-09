@@ -18,8 +18,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 **Non-done by area:** `4` Bugs, `21` Refactors, `27` Features, `13` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
-**Broadband release status:** `emule-bb-v1.0.0` is tagged; R-1.0.1 hardening is
-now tracked by [RELEASE-1.0.1](RELEASE-1.0.1.md).
+**Broadband release status:** versions before `1.1.1` are internal
+pre-release/rehearsal milestones with no published packages. The first
+publishable public release is `emule-bb-v1.1.1`. R-1.0.1 hardening is tracked
+by [RELEASE-1.0.1](RELEASE-1.0.1.md).
 **Patch-release backlog view:** [RELEASE-1.0.1](RELEASE-1.0.1.md)
 **Patch-release audit plan:** [R-1.0.1 community parity audit](plans/RELEASE-1.0.1-COMMUNITY-PARITY-AUDIT.md)
 **Patch-release review:** [R-1.0.1 community parity review](reviews/REVIEW-2026-05-09-release-1.0.1-community-parity.md)
@@ -357,7 +359,7 @@ where that comparison is meaningful.
 | [CI-030](items/CI-030.md) | Major | Done | Release 1.0.1 UI, preferences, tray, and language resource parity smoke gate |
 | [CI-031](items/CI-031.md) | Major | Done | Release 1.0.1 packaging, architecture, and release asset parity gate |
 | [CI-032](items/CI-032.md) | Major | Done | Release 1.0.1 post-tag focused coverage gaps |
-| [CI-033](items/CI-033.md) | Major | Done | Release 1.0.1 final release-candidate proof |
+| [CI-033](items/CI-033.md) | Major | Done | Release 1.0.1 internal pre-release proof |
 
 ---
 
