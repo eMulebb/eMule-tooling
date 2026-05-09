@@ -942,6 +942,20 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/LogListResponse"
+  /logs/operations/clear:
+    post:
+      tags: [Logs]
+      summary: Clear retained application log lines.
+      operationId: clearLogs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClearLogsRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/OkResponse"
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -1776,6 +1790,14 @@ components:
       required: [confirmClearCompleted]
       properties:
         confirmClearCompleted:
+          type: boolean
+          enum: [true]
+    ClearLogsRequest:
+      type: object
+      additionalProperties: false
+      required: [confirmClearLogs]
+      properties:
+        confirmClearLogs:
           type: boolean
           enum: [true]
     ShutdownRequest:
