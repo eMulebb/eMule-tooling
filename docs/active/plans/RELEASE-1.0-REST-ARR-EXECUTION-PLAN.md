@@ -60,7 +60,7 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 
 ### Arr And qBit-Compatible Adapters
 
-- [ ] Revalidate Prowlarr Torznab indexer add/test/search against live eMule BB
+- [x] Revalidate Prowlarr Torznab indexer add/test/search against live eMule BB
       and confirm adapter errors are bounded, redacted, and diagnosable.
 - [x] Revalidate Radarr and Sonarr indexer sync through Prowlarr plus
       qBittorrent-compatible download-client add/test flows.
@@ -188,6 +188,21 @@ Latest Radarr/Sonarr video-category proof:
   Radarr/Sonarr exposed synced enabled eMule BB indexers, temporary qBittorrent
   clients tested successfully, and two qBit-compatible live-wire
   add/mutate/delete rounds passed against video-category magnets.
+
+Latest Prowlarr video-category proof:
+
+- `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release
+  -Platform x64 -LiveSuite prowlarr-emulebb`
+- Artifact:
+  `repos\eMule-build-tests\reports\prowlarr-emulebb-live\20260509-080508-eMule-main-release`
+- The suite searched explicit Torznab categories: document category `7000`,
+  Radarr/movie video category `2000`, and Sonarr/TV video category `5000`.
+- Operator-owned search terms stayed in the ignored
+  `repos\eMule-build-tests\live-wire-inputs.local.json`; persisted reports kept
+  only term counts, query-presence flags, and result counts.
+- Direct eMule BB Torznab searches and Prowlarr API searches returned rows for
+  document, movie, and TV categories, and the Prowlarr Generic Torznab
+  add/test flow passed.
 
 ## Deferred REST/Arr Work
 

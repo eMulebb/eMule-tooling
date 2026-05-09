@@ -69,7 +69,7 @@ churn. Keep their execution and closure flow in the
 | [CI-015](items/CI-015.md) | REST malformed/concurrent matrix | Passed | item completion evidence |
 | [AMUT-001](items/AMUT-001.md) | aMuTorrent live E2E validation | Passed | item completion evidence |
 | [AMUT-002](items/AMUT-002.md) | aMuTorrent transfer detail hydration | Passed | item completion evidence and latest aMuTorrent browser smoke report |
-| [ARR-001](items/ARR-001.md) | Arr live E2E validation | Passed | item completion evidence; fresh video-category Radarr/Sonarr artifact `20260509-074817-eMule-main-release` |
+| [ARR-001](items/ARR-001.md) | Arr live E2E validation | Passed | item completion evidence; fresh Prowlarr artifact `20260509-080508-eMule-main-release` and Radarr/Sonarr artifact `20260509-074817-eMule-main-release` |
 | [FEAT-050](items/FEAT-050.md) | Download completion hook | Passed | item completion evidence |
 | [BUG-078](items/BUG-078.md) | qBit auth fails closed on session RNG failure | Done | app `02fd5bf`, tests `dfc86d6`, Release x64 validation |
 | [BUG-079](items/BUG-079.md) | WebSocket accepted-client shutdown lifetime | Done | app `aa66699`, Release x64 validation |
