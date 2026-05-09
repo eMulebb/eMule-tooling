@@ -49,7 +49,7 @@ the following:
 | [CI-028](items/CI-028.md) | Search, server, and Kad parity | Done | Server, Kad, source exchange, search lifecycle, and bootstrap flows are compared against community-compatible expectations. |
 | [CI-029](items/CI-029.md) | Network adversity replay | Done | TCP, UDP, HTTPS, WebSocket, bind policy, and UPnP/NAT surfaces pass focused adversity and resource gates. |
 | [CI-030](items/CI-030.md) | UI/preferences/language parity smoke | Done | Main shell, preferences, tray/menu behavior, keyboard shortcuts, list controls, and language resources receive smoke coverage. |
-| [CI-031](items/CI-031.md) | Packaging and release asset parity | Open | x64 and ARM64 packaging, manifests, site config, dependency pins, and release assets are proven current. |
+| [CI-031](items/CI-031.md) | Packaging and release asset parity | Done | x64 and ARM64 packaging, manifests, site config, dependency pins, and release assets are proven current. |
 | [REF-037](items/REF-037.md) | Legacy/frozen feature disposition | Open | Removed or frozen stock features are recorded as intentional, restored, or converted into release blockers. |
 | [FEAT-055](items/FEAT-055.md) | Improvement triage lane | Open | Non-blocking improvements are separated from R-1.0.1 blockers and queued without expanding release scope. |
 
