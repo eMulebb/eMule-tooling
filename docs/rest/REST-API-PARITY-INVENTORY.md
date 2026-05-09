@@ -12,7 +12,7 @@ actions.
 |---|---|
 | `implemented` | Current `main` already exposes equivalent REST behavior, though route shape or envelope may still need alignment with the OpenAPI contract. |
 | `deferred` | Required before the complete broadband REST release, but not yet implemented or not yet verified against the OpenAPI contract. |
-| `obsolete` | Intentionally excluded from REST because it is legacy web-page presentation state, session plumbing, binary streaming, or host OS control. |
+| `obsolete` | Intentionally excluded from REST because it is legacy web-page presentation state, session plumbing, binary streaming, host OS control, or outside the adapter's declared purpose. |
 
 `deferred` does not mean optional. It means the work is still required unless
 the user explicitly approves removing that runtime capability from the release
@@ -42,8 +42,8 @@ contract.
 |---|---|---|---|
 | Show app/version/runtime information | `GET /app` | implemented | Current REST exposes app data; final route must include static capability map and elevation status. |
 | Show global status/statistics summary | `GET /status`, `GET /stats`, `GET /snapshot` | implemented | Current status/snapshot coverage exists; final split needs stable envelopes and richer stat fields. |
-| Update WebServer gzip preference | none | deferred | The current REST preferences route is a curated controller subset and does not expose WebServer presentation preferences. |
-| Update WebServer refresh interval | none | deferred | HTML/WebServer refresh timing remains in `[WebServer] PageRefreshTime`, not REST. |
+| Update WebServer gzip preference | none | obsolete | HTML/WebServer gzip is page-serving presentation behavior, not a native controller preference. |
+| Update WebServer refresh interval | none | obsolete | HTML/WebServer refresh timing remains in `[WebServer] PageRefreshTime`; controller UIs own their own polling cadence. |
 | Update max download speed | `PATCH /app/preferences` | implemented | Uses `downloadLimitKiBps`; valid range is `1..4294967294` to match finite UI limits and avoid the unlimited sentinel. |
 | Update max upload speed | `PATCH /app/preferences` | implemented | Uses `uploadLimitKiBps`; same range as download. |
 | Update max sources per file | `PATCH /app/preferences` | implemented | Uses `maxSourcesPerFile`; valid range is `1..2147483647` for UI and INI integer round-trip. |
@@ -194,6 +194,20 @@ contract.
 | Transfer detail hydration | implemented | aMuTorrent hydrates peers plus part/gap/request detail from `/transfers/{hash}/details`. |
 | Search polling | implemented | aMuTorrent stores the returned `id` and polls `/searches/{searchId}` for results. |
 | Browser smoke | implemented | `eMule-build-tests` now owns `amutorrent-browser-smoke.py`, launched from the aggregate live E2E suite. |
+
+## Arr And qBittorrent-Compatible Adapter Boundary
+
+The `/api/v2` routes are a compatibility adapter for Arr download-client
+integration. Completeness for this surface means the Arr suite can authenticate,
+test the qBittorrent-shaped client, add releases, inspect downloads, update
+Arr-relevant transfer state, assign categories, pause/resume/start/stop where
+Arr expects those verbs, and remove transfers.
+
+The `/api/v2` adapter is not a full qBittorrent Web API clone. Unrelated
+qBittorrent features such as RSS, tracker editing, peer-management, sync,
+logging, ban lists, global speed controls, and full content-layout operations
+remain outside the release contract unless a future Arr compatibility need makes
+one of them part of the adapter purpose.
 
 ## Release Gate
 

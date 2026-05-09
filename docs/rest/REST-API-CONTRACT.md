@@ -36,6 +36,15 @@ qBittorrent-compatible transfer delete requests are adapted to native cancel
 semantics and therefore forward `deleteFiles: true` to the shared transfer
 delete command even when a qBit caller omits or clears its optional flag.
 
+The `/api/v2` surface is a qBittorrent-compatible adapter for Arr download
+client integration only. It is complete when Prowlarr, Radarr, Sonarr, and other
+Arr clients can authenticate, test the client, add transfers, inspect transfer
+state, mutate Arr-relevant transfer state, assign categories, and remove
+transfers through the qBittorrent-shaped routes they call. It is not a promise
+to implement the full qBittorrent Web API surface, including unrelated RSS,
+tracker, peer-management, sync, logging, ban-list, global-speed, or complete
+content-layout operations.
+
 ## Contract Rules
 
 - root every endpoint at `/api/v1/...`
@@ -71,6 +80,7 @@ The release API intentionally excludes:
 
 - HTML sessions, login/logout, templates, sort state, column hiding, and other
   legacy WebServer presentation state
+- WebServer page-only preferences such as HTML gzip and refresh interval
 - host operating-system shutdown and reboot
 - binary shared-file streaming
 - granular REST permissions or low-rights REST mode
