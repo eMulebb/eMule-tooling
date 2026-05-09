@@ -48,7 +48,7 @@ should revalidate the API surfaces below before treating that evidence as fresh.
       envelopes.
 - [x] Re-run live REST completeness with representative read routes, safe
       mutations, destructive confirmation bodies, and unsupported-method checks.
-- [ ] Re-run malformed-input coverage for bad JSON, non-object JSON, unknown
+- [x] Re-run malformed-input coverage for bad JSON, non-object JSON, unknown
       fields, malformed query parameters, bad hashes, missing auth, wrong auth,
       unsupported content types, missing resources, and invalid state.
 - [ ] Re-run mixed REST/legacy WebServer stress with native `/api/v1` errors
@@ -196,6 +196,22 @@ Latest live REST completeness proof:
 - The run covered native read routes, safe mutations, expected destructive
   confirmation failures, and unsupported-method coverage through the live
   completeness and error-path matrix checks.
+
+Latest malformed REST input proof:
+
+- `python -m pytest tests\python\test_rest_api_smoke.py -k "malformed or
+  error_path or wrong_key or bad_json or unknown or duplicate or uppercase or
+  method_not_allowed or unsupported"`
+- Result: 2 selected tests passed on 2026-05-09.
+- Live artifact:
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260509-080825-eMule-main-release`
+- The live error-path matrix recorded 72 error responses with no missing release
+  statuses. It covered live 400/401/404 responses plus seam-backed
+  405/409/500/503 responses.
+- The live surface included malformed JSON content type, non-object JSON,
+  unknown JSON fields, duplicate and malformed query parameters, bad hashes,
+  missing and wrong API keys, missing resources, and destructive confirmation
+  errors.
 
 Latest Radarr/Sonarr video-category proof:
 
