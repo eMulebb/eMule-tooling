@@ -1545,7 +1545,6 @@ Also delete or archive the old build `.cmd` scripts and PowerShell workspace fil
 23-build-emule-debug-incremental.cmd
 24-build-emule-release-incremental-run-and-package.cmd
 25-build-emule-debug-incremental-and-run.cmd
-workspace.cmd
 workspace.ps1
 deps.psd1
 scripts/   (all MSBuild/PS helper scripts)

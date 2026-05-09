@@ -71,8 +71,8 @@ Recent completed validation from this session:
 
 - Read `repos\eMule-tooling\docs\WORKSPACE_POLICY.md` before the next
   workspace task.
-- Use `repos\eMule-build\workspace.ps1` or `workspace.cmd` for build,
-  validation, test, and live commands.
+- Use `repos\eMule-build\workspace.ps1` for build, validation, test, and live
+  commands.
 - Do not run direct MSBuild from app worktrees or test repos.
 - Before rebuilding the app, close the running Debug `emule.exe` process that
   is locking the output binary, then rerun:

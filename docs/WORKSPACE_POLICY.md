@@ -44,7 +44,7 @@ Directive precedence is:
 - App edits belong in `workspaces\v0.72a\app\eMule-main`; do not edit the
   canonical `repos\eMule` branch-store checkout for normal app work.
 - Interactive build, validation, and test commands must go through
-  `repos\eMule-build\workspace.ps1` or `workspace.cmd`.
+  `repos\eMule-build\workspace.ps1`.
 - Do not run ad hoc direct `MSBuild` commands from an app worktree,
   `srchybrid`, or `repos\eMule-build-tests`.
 
@@ -330,7 +330,7 @@ The canonical workspace currently materializes these app worktrees:
   environment; dependency materialization and third-party build inputs are part
   of the `eMulebb-setup` plus `eMule-build` contract.
 - Interactive build, validation, and test work must use
-  `repos\eMule-build\workspace.ps1` or `workspace.cmd`.
+  `repos\eMule-build\workspace.ps1`.
 - Direct ad hoc `MSBuild` commands from an app worktree, `srchybrid`, or
   `repos\eMule-build-tests` are prohibited. Direct `MSBuild` invocation is
   allowed only inside owned orchestration implementation that is itself called
