@@ -104,6 +104,11 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - `/api/v2` is reserved for direct Arr/qBittorrent-compatible clients talking
   to eMule BB. aMuTorrent release proof must stay on the native `/api/v1`
   surface.
+- Operator-owned live-wire search terms, transfer hashes, magnets, and direct
+  ED2K bootstrap rows must stay in
+  `repos\eMule-build-tests\live-wire-inputs.local.json`, which is ignored and
+  untracked. Tracked release docs, manifests, and fixtures may contain only
+  placeholders, stable contract vectors, or redacted summaries for this data.
 - Transfer progress ratio math is shared by native `/api/v1` and qBit-compatible
   transfer rows so UI adapters see bounded precision without defining the
   native contract.
