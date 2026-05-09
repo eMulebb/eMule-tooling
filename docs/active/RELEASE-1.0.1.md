@@ -46,7 +46,7 @@ the following:
 | [CI-025](items/CI-025.md) | REST and adapter contract drift | Done | Native REST, qBit, and Torznab contracts are compared against manifests and live smoke artifacts. |
 | [CI-026](items/CI-026.md) | Shared files/startup/long-path parity | Done | Large-tree, cache, watcher, long-path, share-ignore, and shared-file REST behavior are replayed. |
 | [CI-027](items/CI-027.md) | Download and persistence replay | Done | Part-file, direct-download, completion hook, and metadata persistence behavior survive restart and failure probes. |
-| [CI-028](items/CI-028.md) | Search, server, and Kad parity | Open | Server, Kad, source exchange, search lifecycle, and bootstrap flows are compared against community-compatible expectations. |
+| [CI-028](items/CI-028.md) | Search, server, and Kad parity | Done | Server, Kad, source exchange, search lifecycle, and bootstrap flows are compared against community-compatible expectations. |
 | [CI-029](items/CI-029.md) | Network adversity replay | Open | TCP, UDP, HTTPS, WebSocket, bind policy, and UPnP/NAT surfaces pass focused adversity and resource gates. |
 | [CI-030](items/CI-030.md) | UI/preferences/language parity smoke | Open | Main shell, preferences, tray/menu behavior, keyboard shortcuts, list controls, and language resources receive smoke coverage. |
 | [CI-031](items/CI-031.md) | Packaging and release asset parity | Open | x64 and ARM64 packaging, manifests, site config, dependency pins, and release assets are proven current. |
