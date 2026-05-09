@@ -46,7 +46,7 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - [x] Re-run the OpenAPI route-drift check against every implemented native
       route, including methods, required bodies, path parameters, and response
       envelopes.
-- [ ] Re-run live REST completeness with representative read routes, safe
+- [x] Re-run live REST completeness with representative read routes, safe
       mutations, destructive confirmation bodies, and unsupported-method checks.
 - [ ] Re-run malformed-input coverage for bad JSON, non-object JSON, unknown
       fields, malformed query parameters, bad hashes, missing auth, wrong auth,
@@ -181,6 +181,21 @@ Latest native route/OpenAPI drift proof:
   tests\python\test_rest_api_smoke.py::test_openapi_contract_routes_are_the_live_completeness_source
   tests\python\test_release_golden.py`
 - Result: 6 tests passed on 2026-05-09.
+
+Latest live REST completeness proof:
+
+- `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release
+  -Platform x64 -LiveSuite rest-api`
+- Artifact:
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260509-080825-eMule-main-release`
+- Result: passed with `BindInterface=hide.me`, UPnP enabled, and contract
+  coverage enabled.
+- REST contract summary: 82 OpenAPI routes in the registry, 81 safe routes
+  exercised, 0 failed routes, 36 success outcomes, 45 expected-error outcomes,
+  and 1 intentionally skipped unsafe route (`/api/v1/app/shutdown`).
+- The run covered native read routes, safe mutations, expected destructive
+  confirmation failures, and unsupported-method coverage through the live
+  completeness and error-path matrix checks.
 
 Latest Radarr/Sonarr video-category proof:
 
