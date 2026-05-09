@@ -56,5 +56,9 @@ Package creation and the annotated tag remain pending final operator execution.
 - [x] record final command summaries and artifact paths in the relevant gate
       item docs
 - [x] confirm no active workspace repo has unrelated uncommitted changes
-- [ ] create release packages
+- [x] create release packages
+      - `workspaces\v0.72a\state\release\emule-bb-v1.0.0\eMule-broadband-1.0.0-x64.zip`
+        SHA-256 `2d3ebe784e74baf1cfb78b38d4d965aff37875eaaa31de508ee452b1d8cb77e6`
+      - `workspaces\v0.72a\state\release\emule-bb-v1.0.0\eMule-broadband-1.0.0-arm64.zip`
+        SHA-256 `613727fd23c4cfa35706ac3c812a332c75af165e996e9bd8f16e27a0902af86e`
 - [ ] create the annotated tag only after package verification

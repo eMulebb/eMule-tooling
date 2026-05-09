@@ -112,3 +112,16 @@ The release ZIP assets must be named:
 eMule-broadband-1.0.0-x64.zip
 eMule-broadband-1.0.0-arm64.zip
 ```
+
+The supported packaging command is:
+
+```powershell
+pwsh -File repos\eMule-build\workspace.ps1 package-release -Config Release -Platform x64 -ReleaseVersion 1.0.0
+pwsh -File repos\eMule-build\workspace.ps1 package-release -Config Release -Platform ARM64 -ReleaseVersion 1.0.0
+```
+
+Package manifests are written next to the ZIP assets under:
+
+```text
+workspaces\v0.72a\state\release\emule-bb-v1.0.0
+```
