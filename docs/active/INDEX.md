@@ -12,10 +12,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `63`
+**Current non-done count:** `62`
 **Latest status refresh:** 2026-05-09
-**Non-done by status:** `45` Open, `8` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `4` Bugs, `22` Refactors, `27` Features, `13` Build/CI.
+**Non-done by status:** `44` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `4` Bugs, `21` Refactors, `27` Features, `13` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** `emule-bb-v1.0.0` is tagged; R-1.0.1 hardening is
@@ -38,6 +38,7 @@ Latest review trail:
 - [RELEASE-1.0.1](RELEASE-1.0.1.md)
 - [RELEASE-1.0.1 community parity audit plan](plans/RELEASE-1.0.1-COMMUNITY-PARITY-AUDIT.md)
 - [REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger](reviews/REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger.md)
+- [REVIEW-2026-05-09-release-1.0.1-legacy-frozen-disposition](reviews/REVIEW-2026-05-09-release-1.0.1-legacy-frozen-disposition.md)
 - [REVIEW-2026-05-09-release-1.0.1-post-tag-hardening-replay](reviews/REVIEW-2026-05-09-release-1.0.1-post-tag-hardening-replay.md)
 - [REVIEW-2026-05-09-release-1.0.1-community-parity](reviews/REVIEW-2026-05-09-release-1.0.1-community-parity.md)
 - [RELEASE-1.0](RELEASE-1.0.md)
@@ -234,7 +235,7 @@ where that comparison is meaningful.
 | [REF-034](items/REF-034.md) | Minor | Open | Upgrade Crypto++ from 8.4 to 8.9 and refresh the local MSVC/ARM64 project fork |
 | [REF-035](items/REF-035.md) | Minor | Open | Adopt WIL for narrow Windows and COM RAII cleanup |
 | [REF-036](items/REF-036.md) | Minor | Open | Adopt GSL contracts for buffer and pointer boundary hardening |
-| [REF-037](items/REF-037.md) | Major | Open | Release 1.0.1 legacy and frozen feature disposition ledger |
+| [REF-037](items/REF-037.md) | Major | **Done** | Release 1.0.1 legacy and frozen feature disposition ledger |
 
 ---
 
