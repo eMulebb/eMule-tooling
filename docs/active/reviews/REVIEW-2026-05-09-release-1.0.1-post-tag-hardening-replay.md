@@ -41,7 +41,7 @@ R-1.0.1-blocking until closed.
 | BUG-105 | `06b0d56` | `srchybrid/WebSocket.cpp` | WebServer/WebSocket | App commit `220c0cb` exposes the rejected-IP accept-drain policy and test commit `46eab04` proves the listener continues draining pending accepts after a disallowed remote-access IP is rejected. | [CI-032](../items/CI-032.md) |
 | BUG-106 | `ed28dda` | `srchybrid/SharedFileList.cpp` | Shared startup cache | Native parity replay passed startup-cache scheduling, post-failure, completion-action, and shutdown wait seams. | none |
 | BUG-107 | `18b22c8` | `srchybrid/Packets.cpp` | Packet decompression | Native parity replay passed bounded size arithmetic and truncated packet span cases. | none |
-| BUG-108 | `2653a97` | `srchybrid/CustomAutoComplete.cpp` | UI/preferences | Build replay passed; exact `CoTaskMemAlloc` failure handling lacks a focused seam or UI probe. | [CI-032](../items/CI-032.md) |
+| BUG-108 | `2653a97` | `srchybrid/CustomAutoComplete.cpp` | UI/preferences | App commits `e336f26` and `083478a` expose the enum-string copy path through `CustomAutoCompleteSeams`; test commit `6273fdb` proves allocation failure returns `E_OUTOFMEMORY` before copying through a null allocation. | [CI-032](../items/CI-032.md) |
 | BUG-109 | `a27323a` | `srchybrid/MeterIcon.cpp` | UI/GDI | Test commit `237e6d2` adds focused GDI ownership seam coverage for scoped bitmap, brush, and scratch-DC release paths used by `MeterIcon.cpp`. | [CI-032](../items/CI-032.md) |
 | BUG-110 | `9bdf3f7` | `srchybrid/MeterIcon.cpp` | UI/GDI | Test commit `237e6d2` adds focused `ScopedSelectObject` coverage proving selected bitmaps are restored before callers consume them. | [CI-032](../items/CI-032.md) |
 
