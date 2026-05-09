@@ -12,10 +12,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `69`
+**Current non-done count:** `68`
 **Latest status refresh:** 2026-05-09
-**Non-done by status:** `51` Open, `8` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `4` Bugs, `22` Refactors, `27` Features, `19` Build/CI.
+**Non-done by status:** `50` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `4` Bugs, `22` Refactors, `27` Features, `18` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** `emule-bb-v1.0.0` is tagged; R-1.0.1 hardening is
@@ -348,7 +348,7 @@ where that comparison is meaningful.
 | [CI-023](items/CI-023.md) | Major | **Done** | Release 1.0.1 post-1.0 hardening regression replay gate |
 | [CI-024](items/CI-024.md) | Major | Done | Release 1.0.1 controller integration full replay gate |
 | [CI-025](items/CI-025.md) | Major | Done | Release 1.0.1 REST and adapter contract drift gate |
-| [CI-026](items/CI-026.md) | Major | Open | Release 1.0.1 shared files, startup cache, and long-path parity gate |
+| [CI-026](items/CI-026.md) | Major | Done | Release 1.0.1 shared files, startup cache, and long-path parity gate |
 | [CI-027](items/CI-027.md) | Major | Open | Release 1.0.1 download and persistence replay gate |
 | [CI-028](items/CI-028.md) | Major | Open | Release 1.0.1 search, server, and Kad parity replay gate |
 | [CI-029](items/CI-029.md) | Major | Open | Release 1.0.1 network socket, UDP, WebSocket, HTTPS, and UPnP adversity gate |

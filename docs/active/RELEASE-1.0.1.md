@@ -44,7 +44,7 @@ the following:
 | [CI-032](items/CI-032.md) | Post-tag focused coverage gaps | Done | Direct focused probes are added for post-1.0 fixes that previously had only indirect replay evidence. |
 | [CI-024](items/CI-024.md) | Controller full replay | Done | Prowlarr, Radarr, Sonarr, and aMuTorrent live workflows pass or produce accepted public-network inconclusive evidence. |
 | [CI-025](items/CI-025.md) | REST and adapter contract drift | Done | Native REST, qBit, and Torznab contracts are compared against manifests and live smoke artifacts. |
-| [CI-026](items/CI-026.md) | Shared files/startup/long-path parity | Open | Large-tree, cache, watcher, long-path, share-ignore, and shared-file REST behavior are replayed. |
+| [CI-026](items/CI-026.md) | Shared files/startup/long-path parity | Done | Large-tree, cache, watcher, long-path, share-ignore, and shared-file REST behavior are replayed. |
 | [CI-027](items/CI-027.md) | Download and persistence replay | Open | Part-file, direct-download, completion hook, and metadata persistence behavior survive restart and failure probes. |
 | [CI-028](items/CI-028.md) | Search, server, and Kad parity | Open | Server, Kad, source exchange, search lifecycle, and bootstrap flows are compared against community-compatible expectations. |
 | [CI-029](items/CI-029.md) | Network adversity replay | Open | TCP, UDP, HTTPS, WebSocket, bind policy, and UPnP/NAT surfaces pass focused adversity and resource gates. |
