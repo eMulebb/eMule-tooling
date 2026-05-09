@@ -10,6 +10,8 @@ REST, Arr, and aMuTorrent functionality shipped after 1.0.0.
 - Product name: `eMule broadband edition`
 - Compact app/mod name: `eMule BB`
 - Target tag: `emule-bb-v1.0.1`
+- Tag status: annotated app tag pushed to `eMulebb/eMule` at app commit
+  `11e5966`
 - Baseline for stock/community behavior: `release/v0.72a-community`
 - Candidate app line: `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main`
   on `main`
@@ -65,6 +67,8 @@ It passed on app commit `11e5966` with final package assets:
   `a9649e201c10d8866fa9d46fd01960c0bbf3daa1830c45c2c90d2616b59bdbeb`
 - `eMule-broadband-1.0.1-arm64.zip`:
   `b58697f2678dce455e569dffa009355180be14cee243b982e412bb5a66c8de97`
+
+The annotated app tag `emule-bb-v1.0.1` was pushed after CI-033 passed.
 
 ## Candidate Decisions
 
