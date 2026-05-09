@@ -47,6 +47,7 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 | [architecture/ARCH-NETWORKING](architecture/ARCH-NETWORKING.md) | Networking-stack reference |
 | [architecture/ARCH-PREFERENCES](architecture/ARCH-PREFERENCES.md) | Preference architecture and compatibility policy |
 | [architecture/PREFERENCE-SURFACE-MATRIX](architecture/PREFERENCE-SURFACE-MATRIX.md) | Active preference key/default/range/UI/REST matrix |
+| [reference/GUIDE-EMULEBB](reference/GUIDE-EMULEBB.md) | eMule BB user and product guide |
 | [reference/FEATURE-BROADBAND](reference/FEATURE-BROADBAND.md) | Broadband controller design background |
 | [reference/GUIDE-LONGPATHS](reference/GUIDE-LONGPATHS.md) | Long-path implementation guide |
 | [rest/REST-API-CONTRACT](rest/REST-API-CONTRACT.md) | Human-readable broadband REST contract |
