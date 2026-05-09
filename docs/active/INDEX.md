@@ -12,10 +12,10 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `65`
+**Current non-done count:** `64`
 **Latest status refresh:** 2026-05-09
-**Non-done by status:** `47` Open, `8` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `4` Bugs, `22` Refactors, `27` Features, `15` Build/CI.
+**Non-done by status:** `46` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `4` Bugs, `22` Refactors, `27` Features, `14` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
 **Broadband release status:** `emule-bb-v1.0.0` is tagged; R-1.0.1 hardening is
@@ -352,7 +352,7 @@ where that comparison is meaningful.
 | [CI-027](items/CI-027.md) | Major | Done | Release 1.0.1 download and persistence replay gate |
 | [CI-028](items/CI-028.md) | Major | Done | Release 1.0.1 search, server, and Kad parity replay gate |
 | [CI-029](items/CI-029.md) | Major | Done | Release 1.0.1 network socket, UDP, WebSocket, HTTPS, and UPnP adversity gate |
-| [CI-030](items/CI-030.md) | Major | Open | Release 1.0.1 UI, preferences, tray, and language resource parity smoke gate |
+| [CI-030](items/CI-030.md) | Major | Done | Release 1.0.1 UI, preferences, tray, and language resource parity smoke gate |
 | [CI-031](items/CI-031.md) | Major | Open | Release 1.0.1 packaging, architecture, and release asset parity gate |
 | [CI-032](items/CI-032.md) | Major | Done | Release 1.0.1 post-tag focused coverage gaps |
 
