@@ -43,7 +43,7 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 
 ### Native `/api/v1`
 
-- [ ] Re-run the OpenAPI route-drift check against every implemented native
+- [x] Re-run the OpenAPI route-drift check against every implemented native
       route, including methods, required bodies, path parameters, and response
       envelopes.
 - [ ] Re-run live REST completeness with representative read routes, safe
@@ -172,6 +172,15 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - Radarr/Sonarr integration through Prowlarr plus qBit-compatible download
   control
 - long-path and Unicode REST paths for shared directories, transfers, and logs
+
+Latest native route/OpenAPI drift proof:
+
+- `python -m pytest
+  tests\python\test_rest_api_smoke.py::test_rest_contract_registry_matches_openapi
+  tests\python\test_rest_api_smoke.py::test_native_route_specs_match_openapi_methods_paths_and_fields
+  tests\python\test_rest_api_smoke.py::test_openapi_contract_routes_are_the_live_completeness_source
+  tests\python\test_release_golden.py`
+- Result: 6 tests passed on 2026-05-09.
 
 Latest Radarr/Sonarr video-category proof:
 
