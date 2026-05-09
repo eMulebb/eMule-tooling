@@ -12,15 +12,17 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `65`
-**Latest status refresh:** 2026-05-08
-**Non-done by status:** `40` Open, `12` In Progress, `13` Deferred, `0` Blocked.
-**Non-done by area:** `4` Bugs, `21` Refactors, `26` Features, `14` Build/CI.
+**Current non-done count:** `73`
+**Latest status refresh:** 2026-05-09
+**Non-done by status:** `52` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by area:** `4` Bugs, `22` Refactors, `27` Features, `20` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
-**Broadband release status:** pre-release stabilization; no official release
-tag or package should be cut until the Release 1.0 gates are revalidated and
-the operator steps are complete.
+**Broadband release status:** `emule-bb-v1.0.0` is tagged; R-1.0.1 hardening is
+now tracked by [RELEASE-1.0.1](RELEASE-1.0.1.md).
+**Patch-release backlog view:** [RELEASE-1.0.1](RELEASE-1.0.1.md)
+**Patch-release audit plan:** [R-1.0.1 community parity audit](plans/RELEASE-1.0.1-COMMUNITY-PARITY-AUDIT.md)
+**Patch-release review:** [R-1.0.1 community parity review](reviews/REVIEW-2026-05-09-release-1.0.1-community-parity.md)
 **First-release backlog view:** [RELEASE-1.0](RELEASE-1.0.md)
 **First-release checklist:** [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
 **First-release runbook:** [RELEASE-1.0-RUNBOOK](RELEASE-1.0-RUNBOOK.md)
@@ -33,6 +35,9 @@ the operator steps are complete.
 
 Latest review trail:
 
+- [RELEASE-1.0.1](RELEASE-1.0.1.md)
+- [RELEASE-1.0.1 community parity audit plan](plans/RELEASE-1.0.1-COMMUNITY-PARITY-AUDIT.md)
+- [REVIEW-2026-05-09-release-1.0.1-community-parity](reviews/REVIEW-2026-05-09-release-1.0.1-community-parity.md)
 - [RELEASE-1.0](RELEASE-1.0.md)
 - [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
 - [RELEASE-1.0-RUNBOOK](RELEASE-1.0-RUNBOOK.md)
@@ -227,6 +232,7 @@ where that comparison is meaningful.
 | [REF-034](items/REF-034.md) | Minor | Open | Upgrade Crypto++ from 8.4 to 8.9 and refresh the local MSVC/ARM64 project fork |
 | [REF-035](items/REF-035.md) | Minor | Open | Adopt WIL for narrow Windows and COM RAII cleanup |
 | [REF-036](items/REF-036.md) | Minor | Open | Adopt GSL contracts for buffer and pointer boundary hardening |
+| [REF-037](items/REF-037.md) | Major | Open | Release 1.0.1 legacy and frozen feature disposition ledger |
 
 ---
 
@@ -307,6 +313,7 @@ where that comparison is meaningful.
 | [FEAT-052](items/FEAT-052.md) | Minor | **Done** | Main-shell keyboard shortcuts and mnemonic audit |
 | [FEAT-053](items/FEAT-053.md) | Minor | **Done** | Classic tray balloon notification mode |
 | [FEAT-054](items/FEAT-054.md) | Minor | **Done** | Normalize download message filename display |
+| [FEAT-055](items/FEAT-055.md) | Minor | Open | Release 1.0.1 improvement triage lane |
 
 ---
 
@@ -331,10 +338,20 @@ where that comparison is meaningful.
 | [CI-015](items/CI-015.md) | Major | **Done** | REST malformed and concurrent request matrix |
 | [CI-016](items/CI-016.md) | Minor | Passed | REST-only main vs community regression lane |
 | [CI-017](items/CI-017.md) | Minor | **Done** | Normalize active workspace line-ending policy to LF by default |
-| [CI-018](items/CI-018.md) | Major | In Progress | Shared Files 50k-file tree refresh stress gate |
-| [CI-019](items/CI-019.md) | Major | In Progress | HTTPS and REST socket adversity stress gate |
-| [CI-020](items/CI-020.md) | Major | In Progress | REST and legacy WebServer error-path coverage gate |
-| [CI-021](items/CI-021.md) | Major | In Progress | WebSocket and legacy socket leak-churn gate |
+| [CI-018](items/CI-018.md) | Major | **Done** | Shared Files 50k-file tree refresh stress gate |
+| [CI-019](items/CI-019.md) | Major | **Done** | HTTPS and REST socket adversity stress gate |
+| [CI-020](items/CI-020.md) | Major | **Done** | REST and legacy WebServer error-path coverage gate |
+| [CI-021](items/CI-021.md) | Major | **Done** | WebSocket and legacy socket leak-churn gate |
+| [CI-022](items/CI-022.md) | Major | Open | Release 1.0.1 community parity changed-surface ledger |
+| [CI-023](items/CI-023.md) | Major | Open | Release 1.0.1 post-1.0 hardening regression replay gate |
+| [CI-024](items/CI-024.md) | Major | Open | Release 1.0.1 controller integration full replay gate |
+| [CI-025](items/CI-025.md) | Major | Open | Release 1.0.1 REST and adapter contract drift gate |
+| [CI-026](items/CI-026.md) | Major | Open | Release 1.0.1 shared files, startup cache, and long-path parity gate |
+| [CI-027](items/CI-027.md) | Major | Open | Release 1.0.1 download and persistence replay gate |
+| [CI-028](items/CI-028.md) | Major | Open | Release 1.0.1 search, server, and Kad parity replay gate |
+| [CI-029](items/CI-029.md) | Major | Open | Release 1.0.1 network socket, UDP, WebSocket, HTTPS, and UPnP adversity gate |
+| [CI-030](items/CI-030.md) | Major | Open | Release 1.0.1 UI, preferences, tray, and language resource parity smoke gate |
+| [CI-031](items/CI-031.md) | Major | Open | Release 1.0.1 packaging, architecture, and release asset parity gate |
 
 ---
 
@@ -350,8 +367,14 @@ where that comparison is meaningful.
 
 ## Release Focus
 
-The first-release gate is controlled by [RELEASE-1.0](RELEASE-1.0.md). Use
-that page for gate status, candidate decisions, and release validation scope.
+Release 1.0.1 hardening is controlled by [RELEASE-1.0.1](RELEASE-1.0.1.md).
+Use that page for patch-release gate status, candidate decisions, and validation
+scope. Its detailed comparison workflow lives in the
+[R-1.0.1 community parity audit plan](plans/RELEASE-1.0.1-COMMUNITY-PARITY-AUDIT.md).
+
+The first-release gate remains recorded in [RELEASE-1.0](RELEASE-1.0.md). Use
+that page for 1.0.0 gate status, candidate decisions, and release validation
+scope.
 
 Release 1 implementation detail lives in the cluster execution plans:
 [REST/Arr](plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md),
