@@ -4,8 +4,10 @@ This is the active execution plan for the Release 1 live E2E umbrella. It does
 not own gate status; use [RELEASE-1.0](../RELEASE-1.0.md) for release decisions
 and [CI-011](../items/CI-011.md) for completion evidence.
 
-Current status: the broadband branch remains pre-release stabilization. The
-full Release x64 live lane must pass again before any tag or package is cut.
+Current status: the 2026-05-09 full Release x64 live lane passed with
+`auto-browse-live` accepted as inconclusive because the live networks connected
+but no safe downloadable browse-capable sourced transfer was available. Do not
+tag or package until the release checklist and clean-worktree gate are complete.
 
 ## Decisions
 
@@ -67,3 +69,19 @@ pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release -Platform x6
 Record the aggregate result path and any accepted inconclusive external
 condition in [CI-011](../items/CI-011.md) and
 [RELEASE-1.0-CHECKLIST](../RELEASE-1.0-CHECKLIST.md).
+
+## Latest Revalidation
+
+- `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release
+  -Platform x64`
+- Artifact:
+  `repos\eMule-build-tests\reports\live-e2e-suite\20260509-093500-eMule-main-release\result.json`
+- Aggregate status: `passed`; `has_inconclusive_suites=true`.
+- Deterministic suites and controller suites passed:
+  `preference-ui`, `shared-files-ui`, `config-stability-ui`,
+  `shared-hash-ui`, `startup-profile`, `shared-directories-rest`,
+  `rest-api`, `amutorrent-browser-smoke`, `prowlarr-emulebb`,
+  `radarr-sonarr-emulebb`.
+- `auto-browse-live` returned the documented inconclusive code `2` with
+  `LiveSourceUnavailableError`; the child report records normal cleanup and no
+  product or harness failure.

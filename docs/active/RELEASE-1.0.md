@@ -3,10 +3,9 @@
 This is the active control document for `emule-bb-v1.0.0`. It owns Release 1
 gate status, candidate decisions, and final readiness rules.
 
-Current status: `release/v0.72a-broadband` is a pre-release stabilization
-branch, not ready for an official release. Do not tag or package
-`emule-bb-v1.0.0` until the gates below are revalidated and the operator steps
-in the checklist and runbook are complete.
+Current status: the Release 1 gates have fresh 2026-05-09 revalidation
+evidence. `release/v0.72a-broadband` must still not be tagged or packaged until
+the remaining operator steps in the checklist and runbook are complete.
 
 Operator docs:
 
@@ -64,12 +63,12 @@ churn. Keep their execution and closure flow in the
 | [BUG-075](items/BUG-075.md) | REST typed error consistency | Passed | item completion evidence |
 | [BUG-076](items/BUG-076.md) | Malformed WebServer/REST hardening | Passed | item completion evidence |
 | [BUG-077](items/BUG-077.md) | Concurrent WebServer soak | Passed | item completion evidence |
-| [CI-011](items/CI-011.md) | Release live E2E umbrella | Done | item completion evidence and latest full `live-e2e` report |
+| [CI-011](items/CI-011.md) | Release live E2E umbrella | Done | item completion evidence and full `live-e2e` report `20260509-093500-eMule-main-release`; `auto-browse-live` accepted inconclusive for unavailable live browse-capable source |
 | [CI-014](items/CI-014.md) | REST manifest/live completeness gate | Passed | item completion evidence |
 | [CI-015](items/CI-015.md) | REST malformed/concurrent matrix | Passed | item completion evidence |
 | [AMUT-001](items/AMUT-001.md) | aMuTorrent live E2E validation | Passed | item completion evidence; fresh artifact `20260509-081711-eMule-main-release` |
 | [AMUT-002](items/AMUT-002.md) | aMuTorrent transfer detail hydration | Passed | item completion evidence and fresh aMuTorrent browser smoke artifact `20260509-081711-eMule-main-release` |
-| [ARR-001](items/ARR-001.md) | Arr live E2E validation | Passed | item completion evidence; fresh Prowlarr artifact `20260509-080508-eMule-main-release` and Radarr/Sonarr artifact `20260509-074817-eMule-main-release` |
+| [ARR-001](items/ARR-001.md) | Arr live E2E validation | Passed | item completion evidence; fresh Prowlarr artifact `20260509-102138-eMule-main-release` and Radarr/Sonarr artifact `20260509-102255-eMule-main-release`; media searches used video categories |
 | [FEAT-050](items/FEAT-050.md) | Download completion hook | Passed | item completion evidence |
 | [BUG-078](items/BUG-078.md) | qBit auth fails closed on session RNG failure | Done | app `02fd5bf`, tests `dfc86d6`, Release x64 validation |
 | [BUG-079](items/BUG-079.md) | WebSocket accepted-client shutdown lifetime | Done | app `aa66699`, Release x64 validation |
