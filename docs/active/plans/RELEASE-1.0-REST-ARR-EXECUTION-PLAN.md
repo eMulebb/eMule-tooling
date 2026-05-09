@@ -62,9 +62,9 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 
 - [ ] Revalidate Prowlarr Torznab indexer add/test/search against live eMule BB
       and confirm adapter errors are bounded, redacted, and diagnosable.
-- [ ] Revalidate Radarr and Sonarr indexer sync through Prowlarr plus
+- [x] Revalidate Radarr and Sonarr indexer sync through Prowlarr plus
       qBittorrent-compatible download-client add/test flows.
-- [ ] Revalidate qBittorrent-compatible login, app preferences, transfer add,
+- [x] Revalidate qBittorrent-compatible login, app preferences, transfer add,
       transfer info/properties/files, category mutation, pause/resume, and
       delete flows against live eMule BB.
 - [ ] Confirm adapter compatibility parsing reuses shared native validation,
@@ -172,6 +172,22 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - Radarr/Sonarr integration through Prowlarr plus qBit-compatible download
   control
 - long-path and Unicode REST paths for shared directories, transfers, and logs
+
+Latest Radarr/Sonarr video-category proof:
+
+- `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release
+  -Platform x64 -LiveSuite radarr-sonarr-emulebb`
+- Artifact:
+  `repos\eMule-build-tests\reports\radarr-sonarr-emulebb-live\20260509-074817-eMule-main-release`
+- The suite searched video-family Torznab categories for the Arr proof:
+  Radarr/qBit video category `2000` and Sonarr category `5000`.
+- Operator-owned terms, hashes, magnets, and direct ED2K rows remained in the
+  ignored `repos\eMule-build-tests\live-wire-inputs.local.json`; persisted
+  reports kept only counts and presence flags.
+- Prowlarr returned video-category rows for both Radarr and Sonarr searches,
+  Radarr/Sonarr exposed synced enabled eMule BB indexers, temporary qBittorrent
+  clients tested successfully, and two qBit-compatible live-wire
+  add/mutate/delete rounds passed against video-category magnets.
 
 ## Deferred REST/Arr Work
 
