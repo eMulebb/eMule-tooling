@@ -51,7 +51,7 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - [x] Re-run malformed-input coverage for bad JSON, non-object JSON, unknown
       fields, malformed query parameters, bad hashes, missing auth, wrong auth,
       unsupported content types, missing resources, and invalid state.
-- [ ] Re-run mixed REST/legacy WebServer stress with native `/api/v1` errors
+- [x] Re-run mixed REST/legacy WebServer stress with native `/api/v1` errors
       checked for JSON-only responses and no HTML fallback.
 - [ ] Audit every destructive native operation for explicit confirmation or
       explicit intent fields, especially transfer delete, shared-file delete,
@@ -212,6 +212,21 @@ Latest malformed REST input proof:
   unknown JSON fields, duplicate and malformed query parameters, bad hashes,
   missing and wrong API keys, missing resources, and destructive confirmation
   errors.
+
+Latest mixed REST/legacy stress proof:
+
+- `python -m pytest tests\python\test_rest_api_smoke.py -k "stress or legacy
+  or non_json or html or shutdown_exclusion"`
+- Result: 10 selected tests passed on 2026-05-09.
+- Live artifact:
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260509-080825-eMule-main-release`
+- The live mixed stress ran for 30 seconds with 4-way concurrency and completed
+  13,311 requests with 0 failures, 0 timeouts, 0 retry recoveries, and 0 native
+  REST non-JSON responses.
+- The stress mix included native REST reads and safe mutations, malformed
+  native error edges, Torznab and qBittorrent-compatible adapter traffic, and
+  legacy HTML root traffic while keeping `/api/v1/app/shutdown` excluded from
+  broad mutation loops.
 
 Latest Radarr/Sonarr video-category proof:
 
