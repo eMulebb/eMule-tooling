@@ -67,7 +67,7 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - [x] Revalidate qBittorrent-compatible login, app preferences, transfer add,
       transfer info/properties/files, category mutation, pause/resume, and
       delete flows against live eMule BB.
-- [ ] Confirm adapter compatibility parsing reuses shared native validation,
+- [x] Confirm adapter compatibility parsing reuses shared native validation,
       normalization, path-safety, and serialization helpers where applicable
       instead of carrying divergent behavior.
 - [ ] Confirm Arr/qBit compatibility errors stay adapter-shaped for those
@@ -275,6 +275,23 @@ Latest Prowlarr video-category proof:
 - Direct eMule BB Torznab searches and Prowlarr API searches returned rows for
   document, movie, and TV categories, and the Prowlarr Generic Torznab
   add/test flow passed.
+
+Latest adapter shared-validation audit:
+
+- Test commit: `88c743f`.
+- `python -m pytest
+  tests\python\test_rest_api_smoke.py::test_arr_compat_uses_shared_native_validation_and_search_commands
+  tests\python\test_rest_api_smoke.py::test_qbit_compat_uses_shared_native_validation_and_bridge_commands
+  tests\python\test_rest_api_smoke.py::test_qbit_compat_torrent_list_uses_native_transfer_command`
+- Result: 3 selected tests passed on 2026-05-09.
+- The audit locks Torznab compatibility to shared request path escape checks,
+  query parsing, search text normalization, unsigned decimal parsing, public
+  filename validation, and native `search/start`, `search/results`, and
+  `search/stop` commands.
+- The audit locks qBittorrent compatibility to shared request path escape
+  checks, query and form parsing, category normalization, public filename
+  validation, decimal parsing, URL encoding, and native transfer bridge
+  commands.
 
 ## Deferred REST/Arr Work
 
