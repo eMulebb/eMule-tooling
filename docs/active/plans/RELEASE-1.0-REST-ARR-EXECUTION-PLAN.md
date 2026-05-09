@@ -70,7 +70,7 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - [x] Confirm adapter compatibility parsing reuses shared native validation,
       normalization, path-safety, and serialization helpers where applicable
       instead of carrying divergent behavior.
-- [ ] Confirm Arr/qBit compatibility errors stay adapter-shaped for those
+- [x] Confirm Arr/qBit compatibility errors stay adapter-shaped for those
       clients while native `/api/v1` remains the clean OpenAPI-shaped contract.
 
 ### aMuTorrent Consumer Proof
@@ -292,6 +292,18 @@ Latest adapter shared-validation audit:
   checks, query and form parsing, category normalization, public filename
   validation, decimal parsing, URL encoding, and native transfer bridge
   commands.
+
+Latest adapter error-shape proof:
+
+- `python -m pytest tests\python\test_rest_api_smoke.py -k "qbit or torznab
+  or requires_json or adapter or wrong_cookie or bad_login or wrong_query_key"
+  tests\python\test_prowlarr_emulebb_live.py::test_direct_torznab_error_edges_are_expected_400s`
+- Result: 5 selected tests passed on 2026-05-09.
+- Live artifact:
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260509-080825-eMule-main-release`
+- qBittorrent-compatible failures stayed qBit-shaped (`text/plain`, `Fails.`
+  or `Forbidden`), Torznab failures stayed XML-shaped, and native `/api/v1`
+  stress recorded 0 native REST non-JSON responses.
 
 ## Deferred REST/Arr Work
 
