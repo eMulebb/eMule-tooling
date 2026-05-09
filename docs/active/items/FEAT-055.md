@@ -1,7 +1,7 @@
 ---
 id: FEAT-055
 title: Release 1.0.1 improvement triage lane
-status: Open
+status: Done
 priority: Minor
 category: feature
 labels: [r1.0.1, improvements, triage, release-follow-up]
@@ -28,15 +28,42 @@ release blocker unless a listed improvement is promoted into a bug or CI gate.
 - clearer release-note separation between stock parity, Broadband features, and
   intentionally frozen legacy areas
 
+## Triage Decision
+
+| Improvement | Classification | R-1.0.1 decision | Follow-up |
+|-------------|----------------|------------------|-----------|
+| one-command R-1.0.1 proof orchestration through `workspace.ps1` | next-patch | non-blocking; current gates have explicit command evidence | [FEAT-056](FEAT-056.md) |
+| automated changed-surface grouping for future release audits | future | non-blocking; CI-022 ledger is complete for R-1.0.1 | [FEAT-056](FEAT-056.md) |
+| controller compatibility matrix for native REST, qBit, Torznab, Arr, and aMuTorrent consumers | next-patch | non-blocking; CI-024 and CI-025 carry current release proof | [FEAT-056](FEAT-056.md) |
+| compact operator summary for live E2E artifacts | next-patch | non-blocking; current artifacts are detailed enough for release decisions | [FEAT-056](FEAT-056.md) |
+| lightweight UI smoke coverage for representative language/resource loads | future | non-blocking; CI-030 and CI-031 prove current language/resource build and package viability | [FEAT-056](FEAT-056.md) |
+| packaging manifest diff report against the previous release asset | next-patch | non-blocking; CI-031 includes manual package and manifest inspection | [FEAT-056](FEAT-056.md) |
+| clearer release-note separation between stock parity, Broadband features, and intentionally frozen legacy areas | next-patch | non-blocking for the code/package gate; should inform publication notes | [FEAT-056](FEAT-056.md) |
+
+No candidate is a R-1.0.1 blocker. No candidate fixes a confirmed regression,
+missing advertised behavior, or release-proof gap that remains open after
+CI-022 through CI-032, REF-037, and this triage pass.
+
 ## Acceptance Criteria
 
-- [ ] Improvements found during CI-022 through CI-031 are listed here or
+- [x] Improvements found during CI-022 through CI-031 are listed here or
       promoted to specific items.
-- [ ] Each improvement is classified as blocker, next-patch, future, or
+- [x] Each improvement is classified as blocker, next-patch, future, or
       rejected.
-- [ ] No improvement blocks R-1.0.1 unless it fixes a confirmed regression,
+- [x] No improvement blocks R-1.0.1 unless it fixes a confirmed regression,
       missing advertised behavior, or release-proof gap.
-- [ ] Follow-up items are created for approved post-R-1.0.1 work.
+- [x] Follow-up items are created for approved post-R-1.0.1 work.
+
+## Completion Evidence
+
+- Approved follow-up item:
+  [FEAT-056](FEAT-056.md).
+- Release gate decision: all improvements are next-patch or future scope; none
+  blocks `emule-bb-v1.0.1`.
+- Validation:
+  - CI-022 through CI-032 are closed.
+  - REF-037 is closed.
+  - `workspace.ps1 validate` passed after the active release docs update.
 
 ## Validation
 

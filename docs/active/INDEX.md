@@ -14,7 +14,7 @@ This directory is the active backlog and revalidation layer for this repo. Use
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
 **Current non-done count:** `62`
 **Latest status refresh:** 2026-05-09
-**Non-done by status:** `44` Open, `8` In Progress, `13` Deferred, `0` Blocked.
+**Non-done by status:** `43` Open, `8` In Progress, `14` Deferred, `0` Blocked.
 **Non-done by area:** `4` Bugs, `21` Refactors, `27` Features, `13` Build/CI.
 **Release 1 relevance:** Most non-done items below are future or deferred work;
 Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
@@ -316,7 +316,8 @@ where that comparison is meaningful.
 | [FEAT-052](items/FEAT-052.md) | Minor | **Done** | Main-shell keyboard shortcuts and mnemonic audit |
 | [FEAT-053](items/FEAT-053.md) | Minor | **Done** | Classic tray balloon notification mode |
 | [FEAT-054](items/FEAT-054.md) | Minor | **Done** | Normalize download message filename display |
-| [FEAT-055](items/FEAT-055.md) | Minor | Open | Release 1.0.1 improvement triage lane |
+| [FEAT-055](items/FEAT-055.md) | Minor | **Done** | Release 1.0.1 improvement triage lane |
+| [FEAT-056](items/FEAT-056.md) | Minor | Deferred | Post-R-1.0.1 release proof automation and operator evidence UX |
 
 ---
 

@@ -51,7 +51,11 @@ the following:
 | [CI-030](items/CI-030.md) | UI/preferences/language parity smoke | Done | Main shell, preferences, tray/menu behavior, keyboard shortcuts, list controls, and language resources receive smoke coverage. |
 | [CI-031](items/CI-031.md) | Packaging and release asset parity | Done | x64 and ARM64 packaging, manifests, site config, dependency pins, and release assets are proven current. |
 | [REF-037](items/REF-037.md) | Legacy/frozen feature disposition | Done | Removed or frozen stock features are recorded as intentional, restored, or converted into release blockers. |
-| [FEAT-055](items/FEAT-055.md) | Improvement triage lane | Open | Non-blocking improvements are separated from R-1.0.1 blockers and queued without expanding release scope. |
+| [FEAT-055](items/FEAT-055.md) | Improvement triage lane | Done | Non-blocking improvements are separated from R-1.0.1 blockers and queued without expanding release scope. |
+
+All R-1.0.1 release gates are closed. Post-release improvements discovered
+during the audit are queued in [FEAT-056](items/FEAT-056.md) and do not expand
+the `emule-bb-v1.0.1` blocking scope.
 
 ## Candidate Decisions
 
