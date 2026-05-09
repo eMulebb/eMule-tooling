@@ -4,8 +4,8 @@ This is the operator checklist for `emule-bb-v1.0.0`. It does not own gate
 status; use [RELEASE-1.0](RELEASE-1.0.md) for release decisions and item docs
 for detailed completion evidence.
 
-Current status: Release 1 gate proof is freshly revalidated on 2026-05-09.
-Package creation and the annotated tag remain pending final operator execution.
+Current status: Release 1 gate proof is freshly revalidated on 2026-05-09,
+release packages are created, and the annotated app tag is pushed.
 
 ## Gate Revalidation
 
@@ -61,4 +61,5 @@ Package creation and the annotated tag remain pending final operator execution.
         SHA-256 `2d3ebe784e74baf1cfb78b38d4d965aff37875eaaa31de508ee452b1d8cb77e6`
       - `workspaces\v0.72a\state\release\emule-bb-v1.0.0\eMule-broadband-1.0.0-arm64.zip`
         SHA-256 `613727fd23c4cfa35706ac3c812a332c75af165e996e9bd8f16e27a0902af86e`
-- [ ] create the annotated tag only after package verification
+- [x] create the annotated tag only after package verification
+      `emule-bb-v1.0.0` pushed to `eMulebb/eMule` at app commit `953a39f`.

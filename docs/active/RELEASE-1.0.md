@@ -3,9 +3,9 @@
 This is the active control document for `emule-bb-v1.0.0`. It owns Release 1
 gate status, candidate decisions, and final readiness rules.
 
-Current status: the Release 1 gates have fresh 2026-05-09 revalidation
-evidence. `release/v0.72a-broadband` must still not be tagged or packaged until
-the remaining operator steps in the checklist and runbook are complete.
+Current status: Release 1 gate proof has fresh 2026-05-09 revalidation
+evidence, release packages were created, and the annotated app tag
+`emule-bb-v1.0.0` was pushed to `eMulebb/eMule` at app commit `953a39f`.
 
 Operator docs:
 
