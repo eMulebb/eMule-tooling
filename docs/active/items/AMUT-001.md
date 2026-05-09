@@ -62,6 +62,14 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
   The run passed with delete result `Deleted 1/1 files`, post-delete item count
   `0`, automatic/server/Kad search mode coverage, `BindInterface=hide.me`,
   empty P2P `BindAddr`, and `EnableUPnP=1`.
+- Fresh Release x64 revalidation:
+  `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260509-081711-eMule-main-release\result.json`.
+  The run passed after native REST and Arr adapter revalidation with
+  `BindInterface=hide.me`, UPnP enabled, eD2K and Kad connected,
+  automatic/server/Kad search modes, category create/delete, shared-files
+  reload, synthetic eD2K add/delete, and post-delete snapshot cleanup. Focused
+  aMuTorrent tests selected by `amutorrent or browser_smoke or search_modes or
+  transfer_detail or segment_snapshot` also passed.
 
 ## Pending Revalidation Focus
 
@@ -69,13 +77,13 @@ This gate proves the UI target, not native API ownership. The next Release 1
 hardening pass should rerun the browser smoke after native `/api/v1` and
 Arr-adapter validation and confirm:
 
-- [ ] aMuTorrent still adapts to final native `/api/v1` routes, envelopes, and
+- [x] aMuTorrent still adapts to final native `/api/v1` routes, envelopes, and
       field names without requiring native compatibility aliases.
 - [x] dashboard ED2K/Kad status, ED2K Server vs Kad search selection, and
       download-row delete remain covered.
-- [ ] progress percentage formatting remains acceptable with the shared
+- [x] progress percentage formatting remains acceptable with the shared
       native/qBit backend progress ratio helper.
-- [ ] browser console, page, and request artifacts remain sufficient to
+- [x] browser console, page, and request artifacts remain sufficient to
       distinguish UI adapter failures from native REST failures.
 
 ## Relationship To Other Items

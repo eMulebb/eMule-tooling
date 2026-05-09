@@ -75,13 +75,13 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 
 ### aMuTorrent Consumer Proof
 
-- [ ] Re-run the aMuTorrent browser smoke after native `/api/v1` and adapter
+- [x] Re-run the aMuTorrent browser smoke after native `/api/v1` and adapter
       revalidation so UI regressions are caught without making aMuTorrent the
       native API authority.
-- [ ] Confirm the eMule BB adapter keeps translating aMuTorrent expectations to
+- [x] Confirm the eMule BB adapter keeps translating aMuTorrent expectations to
       final native fields/routes and does not require native aliases for old UI
       state.
-- [ ] Confirm status, ED2K/Kad search selection, progress formatting, and
+- [x] Confirm status, ED2K/Kad search selection, progress formatting, and
       download-row delete remain covered by the aMuTorrent integration branch.
 
 ## Native REST Contract
@@ -304,6 +304,23 @@ Latest adapter error-shape proof:
 - qBittorrent-compatible failures stayed qBit-shaped (`text/plain`, `Fails.`
   or `Forbidden`), Torznab failures stayed XML-shaped, and native `/api/v1`
   stress recorded 0 native REST non-JSON responses.
+
+Latest aMuTorrent browser proof:
+
+- `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release
+  -Platform x64 -LiveSuite amutorrent-browser-smoke`
+- Artifact:
+  `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260509-081711-eMule-main-release`
+- `python -m pytest tests\python -k "amutorrent or browser_smoke or
+  search_modes or transfer_detail or segment_snapshot"`
+- Result: 21 selected tests passed on 2026-05-09.
+- The live browser run passed with `BindInterface=hide.me`, UPnP enabled,
+  eD2K connected, Kad connected, automatic/server/Kad search modes exercised,
+  category create/delete, shared-files reload, synthetic eD2K add/delete, and
+  post-delete snapshot cleanup.
+- The transfer row carried hydrated progress/status/source fields plus
+  segment-subscribed `partStatus`, `gapStatus`, and `reqStatus`, keeping
+  aMuTorrent translation on its adapter side of the native `/api/v1` contract.
 
 ## Deferred REST/Arr Work
 

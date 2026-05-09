@@ -66,6 +66,11 @@ the browser `segmentData` WebSocket subscription.
   `pwsh -File repos/eMule-build/workspace.ps1 live-e2e -Config Release -Platform x64 -LiveSuite amutorrent-browser-smoke`.
   Latest live artifact:
   `repos/eMule-build-tests/reports/amutorrent-browser-smoke-latest/result.json`.
+- 2026-05-09: Fresh Release x64 browser smoke after REST/Arr revalidation
+  passed at
+  `repos/eMule-build-tests/reports/amutorrent-browser-smoke/20260509-081711-eMule-main-release/result.json`.
+  The report includes hydrated transfer progress/status/source fields and
+  segment-subscribed `partStatus`, `gapStatus`, and `reqStatus` evidence.
 
 ## Relationship To Other Items
 

@@ -67,8 +67,8 @@ churn. Keep their execution and closure flow in the
 | [CI-011](items/CI-011.md) | Release live E2E umbrella | Done | item completion evidence and latest full `live-e2e` report |
 | [CI-014](items/CI-014.md) | REST manifest/live completeness gate | Passed | item completion evidence |
 | [CI-015](items/CI-015.md) | REST malformed/concurrent matrix | Passed | item completion evidence |
-| [AMUT-001](items/AMUT-001.md) | aMuTorrent live E2E validation | Passed | item completion evidence |
-| [AMUT-002](items/AMUT-002.md) | aMuTorrent transfer detail hydration | Passed | item completion evidence and latest aMuTorrent browser smoke report |
+| [AMUT-001](items/AMUT-001.md) | aMuTorrent live E2E validation | Passed | item completion evidence; fresh artifact `20260509-081711-eMule-main-release` |
+| [AMUT-002](items/AMUT-002.md) | aMuTorrent transfer detail hydration | Passed | item completion evidence and fresh aMuTorrent browser smoke artifact `20260509-081711-eMule-main-release` |
 | [ARR-001](items/ARR-001.md) | Arr live E2E validation | Passed | item completion evidence; fresh Prowlarr artifact `20260509-080508-eMule-main-release` and Radarr/Sonarr artifact `20260509-074817-eMule-main-release` |
 | [FEAT-050](items/FEAT-050.md) | Download completion hook | Passed | item completion evidence |
 | [BUG-078](items/BUG-078.md) | qBit auth fails closed on session RNG failure | Done | app `02fd5bf`, tests `dfc86d6`, Release x64 validation |
