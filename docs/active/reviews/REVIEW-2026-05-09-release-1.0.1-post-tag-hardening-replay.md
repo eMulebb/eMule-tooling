@@ -11,10 +11,10 @@
 The post-1.0 app hardening queue is small and coherent: nine app commits touch
 DirectDownload, packet guards, client UDP receive handling, WebSocket accept
 draining, shared startup-cache worker failures, autocomplete allocation, and
-meter-icon GDI ownership. The supported Release x64 native replay passed, but
-the audit found that several fixes are covered only indirectly. Those focused
-coverage gaps are promoted to [CI-032](../items/CI-032.md) and remain
-R-1.0.1-blocking until closed.
+meter-icon GDI ownership. The supported Release x64 native replay passed. The
+audit initially found several fixes covered only indirectly; those focused
+coverage gaps were promoted to [CI-032](../items/CI-032.md) and are now closed
+with targeted probes.
 
 ## Replay Evidence
 
@@ -35,7 +35,7 @@ R-1.0.1-blocking until closed.
 
 | Bug | Commit | File | Release area | Replay status | Follow-up |
 |-----|--------|------|--------------|---------------|-----------|
-| BUG-102 | `05b94fe` | `srchybrid/DirectDownload.cpp` | Downloads/persistence | Build replay passed; prior DirectDownload R1 items cover timeout/owner cancellation concept, but this exact cancel-register race lacks a focused probe. | [CI-032](../items/CI-032.md) |
+| BUG-102 | `05b94fe` | `srchybrid/DirectDownload.cpp` | Downloads/persistence | App commit `dc412b4` routes WinInet handle ownership through the cancellation registry policy seam; test commit `f377146` proves cancelled owners reject new handle registration. | [CI-032](../items/CI-032.md) |
 | BUG-103 | `e3183fd` | `srchybrid/DownloadClient.cpp` | Downloads/protocol parsing | Native parity replay passed protocol guard block-header cases and overflow/truncation cases. | none |
 | BUG-104 | `0af5c22` | `srchybrid/ClientUDPSocket.cpp` | UDP/networking | Native parity replay passed client UDP packet failure logging and opcode extraction seams. | none |
 | BUG-105 | `06b0d56` | `srchybrid/WebSocket.cpp` | WebServer/WebSocket | App commit `220c0cb` exposes the rejected-IP accept-drain policy and test commit `46eab04` proves the listener continues draining pending accepts after a disallowed remote-access IP is rejected. | [CI-032](../items/CI-032.md) |
@@ -47,8 +47,8 @@ R-1.0.1-blocking until closed.
 
 ## Release Decision
 
-[CI-023](../items/CI-023.md) can close as the post-tag mapping and replay gate:
-the commits are mapped, the supported Release x64 replay passed, and every
-insufficiently focused behavior has a new blocking follow-up in
-[CI-032](../items/CI-032.md). R-1.0.1 must not tag until CI-032 and the
-downstream area gates are closed.
+[CI-023](../items/CI-023.md) can remain closed as the post-tag mapping and
+replay gate: the commits are mapped, the supported Release x64 replay passed,
+and CI-032 now closes the previously insufficient focused coverage for BUG-102,
+BUG-105, BUG-108, BUG-109, and BUG-110. R-1.0.1 must still wait for the
+downstream area gates.

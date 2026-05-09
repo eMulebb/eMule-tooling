@@ -12,7 +12,7 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `72`
+**Current non-done count:** `71`
 **Latest status refresh:** 2026-05-09
 **Non-done by status:** `51` Open, `8` In Progress, `13` Deferred, `0` Blocked.
 **Non-done by area:** `4` Bugs, `22` Refactors, `27` Features, `19` Build/CI.
@@ -354,7 +354,7 @@ where that comparison is meaningful.
 | [CI-029](items/CI-029.md) | Major | Open | Release 1.0.1 network socket, UDP, WebSocket, HTTPS, and UPnP adversity gate |
 | [CI-030](items/CI-030.md) | Major | Open | Release 1.0.1 UI, preferences, tray, and language resource parity smoke gate |
 | [CI-031](items/CI-031.md) | Major | Open | Release 1.0.1 packaging, architecture, and release asset parity gate |
-| [CI-032](items/CI-032.md) | Major | Open | Release 1.0.1 post-tag focused coverage gaps |
+| [CI-032](items/CI-032.md) | Major | Done | Release 1.0.1 post-tag focused coverage gaps |
 
 ---
 
