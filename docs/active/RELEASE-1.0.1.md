@@ -45,7 +45,7 @@ the following:
 | [CI-024](items/CI-024.md) | Controller full replay | Done | Prowlarr, Radarr, Sonarr, and aMuTorrent live workflows pass or produce accepted public-network inconclusive evidence. |
 | [CI-025](items/CI-025.md) | REST and adapter contract drift | Done | Native REST, qBit, and Torznab contracts are compared against manifests and live smoke artifacts. |
 | [CI-026](items/CI-026.md) | Shared files/startup/long-path parity | Done | Large-tree, cache, watcher, long-path, share-ignore, and shared-file REST behavior are replayed. |
-| [CI-027](items/CI-027.md) | Download and persistence replay | Open | Part-file, direct-download, completion hook, and metadata persistence behavior survive restart and failure probes. |
+| [CI-027](items/CI-027.md) | Download and persistence replay | Done | Part-file, direct-download, completion hook, and metadata persistence behavior survive restart and failure probes. |
 | [CI-028](items/CI-028.md) | Search, server, and Kad parity | Open | Server, Kad, source exchange, search lifecycle, and bootstrap flows are compared against community-compatible expectations. |
 | [CI-029](items/CI-029.md) | Network adversity replay | Open | TCP, UDP, HTTPS, WebSocket, bind policy, and UPnP/NAT surfaces pass focused adversity and resource gates. |
 | [CI-030](items/CI-030.md) | UI/preferences/language parity smoke | Open | Main shell, preferences, tray/menu behavior, keyboard shortcuts, list controls, and language resources receive smoke coverage. |
