@@ -14,6 +14,8 @@ granular item commit.
 - Active release control: [RELEASE-1.0.1](../RELEASE-1.0.1.md)
 - Detailed current review:
   [REVIEW-2026-05-09-release-1.0.1-community-parity](../reviews/REVIEW-2026-05-09-release-1.0.1-community-parity.md)
+- Changed-surface ledger:
+  [REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger](../reviews/REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger.md)
 
 ## Execution Workflow
 

@@ -39,7 +39,7 @@ the following:
 
 | ID | Gate | Status | Required outcome |
 |----|------|--------|------------------|
-| [CI-022](items/CI-022.md) | Changed-surface ledger | Open | Every changed file from community baseline is mapped to one release area, evidence lane, and item disposition. |
+| [CI-022](items/CI-022.md) | Changed-surface ledger | Done | Every changed file from community baseline is mapped to one release area, evidence lane, and item disposition. |
 | [CI-023](items/CI-023.md) | Post-1.0 hardening replay | Open | BUG-102 through BUG-110 app commits are replayed with focused validation and traceability. |
 | [CI-024](items/CI-024.md) | Controller full replay | Open | Prowlarr, Radarr, Sonarr, and aMuTorrent live workflows pass or produce accepted public-network inconclusive evidence. |
 | [CI-025](items/CI-025.md) | REST and adapter contract drift | Open | Native REST, qBit, and Torznab contracts are compared against manifests and live smoke artifacts. |

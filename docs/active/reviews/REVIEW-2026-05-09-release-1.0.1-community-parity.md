@@ -18,6 +18,9 @@ The R-1.0.1 backlog therefore promotes proof gates first. Any product defect
 found while closing those gates must become a granular `BUG-111+` item before
 the release can be tagged.
 
+The authoritative path-level ledger is
+[REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger](REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger.md).
+
 ## Changed Surface Summary
 
 Initial grouping from `git diff --name-only release/v0.72a-community...main`:
