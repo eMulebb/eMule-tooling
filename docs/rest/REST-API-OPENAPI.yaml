@@ -578,13 +578,6 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/UploadResponse"
-    delete:
-      tags: [Uploads]
-      summary: Remove one uploading client.
-      operationId: deleteUpload
-      responses:
-        "200":
-          $ref: "#/components/responses/OkResponse"
   /uploads/{clientId}/operations/release-slot:
     parameters:
       - $ref: "#/components/parameters/ClientId"
@@ -2538,9 +2531,6 @@ components:
           maximum: 1000000
         extension:
           type: string
-        clearExisting:
-          type: boolean
-          default: false
     SearchResult:
       type: object
       additionalProperties: true

@@ -120,7 +120,7 @@ contract.
 | List upload queue | `GET /upload-queue` | implemented | Current REST exposes queue. |
 | Show one active upload | `GET /uploads/{clientId}` | implemented | Returns the selected upload row plus existing score breakdown state for controller drill-down. |
 | Show one queued upload | `GET /upload-queue/{clientId}` | implemented | Returns the selected waiting-queue row plus existing score breakdown state for controller drill-down. |
-| Remove upload client | `DELETE /uploads/{clientId}` or `POST /uploads/{clientId}/operations/remove` | implemented | Stable selectors are either user hash or `address:port` when no hash exists. |
+| Remove upload client | `POST /uploads/{clientId}/operations/remove` | implemented | Stable selectors are either user hash or `address:port` when no hash exists; the duplicate `DELETE /uploads/{clientId}` alias was removed before v1 freeze. |
 | Give release slot | `POST /uploads/{clientId}/operations/release-slot` | implemented | Uses the normal upload-queue removal path for active slots. |
 | Upload context menu ban/unban | `POST /uploads/{clientId}/operations/ban`, `.../unban` | implemented | Same peer-control command family as transfer sources. |
 | Upload friend actions | `POST /uploads/{clientId}/operations/add-friend`, `.../remove-friend` | implemented | Idempotent add returns an existing friend when already present. |
@@ -164,7 +164,7 @@ contract.
 | Delete all searches | `DELETE /searches` | implemented | Uses the existing delete-all-searches UI action. |
 | Start search with method/type/min/max/availability/extension filters | `POST /searches` | implemented | Method, type, size, and extension filters are parsed by the native command seam. |
 | Add selected search result to downloads | `POST /searches/{searchId}/results/{hash}/operations/download` | implemented | aMuTorrent uses this route when a native search id is available. |
-| Clear searches before new search | `DELETE /searches` | implemented | Explicit clear is implemented; `clearExisting` is intentionally not needed by aMuTorrent. |
+| Clear searches before new search | `DELETE /searches` | implemented | Explicit clear is required; `POST /searches` no longer accepts `clearExisting` before v1 freeze. |
 | Search page sort, table layout, and refresh | none | obsolete | Presentation-only. |
 
 ## Logs

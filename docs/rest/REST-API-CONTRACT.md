@@ -60,6 +60,9 @@ content-layout operations.
   `GET /snapshot` and `GET /logs`
 - return errors as `{ "error": { "code": "...", "message": "...", "details": {} } }`
 - return the updated resource from mutations when practical
+- expose one canonical public route for each operation; upload removal uses
+  `POST /uploads/{clientId}/operations/remove`, not a duplicate `DELETE`
+  alias
 - validate method/path/body/query through the native route schema table before
   dispatching commands
 - reject unknown JSON body fields and unknown or malformed query parameters with
@@ -111,7 +114,9 @@ and the strict route table rejects unknown query parameters. Controllers should
 poll the search resource and treat `results` as a bounded native snapshot
 governed by eMule's existing search-result retention and visibility behavior.
 Each native result also carries the resolved search method when the result is
-returned through a search resource.
+returned through a search resource. Search creation does not clear existing
+searches as a side effect; controllers must call `DELETE /api/v1/searches`
+with `confirmDeleteAllSearches: true` when they need a clean search set.
 
 `POST /api/v1/searches/{searchId}/results/{hash}/operations/download` starts a
 download from one visible search result by lowercase 32-character eD2K hash.
