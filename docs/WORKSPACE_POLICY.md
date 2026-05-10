@@ -350,6 +350,9 @@ The canonical workspace currently materializes these app worktrees:
 ## Shared CI Policy
 
 - Shared workspace policy audits live under `repos\eMule-tooling\ci\`.
+- Routine workspace policy audits run through
+  `repos\eMule-tooling\ci\check-workspace-policy.py`; do not add new
+  routine validation audits as PowerShell scripts.
 - Routine `validate` in `repos\eMule-build` must run the active static audits:
   - build policy
   - branch policy
