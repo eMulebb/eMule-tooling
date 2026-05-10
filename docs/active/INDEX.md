@@ -339,7 +339,7 @@ where that comparison is meaningful.
 | [CI-010](items/CI-010.md) | Minor | In Progress | Reduce remaining app-local warning debt after external noise cleanup |
 | [CI-011](items/CI-011.md) | Major | **Done** | Broadband release live E2E coverage umbrella |
 | [CI-012](items/CI-012.md) | Major | Open | Stabilize Shared Files dynamic folder lifecycle E2E |
-| [CI-013](items/CI-013.md) | Major | Open | Download and search UI live scenarios |
+| [CI-013](items/CI-013.md) | Major | **Done** | Download and search UI live scenarios |
 | [CI-014](items/CI-014.md) | Major | **Done** | REST contract manifest and live completeness gate |
 | [CI-015](items/CI-015.md) | Major | **Done** | REST malformed and concurrent request matrix |
 | [CI-016](items/CI-016.md) | Minor | Passed | REST-only main vs community regression lane |
