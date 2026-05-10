@@ -2,7 +2,7 @@
 # eMule-tooling editorconfig hook
 repo_root=$(git rev-parse --show-toplevel 2>/dev/null) || exit 1
 hook_dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd) || exit 1
-hook_runner="$hook_dir/../helpers/git_pre_commit_editorconfig.py"
+hook_runner="$hook_dir/../helpers/git-pre-commit-editorconfig.py"
 if command -v python >/dev/null 2>&1; then
   exec python "$hook_runner" --repo-root "$repo_root"
 fi
