@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: eMulebb/eMule-tooling
-          ref: main
+          ref: ci/v3
           path: tooling
 
       - name: Set up Python

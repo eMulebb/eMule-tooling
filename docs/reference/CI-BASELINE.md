@@ -5,11 +5,11 @@
 ## Reusable Workflow
 
 - workflow: `.github/workflows/reusable-baseline.yml`
-- stable ref: `ci/v2`
+- stable ref: `ci/v3`
 
 Consumer repos should reference:
 
-- `eMulebb/eMule-tooling/.github/workflows/reusable-baseline.yml@ci/v2`
+- `eMulebb/eMule-tooling/.github/workflows/reusable-baseline.yml@ci/v3`
 
 Do not point long-lived branches at `@main`.
 
