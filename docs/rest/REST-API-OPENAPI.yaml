@@ -154,9 +154,6 @@ paths:
       tags: [Categories]
       summary: List download categories.
       operationId: listCategories
-      parameters:
-        - $ref: "#/components/parameters/Limit"
-        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/CategoryListResponse"
@@ -218,8 +215,6 @@ paths:
           schema:
             type: integer
             minimum: 0
-        - $ref: "#/components/parameters/Limit"
-        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/TransferListResponse"
@@ -307,9 +302,6 @@ paths:
       tags: [Transfers]
       summary: Return known sources for one transfer.
       operationId: listTransferSources
-      parameters:
-        - $ref: "#/components/parameters/Limit"
-        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/TransferSourceListResponse"
@@ -525,9 +517,6 @@ paths:
       tags: [SharedFiles]
       summary: Return known comments for one shared file.
       operationId: listSharedFileComments
-      parameters:
-        - $ref: "#/components/parameters/Limit"
-        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/CommentListResponse"
@@ -565,9 +554,6 @@ paths:
       tags: [Uploads]
       summary: List active upload slots.
       operationId: listUploads
-      parameters:
-        - $ref: "#/components/parameters/Limit"
-        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/UploadListResponse"
@@ -717,9 +703,6 @@ paths:
       tags: [Servers]
       summary: List known ED2K servers.
       operationId: listServers
-      parameters:
-        - $ref: "#/components/parameters/Limit"
-        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/ServerListResponse"
@@ -939,9 +922,6 @@ paths:
       tags: [Friends]
       summary: List known friends.
       operationId: listFriends
-      parameters:
-        - $ref: "#/components/parameters/Limit"
-        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/FriendListResponse"
@@ -975,7 +955,6 @@ paths:
       operationId: listLogs
       parameters:
         - $ref: "#/components/parameters/Limit"
-        - $ref: "#/components/parameters/Offset"
       responses:
         "200":
           $ref: "#/components/responses/LogListResponse"
@@ -1601,21 +1580,12 @@ components:
           properties:
             data:
               type: object
-              required: [items, total, offset, limit]
+              required: [items]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/Category"
-                total:
-                  type: integer
-                  minimum: 0
-                offset:
-                  type: integer
-                  minimum: 0
-                limit:
-                  type: integer
-                  minimum: 0
     Category:
       type: object
       additionalProperties: false
@@ -1701,21 +1671,12 @@ components:
           properties:
             data:
               type: object
-              required: [items, total, offset, limit]
+              required: [items]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/Transfer"
-                total:
-                  type: integer
-                  minimum: 0
-                offset:
-                  type: integer
-                  minimum: 0
-                limit:
-                  type: integer
-                  minimum: 0
     TransferEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -1834,21 +1795,12 @@ components:
           properties:
             data:
               type: object
-              required: [items, total, offset, limit]
+              required: [items]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/TransferSource"
-                total:
-                  type: integer
-                  minimum: 0
-                offset:
-                  type: integer
-                  minimum: 0
-                limit:
-                  type: integer
-                  minimum: 0
     TransferSource:
       type: object
       additionalProperties: true
@@ -2061,7 +2013,7 @@ components:
           properties:
             data:
               type: object
-              required: [items, total, offset, limit]
+              required: [items]
               properties:
                 items:
                   type: array
@@ -2074,15 +2026,6 @@ components:
                         type: integer
                       comment:
                         type: string
-                total:
-                  type: integer
-                  minimum: 0
-                offset:
-                  type: integer
-                  minimum: 0
-                limit:
-                  type: integer
-                  minimum: 0
     SharedDirectoryListEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2151,21 +2094,12 @@ components:
           properties:
             data:
               type: object
-              required: [items, total, offset, limit]
+              required: [items]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/Upload"
-                total:
-                  type: integer
-                  minimum: 0
-                offset:
-                  type: integer
-                  minimum: 0
-                limit:
-                  type: integer
-                  minimum: 0
     Upload:
       type: object
       additionalProperties: true
@@ -2225,21 +2159,12 @@ components:
           properties:
             data:
               type: object
-              required: [items, total, offset, limit]
+              required: [items]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/Server"
-                total:
-                  type: integer
-                  minimum: 0
-                offset:
-                  type: integer
-                  minimum: 0
-                limit:
-                  type: integer
-                  minimum: 0
     ServerEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2507,21 +2432,12 @@ components:
           properties:
             data:
               type: object
-              required: [items, total, offset, limit]
+              required: [items]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/Friend"
-                total:
-                  type: integer
-                  minimum: 0
-                offset:
-                  type: integer
-                  minimum: 0
-                limit:
-                  type: integer
-                  minimum: 0
     FriendEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2569,21 +2485,12 @@ components:
           properties:
             data:
               type: object
-              required: [items, total, offset, limit]
+              required: [items]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/LogEntry"
-                total:
-                  type: integer
-                  minimum: 0
-                offset:
-                  type: integer
-                  minimum: 0
-                limit:
-                  type: integer
-                  minimum: 0
     LogEntry:
       type: object
       additionalProperties: false

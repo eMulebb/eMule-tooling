@@ -26,7 +26,7 @@ contract.
 | Auth uses `X-API-Key` only | implemented | No REST sessions, no cookie login, and no low-rights REST mode. |
 | REST inherits WebServer bind, HTTPS, and allowed-IP exposure controls | implemented | REST remains in-process on the existing listener. |
 | JSON success envelope is `{ data, meta }` | implemented | Landed on native `main`; aMuTorrent also unwraps this shape. |
-| JSON collection envelope is `{ data: { items: [...] }, meta }` | implemented | List routes request the native item envelope and are wrapped by the v1 response envelope. |
+| JSON collection envelope is `{ data: { items: [...] }, meta }` | implemented | Only `GET /shared-files` and `GET /upload-queue` expose `offset`/`limit` pagination metadata; other list routes are intentionally unpaged. |
 | JSON error envelope is `{ error: { code, message, details? } }` | implemented | Native errors now use `{ error: { code, message } }`; `details` remains optional for future richer validation. |
 | Field names are `camelCase` | implemented | Pre-release aliases were removed from public route parsing; final names include `searchId`, `categoryId`, `deleteFiles`, and `*KiBps` speed fields. |
 | Mutations return the updated resource when practical | implemented | Preference, category, transfer property, shared-file metadata, and shared-directory mutations now return the updated model. Async/operation routes return operation envelopes. |

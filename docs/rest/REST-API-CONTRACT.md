@@ -52,7 +52,12 @@ content-layout operations.
 - inherit the normal WebServer bind, HTTPS, and allowed-IP behavior
 - use `camelCase` field names
 - return success envelopes as `{ "data": ..., "meta": ... }`
-- return collections as `{ "data": { "items": [...], "total": n, "offset": n, "limit": n }, "meta": ... }`
+- return unpaged collections as `{ "data": { "items": [...] }, "meta": ... }`
+- expose `offset`/`limit` pagination only on `GET /shared-files` and
+  `GET /upload-queue`, with responses shaped as
+  `{ "data": { "items": [...], "total": n, "offset": n, "limit": n }, "meta": ... }`
+- expose `limit` without `offset` only for bounded snapshots/tails such as
+  `GET /snapshot` and `GET /logs`
 - return errors as `{ "error": { "code": "...", "message": "...", "details": {} } }`
 - return the updated resource from mutations when practical
 - validate method/path/body/query through the native route schema table before
