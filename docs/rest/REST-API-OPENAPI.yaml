@@ -86,6 +86,20 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/OkAcceptedResponse"
+  /app/operations/capture-dump:
+    post:
+      tags: [App]
+      summary: Capture an operator-requested eMule diagnostic dump.
+      operationId: captureDiagnosticDump
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiagnosticDumpRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/DiagnosticDumpResponse"
   /status:
     get:
       tags: [Stats]
@@ -1065,6 +1079,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ErrorEnvelope"
+    DiagnosticDumpResponse:
+      description: Diagnostic dump envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/DiagnosticDumpEnvelope"
     FriendListResponse:
       description: Friend collection envelope.
       content:
@@ -1222,6 +1242,24 @@ components:
           $ref: "#/components/schemas/Ok"
         meta:
           $ref: "#/components/schemas/EnvelopeMeta"
+    DiagnosticDumpEnvelope:
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/DiagnosticDump"
+    DiagnosticDump:
+      type: object
+      required: [ok, path, fullMemory]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        path:
+          type: string
+        fullMemory:
+          type: boolean
     ErrorEnvelope:
       type: object
       required: [error]
@@ -1808,6 +1846,17 @@ components:
         confirmShutdown:
           type: boolean
           enum: [true]
+    DiagnosticDumpRequest:
+      type: object
+      additionalProperties: false
+      required: [confirmDump]
+      properties:
+        confirmDump:
+          type: boolean
+          enum: [true]
+        fullMemory:
+          type: boolean
+          default: false
     DeleteAllSearchesRequest:
       type: object
       additionalProperties: false
