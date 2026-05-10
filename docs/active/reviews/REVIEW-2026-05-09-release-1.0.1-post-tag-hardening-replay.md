@@ -1,7 +1,7 @@
 # R-1.0.1 Post-1.0 Hardening Replay
 
 - Date: 2026-05-09
-- Baseline release tag: `emule-bb-v1.0.0`
+- Baseline internal evidence tag: `emule-bb-v1.0.0`
 - Candidate: `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` on
   `main`
 - Scope: app commits `BUG-102` through `BUG-110`

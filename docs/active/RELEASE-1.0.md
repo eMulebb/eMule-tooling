@@ -1,11 +1,14 @@
 # eMule Broadband Edition 1.0 Release Control
 
-This is the active control document for `emule-bb-v1.0.0`. It owns Release 1
-gate status, candidate decisions, and final readiness rules.
+This is the archived internal control document for rehearsal tag
+`emule-bb-v1.0.0`. It records Release 1 gate status, candidate decisions, and
+readiness evidence from the internal pre-release pass.
 
 Current status: Release 1 gate proof has fresh 2026-05-09 revalidation
-evidence, release packages were created, and the annotated app tag
+evidence, rehearsal packages were created, and the annotated internal app tag
 `emule-bb-v1.0.0` was pushed to `eMulebb/eMule` at app commit `953a39f`.
+This tag and its assets are internal evidence only; the first publishable
+public release is `emule-bb-v1.1.1`.
 
 Operator docs:
 
@@ -22,8 +25,8 @@ Operator docs:
 
 - Product name: `eMule broadband edition`
 - Compact app/mod name: `eMule BB`
-- Release tag: `emule-bb-v1.0.0`
-- Release assets:
+- Internal rehearsal tag: `emule-bb-v1.0.0`
+- Internal rehearsal assets:
   - `eMule-broadband-1.0.0-x64.zip`
   - `eMule-broadband-1.0.0-arm64.zip`
 

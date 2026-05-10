@@ -10,7 +10,7 @@ granular item commit.
 - Stock/community baseline: `release/v0.72a-community`
 - Candidate app line: `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main`
   on `main`
-- Last release tag: `emule-bb-v1.0.0`
+- Previous internal evidence tag: `emule-bb-v1.0.0`
 - Active release control: [RELEASE-1.0.1](../RELEASE-1.0.1.md)
 - Detailed current review:
   [REVIEW-2026-05-09-release-1.0.1-community-parity](../reviews/REVIEW-2026-05-09-release-1.0.1-community-parity.md)

@@ -21,7 +21,7 @@ release packages.
 - Baseline for stock/community behavior: `release/v0.72a-community`
 - Candidate app line: `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main`
   on `main`
-- Last public release tag for comparison: `emule-bb-v1.0.0`
+- Previous internal evidence tag for comparison: `emule-bb-v1.0.0`
 
 ## Definition Of 100% Functionality
 
