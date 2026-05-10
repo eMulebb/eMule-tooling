@@ -850,6 +850,13 @@ paths:
         "200":
           $ref: "#/components/responses/KadResponse"
   /searches:
+    get:
+      tags: [Searches]
+      summary: List active search sessions.
+      operationId: listSearches
+      responses:
+        "200":
+          $ref: "#/components/responses/SearchListResponse"
     post:
       tags: [Searches]
       summary: Start a search.
@@ -1135,6 +1142,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/SearchEnvelope"
+    SearchListResponse:
+      description: Search-session collection envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SearchListEnvelope"
     ServerListResponse:
       description: Server collection envelope.
       content:
@@ -2331,6 +2344,38 @@ components:
           type: string
         port:
           type: integer
+    SearchListEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              type: object
+              required: [items]
+              properties:
+                items:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/SearchSession"
+    SearchSession:
+      type: object
+      additionalProperties: false
+      required: [id, query, method, status, resultCount]
+      properties:
+        id:
+          type: string
+        query:
+          type: string
+        method:
+          type: string
+          enum: [automatic, server, global, kad]
+        status:
+          type: string
+          enum: [running, complete]
+        resultCount:
+          type: integer
+          minimum: 0
     SearchEnvelope:
       unevaluatedProperties: false
       allOf:
