@@ -305,6 +305,17 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/TransferSourceListResponse"
+  /transfers/{hash}/sources/{clientId}:
+    parameters:
+      - $ref: "#/components/parameters/FileHash"
+      - $ref: "#/components/parameters/ClientId"
+    get:
+      tags: [Transfers]
+      summary: Return one transfer source.
+      operationId: getTransferSource
+      responses:
+        "200":
+          $ref: "#/components/responses/TransferSourceResponse"
   /transfers/{hash}/sources/{clientId}/operations/browse:
     parameters:
       - $ref: "#/components/parameters/FileHash"
@@ -560,6 +571,13 @@ paths:
   /uploads/{clientId}:
     parameters:
       - $ref: "#/components/parameters/ClientId"
+    get:
+      tags: [Uploads]
+      summary: Return one uploading client.
+      operationId: getUpload
+      responses:
+        "200":
+          $ref: "#/components/responses/UploadResponse"
     delete:
       tags: [Uploads]
       summary: Remove one uploading client.
@@ -648,6 +666,16 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/OkResponse"
+  /upload-queue/{clientId}:
+    parameters:
+      - $ref: "#/components/parameters/ClientId"
+    get:
+      tags: [Uploads]
+      summary: Return one waiting upload client.
+      operationId: getUploadQueueClient
+      responses:
+        "200":
+          $ref: "#/components/responses/UploadQueueEntryResponse"
   /upload-queue/{clientId}/operations/release-slot:
     parameters:
       - $ref: "#/components/parameters/ClientId"
@@ -1232,18 +1260,36 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/TransferSourceListEnvelope"
+    TransferSourceResponse:
+      description: Transfer-source envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TransferSourceEnvelope"
     UploadListResponse:
       description: Upload collection envelope.
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/UploadListEnvelope"
+    UploadResponse:
+      description: Upload envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UploadEnvelope"
     UploadQueueListResponse:
       description: Upload-queue collection envelope.
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/UploadQueueListEnvelope"
+    UploadQueueEntryResponse:
+      description: Upload-queue entry envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UploadQueueEntryEnvelope"
   schemas:
     EnvelopeMeta:
       type: object
@@ -1814,6 +1860,14 @@ components:
                   type: array
                   items:
                     $ref: "#/components/schemas/TransferSource"
+    TransferSourceEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/TransferSource"
     TransferSource:
       type: object
       additionalProperties: true
@@ -2133,6 +2187,48 @@ components:
           type: integer
         requestedFileSizeBytes:
           type: integer
+        scoreBreakdown:
+          $ref: "#/components/schemas/UploadScoreBreakdown"
+    UploadEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/Upload"
+    UploadScoreBreakdown:
+      type: object
+      additionalProperties: false
+      required: [availability, baseScore, effectiveScore]
+      properties:
+        availability:
+          type: string
+          enum: [available, friendSlot, cooldown, unavailable]
+        baseScore:
+          type: integer
+        effectiveScore:
+          type: integer
+        coreScore:
+          type: number
+        effectiveScoreFloat:
+          type: number
+        creditRatio:
+          type: number
+        filePriority:
+          type: integer
+        lowRatioApplied:
+          type: boolean
+        lowRatioBonus:
+          type: integer
+        lowIdPenaltyApplied:
+          type: boolean
+        lowIdDivisor:
+          type: integer
+        oldClientPenaltyApplied:
+          type: boolean
+        cooldownRemainingMs:
+          type: integer
     UploadQueueListEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2164,6 +2260,14 @@ components:
           properties:
             queueRank:
               type: integer
+    UploadQueueEntryEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/UploadQueueEntry"
     ServerListEnvelope:
       unevaluatedProperties: false
       allOf:
