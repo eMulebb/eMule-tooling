@@ -289,7 +289,7 @@ paths:
               $ref: "#/components/schemas/TransferDeleteFilesRequest"
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/BulkOperationResponse"
   /transfers/{hash}/details:
     parameters:
       - $ref: "#/components/parameters/FileHash"
@@ -399,7 +399,7 @@ paths:
       operationId: pauseTransfer
       responses:
         "200":
-          $ref: "#/components/responses/TransferResponse"
+          $ref: "#/components/responses/BulkOperationResponse"
   /transfers/{hash}/operations/resume:
     parameters:
       - $ref: "#/components/parameters/FileHash"
@@ -409,7 +409,7 @@ paths:
       operationId: resumeTransfer
       responses:
         "200":
-          $ref: "#/components/responses/TransferResponse"
+          $ref: "#/components/responses/BulkOperationResponse"
   /transfers/{hash}/operations/stop:
     parameters:
       - $ref: "#/components/parameters/FileHash"
@@ -419,7 +419,7 @@ paths:
       operationId: stopTransfer
       responses:
         "200":
-          $ref: "#/components/responses/TransferResponse"
+          $ref: "#/components/responses/BulkOperationResponse"
   /transfers/{hash}/operations/recheck:
     parameters:
       - $ref: "#/components/parameters/FileHash"
@@ -439,7 +439,7 @@ paths:
       operationId: previewTransfer
       responses:
         "200":
-          $ref: "#/components/responses/OkAcceptedResponse"
+          $ref: "#/components/responses/TransferResponse"
   /shared-files:
     get:
       tags: [SharedFiles]
@@ -507,7 +507,7 @@ paths:
               $ref: "#/components/schemas/DeleteFilesRequest"
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/SharedFileDeleteResponse"
   /shared-files/{hash}/ed2k-link:
     parameters:
       - $ref: "#/components/parameters/FileHash"
@@ -743,7 +743,7 @@ paths:
       operationId: connectServerAny
       responses:
         "200":
-          $ref: "#/components/responses/OkAcceptedResponse"
+          $ref: "#/components/responses/ServerStatusResponse"
   /servers/operations/disconnect:
     post:
       tags: [Servers]
@@ -751,7 +751,7 @@ paths:
       operationId: disconnectServers
       responses:
         "200":
-          $ref: "#/components/responses/OkAcceptedResponse"
+          $ref: "#/components/responses/ServerStatusResponse"
   /servers/operations/import-met-url:
     post:
       tags: [Servers]
@@ -795,7 +795,7 @@ paths:
       operationId: deleteServer
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/ServerResponse"
   /servers/{serverId}/operations/connect:
     parameters:
       - $ref: "#/components/parameters/ServerId"
@@ -1168,6 +1168,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ServerEnvelope"
+    ServerStatusResponse:
+      description: Server status envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ServerStatusEnvelope"
     SharedDirectoryListResponse:
       description: Shared-directory collection envelope.
       content:
@@ -1186,6 +1192,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/SharedFileEnvelope"
+    SharedFileDeleteResponse:
+      description: Shared-file delete result envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SharedFileDeleteEnvelope"
     SnapshotResponse:
       description: Snapshot envelope.
       content:
@@ -1252,6 +1264,7 @@ components:
           format: date-time
     Ok:
       type: object
+      additionalProperties: false
       required: [ok]
       properties:
         ok:
@@ -1259,6 +1272,7 @@ components:
           const: true
     OkEnvelope:
       type: object
+      additionalProperties: false
       required: [data, meta]
       properties:
         data:
@@ -1266,6 +1280,7 @@ components:
         meta:
           $ref: "#/components/schemas/EnvelopeMeta"
     DiagnosticDumpEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1274,6 +1289,7 @@ components:
               $ref: "#/components/schemas/DiagnosticDump"
     DiagnosticDump:
       type: object
+      additionalProperties: false
       required: [ok, path, fullMemory]
       properties:
         ok:
@@ -1285,6 +1301,7 @@ components:
           type: boolean
     ErrorEnvelope:
       type: object
+      additionalProperties: false
       required: [error]
       properties:
         error:
@@ -1311,6 +1328,7 @@ components:
               additionalProperties: true
     Collection:
       type: object
+      additionalProperties: false
       required: [items, total, offset, limit]
       properties:
         items:
@@ -1327,6 +1345,7 @@ components:
           minimum: 1
           maximum: 1000
     AppEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1335,6 +1354,7 @@ components:
               $ref: "#/components/schemas/App"
     EnvelopeBase:
       type: object
+      additionalProperties: false
       required: [data, meta]
       properties:
         data: {}
@@ -1342,6 +1362,7 @@ components:
           $ref: "#/components/schemas/EnvelopeMeta"
     App:
       type: object
+      additionalProperties: false
       required: [name, version, apiVersion, capabilities]
       properties:
         name:
@@ -1349,6 +1370,10 @@ components:
         version:
           type: string
         apiVersion:
+          type: string
+        build:
+          type: string
+        platform:
           type: string
         elevated:
           type: boolean
@@ -1366,6 +1391,7 @@ components:
           additionalProperties:
             type: boolean
     PreferencesEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1473,6 +1499,7 @@ components:
         networkEd2k:
           type: boolean
     StatusEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1481,6 +1508,7 @@ components:
               $ref: "#/components/schemas/Status"
     Status:
       type: object
+      additionalProperties: false
       properties:
         connected:
           type: boolean
@@ -1488,13 +1516,14 @@ components:
           type: number
         uploadSpeedKiBps:
           type: number
-        server:
+        servers:
           $ref: "#/components/schemas/ServerStatus"
         kad:
           $ref: "#/components/schemas/Kad"
         stats:
           $ref: "#/components/schemas/Stats"
     StatsEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1518,6 +1547,7 @@ components:
         activeUploads:
           type: integer
     SnapshotEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1556,6 +1586,7 @@ components:
                   items:
                     $ref: "#/components/schemas/LogEntry"
     CategoryEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1563,6 +1594,7 @@ components:
             data:
               $ref: "#/components/schemas/Category"
     CategoryListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1586,6 +1618,7 @@ components:
                   minimum: 0
     Category:
       type: object
+      additionalProperties: false
       required: [id, name]
       properties:
         id:
@@ -1598,14 +1631,18 @@ components:
         comment:
           type: string
         color:
-          type: integer
+          type:
+            - integer
+            - "null"
           minimum: 0
           maximum: 16777215
         priority:
           $ref: "#/components/schemas/CategoryPriority"
     CategoryPriority:
-      type: string
-      enum: [veryLow, low, normal, high, veryHigh]
+      oneOf:
+        - type: string
+          enum: [veryLow, low, normal, high, veryHigh]
+        - type: integer
     CategoryCreateRequest:
       type: object
       additionalProperties: false
@@ -1657,6 +1694,7 @@ components:
             - type: integer
               minimum: 0
     TransferListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1679,6 +1717,7 @@ components:
                   type: integer
                   minimum: 0
     TransferEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1687,6 +1726,7 @@ components:
               $ref: "#/components/schemas/Transfer"
     Transfer:
       type: object
+      additionalProperties: false
       required: [hash, name, sizeBytes, state]
       properties:
         hash:
@@ -1757,6 +1797,7 @@ components:
         categoryName:
           type: string
     TransferDetailsEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1786,6 +1827,7 @@ components:
                   items:
                     $ref: "#/components/schemas/TransferSource"
     TransferSourceListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1897,6 +1939,7 @@ components:
           type: boolean
           enum: [true]
     SharedFileListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1919,14 +1962,40 @@ components:
                   type: integer
                   minimum: 0
     SharedFileEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
           properties:
             data:
               $ref: "#/components/schemas/SharedFile"
+    SharedFileDeleteEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/SharedFileDelete"
+    SharedFileDelete:
+      type: object
+      additionalProperties: false
+      required: [ok, deletedFiles, path, hash]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        deletedFiles:
+          type: boolean
+        path:
+          type: string
+        hash:
+          type:
+            - string
+            - "null"
     SharedFile:
       type: object
+      additionalProperties: false
       required: [hash, name, sizeBytes]
       properties:
         hash:
@@ -1973,6 +2042,7 @@ components:
         comment:
           type: string
     Ed2kLinkEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -1984,6 +2054,7 @@ components:
                 link:
                   type: string
     CommentListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -2013,18 +2084,31 @@ components:
                   type: integer
                   minimum: 0
     SharedDirectoryListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
           properties:
             data:
               type: object
-              required: [items, total, offset, limit]
+              additionalProperties: false
+              required: [items, roots, monitorOwned, hashingCount]
               properties:
                 items:
                   type: array
                   items:
                     $ref: "#/components/schemas/SharedDirectory"
+                roots:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/SharedDirectory"
+                monitorOwned:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/SharedDirectory"
+                hashingCount:
+                  type: integer
+                  minimum: 0
                 total:
                   type: integer
                   minimum: 0
@@ -2036,6 +2120,7 @@ components:
                   minimum: 0
     SharedDirectory:
       type: object
+      additionalProperties: false
       required: [path, recursive]
       properties:
         path:
@@ -2059,6 +2144,7 @@ components:
           items:
             $ref: "#/components/schemas/SharedDirectory"
     UploadListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -2101,6 +2187,7 @@ components:
         requestedFileSizeBytes:
           type: integer
     UploadQueueListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -2123,6 +2210,7 @@ components:
                   type: integer
                   minimum: 0
     UploadQueueEntry:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/Upload"
         - type: object
@@ -2130,6 +2218,7 @@ components:
             queueRank:
               type: integer
     ServerListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -2152,6 +2241,7 @@ components:
                   type: integer
                   minimum: 0
     ServerEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -2160,6 +2250,7 @@ components:
               $ref: "#/components/schemas/Server"
     Server:
       type: object
+      additionalProperties: false
       required: [address, port]
       properties:
         address:
@@ -2175,17 +2266,57 @@ components:
           type: boolean
         connected:
           type: boolean
+        connecting:
+          type: boolean
+        current:
+          type: boolean
+        description:
+          type: string
+        dynIp:
+          type: string
+        failedCount:
+          type: integer
+        hardFiles:
+          type: integer
+        ip:
+          type: string
+        ping:
+          type: integer
+        softFiles:
+          type: integer
+        version:
+          type: string
         users:
           type: integer
         files:
           type: integer
+    ServerStatusEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/ServerStatus"
     ServerStatus:
       type: object
+      additionalProperties: false
       properties:
         connected:
           type: boolean
         connecting:
           type: boolean
+        currentServer:
+          oneOf:
+            - $ref: "#/components/schemas/Server"
+            - type: "null"
+        lowId:
+          type:
+            - boolean
+            - "null"
+        serverCount:
+          type: integer
+          minimum: 0
         active:
           $ref: "#/components/schemas/Server"
     ServerCreateRequest:
@@ -2226,6 +2357,7 @@ components:
           type: string
           format: uri
     KadEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -2234,15 +2366,29 @@ components:
               $ref: "#/components/schemas/Kad"
     Kad:
       type: object
-      additionalProperties: true
+      additionalProperties: false
       properties:
         running:
           type: boolean
         connected:
           type: boolean
         firewalled:
-          type: boolean
+          type:
+            - boolean
+            - "null"
         nodes:
+          type: integer
+        users:
+          type:
+            - integer
+            - "null"
+        files:
+          type:
+            - integer
+            - "null"
+        bootstrapping:
+          type: boolean
+        bootstrapProgress:
           type: integer
         indexedSources:
           type: integer
@@ -2261,6 +2407,7 @@ components:
         port:
           type: integer
     SearchEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -2269,6 +2416,7 @@ components:
               $ref: "#/components/schemas/Search"
     Search:
       type: object
+      additionalProperties: false
       required: [id, query, method, status, results]
       properties:
         id:
@@ -2352,6 +2500,7 @@ components:
         paused:
           type: boolean
     FriendListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -2374,6 +2523,7 @@ components:
                   type: integer
                   minimum: 0
     FriendEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -2382,14 +2532,23 @@ components:
               $ref: "#/components/schemas/Friend"
     Friend:
       type: object
+      additionalProperties: false
       required: [userHash]
       properties:
         userHash:
           type: string
         name:
           type: string
+        address:
+          type:
+            - string
+            - "null"
+        port:
+          type: integer
         lastSeen:
-          type: string
+          type:
+            - string
+            - "null"
           format: date-time
     FriendCreateRequest:
       type: object
@@ -2403,6 +2562,7 @@ components:
           type: string
           maxLength: 128
     LogListEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
@@ -2426,23 +2586,29 @@ components:
                   minimum: 0
     LogEntry:
       type: object
+      additionalProperties: false
       required: [message]
       properties:
         timestamp:
-          type: string
-          format: date-time
+          oneOf:
+            - type: string
+              format: date-time
+            - type: integer
         level:
           type: string
+        debug:
+          type: boolean
         message:
           type: string
     BulkOperationEnvelope:
+      unevaluatedProperties: false
       allOf:
         - $ref: "#/components/schemas/EnvelopeBase"
         - type: object
           properties:
             data:
               type: object
-              required: [items, total, offset, limit]
+              required: [items]
               properties:
                 items:
                   type: array
@@ -2459,11 +2625,16 @@ components:
                   minimum: 0
     BulkOperationResult:
       type: object
+      additionalProperties: false
       required: [ok]
       properties:
         ok:
           type: boolean
         id:
           type: string
+        hash:
+          type: string
+        name:
+          type: string
         error:
-          $ref: "#/components/schemas/ErrorEnvelope"
+          type: string

@@ -198,14 +198,15 @@ Latest beta 0.7.3 REST closure proof:
 - `python -m emule_workspace test live-e2e --config Release --platform x64 --suite rest-api --rest-coverage-budget contract-stress --rest-stress-budget smoke --rest-stress-duration-seconds 10 --rest-stress-concurrency 4 --rest-download-trigger-count 3 --skip-live-seed-refresh`
 - Result: passed on 2026-05-10.
 - Live artifact:
-  `repos\eMule-build-tests\reports\rest-api-smoke\20260510-223841-eMule-main-release`
-- REST contract summary: 84 OpenAPI routes in the registry, 82 safe routes
-  exercised, 2 unsafe routes skipped, 0 failed routes, 37 success outcomes,
-  and 45 expected-error outcomes.
-- Route execution summary: 1 direct route and 83 UI-thread-dispatched routes;
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260510-232956-eMule-main-release`
+- REST contract summary: 85 OpenAPI routes in the registry, 82 safe routes
+  exercised, 3 unsafe routes skipped, 0 failed routes, 37 success outcomes,
+  and 45 expected-error outcomes. Strict OpenAPI response-schema validation was
+  active for successful native REST envelopes and typed JSON error envelopes.
+- Route execution summary: 1 direct route and 84 UI-thread-dispatched routes;
   `GET /api/v1/app` is the only direct native route.
-- REST stress summary: 3870 requests, 0 native REST non-JSON responses,
-  0 timeouts, and no failure sample.
+- REST stress summary: 4203 requests, 0 native REST non-JSON responses,
+  0 timeouts, p95 latency 67.175 ms, and no failure sample.
 - Local dump configuration was enabled for `emule.exe`, `umdh.exe`,
   `procdump.exe`, and `procdump64.exe`.
 - Dedicated adapter follow-up on 2026-05-10:
