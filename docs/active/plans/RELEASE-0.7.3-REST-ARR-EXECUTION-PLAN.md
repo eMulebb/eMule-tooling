@@ -208,6 +208,17 @@ Latest beta 0.7.3 REST closure proof:
   0 timeouts, and no failure sample.
 - Local dump configuration was enabled for `emule.exe`, `umdh.exe`,
   `procdump.exe`, and `procdump64.exe`.
+- Dedicated adapter follow-up on 2026-05-10:
+  - Prowlarr/Torznab live passed:
+    `repos\eMule-build-tests\reports\prowlarr-emulebb-live\20260510-224143-eMule-main-release`
+  - Radarr/Sonarr plus qBit-compatible live passed:
+    `repos\eMule-build-tests\reports\radarr-sonarr-emulebb-live\20260510-224447-eMule-main-release`
+  - aMuTorrent browser smoke stopped before browser execution because
+    aMuTorrent served `127.0.0.1:57415` from its persistent server config while
+    the harness waited on generated port `127.0.0.1:55939`:
+    `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260510-225224-eMule-main-release`.
+    This is tracked in [BUG-102](../items/BUG-102.md) as aMuTorrent/harness
+    configuration drift, not native REST contract drift.
 
 Latest native route/OpenAPI drift proof:
 
