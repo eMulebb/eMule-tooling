@@ -290,4 +290,11 @@ Assert-TextContains $workspaceScriptPath 'workspace.ps1' '-DCMAKE_POLICY_DEFAULT
 Assert-TextContains $workspaceScriptPath 'workspace.ps1' '-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded$<$<CONFIG:Debug>:Debug>'
 Assert-TextContains $workspaceScriptPath 'workspace.ps1' "-ConfigureArguments (Get-StaticMsvcRuntimeCMakeArguments)"
 
+$workspaceCmakeModulePath = Resolve-WorkspacePath 'repos\eMule-build\emule_workspace\cmake.py'
+Assert-TextContains $workspaceCmakeModulePath 'emule_workspace\cmake.py' '-DCMAKE_POLICY_DEFAULT_CMP0091=NEW'
+Assert-TextContains $workspaceCmakeModulePath 'emule_workspace\cmake.py' '-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded$<$<CONFIG:Debug>:Debug>'
+
+$workspaceBuildModulePath = Resolve-WorkspacePath 'repos\eMule-build\emule_workspace\build.py'
+Assert-TextContains $workspaceBuildModulePath 'emule_workspace\build.py' 'static_msvc_runtime_cmake_arguments()'
+
 Write-Host 'Active build policy audit passed.'
