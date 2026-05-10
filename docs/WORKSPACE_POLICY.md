@@ -64,10 +64,10 @@ Directive precedence is:
 
 - `repos\eMule-tooling` owns shared workspace policy, helper docs, and
   engineering notes.
-- `eMulebb-setup` owns workspace materialization and repo/worktree
-  orchestration.
-- `repos\eMule-build` and `repos\eMule-build-tests` own build, validation, and
-  test orchestration.
+- `repos\eMule-build` owns workspace materialization, repo/worktree
+  orchestration, build orchestration, validation, and packaging.
+- `repos\eMule-build-tests` owns shared test harness code and test execution
+  helpers.
 - `repos\eMule` is the canonical app repo checkout used as the branch store and
   worktree anchor.
 - Normal app editing belongs in the active app worktrees, not in the canonical
@@ -142,11 +142,12 @@ The canonical workspace currently materializes these app worktrees:
 
 ## Workspace Manifest Contract
 
-- `workspaces\v0.72a\deps.psd1` is a required generated contract file.
-- `eMulebb-setup` owns that contract and must regenerate it on topology changes.
-- `eMulebb-setup validate` must fail if the generated contract drifts from the
-  current setup topology.
-- `eMule-build` and `eMule-tooling` may consume the generated contract, but they
+- `workspaces\v0.72a\deps.json` is a required generated contract file.
+- `repos\eMule-build` owns that contract and must regenerate it on topology
+  changes.
+- `python -m emule_workspace validate` must fail if the generated contract
+  drifts from the current Python topology.
+- `repos\eMule-tooling` and test helpers may consume the generated contract, but
   must not become an independent second source of truth for workspace topology.
 
 ## Canonical App Checkout
@@ -326,14 +327,13 @@ The canonical workspace currently materializes these app worktrees:
 
 ## Setup and Dependency Authority
 
-- `eMulebb-setup` owns materialization, managed app worktrees, and repo pinning.
-- `repos.psd1` in `eMulebb-setup` is the source of truth for active dependency
-  branches used by the canonical workspace.
-- `repos\eMule-build` owns supported app-build orchestration and is required
-  for canonical `emule.exe` builds.
+- `repos\eMule-build` owns materialization, managed app worktrees, repo pinning,
+  and supported app-build orchestration.
+- Python topology in `repos\eMule-build\emule_workspace` is the source of truth
+  for active dependency branches used by the canonical workspace.
 - App worktrees do not by themselves define a complete supported app-build
   environment; dependency materialization and third-party build inputs are part
-  of the `eMulebb-setup` plus `eMule-build` contract.
+  of the `eMule-build` contract.
 - Interactive build, validation, and test work must use the supported
   `repos\eMule-build` orchestration entrypoints. The Python
   `emule_workspace` CLI is authoritative for build, validation, test,
