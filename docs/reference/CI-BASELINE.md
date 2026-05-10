@@ -5,11 +5,11 @@
 ## Reusable Workflow
 
 - workflow: `.github/workflows/reusable-baseline.yml`
-- stable ref: `ci/v3`
+- stable ref: `ci/v4`
 
 Consumer repos should reference:
 
-- `eMulebb/eMule-tooling/.github/workflows/reusable-baseline.yml@ci/v3`
+- `eMulebb/eMule-tooling/.github/workflows/reusable-baseline.yml@ci/v4`
 
 Do not point long-lived branches at `@main`.
 
@@ -24,6 +24,10 @@ Use these status names in branch protection:
 
 - `ci/guard-tracked-files.py`
 - `ci/check-basic-hygiene.py`
+
+Shared implementation lives in `ci/policy_guards.py`. Consumers call the
+hyphenated scripts through the reusable workflow and should not import or copy
+the implementation module.
 
 Each consumer repo keeps its own:
 
