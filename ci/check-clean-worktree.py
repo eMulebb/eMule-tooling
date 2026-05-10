@@ -8,7 +8,7 @@ import os
 import sys
 from pathlib import Path
 
-from workspace_ci import CleanWorktreeFailure, run_clean_worktree_guard
+from policy_guards import CleanWorktreeFailure, run_clean_worktree_guard
 
 
 def build_parser() -> argparse.ArgumentParser:

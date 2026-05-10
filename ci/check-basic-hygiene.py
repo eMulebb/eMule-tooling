@@ -8,7 +8,7 @@ import json
 import sys
 from pathlib import Path
 
-from workspace_ci import BasicHygieneFailure, run_basic_hygiene
+from policy_guards import BasicHygieneFailure, run_basic_hygiene
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 

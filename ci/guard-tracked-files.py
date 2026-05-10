@@ -8,7 +8,7 @@ import json
 import sys
 from pathlib import Path
 
-from workspace_ci import PrivacyGuardFailure, run_privacy_guard
+from policy_guards import PrivacyGuardFailure, run_privacy_guard
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 

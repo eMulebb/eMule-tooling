@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Sequence
 
-from workspace_ci import run_clean_worktree_guard
+from policy_guards import run_clean_worktree_guard
 
 
 @dataclass(frozen=True)
