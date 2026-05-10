@@ -2,7 +2,7 @@
 
 This graph captures useful implementation ordering hints. It is not a release
 gate; Release 1 status is controlled by
-[RELEASE-1.0](../active/RELEASE-1.0.md).
+[RELEASE-0.7.3-GATE-HISTORY](../active/RELEASE-0.7.3-GATE-HISTORY.md).
 
 ## Build And Tooling
 

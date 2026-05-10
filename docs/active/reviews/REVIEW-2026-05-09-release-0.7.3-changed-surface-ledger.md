@@ -1,4 +1,4 @@
-# R-1.0.1 Changed-Surface Ledger
+# Beta 0.7.3 Changed-Surface Ledger
 
 - Date: 2026-05-09
 - Baseline: `release/v0.72a-community`
@@ -9,7 +9,7 @@
 
 ## Completion Rule
 
-Every path below is assigned to exactly one R-1.0.1 audit area. The
+Every path below is assigned to exactly one Beta 0.7.3 audit area. The
 owning item is responsible for converting the row into passing evidence, a
 new bug, an explicit Wont-Fix/product decision, or a non-blocking
 improvement. This ledger intentionally does not close the downstream gates;

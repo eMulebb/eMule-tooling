@@ -1,7 +1,7 @@
-# Release 1.0 Download Completion Hook Execution Plan
+# Beta 0.7.3 Download Completion Hook Execution Plan
 
 This is the active execution plan for the Release 1 download completion hook.
-It does not own gate status; use [RELEASE-1.0](../RELEASE-1.0.md) for release
+It does not own gate status; use [RELEASE-0.7.3](../RELEASE-0.7.3-GATE-HISTORY.md) for release
 decisions and [FEAT-050](../items/FEAT-050.md) for completion evidence.
 
 Current status: the hook is passed for Release 1. Future changes to completion

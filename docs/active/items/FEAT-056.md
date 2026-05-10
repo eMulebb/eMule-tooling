@@ -1,13 +1,13 @@
 ---
 id: FEAT-056
-title: Post-R-1.0.1 release proof automation and operator evidence UX
+title: Post-beta-0.7.3 release proof automation and operator evidence UX
 status: Deferred
 priority: Minor
 category: feature
-labels: [post-r1.0.1, release-proof, automation, operator-evidence]
-milestone: post-R-1.0.1
+labels: [post-beta-0.7.3, release-proof, automation, operator-evidence]
+milestone: post-beta-0.7.3
 created: 2026-05-09
-source: FEAT-055 R-1.0.1 improvement triage
+source: FEAT-055 Beta 0.7.3 improvement triage
 ---
 
 ## Summary
@@ -15,13 +15,13 @@ source: FEAT-055 R-1.0.1 improvement triage
 Build the follow-up tooling and documentation improvements discovered while
 hardening `emule-bb-v1.0.1`. These are intentionally post-release improvements:
 they improve future release velocity and operator evidence quality, but they do
-not fix a confirmed R-1.0.1 regression or missing advertised behavior.
+not fix a confirmed Beta 0.7.3 regression or missing advertised behavior.
 
 ## Approved Workstream
 
 | Improvement | Classification | Target |
 |-------------|----------------|--------|
-| one-command R-1.0.1 proof orchestration through `python -m emule_workspace` | next-patch | add a single command that runs validate, required builds, native tests, live smoke suites when configured, package rehearsals, and final summary collection |
+| one-command Beta 0.7.3 proof orchestration through `python -m emule_workspace` | next-patch | add a single command that runs validate, required builds, native tests, live smoke suites when configured, package rehearsals, and final summary collection |
 | compact operator summary for live E2E artifacts | next-patch | emit a short JSON/Markdown summary with suite name, outcome, profile path, ports, app exit status, and inconclusive diagnostics |
 | packaging manifest diff report against the previous release asset | next-patch | compare file list, hashes, docs, language DLLs, unsupported artifacts, and app/build commits against the previous tagged package |
 | controller compatibility matrix for native REST, qBit, Torznab, Arr, and aMuTorrent consumers | next-patch | publish a maintained matrix tying controller workflows to API families and evidence artifacts |
@@ -41,7 +41,7 @@ not fix a confirmed R-1.0.1 regression or missing advertised behavior.
       features, packaging, and frozen legacy decisions.
 - [ ] Changed-surface grouping is reproducible from a command or script.
 - [ ] Representative language/resource UI smoke is added if it remains worth
-      the runtime cost after R-1.0.1.
+      the runtime cost after Beta 0.7.3.
 
 ## Validation
 

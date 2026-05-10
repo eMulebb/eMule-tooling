@@ -1,7 +1,7 @@
-# Release 1.0 REST and Arr Execution Plan
+# Beta 0.7.3 REST and Arr Execution Plan
 
 This is the active execution plan for Release 1 REST, aMuTorrent, and Arr work. It
-does not own gate status; use [RELEASE-1.0](../RELEASE-1.0.md) for current release
+does not own gate status; use [RELEASE-0.7.3](../RELEASE-0.7.3-GATE-HISTORY.md) for current release
 decisions and item docs for completion evidence.
 
 Current status: the broadband branch remains pre-release stabilization. This

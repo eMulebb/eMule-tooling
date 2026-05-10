@@ -1,31 +1,32 @@
-# eMule Broadband Edition 1.0.1 Release Control
+# eMule Broadband Edition 0.7.3 Beta Release Control
 
-This is the active control document for internal milestone `emule-bb-v1.0.1`.
-Release 1.0.1 is an internal pre-release hardening milestone whose purpose is
-to prove that the Broadband line has not regressed stock community behavior
-while preserving the advertised eMule BB, REST, Arr, and aMuTorrent
-functionality. It is not a public release and must not have published GitHub
-release packages.
+This is the active control document for beta target `emule-bb-v0.7.3`.
+Beta 0.7.3 is the first intended beta/public release for the Broadband line.
+It must prove that eMule BB has not regressed stock community behavior while
+preserving the advertised REST, Arr, and aMuTorrent functionality.
+
+The earlier `emule-bb-v1.0.0` and `emule-bb-v1.0.1` tags, plus the temporary
+`1.1.1` package rehearsal default, are superseded internal evidence labels.
+They must not be published as public releases or package assets.
 
 ## Release Identity
 
 - Product name: `eMule broadband edition`
 - Compact app/mod name: `eMule BB`
-- Target tag: `emule-bb-v1.0.1`
-- Release visibility: internal pre-release/rehearsal only
-- Public release floor: `emule-bb-v1.1.1`
-- Package publication: prohibited for `1.0.1`; package artifacts below are
-  local rehearsal outputs only
-- Tag status: annotated internal app tag pushed to `eMulebb/eMule` at app commit
-  `11e5966`
+- Target tag: `emule-bb-v0.7.3`
+- Release visibility: beta/public candidate
+- Public release floor: `emule-bb-v0.7.3`
+- Package publication: allowed only after the final 0.7.3 proof passes
+- Tag status: not tagged yet
 - Baseline for stock/community behavior: `release/v0.72a-community`
 - Candidate app line: `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main`
   on `main`
-- Previous internal evidence tag for comparison: `emule-bb-v1.0.0`
+- Previous superseded evidence tags: `emule-bb-v1.0.0`,
+  `emule-bb-v1.0.1`
 
 ## Definition Of 100% Functionality
 
-Internal milestone 1.0.1 is complete only when each touched area has evidence
+Beta 0.7.3 is complete only when each touched area has evidence
 for all of the following:
 
 - No regression from `release/v0.72a-community` for behavior that still exists
@@ -40,8 +41,8 @@ for all of the following:
 
 ## Control Documents
 
-- [R-1.0.1 community parity audit plan](plans/RELEASE-1.0.1-COMMUNITY-PARITY-AUDIT.md)
-- [R-1.0.1 community parity review](reviews/REVIEW-2026-05-09-release-1.0.1-community-parity.md)
+- [Beta 0.7.3 community parity audit plan](plans/RELEASE-0.7.3-COMMUNITY-PARITY-AUDIT.md)
+- [Beta 0.7.3 community parity review](reviews/REVIEW-2026-05-09-release-0.7.3-community-parity.md)
 
 ## Release Gates
 
@@ -59,28 +60,31 @@ for all of the following:
 | [CI-030](items/CI-030.md) | UI/preferences/language parity smoke | Done | Main shell, preferences, tray/menu behavior, keyboard shortcuts, list controls, and language resources receive smoke coverage. |
 | [CI-031](items/CI-031.md) | Packaging and release asset parity | Done | x64 and ARM64 packaging, manifests, site config, dependency pins, and release assets are proven current. |
 | [REF-037](items/REF-037.md) | Legacy/frozen feature disposition | Done | Removed or frozen stock features are recorded as intentional, restored, or converted into release blockers. |
-| [FEAT-055](items/FEAT-055.md) | Improvement triage lane | Done | Non-blocking improvements are separated from R-1.0.1 blockers and queued without expanding release scope. |
+| [FEAT-055](items/FEAT-055.md) | Improvement triage lane | Done | Non-blocking improvements are separated from Beta 0.7.3 blockers and queued without expanding release scope. |
 | [CI-033](items/CI-033.md) | Final release-candidate proof | Done | Current candidate passes the minimum release proof before tagging. |
 
-All R-1.0.1 internal proof gates are closed. Post-release improvements discovered
-during the audit are queued in [FEAT-056](items/FEAT-056.md) and do not expand
-the `emule-bb-v1.0.1` blocking scope.
+All carried-forward beta proof gates are closed from the superseded internal
+evidence pass. The final 0.7.3 proof must be refreshed on current `main`
+before tagging because app and package-version commits landed after
+`emule-bb-v1.0.1`.
 
-The final release-candidate proof is recorded in [CI-033](items/CI-033.md).
-It passed on app commit `11e5966` with local package rehearsal assets:
+The superseded internal release-candidate proof is recorded in
+[CI-033](items/CI-033.md). It passed on app commit `11e5966` with local package
+rehearsal assets:
 
 - `eMule-broadband-1.0.1-x64.zip`:
   `a9649e201c10d8866fa9d46fd01960c0bbf3daa1830c45c2c90d2616b59bdbeb`
 - `eMule-broadband-1.0.1-arm64.zip`:
   `b58697f2678dce455e569dffa009355180be14cee243b982e412bb5a66c8de97`
 
-The annotated app tag `emule-bb-v1.0.1` was pushed after CI-033 passed. Do not
-create a public GitHub release or upload packages for this tag; the first
-published package release is `emule-bb-v1.1.1`.
+The annotated app tag `emule-bb-v1.0.1` was pushed after CI-033 passed. It is
+now superseded by the 0.7.3 beta release line. Do not create a public GitHub
+release or upload packages for `emule-bb-v1.0.0`, `emule-bb-v1.0.1`, or any
+temporary `1.1.1` rehearsal asset.
 
 ## Candidate Decisions
 
-| Candidate | R-1.0.1 decision rule |
+| Candidate | Beta 0.7.3 decision rule |
 |-----------|-----------------------|
 | Broad legacy feature revival | Out of scope unless the feature still has a supported visible surface and the audit proves a user-facing regression. |
 | New product features | Out of scope unless needed to complete already advertised eMule BB, Arr, or aMuTorrent behavior. |
@@ -93,7 +97,7 @@ published package release is `emule-bb-v1.1.1`.
 All build, test, and live validation commands must go through
 `python -m emule_workspace`.
 
-Minimum internal proof before tagging:
+Minimum beta proof before tagging:
 
 - `validate`
 - Debug and Release app builds for x64

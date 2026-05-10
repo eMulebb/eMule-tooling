@@ -15,7 +15,7 @@ source: broadband release live E2E and REST completeness planning
 Hydrate aMuTorrent transfer detail views from eMule BB REST once the backend
 exposes the required detail endpoint.
 
-## Release 1.0 Classification
+## Beta 0.7.3 Classification
 
 **Promoted for Release 1.** `FEAT-045` now exposes the native detail endpoint,
 and aMuTorrent consumes it when eMule BB advertises the `transferDetails`
@@ -23,7 +23,7 @@ capability.
 
 ## Execution Plan
 
-Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+Covered by the [Beta 0.7.3 REST and Arr execution plan](../plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md).
 
 ## Current State
 
@@ -71,7 +71,7 @@ the browser `segmentData` WebSocket subscription.
   `repos/eMule-build-tests/reports/amutorrent-browser-smoke/20260509-081711-eMule-main-release/result.json`.
   The report includes hydrated transfer progress/status/source fields and
   segment-subscribed `partStatus`, `gapStatus`, and `reqStatus` evidence.
-- 2026-05-09: R-1.0.1 controller replay passed at
+- 2026-05-09: Beta 0.7.3 controller replay passed at
   `repos/eMule-build-tests/reports/amutorrent-browser-smoke/20260509-142532-eMule-main-release/result.json`.
   The browser smoke remained green after CI-032 post-tag hardening coverage.
 

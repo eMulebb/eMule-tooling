@@ -8,7 +8,8 @@ path, not by filename alone.
 `docs/active/` owns current backlog and Release 1 truth:
 
 - `docs/active/INDEX.md`: active backlog dashboard and item tables
-- `docs/active/RELEASE-1.0*.md`: Release 1 control, checklist, and runbook
+- `docs/active/RELEASE-0.7.3*.md`: Beta release control, checklist, runbook,
+  gate history, and release-specific plans
 - `docs/active/items/`: item records, acceptance criteria, and evidence
 - `docs/active/plans/`: execution plans for closing or revalidating work
 - `docs/active/reviews/`: dated revalidation and review findings

@@ -29,7 +29,7 @@ failure that does not help the operator understand what actually happened.
   `NAT-PMP`
 - exposing a new Tweaks backend-mode selector
 
-## Release 1.0 Classification
+## Beta 0.7.3 Classification
 
 **Release Candidate.** The code/build slice is already complete, so 1.0 should
 take the live NAT validation if the available network can prove it cleanly.
@@ -38,7 +38,7 @@ a PCP/NAT-PMP-capable path.
 
 ## Execution Plan
 
-Covered by the [Release 1.0 NAT Mapping execution plan](../plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md).
+Covered by the [Beta 0.7.3 NAT Mapping execution plan](../plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md).
 
 ## Acceptance Criteria
 

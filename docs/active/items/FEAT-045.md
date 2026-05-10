@@ -15,7 +15,7 @@ source: broadband release live E2E and REST completeness planning
 Add a transfer detail endpoint for controller views that need more than the
 current transfer row plus source list.
 
-## Release 1.0 Classification
+## Beta 0.7.3 Classification
 
 **Promoted for Release 1.** The native endpoint is implemented and aMuTorrent
 now consumes it through capability-gated `AMUT-002` hydration.
@@ -26,7 +26,7 @@ Target route:
 
 ## Execution Plan
 
-Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+Covered by the [Beta 0.7.3 REST and Arr execution plan](../plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md).
 
 ## Current State
 

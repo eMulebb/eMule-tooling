@@ -16,7 +16,7 @@ Add an opt-in qBittorrent-style completion hook that launches one configured
 external executable after a download is fully completed and retained as the
 live known/shared file.
 
-## Release 1.0 Classification
+## Beta 0.7.3 Classification
 
 **Release Gate.** This is the one optional workflow feature promoted into 1.0
 in addition to the REST/controller gate. It must stay disabled by default,
@@ -26,7 +26,7 @@ automation value without creating a shell-execution surface.
 ## Execution Plan
 
 Covered by the
-[Release 1.0 Download Completion Hook execution plan](../plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md).
+[Beta 0.7.3 Download Completion Hook execution plan](../plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md).
 
 ## Acceptance Criteria
 

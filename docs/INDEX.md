@@ -8,7 +8,7 @@ This directory is the single Markdown home for the tooling repo. Use
 | Need | Primary Doc |
 |---|---|
 | Workspace policy | [WORKSPACE_POLICY](WORKSPACE_POLICY.md) |
-| Active backlog and Release 1 status | [active/INDEX](active/INDEX.md) |
+| Active backlog and beta release status | [active/INDEX](active/INDEX.md) |
 | Documentation ownership rules | [DOCS_POLICY](DOCS_POLICY.md) |
 | Historical-reference rules | [HISTORICAL-REFERENCES](HISTORICAL-REFERENCES.md) |
 | Repo-level navigation | [../README](../README.md) |
@@ -21,9 +21,10 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 | Document | Description |
 |---|---|
 | [active/INDEX](active/INDEX.md) | Active backlog dashboard and item tables |
-| [active/RELEASE-1.0](active/RELEASE-1.0.md) | Release 1 control document |
-| [active/RELEASE-1.0-CHECKLIST](active/RELEASE-1.0-CHECKLIST.md) | Release operator checklist |
-| [active/RELEASE-1.0-RUNBOOK](active/RELEASE-1.0-RUNBOOK.md) | Release operator runbook |
+| [active/RELEASE-0.7.3](active/RELEASE-0.7.3.md) | Beta release control document |
+| [active/RELEASE-0.7.3-CHECKLIST](active/RELEASE-0.7.3-CHECKLIST.md) | Beta release operator checklist |
+| [active/RELEASE-0.7.3-RUNBOOK](active/RELEASE-0.7.3-RUNBOOK.md) | Beta release operator runbook |
+| [active/RELEASE-0.7.3-GATE-HISTORY](active/RELEASE-0.7.3-GATE-HISTORY.md) | Superseded internal gate-history evidence |
 | [active/plans/](active/plans/) | Release execution plans |
 | [active/items/](active/items/) | Backlog item records |
 | [active/reviews/](active/reviews/) | Dated revalidation reviews |

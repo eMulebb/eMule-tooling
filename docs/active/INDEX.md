@@ -16,42 +16,41 @@ This directory is the active backlog and revalidation layer for this repo. Use
 **Latest status refresh:** 2026-05-09
 **Non-done by status:** `43` Open, `8` In Progress, `14` Deferred, `0` Blocked.
 **Non-done by area:** `4` Bugs, `21` Refactors, `27` Features, `13` Build/CI.
-**Release 1 relevance:** Most non-done items below are future or deferred work;
-Release 1 gate and proof status is controlled by [RELEASE-1.0](RELEASE-1.0.md).
-**Broadband release status:** versions before `1.1.1` are internal
-pre-release/rehearsal milestones with no published packages. The first
-publishable public release is `emule-bb-v1.1.1`. R-1.0.1 hardening is tracked
-by [RELEASE-1.0.1](RELEASE-1.0.1.md).
-**Patch-release backlog view:** [RELEASE-1.0.1](RELEASE-1.0.1.md)
-**Patch-release audit plan:** [R-1.0.1 community parity audit](plans/RELEASE-1.0.1-COMMUNITY-PARITY-AUDIT.md)
-**Patch-release review:** [R-1.0.1 community parity review](reviews/REVIEW-2026-05-09-release-1.0.1-community-parity.md)
-**First-release backlog view:** [RELEASE-1.0](RELEASE-1.0.md)
-**First-release checklist:** [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
-**First-release runbook:** [RELEASE-1.0-RUNBOOK](RELEASE-1.0-RUNBOOK.md)
-**First-release execution plans:** [REST/Arr](plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md),
-[Live E2E](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md),
-[Download completion hook](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
-[NAT mapping](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md),
-[R1 stability blockers](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md),
-[SDET stress gates](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md)
+**Beta 0.7.3 relevance:** Most non-done items below are future or deferred work;
+current beta gate and proof status is controlled by [RELEASE-0.7.3](RELEASE-0.7.3.md).
+**Broadband release status:** `emule-bb-v0.7.3` is the first beta/public
+release target. Superseded `1.0.0`, `1.0.1`, and `1.1.1` labels are internal
+evidence only and must not be published.
+**Beta-release backlog view:** [RELEASE-0.7.3](RELEASE-0.7.3.md)
+**Beta-release audit plan:** [Beta 0.7.3 community parity audit](plans/RELEASE-0.7.3-COMMUNITY-PARITY-AUDIT.md)
+**Beta-release review:** [Beta 0.7.3 community parity review](reviews/REVIEW-2026-05-09-release-0.7.3-community-parity.md)
+**Beta-release gate history:** [RELEASE-0.7.3-GATE-HISTORY](RELEASE-0.7.3-GATE-HISTORY.md)
+**Beta-release checklist:** [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md)
+**Beta-release runbook:** [RELEASE-0.7.3-RUNBOOK](RELEASE-0.7.3-RUNBOOK.md)
+**Beta-release execution plans:** [REST/Arr](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md),
+[Live E2E](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md),
+[Download completion hook](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
+[NAT mapping](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md),
+[stability blockers](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md),
+[SDET stress gates](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md)
 
 Latest review trail:
 
-- [RELEASE-1.0.1](RELEASE-1.0.1.md)
-- [RELEASE-1.0.1 community parity audit plan](plans/RELEASE-1.0.1-COMMUNITY-PARITY-AUDIT.md)
-- [REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger](reviews/REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger.md)
-- [REVIEW-2026-05-09-release-1.0.1-legacy-frozen-disposition](reviews/REVIEW-2026-05-09-release-1.0.1-legacy-frozen-disposition.md)
-- [REVIEW-2026-05-09-release-1.0.1-post-tag-hardening-replay](reviews/REVIEW-2026-05-09-release-1.0.1-post-tag-hardening-replay.md)
-- [REVIEW-2026-05-09-release-1.0.1-community-parity](reviews/REVIEW-2026-05-09-release-1.0.1-community-parity.md)
-- [RELEASE-1.0](RELEASE-1.0.md)
-- [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md)
-- [RELEASE-1.0-RUNBOOK](RELEASE-1.0-RUNBOOK.md)
-- [RELEASE-1.0 REST/Arr execution plan](plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md)
-- [RELEASE-1.0 Live E2E execution plan](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md)
-- [RELEASE-1.0 Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)
-- [RELEASE-1.0 NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md)
-- [RELEASE-1.0 R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
-- [RELEASE-1.0 SDET stress execution plan](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md)
+- [RELEASE-0.7.3](RELEASE-0.7.3.md)
+- [RELEASE-0.7.3 community parity audit plan](plans/RELEASE-0.7.3-COMMUNITY-PARITY-AUDIT.md)
+- [REVIEW-2026-05-09-release-0.7.3-changed-surface-ledger](reviews/REVIEW-2026-05-09-release-0.7.3-changed-surface-ledger.md)
+- [REVIEW-2026-05-09-release-0.7.3-legacy-frozen-disposition](reviews/REVIEW-2026-05-09-release-0.7.3-legacy-frozen-disposition.md)
+- [REVIEW-2026-05-09-release-0.7.3-post-tag-hardening-replay](reviews/REVIEW-2026-05-09-release-0.7.3-post-tag-hardening-replay.md)
+- [REVIEW-2026-05-09-release-0.7.3-community-parity](reviews/REVIEW-2026-05-09-release-0.7.3-community-parity.md)
+- [RELEASE-0.7.3-GATE-HISTORY](RELEASE-0.7.3-GATE-HISTORY.md)
+- [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md)
+- [RELEASE-0.7.3-RUNBOOK](RELEASE-0.7.3-RUNBOOK.md)
+- [RELEASE-0.7.3 REST/Arr execution plan](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md)
+- [RELEASE-0.7.3 Live E2E execution plan](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md)
+- [RELEASE-0.7.3 Download completion hook execution plan](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)
+- [RELEASE-0.7.3 NAT mapping execution plan](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md)
+- [RELEASE-0.7.3 stability blockers execution plan](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
+- [RELEASE-0.7.3 SDET stress execution plan](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md)
 - [REVIEW-2026-05-02-outbound-bind-compliance-audit](reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
 - [REVIEW-2026-05-01-release-readiness-regression-scan](reviews/REVIEW-2026-05-01-release-readiness-regression-scan.md)
 - [REVIEW-2026-04-26-main-bug-concurrency-scan](reviews/REVIEW-2026-04-26-main-bug-concurrency-scan.md)
@@ -237,7 +236,7 @@ where that comparison is meaningful.
 | [REF-034](items/REF-034.md) | Minor | Open | Upgrade Crypto++ from 8.4 to 8.9 and refresh the local MSVC/ARM64 project fork |
 | [REF-035](items/REF-035.md) | Minor | Open | Adopt WIL for narrow Windows and COM RAII cleanup |
 | [REF-036](items/REF-036.md) | Minor | Open | Adopt GSL contracts for buffer and pointer boundary hardening |
-| [REF-037](items/REF-037.md) | Major | **Done** | Release 1.0.1 legacy and frozen feature disposition ledger |
+| [REF-037](items/REF-037.md) | Major | **Done** | Beta 0.7.3 legacy and frozen feature disposition ledger |
 
 ---
 
@@ -318,8 +317,8 @@ where that comparison is meaningful.
 | [FEAT-052](items/FEAT-052.md) | Minor | **Done** | Main-shell keyboard shortcuts and mnemonic audit |
 | [FEAT-053](items/FEAT-053.md) | Minor | **Done** | Classic tray balloon notification mode |
 | [FEAT-054](items/FEAT-054.md) | Minor | **Done** | Normalize download message filename display |
-| [FEAT-055](items/FEAT-055.md) | Minor | **Done** | Release 1.0.1 improvement triage lane |
-| [FEAT-056](items/FEAT-056.md) | Minor | Deferred | Post-R-1.0.1 release proof automation and operator evidence UX |
+| [FEAT-055](items/FEAT-055.md) | Minor | **Done** | Beta 0.7.3 improvement triage lane |
+| [FEAT-056](items/FEAT-056.md) | Minor | Deferred | Post-beta-0.7.3 release proof automation and operator evidence UX |
 
 ---
 
@@ -348,18 +347,18 @@ where that comparison is meaningful.
 | [CI-019](items/CI-019.md) | Major | **Done** | HTTPS and REST socket adversity stress gate |
 | [CI-020](items/CI-020.md) | Major | **Done** | REST and legacy WebServer error-path coverage gate |
 | [CI-021](items/CI-021.md) | Major | **Done** | WebSocket and legacy socket leak-churn gate |
-| [CI-022](items/CI-022.md) | Major | **Done** | Release 1.0.1 community parity changed-surface ledger |
-| [CI-023](items/CI-023.md) | Major | **Done** | Release 1.0.1 post-1.0 hardening regression replay gate |
-| [CI-024](items/CI-024.md) | Major | Done | Release 1.0.1 controller integration full replay gate |
-| [CI-025](items/CI-025.md) | Major | Done | Release 1.0.1 REST and adapter contract drift gate |
-| [CI-026](items/CI-026.md) | Major | Done | Release 1.0.1 shared files, startup cache, and long-path parity gate |
-| [CI-027](items/CI-027.md) | Major | Done | Release 1.0.1 download and persistence replay gate |
-| [CI-028](items/CI-028.md) | Major | Done | Release 1.0.1 search, server, and Kad parity replay gate |
-| [CI-029](items/CI-029.md) | Major | Done | Release 1.0.1 network socket, UDP, WebSocket, HTTPS, and UPnP adversity gate |
-| [CI-030](items/CI-030.md) | Major | Done | Release 1.0.1 UI, preferences, tray, and language resource parity smoke gate |
-| [CI-031](items/CI-031.md) | Major | Done | Release 1.0.1 packaging, architecture, and release asset parity gate |
-| [CI-032](items/CI-032.md) | Major | Done | Release 1.0.1 post-tag focused coverage gaps |
-| [CI-033](items/CI-033.md) | Major | Done | Release 1.0.1 internal pre-release proof |
+| [CI-022](items/CI-022.md) | Major | **Done** | Beta 0.7.3 community parity changed-surface ledger |
+| [CI-023](items/CI-023.md) | Major | **Done** | Beta 0.7.3 post-1.0 hardening regression replay gate |
+| [CI-024](items/CI-024.md) | Major | Done | Beta 0.7.3 controller integration full replay gate |
+| [CI-025](items/CI-025.md) | Major | Done | Beta 0.7.3 REST and adapter contract drift gate |
+| [CI-026](items/CI-026.md) | Major | Done | Beta 0.7.3 shared files, startup cache, and long-path parity gate |
+| [CI-027](items/CI-027.md) | Major | Done | Beta 0.7.3 download and persistence replay gate |
+| [CI-028](items/CI-028.md) | Major | Done | Beta 0.7.3 search, server, and Kad parity replay gate |
+| [CI-029](items/CI-029.md) | Major | Done | Beta 0.7.3 network socket, UDP, WebSocket, HTTPS, and UPnP adversity gate |
+| [CI-030](items/CI-030.md) | Major | Done | Beta 0.7.3 UI, preferences, tray, and language resource parity smoke gate |
+| [CI-031](items/CI-031.md) | Major | Done | Beta 0.7.3 packaging, architecture, and release asset parity gate |
+| [CI-032](items/CI-032.md) | Major | Done | Beta 0.7.3 post-tag focused coverage gaps |
+| [CI-033](items/CI-033.md) | Major | Done | Beta 0.7.3 internal pre-release proof |
 
 ---
 
@@ -375,22 +374,22 @@ where that comparison is meaningful.
 
 ## Release Focus
 
-Release 1.0.1 hardening is controlled by [RELEASE-1.0.1](RELEASE-1.0.1.md).
+Beta 0.7.3 hardening is controlled by [RELEASE-0.7.3](RELEASE-0.7.3.md).
 Use that page for patch-release gate status, candidate decisions, and validation
 scope. Its detailed comparison workflow lives in the
-[R-1.0.1 community parity audit plan](plans/RELEASE-1.0.1-COMMUNITY-PARITY-AUDIT.md).
+[Beta 0.7.3 community parity audit plan](plans/RELEASE-0.7.3-COMMUNITY-PARITY-AUDIT.md).
 
-The first-release gate remains recorded in [RELEASE-1.0](RELEASE-1.0.md). Use
-that page for 1.0.0 gate status, candidate decisions, and release validation
+The first-release gate remains recorded in [RELEASE-0.7.3](RELEASE-0.7.3-GATE-HISTORY.md). Use
+that page for superseded 1.0.0 gate status, candidate decisions, and release validation
 scope.
 
 Release 1 implementation detail lives in the cluster execution plans:
-[REST/Arr](plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md),
-[Live E2E](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md),
-[Download completion hook](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
-[NAT mapping](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md),
-[R1 stability blockers](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md),
-and [SDET stress gates](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md).
+[REST/Arr](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md),
+[Live E2E](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md),
+[Download completion hook](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
+[NAT mapping](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md),
+[Beta 0.7.3 stability blockers](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md),
+and [SDET stress gates](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md).
 
 ## Reference Material
 

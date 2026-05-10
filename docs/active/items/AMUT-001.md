@@ -14,7 +14,7 @@ source: broadband release live E2E and REST completeness planning
 
 Add a browser smoke lane that runs aMuTorrent against a live eMule BB instance.
 
-## Release 1.0 Classification
+## Beta 0.7.3 Classification
 
 **Release Gate.** Full E2E-validated integration with aMuTorrent and the Arr
 suite is part of Release 1. This item owns the aMuTorrent side of that gate:
@@ -23,7 +23,7 @@ artifacts.
 
 ## Execution Plan
 
-Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+Covered by the [Beta 0.7.3 REST and Arr execution plan](../plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md).
 
 ## Acceptance Criteria
 
@@ -70,7 +70,7 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
   reload, synthetic eD2K add/delete, and post-delete snapshot cleanup. Focused
   aMuTorrent tests selected by `amutorrent or browser_smoke or search_modes or
   transfer_detail or segment_snapshot` also passed.
-- R-1.0.1 controller replay artifact:
+- Beta 0.7.3 controller replay artifact:
   `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260509-142532-eMule-main-release\result.json`.
   The run passed through the supported `amutorrent-browser-smoke` suite with
   browser workflows, eMule REST readiness, `BindInterface=hide.me`, empty P2P

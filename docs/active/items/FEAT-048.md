@@ -15,7 +15,7 @@ source: broadband release live E2E and REST completeness planning
 Audit the upload and upload-queue REST surface against controller workflows and
 add only missing release-critical controls.
 
-## Release 1.0 Classification
+## Beta 0.7.3 Classification
 
 **Release Candidate.** Audit and live-smoke existing upload controls first.
 Only add operations that aMuTorrent or the release live-E2E lane actually
@@ -23,7 +23,7 @@ needs; unsupported actions should return typed errors.
 
 ## Execution Plan
 
-Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+Covered by the [Beta 0.7.3 REST and Arr execution plan](../plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md).
 
 ## Acceptance Criteria
 

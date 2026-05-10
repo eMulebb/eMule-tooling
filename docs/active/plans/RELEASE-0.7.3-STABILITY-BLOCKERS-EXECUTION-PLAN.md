@@ -1,6 +1,6 @@
-# Release 1.0 Stability Blockers Execution Plan
+# Beta 0.7.3 Stability Blockers Execution Plan
 
-This plan owns the R1-blocking findings from the 2026-05-08 adversarial review
+This plan owns the Beta 0.7.3-blocking findings from the 2026-05-08 adversarial review
 of current `eMule-main`. These items block `emule-bb-v1.0.0` until fixed,
 validated, and reflected in their item docs.
 
@@ -34,8 +34,8 @@ Covered items:
 ## Current State
 
 `eMule-main` was clean at the 2026-05-08 follow-up review time. The original
-R1 stability items through [BUG-096](../items/BUG-096.md) are done on `main`.
-The latest follow-up adversarial pass promoted three R1 blockers.
+Beta 0.7.3 stability items through [BUG-096](../items/BUG-096.md) are done on `main`.
+The latest follow-up adversarial pass promoted three Beta 0.7.3 blockers.
 [BUG-097](../items/BUG-097.md) and [BUG-099](../items/BUG-099.md) are now done on
 `main`; [BUG-100](../items/BUG-100.md) is now done on `main`. Archive preview and recovery findings
 [BUG-074](../items/BUG-074.md) and [BUG-098](../items/BUG-098.md) are Wont-Fix
@@ -79,7 +79,7 @@ Each slice must be committed and pushed before the next independent slice starts
 - Preserve legacy ED2K/Kad behavior unless the item explicitly proves a release
   blocker requires a change.
 - Prefer narrow ownership fixes over broad rewrites.
-- Do not replace the WebServer stack wholesale for R1.
+- Do not replace the WebServer stack wholesale for Beta 0.7.3.
 - Keep UI-thread mutations on the UI thread, but avoid unbounded worker-to-UI
   blocking where shutdown or request storms can deadlock.
 - Add targeted tests or seams for failure modes that are hard to trigger live.
@@ -481,7 +481,7 @@ Implementation:
 - If tracking allocation fails after thread creation, signal/close/join the
   accepted client deterministically.
 - Keep accepted-client drain, shutdown, and restart-safety behavior from the
-  existing R1 WebSocket fixes.
+  existing Beta 0.7.3 WebSocket fixes.
 
 Validation:
 
@@ -565,7 +565,7 @@ Status:
 Disposition:
 
 - Wont-Fix by product decision. Archive preview is deprecated, entirely frozen,
-  and its known bugs are not part of R1 hardening unless the feature is
+  and its known bugs are not part of Beta 0.7.3 hardening unless the feature is
   explicitly unfrozen.
 - Source comment added near the archive preview scanner thread launch in app
   commit `8c2cc67` to make this status clear during future code review.
@@ -579,7 +579,7 @@ Status:
 Disposition:
 
 - Wont-Fix by product decision. Archive recovery is deprecated, entirely
-  frozen, and its known bugs are not part of R1 hardening unless the feature is
+  frozen, and its known bugs are not part of Beta 0.7.3 hardening unless the feature is
   explicitly unfrozen.
 - Source comment added near `CArchiveRecovery::recover` in app commit
   `8c2cc67` to make this status clear during future code review.
@@ -597,7 +597,7 @@ Implementation:
   committed.
 - Wrap listener `CWinThread` allocation and `CreateThread` startup so all
   failure paths unwind initialized state exactly once.
-- Preserve existing successful HTTP/HTTPS startup and previous R1 WebSocket
+- Preserve existing successful HTTP/HTTPS startup and previous Beta 0.7.3 WebSocket
   restart-safety behavior.
 
 Validation:
@@ -652,9 +652,9 @@ Status:
 All covered items must be either:
 
 - `Done` with commit evidence and targeted validation results, or
-- explicitly reclassified by product decision in `RELEASE-1.0.md`.
+- explicitly reclassified by product decision in `RELEASE-0.7.3-GATE-HISTORY.md`.
 
-All current R1 stability blockers in this plan are either `Done` on `main` with
+All current Beta 0.7.3 stability blockers in this plan are either `Done` on `main` with
 commit evidence or Wont-Fix by explicit product decision. Archive
 preview/recovery findings [BUG-074](../items/BUG-074.md) and
 [BUG-098](../items/BUG-098.md) are Wont-Fix because those deprecated features

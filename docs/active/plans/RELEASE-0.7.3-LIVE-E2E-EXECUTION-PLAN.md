@@ -1,7 +1,7 @@
-# Release 1.0 Live E2E Execution Plan
+# Beta 0.7.3 Live E2E Execution Plan
 
 This is the active execution plan for the Release 1 live E2E umbrella. It does
-not own gate status; use [RELEASE-1.0](../RELEASE-1.0.md) for release decisions
+not own gate status; use [RELEASE-0.7.3](../RELEASE-0.7.3-GATE-HISTORY.md) for release decisions
 and [CI-011](../items/CI-011.md) for completion evidence.
 
 Current status: the 2026-05-09 full Release x64 live lane passed with
@@ -29,7 +29,7 @@ tag or package until the release checklist and clean-worktree gate are complete.
 | Aggregate release lane | [CI-011](../items/CI-011.md) | one supported command, stable suite selection, and aggregate result artifact |
 | REST robustness | [BUG-075](../items/BUG-075.md), [BUG-076](../items/BUG-076.md), [BUG-077](../items/BUG-077.md), [CI-014](../items/CI-014.md), [CI-015](../items/CI-015.md) | included through the `rest-api` suite |
 | Controller integrations | [AMUT-001](../items/AMUT-001.md), [ARR-001](../items/ARR-001.md) | included through aMuTorrent and Arr live suites |
-| Release identity | [RELEASE-1.0-CHECKLIST](../RELEASE-1.0-CHECKLIST.md) | final operator evidence and artifact naming checks |
+| Release identity | [RELEASE-0.7.3-CHECKLIST](../RELEASE-0.7.3-CHECKLIST.md) | final operator evidence and artifact naming checks |
 
 ## Required Aggregate Suites
 
@@ -68,7 +68,7 @@ python -m emule_workspace test live-e2e --config Release --platform x64
 
 Record the aggregate result path and any accepted inconclusive external
 condition in [CI-011](../items/CI-011.md) and
-[RELEASE-1.0-CHECKLIST](../RELEASE-1.0-CHECKLIST.md).
+[RELEASE-0.7.3-CHECKLIST](../RELEASE-0.7.3-CHECKLIST.md).
 
 ## Latest Revalidation
 

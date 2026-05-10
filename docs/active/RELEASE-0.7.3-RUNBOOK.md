@@ -1,7 +1,7 @@
-# eMule Broadband Edition 1.0 Release Runbook
+# eMule Broadband Edition 0.7.3 Beta Release Runbook
 
-This runbook is the operator path for proving `emule-bb-v1.0.0`. Use it with
-[RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md); the checklist records the
+This runbook is the operator path for proving `emule-bb-v0.7.3`. Use it with
+[RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md); the checklist records the
 evidence and final ship decisions.
 
 Current status: `release/v0.72a-broadband` is pre-release stabilization and
@@ -68,7 +68,7 @@ The primary release artifact is:
 repos\eMule-build-tests\reports\live-e2e-suite-latest\result.json
 ```
 
-Release 1 cannot ship with any `failed` suite in this artifact. A live-network
+Beta 0.7.3 cannot ship with any `failed` suite in this artifact. A live-network
 suite may be accepted as `inconclusive` only when its child report proves the
 product and harness behaved correctly and the checklist records the external
 condition that prevented proof.
@@ -92,7 +92,7 @@ only for diagnosis. Do not use those reduced modes as final release proof.
 
 After the final full run:
 
-- update [RELEASE-1.0-CHECKLIST](RELEASE-1.0-CHECKLIST.md) with command,
+- update [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md) with command,
   commit, artifact, status, and ship decision evidence
 - confirm every gate is `Passed` or `Inconclusive Accepted`
 - confirm every release candidate is shipped, deferred, or promoted
@@ -100,28 +100,28 @@ After the final full run:
   and `eMule BB` as the compact app/mod name
 - create the annotated tag only after the checklist is complete
 
-The Release 1 tag is:
+The beta tag is:
 
 ```text
-emule-bb-v1.0.0
+emule-bb-v0.7.3
 ```
 
 The release ZIP assets must be named:
 
 ```text
-eMule-broadband-1.0.0-x64.zip
-eMule-broadband-1.0.0-arm64.zip
+eMule-broadband-0.7.3-x64.zip
+eMule-broadband-0.7.3-arm64.zip
 ```
 
 The supported packaging command is:
 
 ```powershell
-python -m emule_workspace package-release --config Release --platform x64 --release-version 1.0.0
-python -m emule_workspace package-release --config Release --platform ARM64 --release-version 1.0.0
+python -m emule_workspace package-release --config Release --platform x64
+python -m emule_workspace package-release --config Release --platform ARM64
 ```
 
 Package manifests are written next to the ZIP assets under:
 
 ```text
-workspaces\v0.72a\state\release\emule-bb-v1.0.0
+workspaces\v0.72a\state\release\emule-bb-v0.7.3
 ```

@@ -1,4 +1,4 @@
-# eMule Broadband Edition 1.0 Release Control
+# eMule Broadband Edition 0.7.3 Gate History
 
 This is the archived internal control document for rehearsal tag
 `emule-bb-v1.0.0`. It records Release 1 gate status, candidate decisions, and
@@ -7,19 +7,19 @@ readiness evidence from the internal pre-release pass.
 Current status: Release 1 gate proof has fresh 2026-05-09 revalidation
 evidence, rehearsal packages were created, and the annotated internal app tag
 `emule-bb-v1.0.0` was pushed to `eMulebb/eMule` at app commit `953a39f`.
-This tag and its assets are internal evidence only; the first publishable
-public release is `emule-bb-v1.1.1`.
+This tag and its assets are superseded internal evidence only; the first beta
+release target is `emule-bb-v0.7.3`.
 
 Operator docs:
 
-- [Release 1.0 checklist](RELEASE-1.0-CHECKLIST.md)
-- [Release 1.0 runbook](RELEASE-1.0-RUNBOOK.md)
-- [REST/Arr execution plan](plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md)
-- [Live E2E execution plan](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md)
-- [Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)
-- [NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md)
-- [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
-- [SDET stress execution plan](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md)
+- [Beta 0.7.3 checklist](RELEASE-0.7.3-CHECKLIST.md)
+- [Beta 0.7.3 runbook](RELEASE-0.7.3-RUNBOOK.md)
+- [REST/Arr execution plan](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md)
+- [Live E2E execution plan](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md)
+- [Download completion hook execution plan](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)
+- [NAT mapping execution plan](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md)
+- [Beta 0.7.3 stability blockers execution plan](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
+- [SDET stress execution plan](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md)
 
 ## Release Identity
 
@@ -38,13 +38,13 @@ ages out or related code changes.
 Current REST hardening focus: revalidate both the native `/api/v1` contract and
 the Arr/qBittorrent-compatible adapter APIs before tagging. The detailed pending
 task queue lives in the
-[REST/Arr execution plan](plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md#current-revalidation-focus).
+[REST/Arr execution plan](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md#current-revalidation-focus).
 aMuTorrent remains the primary UI proof target, but it adapts to the clean
 native `/api/v1` design and must not drive native route shape, aliases,
 envelopes, or validation policy.
 
 Current stability focus: the original adversarial current-branch findings from
-the 2026-05-08 R1 review are closed on `main`, the first 2026-05-08 follow-up
+the 2026-05-08 Beta 0.7.3 review are closed on `main`, the first 2026-05-08 follow-up
 pass findings [BUG-092](items/BUG-092.md) through [BUG-096](items/BUG-096.md)
 are closed on `main`, and the latest follow-up blockers
 [BUG-097](items/BUG-097.md), [BUG-099](items/BUG-099.md), and
@@ -53,13 +53,13 @@ recovery findings [BUG-074](items/BUG-074.md) and
 [BUG-098](items/BUG-098.md) are Wont-Fix by product decision because those
 deprecated features are entirely frozen, including known bugs. Keep their
 execution and closure flow in the
-[R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
+[Beta 0.7.3 stability blockers execution plan](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md).
 
 Current SDET stress focus: the 2026-05-08 test-robustness review promoted four
-additional R1 release gates for large Shared Files UI churn, HTTPS/socket
+additional Beta 0.7.3 release gates for large Shared Files UI churn, HTTPS/socket
 adversity, explicit error-path coverage, and resource-accounted socket leak
 churn. Keep their execution and closure flow in the
-[SDET stress execution plan](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md).
+[SDET stress execution plan](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md).
 
 | ID | Gate | Status | Evidence pointer |
 |----|------|--------|------------------|
@@ -125,16 +125,16 @@ closure and revalidation flow.
 
 | Plan | Covered items |
 |------|---------------|
-| [REST/Arr execution plan](plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md) | [BUG-075](items/BUG-075.md), [BUG-076](items/BUG-076.md), [BUG-077](items/BUG-077.md), [CI-014](items/CI-014.md), [CI-015](items/CI-015.md), [AMUT-001](items/AMUT-001.md), [ARR-001](items/ARR-001.md), [FEAT-045](items/FEAT-045.md), [FEAT-046](items/FEAT-046.md), [FEAT-047](items/FEAT-047.md), [FEAT-048](items/FEAT-048.md), [FEAT-049](items/FEAT-049.md), [AMUT-002](items/AMUT-002.md) |
-| [Live E2E execution plan](plans/RELEASE-1.0-LIVE-E2E-EXECUTION-PLAN.md) | [CI-011](items/CI-011.md) |
-| [Download completion hook execution plan](plans/RELEASE-1.0-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md) | [FEAT-050](items/FEAT-050.md) |
-| [NAT mapping execution plan](plans/RELEASE-1.0-NAT-MAPPING-EXECUTION-PLAN.md) | [FEAT-032](items/FEAT-032.md) |
-| [R1 stability blockers execution plan](plans/RELEASE-1.0-STABILITY-BLOCKERS-EXECUTION-PLAN.md) | [BUG-078](items/BUG-078.md), [BUG-079](items/BUG-079.md), [BUG-080](items/BUG-080.md), [BUG-081](items/BUG-081.md), [BUG-082](items/BUG-082.md), [BUG-083](items/BUG-083.md), [BUG-084](items/BUG-084.md), [BUG-085](items/BUG-085.md), [BUG-086](items/BUG-086.md), [BUG-087](items/BUG-087.md), [BUG-088](items/BUG-088.md), [BUG-089](items/BUG-089.md), [BUG-090](items/BUG-090.md), [BUG-091](items/BUG-091.md), [BUG-092](items/BUG-092.md), [BUG-093](items/BUG-093.md), [BUG-094](items/BUG-094.md), [BUG-095](items/BUG-095.md), [BUG-096](items/BUG-096.md), [BUG-097](items/BUG-097.md), [BUG-074](items/BUG-074.md), [BUG-098](items/BUG-098.md), [BUG-099](items/BUG-099.md), [BUG-100](items/BUG-100.md) |
-| [SDET stress execution plan](plans/RELEASE-1.0-SDET-STRESS-EXECUTION-PLAN.md) | [CI-018](items/CI-018.md), [CI-019](items/CI-019.md), [CI-020](items/CI-020.md), [CI-021](items/CI-021.md) |
+| [REST/Arr execution plan](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md) | [BUG-075](items/BUG-075.md), [BUG-076](items/BUG-076.md), [BUG-077](items/BUG-077.md), [CI-014](items/CI-014.md), [CI-015](items/CI-015.md), [AMUT-001](items/AMUT-001.md), [ARR-001](items/ARR-001.md), [FEAT-045](items/FEAT-045.md), [FEAT-046](items/FEAT-046.md), [FEAT-047](items/FEAT-047.md), [FEAT-048](items/FEAT-048.md), [FEAT-049](items/FEAT-049.md), [AMUT-002](items/AMUT-002.md) |
+| [Live E2E execution plan](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md) | [CI-011](items/CI-011.md) |
+| [Download completion hook execution plan](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md) | [FEAT-050](items/FEAT-050.md) |
+| [NAT mapping execution plan](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md) | [FEAT-032](items/FEAT-032.md) |
+| [Beta 0.7.3 stability blockers execution plan](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md) | [BUG-078](items/BUG-078.md), [BUG-079](items/BUG-079.md), [BUG-080](items/BUG-080.md), [BUG-081](items/BUG-081.md), [BUG-082](items/BUG-082.md), [BUG-083](items/BUG-083.md), [BUG-084](items/BUG-084.md), [BUG-085](items/BUG-085.md), [BUG-086](items/BUG-086.md), [BUG-087](items/BUG-087.md), [BUG-088](items/BUG-088.md), [BUG-089](items/BUG-089.md), [BUG-090](items/BUG-090.md), [BUG-091](items/BUG-091.md), [BUG-092](items/BUG-092.md), [BUG-093](items/BUG-093.md), [BUG-094](items/BUG-094.md), [BUG-095](items/BUG-095.md), [BUG-096](items/BUG-096.md), [BUG-097](items/BUG-097.md), [BUG-074](items/BUG-074.md), [BUG-098](items/BUG-098.md), [BUG-099](items/BUG-099.md), [BUG-100](items/BUG-100.md) |
+| [SDET stress execution plan](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md) | [CI-018](items/CI-018.md), [CI-019](items/CI-019.md), [CI-020](items/CI-020.md), [CI-021](items/CI-021.md) |
 
 ## Deferred Scope
 
-The following tracks stay outside the first public release unless a later
+The following tracks stay outside the first beta release unless a later
 release-readiness review promotes a concrete blocker:
 
 - exploratory Boost and CMake adoption ideas: `REF-008` through `REF-014`,

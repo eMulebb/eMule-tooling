@@ -1,4 +1,4 @@
-# R-1.0.1 Legacy And Frozen Feature Disposition
+# Beta 0.7.3 Legacy And Frozen Feature Disposition
 
 - Date: 2026-05-09
 - Gate: [REF-037](../items/REF-037.md)
@@ -19,7 +19,7 @@ or explicitly frozen by product decision.
 
 ## Disposition Ledger
 
-| Feature area | CI-022 paths | R-1.0.1 disposition | Evidence |
+| Feature area | CI-022 paths | Beta 0.7.3 disposition | Evidence |
 |--------------|--------------|---------------------|----------|
 | MiniMule runtime and IE host | `MiniMule.cpp/.h`, `IESecurity.cpp/.h`, `res/MiniMule.htm`, `res/MiniMuleBack.gif` | Intentionally removed | [REF-025](../items/REF-025.md); app `867d303`; stale resource cleanup app `11e5966` |
 | MiniMule resource leftovers | `IDD_MINIMULE`, `IDR_HTML_MINIMULE`, `IDS_ENABLEMINIMULE`, translated `IDS_ENABLEMINIMULE` rows | Restored before release by deletion of stale surface | app `11e5966`; `rg` no longer finds MiniMule/Light identifiers under `srchybrid` |
@@ -27,14 +27,14 @@ or explicitly frozen by product decision.
 | Import Parts / old part conversion | `ImportParts.h`, `PartFileConvert.cpp/.h` | Intentionally removed | [FEAT-033](../items/FEAT-033.md); [CI-027](../items/CI-027.md) |
 | Secondary run-as-user helper | `SecRunAsUser.cpp/.h` | Intentionally removed with MiniMule/IE-era helper cleanup | [REF-025](../items/REF-025.md); [REF-033](../items/REF-033.md) |
 | Legacy web light template | `webinterface/eMule Light.tmpl` and stale project `..\setup\eMule Light.tmpl` item | Intentionally removed; stale project item deleted | app `11e5966`; [CI-025](../items/CI-025.md) covers current WebServer/template contracts |
-| IRC client and IRC preferences | `IrcMain`, `IrcWnd`, IRC list controls, `PPgIRC` | Supported for R-1.0.1, not removed in this release | [CI-030](../items/CI-030.md) UI/preference smoke; [REF-025](../items/REF-025.md) keeps broader removal as future scope |
-| Scheduler | `Scheduler.cpp`, `PPgScheduler.cpp/.h` | Supported for R-1.0.1, not removed in this release | [CI-030](../items/CI-030.md); scheduler remains live in app build |
-| SMTP notifications | `SendMail.cpp`, `SMTPdialog.cpp/.h`, notify preferences | Supported for R-1.0.1, not removed in this release | [CI-030](../items/CI-030.md); [REF-025](../items/REF-025.md) keeps broader removal as future scope |
-| First-start wizard | `Wizard.cpp/.h` and wizard resources | Supported/frozen for R-1.0.1; no further removal in patch scope | [CI-030](../items/CI-030.md); [REF-025](../items/REF-025.md) tracks future removal |
-| Splash screen | `SplashScreen.cpp/.h` and preference surface | Supported/frozen for R-1.0.1; no further removal in patch scope | [CI-030](../items/CI-030.md); [REF-025](../items/REF-025.md) tracks future removal |
-| Update check | `ReleaseUpdateCheck*`, version-check UI paths | Supported for R-1.0.1 | [CI-030](../items/CI-030.md); [CI-031](../items/CI-031.md) package/release docs |
+| IRC client and IRC preferences | `IrcMain`, `IrcWnd`, IRC list controls, `PPgIRC` | Supported for Beta 0.7.3, not removed in this release | [CI-030](../items/CI-030.md) UI/preference smoke; [REF-025](../items/REF-025.md) keeps broader removal as future scope |
+| Scheduler | `Scheduler.cpp`, `PPgScheduler.cpp/.h` | Supported for Beta 0.7.3, not removed in this release | [CI-030](../items/CI-030.md); scheduler remains live in app build |
+| SMTP notifications | `SendMail.cpp`, `SMTPdialog.cpp/.h`, notify preferences | Supported for Beta 0.7.3, not removed in this release | [CI-030](../items/CI-030.md); [REF-025](../items/REF-025.md) keeps broader removal as future scope |
+| First-start wizard | `Wizard.cpp/.h` and wizard resources | Supported/frozen for Beta 0.7.3; no further removal in patch scope | [CI-030](../items/CI-030.md); [REF-025](../items/REF-025.md) tracks future removal |
+| Splash screen | `SplashScreen.cpp/.h` and preference surface | Supported/frozen for Beta 0.7.3; no further removal in patch scope | [CI-030](../items/CI-030.md); [REF-025](../items/REF-025.md) tracks future removal |
+| Update check | `ReleaseUpdateCheck*`, version-check UI paths | Supported for Beta 0.7.3 | [CI-030](../items/CI-030.md); [CI-031](../items/CI-031.md) package/release docs |
 | Archive preview/recovery | `ArchivePreviewDlg.cpp`, `ArchiveRecovery.cpp` | Intentionally frozen with known bugs accepted | [BUG-074](../items/BUG-074.md); [BUG-098](../items/BUG-098.md) |
-| Win32 manifest/build artifacts | `srchybrid/res/emuleWin32.manifest` and packaging outputs | Intentionally removed from supported R-1.0.1 package surface | [CI-031](../items/CI-031.md); x64/ARM64 package scans exclude Win32/x86/project/debug artifacts |
+| Win32 manifest/build artifacts | `srchybrid/res/emuleWin32.manifest` and packaging outputs | Intentionally removed from supported Beta 0.7.3 package surface | [CI-031](../items/CI-031.md); x64/ARM64 package scans exclude Win32/x86/project/debug artifacts |
 | Language/resource command IDs | language DLL projects and resource IDs affected by removed MiniMule resources | Restored before release by aligning active resources with removed runtime surface | app `11e5966`; x64 and ARM64 package language builds passed |
 
 ## Validation Evidence
@@ -74,6 +74,6 @@ or explicitly frozen by product decision.
 
 ## Release Decision
 
-REF-037 is closed for R-1.0.1. The remaining broad legacy-removal work stays in
+REF-037 is closed for Beta 0.7.3. The remaining broad legacy-removal work stays in
 [REF-025](../items/REF-025.md) and [REF-033](../items/REF-033.md) as post-release
 scope unless a future audit proves an active regression.

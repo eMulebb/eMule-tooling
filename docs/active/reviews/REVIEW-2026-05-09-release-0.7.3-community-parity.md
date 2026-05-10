@@ -1,4 +1,4 @@
-# R-1.0.1 Community Parity Review
+# Beta 0.7.3 Community Parity Review
 
 - Date: 2026-05-09
 - Baseline: `release/v0.72a-community`
@@ -9,23 +9,23 @@
 
 The app delta from the community baseline to Broadband `main` is release-wide:
 759 changed paths after excluding Visual Studio filter/user churn. The highest
-R-1.0.1 risk is not one isolated defect; it is incomplete area-by-area proof
+Beta 0.7.3 risk is not one isolated defect; it is incomplete area-by-area proof
 that each touched stock behavior remains compatible while Broadband-only REST,
 Arr, aMuTorrent, startup, sharing, networking, and packaging behavior stays
 complete.
 
-The R-1.0.1 backlog therefore promotes proof gates first. Any product defect
+The Beta 0.7.3 backlog therefore promotes proof gates first. Any product defect
 found while closing those gates must become a granular `BUG-111+` item before
 the release can be tagged.
 
 The authoritative path-level ledger is
-[REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger](REVIEW-2026-05-09-release-1.0.1-changed-surface-ledger.md).
+[REVIEW-2026-05-09-release-0.7.3-changed-surface-ledger](REVIEW-2026-05-09-release-0.7.3-changed-surface-ledger.md).
 
 ## Changed Surface Summary
 
 Initial grouping from `git diff --name-only release/v0.72a-community...main`:
 
-| Area | Approximate changed paths | R-1.0.1 risk |
+| Area | Approximate changed paths | Beta 0.7.3 risk |
 |------|---------------------------|--------------|
 | REST, WebServer, Arr, qBit, WebSocket | 24 | Adapter compatibility, auth, typed errors, static files, TLS/socket lifecycle. |
 | Shared files, startup cache, long paths | 27 | Large library load, recursive share sync, cache migration, path handling, REST consistency. |
@@ -51,7 +51,7 @@ Initial grouping from `git diff --name-only release/v0.72a-community...main`:
 | [CI-028](../items/CI-028.md) | Covers stock network-search behavior that Broadband changed indirectly. |
 | [CI-029](../items/CI-029.md) | Replays the riskiest crash/leak/adversity paths after socket and UPnP changes. |
 | [CI-030](../items/CI-030.md) | Ensures UI and preference changes did not regress stock user workflows. |
-| [CI-031](../items/CI-031.md) | Prevents packaging or architecture drift from producing an unusable 1.0.1 asset. |
+| [CI-031](../items/CI-031.md) | Prevents packaging or architecture drift from producing an unusable 0.7.3 asset. |
 | [REF-037](../items/REF-037.md) | Forces every removed/frozen stock feature to be either intentional or restored. |
 
 ## Candidate Bug Watchlist
@@ -76,7 +76,7 @@ Improvements are tracked separately from release blockers in
 [FEAT-055](../items/FEAT-055.md). The first pass should rank:
 
 - operator-facing release evidence summaries for live artifacts
-- one-command R-1.0.1 proof orchestration through `python -m emule_workspace`
+- one-command Beta 0.7.3 proof orchestration through `python -m emule_workspace`
 - automated changed-surface grouping for future releases
 - lightweight UI smoke probes for representative language/resource loads
 - clearer controller compatibility matrix for native REST, qBit, Torznab, Arr,

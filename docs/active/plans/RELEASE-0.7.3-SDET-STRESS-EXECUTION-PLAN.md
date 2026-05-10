@@ -1,6 +1,6 @@
-# Release 1.0 SDET Stress Execution Plan
+# Beta 0.7.3 SDET Stress Execution Plan
 
-This plan owns the R1 test-robustness gaps from the 2026-05-08 SDET stability
+This plan owns the Beta 0.7.3 test-robustness gaps from the 2026-05-08 SDET stability
 review. These are release-gate test items, not product feature work. They block
 `emule-bb-v1.0.0` until implemented, run, and reflected in their item docs.
 
@@ -13,8 +13,8 @@ Covered items:
 
 ## Current State
 
-The existing R1 suite has strong native REST parser/status tests and live HTTP
-REST stress evidence. The uncovered R1 risk is at the hostile live boundary:
+The existing Beta 0.7.3 suite has strong native REST parser/status tests and live HTTP
+REST stress evidence. The uncovered Beta 0.7.3 risk is at the hostile live boundary:
 large Shared Files UI churn, HTTPS handshake stalls, socket resets, live 500
 fault paths, and resource-accounted socket churn.
 
@@ -35,7 +35,7 @@ starts.
 ## Shared Rules
 
 - Use supported workspace entrypoints for build, validation, and live E2E.
-- Keep new stress modes selectable so routine R1 gates can run a bounded smoke
+- Keep new stress modes selectable so routine Beta 0.7.3 gates can run a bounded smoke
   profile and operators can run longer soak profiles.
 - Preserve legacy ED2K/Kad runtime behavior; these items add proof and harness
   coverage, not protocol changes.
@@ -194,7 +194,7 @@ Status:
   `missing_release_statuses=[]`, and live gaps preserved for 405, 409, 500, and
   503.
 - Test harness commit `704a97b` promotes the matrix to a hard release gate and
-  adds `reset_during_error_response_send` socket coverage. The R1 release
+  adds `reset_during_error_response_send` socket coverage. The Beta 0.7.3 release
   decision keeps 405, 409, 500, and 503 as deterministic seam-backed rows, with
   live gaps visible in `live_missing_release_statuses`. HTTPS artifact
   `repos\eMule-build-tests\reports\rest-api-smoke\20260508-202554-eMule-main-release\result.json`
@@ -235,7 +235,7 @@ Status:
 - Test harness commit `ae3a840` extends leak churn to HTTPS profiles with
   stalled TLS connect-close, partial TLS record reset, and partial ClientHello
   reset cycles.
-- Test harness commit `941c439` adds R1 resource-threshold evaluation for
+- Test harness commit `941c439` adds Beta 0.7.3 resource-threshold evaluation for
   leak-churn deltas and fails the run on threshold violations.
 - Test harness commit `b8729d3` adds process thread-count snapshots and
   thread-count leak thresholds as accepted-client drain proxy evidence.

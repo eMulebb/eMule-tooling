@@ -15,7 +15,7 @@ source: broadband release live E2E and REST completeness planning
 Audit and fill release-critical search API gaps for aMuTorrent and other local
 controllers.
 
-## Release 1.0 Classification
+## Beta 0.7.3 Classification
 
 **Release Candidate.** The search API is mostly complete for 1.0. The remaining
 release work is to document paging/bounds behavior and keep live corpus
@@ -23,7 +23,7 @@ coverage meaningful; do not change stock search semantics for this item.
 
 ## Execution Plan
 
-Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-REST-ARR-EXECUTION-PLAN.md).
+Covered by the [Beta 0.7.3 REST and Arr execution plan](../plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md).
 
 ## Acceptance Criteria
 
@@ -36,7 +36,7 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
 
 ## Progress
 
-- 2026-05-06: Closed the Release 1.0 documentation gap. OpenAPI and the REST
+- 2026-05-06: Closed the Beta 0.7.3 documentation gap. OpenAPI and the REST
   contract now state that `GET /api/v1/searches/{searchId}` returns the current
   native visible result snapshot, does not accept `limit` or `offset` in v1, and
   preserves stock eD2K/Kad search semantics. Live REST evidence already covers

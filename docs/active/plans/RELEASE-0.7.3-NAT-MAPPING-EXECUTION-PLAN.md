@@ -1,7 +1,7 @@
-# Release 1.0 NAT Mapping Execution Plan
+# Beta 0.7.3 NAT Mapping Execution Plan
 
 This is the active execution plan for NAT mapping modernization. It does not
-own gate status; use [RELEASE-1.0](../RELEASE-1.0.md) for release decisions and
+own gate status; use [RELEASE-0.7.3](../RELEASE-0.7.3-GATE-HISTORY.md) for release decisions and
 [FEAT-032](../items/FEAT-032.md) for item state and evidence.
 
 Current status: NAT mapping is a Release 1 candidate, not a blocker. The

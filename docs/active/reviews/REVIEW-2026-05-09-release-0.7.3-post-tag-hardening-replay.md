@@ -1,4 +1,4 @@
-# R-1.0.1 Post-1.0 Hardening Replay
+# Beta 0.7.3 Post-1.0 Hardening Replay
 
 - Date: 2026-05-09
 - Baseline internal evidence tag: `emule-bb-v1.0.0`
@@ -50,5 +50,5 @@ with targeted probes.
 [CI-023](../items/CI-023.md) can remain closed as the post-tag mapping and
 replay gate: the commits are mapped, the supported Release x64 replay passed,
 and CI-032 now closes the previously insufficient focused coverage for BUG-102,
-BUG-105, BUG-108, BUG-109, and BUG-110. R-1.0.1 must still wait for the
+BUG-105, BUG-108, BUG-109, and BUG-110. Beta 0.7.3 must still wait for the
 downstream area gates.
