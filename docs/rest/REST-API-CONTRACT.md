@@ -1,6 +1,6 @@
 # eMule BB REST API Contract
 
-**Status:** pre-release broadband contract
+**Status:** beta 0.7.3 broadband contract
 **Source of truth:** [REST-API-OPENAPI.yaml](REST-API-OPENAPI.yaml)
 **Legacy parity inventory:** [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md)
 **Primary implementation:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main\srchybrid\WebServerJson.cpp`
@@ -12,14 +12,13 @@
 WebServer listener. The broadband release contract is the resource-oriented
 `/api/v1` surface described by the OpenAPI document above.
 
-The API is designed for aMuTorrent and other trusted local controllers. eMule
-BB and aMuTorrent are both pre-release, so the final contract intentionally
-prioritizes consistency and aMuTorrent completeness over preserving old
-command-style route names.
+The API is designed for aMuTorrent and other trusted local controllers. The
+beta 0.7.3 contract intentionally prioritizes consistency and aMuTorrent
+completeness over preserving old command-style route names.
 
 ## Controller Boundary
 
-aMuTorrent is the primary UI consumer and Release 1 proof target, but it is not
+aMuTorrent is the primary UI consumer and beta 0.7.3 proof target, but it is not
 the authority for native route shape. The aMuTorrent eMule BB adapter must
 translate UI expectations to the clean `/api/v1` contract instead of requiring
 native aliases, qBittorrent-compatible response shapes, or legacy command-style
@@ -65,6 +64,8 @@ content-layout operations.
 - use HTTP 200 for valid bulk requests with per-item results
 - marshal native commands through the main UI thread before touching eMule
   state owned by dialogs, sockets, queues, and list controls
+- keep the route execution model explicit in the native route seam; only
+  static/direct-safe routes may bypass the UI-thread dispatch path
 - reject pre-release alias spellings; public request fields are the final
   OpenAPI names such as `categoryId`, `searchId`, `deleteFiles`,
   `uploadLimitKiBps`, and `downloadLimitKiBps`
@@ -93,12 +94,12 @@ The release API intentionally excludes:
 `POST /api/v1/searches` starts a native eMule search using the requested method:
 `automatic`, `server`, `global`, or `kad`. The route maps directly to the
 existing eD2K/Kad search modes and must not change stock search semantics for
-Release 1.0. Search resources echo the resolved method so controllers can
+beta 0.7.3. Search resources echo the resolved method so controllers can
 distinguish eD2K server/global searches from Kad searches without inferring from
 result timing or counts.
 
 `GET /api/v1/searches/{searchId}` returns the current native visible result
-snapshot for that search. Release 1.0 intentionally does not expose search
+snapshot for that search. Beta 0.7.3 intentionally does not expose search
 result paging; the route does not accept `limit` or `offset`, and the strict
 route table rejects unknown query parameters. Controllers should poll the search
 resource and treat `results` as a bounded native snapshot governed by eMule's
@@ -118,11 +119,30 @@ rejects `deleteFiles: false` before dispatch.
 ## Implementation Status
 
 The OpenAPI contract is the implemented target contract for the current
-pre-release pass. Native route-seam tests cover the route schema table and
-strict validation behavior; the Python smoke harness includes an OpenAPI route
-consistency check and validates success/error envelopes. aMuTorrent's eMule BB
-adapter consumes the same final field names while keeping aMuTorrent's own
-public routes stable.
+beta 0.7.3 pass. Native route-seam tests cover the route schema table, strict
+validation behavior, and the internal route execution model. The Python smoke
+harness includes OpenAPI route consistency checks, validates success/error
+envelopes, and reports whether each native route is direct or UI-thread
+dispatched. aMuTorrent's eMule BB adapter consumes the same final field names
+while keeping aMuTorrent's own public routes stable.
+
+## Controller Compatibility Matrix
+
+| Consumer | Surface | Contract boundary | Proof lane |
+|---|---|---|---|
+| Native REST clients | `/api/v1` | OpenAPI is authoritative; adapters do not define route names or envelopes. | REST smoke, OpenAPI drift, live completeness |
+| aMuTorrent | `/api/v1` through its own adapter | Translates UI expectations to final native fields and unwraps native envelopes. | aMuTorrent browser smoke |
+| Prowlarr Torznab | Torznab XML adapter | Keeps Torznab XML/error shape adapter-local while reusing native parsing and search commands. | Prowlarr live |
+| Radarr/Sonarr | Torznab plus qBit-compatible download client | Uses Arr-facing compatibility routes without broadening `/api/v1`. | Radarr/Sonarr live |
+| qBittorrent-compatible clients | `/api/v2` | Implements the Arr-needed qBit subset only; qBit text/session errors stay adapter-shaped. | qBit route completeness and Arr live |
+
+## Execution Model
+
+The native route table records whether a route is direct or UI-thread
+dispatched. `GET /api/v1/app` is currently the only direct route because it
+serves static application identity/build metadata. Runtime reads, mutations,
+destructive operations, and adapter bridges remain UI-thread dispatched until
+ownership is proven safe at the implementation layer.
 
 Use [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md) for residual
 release-gate and live-smoke tracking. Runtime route completeness is expected to

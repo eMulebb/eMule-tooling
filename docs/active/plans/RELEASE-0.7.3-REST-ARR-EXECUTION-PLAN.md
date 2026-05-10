@@ -1,11 +1,11 @@
 # Beta 0.7.3 REST and Arr Execution Plan
 
-This is the active execution plan for Release 1 REST, aMuTorrent, and Arr work. It
+This is the active execution plan for beta 0.7.3 REST, aMuTorrent, and Arr work. It
 does not own gate status; use [RELEASE-0.7.3](../RELEASE-0.7.3-GATE-HISTORY.md) for current release
 decisions and item docs for completion evidence.
 
 Current status: the broadband branch remains pre-release stabilization. This
-plan describes the REST/Arr shape that supports Release 1; it is not a tag or
+plan describes the REST/Arr shape that supports beta 0.7.3; it is not a tag or
 package authorization document.
 
 ## Decisions
@@ -23,7 +23,7 @@ package authorization document.
   evidence, but it must not force native `/api/v1` to mimic Arr or qBit quirks.
 - Legacy WebServer cleanup is limited to REST/WebServer boundary safety and
   shared request/path/concurrency code.
-- Do not rewrite or retire the legacy HTML UI for Release 1.
+- Do not rewrite or retire the legacy HTML UI for beta 0.7.3.
 
 ## Gate Map
 
@@ -38,7 +38,7 @@ package authorization document.
 
 ## Current Revalidation Focus
 
-The earlier gates have passing evidence, but the next Release 1 hardening pass
+The earlier gates have passing evidence, but the next beta 0.7.3 hardening pass
 should revalidate the API surfaces below before treating that evidence as fresh.
 
 ### Native `/api/v1`
@@ -57,6 +57,9 @@ should revalidate the API surfaces below before treating that evidence as fresh.
       explicit intent fields, especially transfer delete, shared-file delete,
       delete-all searches, clear-completed transfers, directory replacement, and
       app shutdown exclusion from broad mutation loops.
+- [x] Record the native REST execution model in the route seam and smoke
+      harness so direct routes and UI-thread-dispatched routes cannot drift
+      silently.
 
 ### Arr And qBit-Compatible Adapters
 
@@ -91,9 +94,12 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - Shared-directory root replacement requires `confirmReplaceRoots: true`; this
   route is treated as destructive because it replaces the configured share set.
 - Native `/api/v1` hashes stay strict lowercase eD2K identifiers.
-- Search result paging is intentionally not exposed in Release 1; controllers
+- Search result paging is intentionally not exposed in beta 0.7.3; controllers
   poll the current visible native result snapshot.
 - `/app/shutdown` stays excluded from broad live mutation loops.
+- `GET /api/v1/app` is the only current direct route. Runtime reads, mutations,
+  and destructive routes remain UI-thread dispatched until ownership is proven
+  safe in the app layer.
 
 ## Adapter Boundaries
 
@@ -116,6 +122,16 @@ should revalidate the API surfaces below before treating that evidence as fresh.
   serialization, and path-safety helpers.
 - aMuTorrent and Arr gates must not force native route names or envelope shape.
 
+## Controller Compatibility Matrix
+
+| Consumer | Surface | Boundary | Proof lane |
+|---|---|---|---|
+| Native REST | `/api/v1` | OpenAPI/native route seam is authoritative. | REST smoke, route drift, live completeness |
+| aMuTorrent | `/api/v1` through adapter code | UI expectations adapt to native fields/envelopes. | aMuTorrent browser smoke |
+| Prowlarr | Torznab adapter | XML/feed/errors stay adapter-local. | Prowlarr live |
+| Radarr/Sonarr | Torznab plus qBit-compatible client | Arr behavior must not broaden `/api/v1`. | Radarr/Sonarr live |
+| qBit-compatible clients | `/api/v2` | Arr-needed subset only; text/session errors stay qBit-shaped. | qBit route completeness and Arr live |
+
 ## Execution Lanes
 
 ### REST and WebServer Robustness
@@ -124,14 +140,14 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - Keep [BUG-076](../items/BUG-076.md) as the malformed request boundary owner.
 - Keep [BUG-077](../items/BUG-077.md) as the mixed REST and legacy HTML stress owner.
 - Any future route, parser, auth, or WebServer concurrency change must rerun the
-  REST smoke and malformed/concurrent matrix before Release 1 evidence is
+  REST smoke and malformed/concurrent matrix before beta 0.7.3 evidence is
   reused.
 
 ### Contract Completeness
 
 - Keep [CI-014](../items/CI-014.md) as the OpenAPI and route drift gate.
 - Keep [CI-015](../items/CI-015.md) as the malformed and concurrent request matrix gate.
-- Keep [FEAT-047](../items/FEAT-047.md) closed by documenting the Release 1 search
+- Keep [FEAT-047](../items/FEAT-047.md) closed by documenting the beta 0.7.3 search
   snapshot behavior instead of adding paging or bounds changes.
 - New `/api/v1` routes require OpenAPI, native route seam, live smoke, and
   REST contract documentation updates in the same closure slice.
@@ -141,23 +157,23 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 - Keep [AMUT-001](../items/AMUT-001.md) as the live aMuTorrent browser proof.
 - Keep [ARR-001](../items/ARR-001.md) as the live Prowlarr, Radarr, Sonarr, Torznab,
   and qBittorrent-compatible proof.
-- Treat [AMUT-002](../items/AMUT-002.md) as promoted for Release 1. The
+- Treat [AMUT-002](../items/AMUT-002.md) as promoted for beta 0.7.3. The
   aMuTorrent adapter consumes [FEAT-045](../items/FEAT-045.md) only when eMule
   BB advertises `transferDetails`, and browser smoke coverage verifies the
   hydrated detail fields.
 
 ### Candidate Promotion Rules
 
-- [FEAT-045](../items/FEAT-045.md) is closed for Release 1: the dedicated
+- [FEAT-045](../items/FEAT-045.md) is closed for beta 0.7.3: the dedicated
   transfer detail endpoint is implemented, advertised through capability
   metadata, and consumed by aMuTorrent through `AMUT-002`.
-- [FEAT-046](../items/FEAT-046.md) is closed for Release 1: server.met import,
+- [FEAT-046](../items/FEAT-046.md) is closed for beta 0.7.3: server.met import,
   Kad bootstrap, nodes.dat URL import, malformed preservation, and live seed
   import evidence are covered.
-- [FEAT-048](../items/FEAT-048.md) is closed for Release 1 by audit: existing
+- [FEAT-048](../items/FEAT-048.md) is closed for beta 0.7.3 by audit: existing
   upload controls are covered, unsupported operations return typed errors, and
   no additional queue mutation was promoted.
-- [FEAT-049](../items/FEAT-049.md) is closed for Release 1 by audit: aMuTorrent
+- [FEAT-049](../items/FEAT-049.md) is closed for beta 0.7.3 by audit: aMuTorrent
   needs no additional runtime preference keys, risky internals remain private,
   and the curated surface has live round-trip plus bad-value coverage.
 

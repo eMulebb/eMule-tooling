@@ -1,15 +1,15 @@
 openapi: 3.1.0
 info:
   title: eMule BB REST API
-  version: 1.0.0-pre
-  summary: Canonical pre-release contract for the embedded eMule BB REST API.
+  version: 0.7.3
+  summary: Canonical beta 0.7.3 contract for the embedded eMule BB REST API.
   description: >
     This is the source-of-truth contract for the redesigned `/api/v1` API.
     The API is served by the existing eMule WebServer listener, uses
     `X-API-Key` authentication only, and is designed for aMuTorrent and other
-    trusted local controllers. eMule BB and aMuTorrent are both pre-release, so
-    this contract may intentionally replace earlier command-style routes before
-    public release.
+    trusted local controllers. eMule BB beta 0.7.3 is the first public beta
+    line for this contract; adapter compatibility must not weaken the native
+    route shape.
 servers:
   - url: http://{host}:{port}/api/v1
     variables:
@@ -878,7 +878,7 @@ paths:
       summary: Return search status and results.
       description: >
         Returns the current native visible result snapshot for this search.
-        Release 1.0 intentionally does not accept `limit` or `offset` on this
+        Beta 0.7.3 intentionally does not accept `limit` or `offset` on this
         route; unknown query parameters are rejected by the native route table.
         Controllers should poll this route and treat `results` as a bounded
         native snapshot governed by eMule's existing search-result retention
@@ -2254,7 +2254,7 @@ components:
           type: array
           description: >
             Current native visible result snapshot. This array is not paged in
-            Release 1.0; controllers should poll the search resource and
+            beta 0.7.3; controllers should poll the search resource and
             preserve eMule's stock eD2K/Kad search semantics.
           items:
             $ref: "#/components/schemas/SearchResult"
