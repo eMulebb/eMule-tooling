@@ -5,6 +5,8 @@ This is the active operator checklist for beta target
 
 Current status: the previous `1.0.0` and `1.0.1` evidence passes are superseded.
 The beta 0.7.3 checklist must be refreshed on current `main` before tagging or publishing assets.
+Tagging is explicitly held: do not create or push `emule-bb-v0.7.3` until the
+operator gives a separate tagging instruction.
 
 ## Gate Revalidation
 
@@ -57,8 +59,8 @@ The beta 0.7.3 checklist must be refreshed on current `main` before tagging or p
 - [ ] confirm no active workspace repo has unrelated uncommitted changes
 - [x] create beta release packages
       - `workspaces\v0.72a\state\release\emule-bb-v0.7.3\eMule-broadband-0.7.3-x64.zip`
-        SHA-256 `fac8762ffe970c739f8b55d9513a610e3e6cef5cd3d1e8be7d3be43211089b5c`
+        SHA-256 `deec659b720f89eed38c22ab7defb6bafb9dc3dee38c691c54dbd85b9e1d4206`
       - `workspaces\v0.72a\state\release\emule-bb-v0.7.3\eMule-broadband-0.7.3-arm64.zip`
-        SHA-256 `d30d7085ecb2ce75342c09e498e95697400089a0ee151133296c839c4911684c`
+        SHA-256 `45d1f24eb996879322978f02f9ccebae15bee20b30b5fcf8a7be437eee06697b`
 - [ ] create the annotated beta tag only after package verification
       `emule-bb-v0.7.3` on the selected release commit.

@@ -85,13 +85,14 @@ temporary `1.1.1` rehearsal asset.
 Current 0.7.3 package rehearsal evidence is recorded in [CI-031](items/CI-031.md):
 
 - `eMule-broadband-0.7.3-x64.zip`:
-  `fac8762ffe970c739f8b55d9513a610e3e6cef5cd3d1e8be7d3be43211089b5c`
+  `deec659b720f89eed38c22ab7defb6bafb9dc3dee38c691c54dbd85b9e1d4206`
 - `eMule-broadband-0.7.3-arm64.zip`:
-  `d30d7085ecb2ce75342c09e498e95697400089a0ee151133296c839c4911684c`
+  `45d1f24eb996879322978f02f9ccebae15bee20b30b5fcf8a7be437eee06697b`
 
 The package rehearsal passed on app commit `74e5c76`, build commit `0ead21a`,
-and tooling commit `d93b06b`. Final beta tagging still requires the remaining
-minimum beta proof listed below.
+and tooling commit `2d904c3`. Do not create or push the `emule-bb-v0.7.3` tag
+yet; tagging is explicitly held until the remaining minimum beta proof below is
+complete and the operator gives a separate tagging instruction.
 
 ## Candidate Decisions
 
