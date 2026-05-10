@@ -53,11 +53,11 @@ This file is not policy, not backlog authority, and not a substitute for
 
 Recent completed validation from this session:
 
-- `repos\eMule-build\workspace.ps1 validate` passed after final commits.
-- `repos\eMule-build\workspace.ps1 build-tests -Config Debug -Platform x64`
+- `python -m emule_workspace validate` passed after final commits.
+- `python -m emule_workspace build tests --config Debug --platform x64`
   passed.
-- `repos\eMule-build\workspace.ps1 test -Config Debug -Platform x64
-  -TestRunVariant main -BaselineVariant community` passed:
+- `python -m emule_workspace test all --config Debug --platform x64
+  --test-run-variant main --baseline-variant community` passed:
   - native parity: `475 passed`, `72 skipped`
   - live-diff completed with existing warning-style case-set mismatch messages
     and exit code `0`
@@ -71,12 +71,12 @@ Recent completed validation from this session:
 
 - Read `repos\eMule-tooling\docs\WORKSPACE_POLICY.md` before the next
   workspace task.
-- Use `repos\eMule-build\workspace.ps1` for build, validation, test, and live
+- Use `python -m emule_workspace` for build, validation, test, and live
   commands.
 - Do not run direct MSBuild from app worktrees or test repos.
 - Before rebuilding the app, close the running Debug `emule.exe` process that
   is locking the output binary, then rerun:
-  `repos\eMule-build\workspace.ps1 build-app -Config Debug -Platform x64
-  -AppVariant main`.
+  `python -m emule_workspace build app --config Debug --platform x64
+  --variant main`.
 - Good next implementation focus: continue release stabilization around REST
   completeness, live E2E/UI coverage, and broadband release hardening.

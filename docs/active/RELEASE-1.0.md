@@ -153,11 +153,11 @@ release-readiness review promotes a concrete blocker:
 
 Before tagging `emule-bb-v1.0.0`, run the supported workspace commands:
 
-- `pwsh -File repos\eMule-build\workspace.ps1 validate`
-- `pwsh -File repos\eMule-build\workspace.ps1 build-app -Config Debug -Platform x64`
-- `pwsh -File repos\eMule-build\workspace.ps1 build-app -Config Release -Platform x64`
-- `pwsh -File repos\eMule-build\workspace.ps1 build-tests -Config Debug -Platform x64`
-- `pwsh -File repos\eMule-build\workspace.ps1 build-tests -Config Release -Platform x64`
+- `python -m emule_workspace validate`
+- `python -m emule_workspace build app --config Debug --platform x64`
+- `python -m emule_workspace build app --config Release --platform x64`
+- `python -m emule_workspace build tests --config Debug --platform x64`
+- `python -m emule_workspace build tests --config Release --platform x64`
 - native parity tests through the supported `test` command
 - Release x64 `live-e2e`, including aMuTorrent, Prowlarr, Radarr, and Sonarr
 

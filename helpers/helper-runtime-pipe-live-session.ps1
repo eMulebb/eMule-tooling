@@ -2190,7 +2190,7 @@ $repoRoot = if ([string]::IsNullOrWhiteSpace($AppRoot)) {
 }
 $testsRoot = Get-NormalizedPath -Path (Join-Path $emuleWorkspaceRoot 'repos\eMule-build-tests')
 $remoteRoot = Get-NormalizedPath -Path (Join-Path $emuleWorkspaceRoot 'repos\eMule-remote')
-$buildScriptPath = Join-Path $emuleWorkspaceRoot 'repos\eMule-build\workspace.ps1'
+$buildRepoPath = Join-Path $emuleWorkspaceRoot 'repos\eMule-build'
 $buildExePath = Join-Path $repoRoot 'srchybrid\x64\Debug\emule.exe'
 $launchedExePath = Join-Path $repoRoot 'srchybrid\x64\Debug\eMule_v072_harness.exe'
 $launchedProcessName = [System.IO.Path]::GetFileNameWithoutExtension($launchedExePath)
@@ -2238,11 +2238,16 @@ if ($null -eq $bindInterface) {
 }
 
 if (-not $SkipBuild) {
-    if (-not (Test-Path -LiteralPath $buildScriptPath -PathType Leaf)) {
-        throw "Build helper '$buildScriptPath' does not exist."
+    if (-not (Test-Path -LiteralPath $buildRepoPath -PathType Container)) {
+        throw "Build helper repo '$buildRepoPath' does not exist."
     }
 
-    & $buildScriptPath build-app -EmuleWorkspaceRoot $emuleWorkspaceRoot -Config Debug -Platform x64
+    Push-Location $buildRepoPath
+    try {
+        & python -m emule_workspace build app --workspace-root $emuleWorkspaceRoot --config Debug --platform x64 --variant main
+    } finally {
+        Pop-Location
+    }
     if ($LASTEXITCODE -ne 0) {
         throw "Build failed with exit code $LASTEXITCODE."
     }

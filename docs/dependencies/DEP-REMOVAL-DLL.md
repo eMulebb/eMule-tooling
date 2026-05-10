@@ -275,7 +275,7 @@ Six static libraries combined via `lib.exe /OUT:` into one aggregate `mbedtls.li
 | `p256m.lib` | `tf-psa-crypto\drivers\p256-m\` | P-256 curve driver |
 
 - Build: CMake → VS2017-named dirs; `templates\mbedtls\mbedTLS.vcxproj` drives all 6
-- Special: `workspace.ps1` post-processes all 6 generated `.vcxproj` files to force `/MT`/`/MTd`
+- Special: `python -m emule_workspace` post-processes all 6 generated `.vcxproj` files to force `/MT`/`/MTd`
 - Special: `threading_alt.h` patch enables `MBEDTLS_THREADING_C` + `MBEDTLS_THREADING_ALT`
   using Windows `CRITICAL_SECTION` for thread safety
 - eMule preprocessor: `MBEDTLS_ALLOW_PRIVATE_ACCESS` (accesses `private/sha1.h` internals)
@@ -290,7 +290,7 @@ MbedTLS CMake supports `USE_SHARED_MBEDTLS_LIBRARY=ON` for DLL builds. However:
 ### What DLL linking would require
 
 1. CMake: `USE_SHARED_MBEDTLS_LIBRARY=ON`, `USE_STATIC_MBEDTLS_LIBRARY=OFF`
-2. Remove `/MT` post-processing in `workspace.ps1` for MbedTLS (DLLs must use `/MD`)
+2. Remove `/MT` post-processing in `python -m emule_workspace` for MbedTLS (DLLs must use `/MD`)
 3. Rewrite the `lib.exe` aggregate PostBuildEvent — no longer valid for DLL output
 4. Replace with copy of 6 (or more) DLLs to output directory
 5. Remove `MBEDTLS_ALLOW_PRIVATE_ACCESS` from eMule — **this accesses struct internals that

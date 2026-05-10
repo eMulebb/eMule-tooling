@@ -2,7 +2,7 @@
 
 > Exploratory only. This is not an active implementation plan, not Release 1
 > scope, and not current branch direction. The supported build entrypoint
-> remains `repos\eMule-build\workspace.ps1` unless a future `docs/active/`
+> remains `python -m emule_workspace` unless a future `docs/active/`
 > item explicitly promotes a narrow build-system slice.
 > Archived sections below preserve migration wording from the original note;
 > read them as option analysis, not scheduled work.
@@ -1545,7 +1545,7 @@ Also delete or archive the old build `.cmd` scripts and PowerShell workspace fil
 23-build-emule-debug-incremental.cmd
 24-build-emule-release-incremental-run-and-package.cmd
 25-build-emule-debug-incremental-and-run.cmd
-workspace.ps1
+python -m emule_workspace
 deps.psd1
 scripts/   (all MSBuild/PS helper scripts)
 helpers/   (review — some may be packaging helpers worth keeping)

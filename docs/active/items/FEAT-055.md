@@ -18,7 +18,7 @@ release blocker unless a listed improvement is promoted into a bug or CI gate.
 
 ## Candidate Improvements
 
-- one-command R-1.0.1 proof orchestration through `workspace.ps1`
+- one-command R-1.0.1 proof orchestration through `python -m emule_workspace`
 - automated changed-surface grouping for future release audits
 - controller compatibility matrix for native REST, qBit, Torznab, Arr, and
   aMuTorrent consumers
@@ -32,7 +32,7 @@ release blocker unless a listed improvement is promoted into a bug or CI gate.
 
 | Improvement | Classification | R-1.0.1 decision | Follow-up |
 |-------------|----------------|------------------|-----------|
-| one-command R-1.0.1 proof orchestration through `workspace.ps1` | next-patch | non-blocking; current gates have explicit command evidence | [FEAT-056](FEAT-056.md) |
+| one-command R-1.0.1 proof orchestration through `python -m emule_workspace` | next-patch | non-blocking; current gates have explicit command evidence | [FEAT-056](FEAT-056.md) |
 | automated changed-surface grouping for future release audits | future | non-blocking; CI-022 ledger is complete for R-1.0.1 | [FEAT-056](FEAT-056.md) |
 | controller compatibility matrix for native REST, qBit, Torznab, Arr, and aMuTorrent consumers | next-patch | non-blocking; CI-024 and CI-025 carry current release proof | [FEAT-056](FEAT-056.md) |
 | compact operator summary for live E2E artifacts | next-patch | non-blocking; current artifacts are detailed enough for release decisions | [FEAT-056](FEAT-056.md) |
@@ -63,7 +63,7 @@ CI-022 through CI-032, REF-037, and this triage pass.
 - Validation:
   - CI-022 through CI-032 are closed.
   - REF-037 is closed.
-  - `workspace.ps1 validate` passed after the active release docs update.
+  - `python -m emule_workspace validate` passed after the active release docs update.
 
 ## Validation
 

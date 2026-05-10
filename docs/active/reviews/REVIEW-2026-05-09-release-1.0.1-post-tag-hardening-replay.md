@@ -19,11 +19,11 @@ with targeted probes.
 ## Replay Evidence
 
 - `git log --oneline emule-bb-v1.0.0..main`
-- `pwsh -NoLogo -NoProfile -File repos\eMule-build\workspace.ps1 build-tests -Config Release -Platform x64`
+- `python -m emule_workspace build tests --config Release --platform x64`
   - passed with 0 warnings
   - build log directory:
     `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\state\build-logs\20260509-140241`
-- `pwsh -NoLogo -NoProfile -File repos\eMule-build\workspace.ps1 test -Config Release -Platform x64`
+- `python -m emule_workspace test all --config Release --platform x64`
   - `494` parity test cases passed
   - `71` web API test cases passed
   - native coverage directory:

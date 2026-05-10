@@ -184,8 +184,8 @@ Latest native route/OpenAPI drift proof:
 
 Latest live REST completeness proof:
 
-- `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release
-  -Platform x64 -LiveSuite rest-api`
+- `python -m emule_workspace test live-e2e --config Release
+  --platform x64 --suite rest-api`
 - Artifact:
   `repos\eMule-build-tests\reports\rest-api-smoke\20260509-080825-eMule-main-release`
 - Result: passed with `BindInterface=hide.me`, UPnP enabled, and contract
@@ -247,8 +247,8 @@ Latest destructive native operation audit:
 
 Latest Radarr/Sonarr video-category proof:
 
-- `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release
-  -Platform x64 -LiveSuite radarr-sonarr-emulebb`
+- `python -m emule_workspace test live-e2e --config Release
+  --platform x64 --suite radarr-sonarr-emulebb`
 - Artifact:
   `repos\eMule-build-tests\reports\radarr-sonarr-emulebb-live\20260509-074817-eMule-main-release`
 - The suite searched video-family Torznab categories for the Arr proof:
@@ -263,8 +263,8 @@ Latest Radarr/Sonarr video-category proof:
 
 Latest Prowlarr video-category proof:
 
-- `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release
-  -Platform x64 -LiveSuite prowlarr-emulebb`
+- `python -m emule_workspace test live-e2e --config Release
+  --platform x64 --suite prowlarr-emulebb`
 - Artifact:
   `repos\eMule-build-tests\reports\prowlarr-emulebb-live\20260509-080508-eMule-main-release`
 - The suite searched explicit Torznab categories: document category `7000`,
@@ -307,8 +307,8 @@ Latest adapter error-shape proof:
 
 Latest aMuTorrent browser proof:
 
-- `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release
-  -Platform x64 -LiveSuite amutorrent-browser-smoke`
+- `python -m emule_workspace test live-e2e --config Release
+  --platform x64 --suite amutorrent-browser-smoke`
 - Artifact:
   `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260509-081711-eMule-main-release`
 - `python -m pytest tests\python -k "amutorrent or browser_smoke or

@@ -50,8 +50,8 @@ or explicitly frozen by product decision.
 - App build:
 
   ```powershell
-  pwsh -NoLogo -NoProfile -File repos\eMule-build\workspace.ps1 build-app -Config Release -Platform x64
-  pwsh -NoLogo -NoProfile -File repos\eMule-build\workspace.ps1 build-app -Config Release -Platform ARM64
+  python -m emule_workspace build app --config Release --platform x64
+  python -m emule_workspace build app --config Release --platform ARM64
   ```
 
   Results: x64 passed in
@@ -61,8 +61,8 @@ or explicitly frozen by product decision.
 - Package rehearsal after app commit `11e5966`:
 
   ```powershell
-  pwsh -NoLogo -NoProfile -File repos\eMule-build\workspace.ps1 package-release -Config Release -Platform x64
-  pwsh -NoLogo -NoProfile -File repos\eMule-build\workspace.ps1 package-release -Config Release -Platform ARM64
+  python -m emule_workspace package-release --config Release --platform x64
+  python -m emule_workspace package-release --config Release --platform ARM64
   ```
 
   Results:

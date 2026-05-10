@@ -76,7 +76,7 @@ Improvements are tracked separately from release blockers in
 [FEAT-055](../items/FEAT-055.md). The first pass should rank:
 
 - operator-facing release evidence summaries for live artifacts
-- one-command R-1.0.1 proof orchestration through `workspace.ps1`
+- one-command R-1.0.1 proof orchestration through `python -m emule_workspace`
 - automated changed-surface grouping for future releases
 - lightweight UI smoke probes for representative language/resource loads
 - clearer controller compatibility matrix for native REST, qBit, Torznab, Arr,

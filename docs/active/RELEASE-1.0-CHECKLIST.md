@@ -23,19 +23,19 @@ public release is `emule-bb-v1.1.1`.
 
 ## Required Commands
 
-- [x] `pwsh -File repos\eMule-build\workspace.ps1 validate`
-- [x] `pwsh -File repos\eMule-build\workspace.ps1 build-app -Config Debug -Platform x64`
+- [x] `python -m emule_workspace validate`
+- [x] `python -m emule_workspace build app --config Debug --platform x64`
       passed; build logs `workspaces\v0.72a\state\build-logs\20260509-082028`.
-- [x] `pwsh -File repos\eMule-build\workspace.ps1 build-app -Config Release -Platform x64`
+- [x] `python -m emule_workspace build app --config Release --platform x64`
       passed; build logs `workspaces\v0.72a\state\build-logs\20260509-082040`.
-- [x] `pwsh -File repos\eMule-build\workspace.ps1 build-tests -Config Debug -Platform x64`
+- [x] `python -m emule_workspace build tests --config Debug --platform x64`
       passed; build logs `workspaces\v0.72a\state\build-logs\20260509-082045`.
-- [x] `pwsh -File repos\eMule-build\workspace.ps1 build-tests -Config Release -Platform x64`
+- [x] `python -m emule_workspace build tests --config Release --platform x64`
       passed; build logs `workspaces\v0.72a\state\build-logs\20260509-082051`.
-- [x] `pwsh -File repos\eMule-build\workspace.ps1 test -Config Debug -Platform x64`
+- [x] `python -m emule_workspace test all --config Debug --platform x64`
       passed; native coverage
       `repos\eMule-build-tests\reports\native-coverage\20260509-082054-eMulebb-workspace-v0.72a-eMule-main-x64-Debug`.
-- [x] `pwsh -File repos\eMule-build\workspace.ps1 test -Config Release -Platform x64`
+- [x] `python -m emule_workspace test all --config Release --platform x64`
       passed; native coverage
       `repos\eMule-build-tests\reports\native-coverage\20260509-082112-eMulebb-workspace-v0.72a-eMule-main-x64-Release`.
 - [x] full Release x64 `live-e2e` passed; artifact
@@ -43,7 +43,7 @@ public release is `emule-bb-v1.1.1`.
       `auto-browse-live` was accepted as inconclusive because the live networks
       connected but no safe downloadable browse-capable sourced transfer was
       available.
-- [x] `pwsh -File repos\eMule-tooling\ci\check-clean-worktree.ps1 -EmuleWorkspaceRoot .`
+- [x] `pwsh -File repos\eMule-tooling\ci\check-clean-worktree.ps1 --workspace-root .`
       passed on 2026-05-09 after the fresh proof evidence commit.
 
 ## Release Identity

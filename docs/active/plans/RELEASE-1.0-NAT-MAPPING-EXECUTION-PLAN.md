@@ -37,9 +37,9 @@ current runtime behavior.
 Required local proof:
 
 ```powershell
-pwsh -File repos\eMule-build\workspace.ps1 validate
-pwsh -File repos\eMule-build\workspace.ps1 build-app -Config Debug -Platform x64
-pwsh -File repos\eMule-build\workspace.ps1 build-app -Config Release -Platform x64
+python -m emule_workspace validate
+python -m emule_workspace build app --config Debug --platform x64
+python -m emule_workspace build app --config Release --platform x64
 ```
 
 Required targeted proof:

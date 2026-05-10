@@ -56,14 +56,14 @@ the browser `segmentData` WebSocket subscription.
   builds.
 - 2026-05-08: Verification passed:
   `npm run test:emulebb` in `repos/amutorrent`;
-  `pwsh -File repos/eMule-build/workspace.ps1 build-app -Config Debug -Platform x64`;
-  `pwsh -File repos/eMule-build/workspace.ps1 build-app -Config Release -Platform x64`;
-  `pwsh -File repos/eMule-build/workspace.ps1 build-tests -Config Debug -Platform x64 -TestRunVariant main -Clean`;
-  `pwsh -File repos/eMule-build/workspace.ps1 build-tests -Config Release -Platform x64 -TestRunVariant main -Clean`;
-  `pwsh -File repos/eMule-build/workspace.ps1 test -Config Debug -Platform x64`;
-  `pwsh -File repos/eMule-build/workspace.ps1 test -Config Release -Platform x64`;
+  `python -m emule_workspace build app --config Debug --platform x64`;
+  `python -m emule_workspace build app --config Release --platform x64`;
+  `python -m emule_workspace build tests --config Debug --platform x64 --test-run-variant main --clean`;
+  `python -m emule_workspace build tests --config Release --platform x64 --test-run-variant main --clean`;
+  `python -m emule_workspace test all --config Debug --platform x64`;
+  `python -m emule_workspace test all --config Release --platform x64`;
   and targeted live proof
-  `pwsh -File repos/eMule-build/workspace.ps1 live-e2e -Config Release -Platform x64 -LiveSuite amutorrent-browser-smoke`.
+  `python -m emule_workspace test live-e2e --config Release --platform x64 --suite amutorrent-browser-smoke`.
   Latest live artifact:
   `repos/eMule-build-tests/reports/amutorrent-browser-smoke-latest/result.json`.
 - 2026-05-09: Fresh Release x64 browser smoke after REST/Arr revalidation

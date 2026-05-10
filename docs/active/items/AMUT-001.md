@@ -40,7 +40,7 @@ Covered by the [Release 1.0 REST and Arr execution plan](../plans/RELEASE-1.0-RE
 
 - tests: `affc4d6`, `11365ca`
 - command: `python -m pytest tests\python\test_amutorrent_browser_smoke.py tests\python\test_live_e2e_suite.py -q`
-- command: `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release -Platform x64 -LiveSuite amutorrent-browser-smoke`
+- command: `python -m emule_workspace test live-e2e --config Release --platform x64 --suite amutorrent-browser-smoke`
 - artifact: `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260506-193606-eMule-main-release\result.json`
 - aggregate: `repos\eMule-build-tests\reports\live-e2e-suite\20260506-193606-eMule-main-release\result.json`
 - Follow-up debug live proof:

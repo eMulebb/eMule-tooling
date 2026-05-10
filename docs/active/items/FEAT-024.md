@@ -170,6 +170,6 @@ Matching tests branch:
 
 Owned validation passed:
 
-- `workspace.ps1 build-app`
-- `workspace.ps1 build-tests`
-- `workspace.ps1 test`
+- `python -m emule_workspace build app`
+- `python -m emule_workspace build tests`
+- `python -m emule_workspace test all`

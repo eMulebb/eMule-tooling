@@ -14,7 +14,7 @@ Start from the workspace root and keep all build/test operations behind the
 supported workspace entrypoint.
 
 ```powershell
-pwsh -File repos\eMule-build\workspace.ps1 validate
+python -m emule_workspace validate
 git -C repos\eMule-tooling status --short --branch
 git -C repos\eMule-build status --short --branch
 git -C repos\eMule-build-tests status --short --branch
@@ -29,12 +29,12 @@ or if `validate` fails.
 Run the release build and test baseline before live-network validation.
 
 ```powershell
-pwsh -File repos\eMule-build\workspace.ps1 build-app -Config Debug -Platform x64
-pwsh -File repos\eMule-build\workspace.ps1 build-app -Config Release -Platform x64
-pwsh -File repos\eMule-build\workspace.ps1 build-tests -Config Debug -Platform x64
-pwsh -File repos\eMule-build\workspace.ps1 build-tests -Config Release -Platform x64
-pwsh -File repos\eMule-build\workspace.ps1 test -Config Debug -Platform x64
-pwsh -File repos\eMule-build\workspace.ps1 test -Config Release -Platform x64
+python -m emule_workspace build app --config Debug --platform x64
+python -m emule_workspace build app --config Release --platform x64
+python -m emule_workspace build tests --config Debug --platform x64
+python -m emule_workspace build tests --config Release --platform x64
+python -m emule_workspace test all --config Debug --platform x64
+python -m emule_workspace test all --config Release --platform x64
 ```
 
 Record the command output summary and any report paths in the checklist rows
@@ -45,7 +45,7 @@ for the gates being closed.
 Run the full maintained Release x64 live lane:
 
 ```powershell
-pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release -Platform x64
+python -m emule_workspace test live-e2e --config Release --platform x64
 ```
 
 The default aggregate run must include:
@@ -79,10 +79,10 @@ Use focused runs only to diagnose or close a specific gate. They do not replace
 the final full live E2E run.
 
 ```powershell
-pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release -Platform x64 -LiveSuite rest-api
-pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release -Platform x64 -LiveSuite rest-api -RestStressBudget soak
-pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release -Platform x64 -LiveSuite amutorrent-browser-smoke
-pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release -Platform x64 -LiveSuite prowlarr-emulebb -LiveSuite radarr-sonarr-emulebb
+python -m emule_workspace test live-e2e --config Release --platform x64 --suite rest-api
+python -m emule_workspace test live-e2e --config Release --platform x64 --suite rest-api --rest-stress-budget soak
+python -m emule_workspace test live-e2e --config Release --platform x64 --suite amutorrent-browser-smoke
+python -m emule_workspace test live-e2e --config Release --platform x64 --suite prowlarr-emulebb --suite radarr-sonarr-emulebb
 ```
 
 Use `-SkipLiveSeedRefresh`, `-RestDownloadTriggerCount 0`, or `-LiveFailFast`
@@ -116,8 +116,8 @@ eMule-broadband-1.0.0-arm64.zip
 The supported packaging command is:
 
 ```powershell
-pwsh -File repos\eMule-build\workspace.ps1 package-release -Config Release -Platform x64 -ReleaseVersion 1.0.0
-pwsh -File repos\eMule-build\workspace.ps1 package-release -Config Release -Platform ARM64 -ReleaseVersion 1.0.0
+python -m emule_workspace package-release --config Release --platform x64 --release-version 1.0.0
+python -m emule_workspace package-release --config Release --platform ARM64 --release-version 1.0.0
 ```
 
 Package manifests are written next to the ZIP assets under:

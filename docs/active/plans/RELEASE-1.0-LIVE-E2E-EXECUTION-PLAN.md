@@ -62,8 +62,8 @@ The final aggregate run must include:
 Before Release 1 tagging, run:
 
 ```powershell
-pwsh -File repos\eMule-build\workspace.ps1 validate
-pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release -Platform x64
+python -m emule_workspace validate
+python -m emule_workspace test live-e2e --config Release --platform x64
 ```
 
 Record the aggregate result path and any accepted inconclusive external
@@ -72,8 +72,8 @@ condition in [CI-011](../items/CI-011.md) and
 
 ## Latest Revalidation
 
-- `pwsh -File repos\eMule-build\workspace.ps1 live-e2e -Config Release
-  -Platform x64`
+- `python -m emule_workspace test live-e2e --config Release
+  --platform x64`
 - Artifact:
   `repos\eMule-build-tests\reports\live-e2e-suite\20260509-093500-eMule-main-release\result.json`
 - Aggregate status: `passed`; `has_inconclusive_suites=true`.

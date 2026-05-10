@@ -48,9 +48,9 @@ literal arguments because no shell is used.
 Before reusing the Release 1 evidence after related code changes, run:
 
 ```powershell
-pwsh -File repos\eMule-build\workspace.ps1 validate
-pwsh -File repos\eMule-build\workspace.ps1 build-tests -Config Debug -Platform x64
-pwsh -File repos\eMule-build\workspace.ps1 test -Config Debug -Platform x64
+python -m emule_workspace validate
+python -m emule_workspace build tests --config Debug --platform x64
+python -m emule_workspace test all --config Debug --platform x64
 ```
 
 The native tests must continue to cover token expansion, disabled preference

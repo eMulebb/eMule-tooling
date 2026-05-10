@@ -46,8 +46,7 @@ Directive precedence is:
 - Interactive build, validation, and test commands must go through the
   supported `repos\eMule-build` orchestration entrypoints.
 - Use `python -m emule_workspace` for workspace build, validation, test,
-  live-test, and packaging orchestration. `workspace.ps1` is a compatibility
-  shim only and must not own orchestration logic.
+  live-test, and packaging orchestration.
 - `repos\eMule-build` orchestration owns a single workspace lock. Never start
   multiple build, validation, test, or live-test invocations in parallel; run
   them strictly sequentially.
@@ -338,8 +337,7 @@ The canonical workspace currently materializes these app worktrees:
 - Interactive build, validation, and test work must use the supported
   `repos\eMule-build` orchestration entrypoints. The Python
   `emule_workspace` CLI is authoritative for build, validation, test,
-  live-test, and packaging orchestration; `workspace.ps1` is a compatibility
-  shim only.
+  live-test, and packaging orchestration.
 - Direct ad hoc `MSBuild` commands from an app worktree, `srchybrid`, or
   `repos\eMule-build-tests` are prohibited. Direct `MSBuild` invocation is
   allowed only inside owned orchestration implementation that is itself called

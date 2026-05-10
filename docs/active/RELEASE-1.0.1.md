@@ -91,7 +91,7 @@ published package release is `emule-bb-v1.1.1`.
 ## Validation Rules
 
 All build, test, and live validation commands must go through
-`EMULE_WORKSPACE_ROOT\repos\eMule-build\workspace.ps1`.
+`python -m emule_workspace`.
 
 Minimum internal proof before tagging:
 
