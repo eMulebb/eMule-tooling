@@ -285,11 +285,6 @@ Assert-ClCompileValue $cryptoppXml 'cryptlib.vcxproj' $cryptoppReleaseCondition 
 Assert-ClCompileValue $cryptoppXml 'cryptlib.vcxproj' $cryptoppReleaseCondition 'FunctionLevelLinking' 'true'
 Assert-ClCompileValue $cryptoppXml 'cryptlib.vcxproj' $cryptoppReleaseCondition 'IntrinsicFunctions' 'true'
 
-$workspaceScriptPath = Resolve-WorkspacePath 'repos\eMule-build\workspace.ps1'
-Assert-TextContains $workspaceScriptPath 'workspace.ps1' '-DCMAKE_POLICY_DEFAULT_CMP0091=NEW'
-Assert-TextContains $workspaceScriptPath 'workspace.ps1' '-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded$<$<CONFIG:Debug>:Debug>'
-Assert-TextContains $workspaceScriptPath 'workspace.ps1' "-ConfigureArguments (Get-StaticMsvcRuntimeCMakeArguments)"
-
 $workspaceCmakeModulePath = Resolve-WorkspacePath 'repos\eMule-build\emule_workspace\cmake.py'
 Assert-TextContains $workspaceCmakeModulePath 'emule_workspace\cmake.py' '-DCMAKE_POLICY_DEFAULT_CMP0091=NEW'
 Assert-TextContains $workspaceCmakeModulePath 'emule_workspace\cmake.py' '-DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded$<$<CONFIG:Debug>:Debug>'

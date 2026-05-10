@@ -45,9 +45,9 @@ Directive precedence is:
   canonical `repos\eMule` branch-store checkout for normal app work.
 - Interactive build, validation, and test commands must go through the
   supported `repos\eMule-build` orchestration entrypoints.
-- Prefer `python -m emule_workspace` for commands already ported to the
-  Python-first orchestration layer. `workspace.ps1` remains a legacy entrypoint
-  only for commands not yet ported.
+- Use `python -m emule_workspace` for workspace build, validation, test,
+  live-test, and packaging orchestration. `workspace.ps1` is a compatibility
+  shim only and must not own orchestration logic.
 - `repos\eMule-build` orchestration owns a single workspace lock. Never start
   multiple build, validation, test, or live-test invocations in parallel; run
   them strictly sequentially.
@@ -336,9 +336,10 @@ The canonical workspace currently materializes these app worktrees:
   environment; dependency materialization and third-party build inputs are part
   of the `eMulebb-setup` plus `eMule-build` contract.
 - Interactive build, validation, and test work must use the supported
-  `repos\eMule-build` orchestration entrypoints. The Python-first
-  `emule_workspace` CLI is authoritative for commands it has already ported;
-  `workspace.ps1` is legacy-only until the remaining commands are migrated.
+  `repos\eMule-build` orchestration entrypoints. The Python
+  `emule_workspace` CLI is authoritative for build, validation, test,
+  live-test, and packaging orchestration; `workspace.ps1` is a compatibility
+  shim only.
 - Direct ad hoc `MSBuild` commands from an app worktree, `srchybrid`, or
   `repos\eMule-build-tests` are prohibited. Direct `MSBuild` invocation is
   allowed only inside owned orchestration implementation that is itself called

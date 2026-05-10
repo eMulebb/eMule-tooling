@@ -59,14 +59,17 @@ foreach ($variantRelativeRoot in @(
     Assert-PathMissing (Join-Path $appRoot 'srchybrid\emule.slnx')
 }
 
-$buildWorkspaceScript = Resolve-WorkspacePath 'repos\eMule-build\workspace.ps1'
-Assert-FileContains $buildWorkspaceScript 'srchybrid\\emule\.vcxproj' 'workspace.ps1 must build the app through srchybrid\emule.vcxproj.'
-Assert-FileNotContains $buildWorkspaceScript 'emule\.slnx?' 'workspace.ps1 must not rely on emule.sln or emule.slnx.'
-
 $buildPythonProject = Resolve-WorkspacePath 'repos\eMule-build\pyproject.toml'
 $buildPythonCli = Resolve-WorkspacePath 'repos\eMule-build\emule_workspace\cli.py'
+$buildPythonBuild = Resolve-WorkspacePath 'repos\eMule-build\emule_workspace\build.py'
+$buildWorkspaceScript = Resolve-WorkspacePath 'repos\eMule-build\workspace.ps1'
 Assert-FileContains $buildPythonProject 'emule-workspace' 'eMule-build must expose the Python-first emule_workspace orchestration package.'
 Assert-FileContains $buildPythonCli 'test python' 'emule_workspace CLI must include the migrated Python test command surface.'
+Assert-FileContains $buildPythonCli 'package-release' 'emule_workspace CLI must include the migrated release package command surface.'
+Assert-FileContains $buildPythonBuild 'srchybrid.*emule\.vcxproj' 'emule_workspace must build the app through srchybrid\emule.vcxproj.'
+Assert-FileNotContains $buildPythonBuild 'emule\.slnx?' 'emule_workspace must not rely on emule.sln or emule.slnx.'
+Assert-FileContains $buildWorkspaceScript 'python -m emule_workspace' 'workspace.ps1 must remain a compatibility shim for emule_workspace.'
+Assert-FileNotContains $buildWorkspaceScript 'Invoke-MSBuildProject' 'workspace.ps1 must not own build orchestration logic.'
 
 foreach ($activeDocPath in @(
     (Resolve-WorkspacePath 'repos\eMule-build\README.md'),

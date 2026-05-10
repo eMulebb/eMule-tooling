@@ -21,7 +21,7 @@ not fix a confirmed R-1.0.1 regression or missing advertised behavior.
 
 | Improvement | Classification | Target |
 |-------------|----------------|--------|
-| one-command R-1.0.1 proof orchestration through `workspace.ps1` | next-patch | add a single command that runs validate, required builds, native tests, live smoke suites when configured, package rehearsals, and final summary collection |
+| one-command R-1.0.1 proof orchestration through `python -m emule_workspace` | next-patch | add a single command that runs validate, required builds, native tests, live smoke suites when configured, package rehearsals, and final summary collection |
 | compact operator summary for live E2E artifacts | next-patch | emit a short JSON/Markdown summary with suite name, outcome, profile path, ports, app exit status, and inconclusive diagnostics |
 | packaging manifest diff report against the previous release asset | next-patch | compare file list, hashes, docs, language DLLs, unsupported artifacts, and app/build commits against the previous tagged package |
 | controller compatibility matrix for native REST, qBit, Torznab, Arr, and aMuTorrent consumers | next-patch | publish a maintained matrix tying controller workflows to API families and evidence artifacts |
@@ -31,7 +31,7 @@ not fix a confirmed R-1.0.1 regression or missing advertised behavior.
 
 ## Acceptance Criteria
 
-- [ ] `workspace.ps1` exposes a documented proof-orchestration command.
+- [ ] `python -m emule_workspace` exposes a documented proof-orchestration command.
 - [ ] Live E2E artifact summaries are generated in a stable machine-readable
       and operator-readable shape.
 - [ ] Release packages can be diffed against a previous release package and
@@ -46,6 +46,6 @@ not fix a confirmed R-1.0.1 regression or missing advertised behavior.
 ## Validation
 
 - Future implementation must run through
-  `EMULE_WORKSPACE_ROOT\repos\eMule-build\workspace.ps1`.
+  `python -m emule_workspace`.
 - Any implemented slice should update this item with command output, artifact
   paths, and commit IDs.
