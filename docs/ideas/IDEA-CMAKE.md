@@ -1546,7 +1546,7 @@ Also delete or archive the old build `.cmd` scripts and PowerShell workspace fil
 24-build-emule-release-incremental-run-and-package.cmd
 25-build-emule-debug-incremental-and-run.cmd
 python -m emule_workspace
-deps.psd1
+deps.json
 scripts/   (all MSBuild/PS helper scripts)
 helpers/   (review — some may be packaging helpers worth keeping)
 ```

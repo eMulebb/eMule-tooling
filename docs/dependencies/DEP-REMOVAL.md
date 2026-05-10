@@ -84,7 +84,7 @@ Mbed TLS was only used by the optional SMTP notifier and the embedded web server
 ### Removal outcome
 
 - `emule.exe` no longer links `mbedtls.lib`
-- `python -m emule_workspace` and `deps.psd1` no longer configure or build `eMule-mbedtls`
+- `python -m emule_workspace` and `deps.json` no longer configure or build `eMule-mbedtls`
 - `WebSocket.cpp`, `WebServer.cpp`, `PPgWebServer.cpp`, `SendMail.cpp`, and `TLSthreading.cpp` are gone
 - Core P2P behavior is unchanged because the dependency was never used by ED2K/Kad traffic
 

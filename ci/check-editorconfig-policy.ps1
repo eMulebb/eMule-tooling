@@ -1,9 +1,7 @@
 #Requires -Version 7.6
 [CmdletBinding()]
 param(
-    [string]$EmuleWorkspaceRoot,
-
-    [string]$SetupRepoRoot = ''
+    [string]$EmuleWorkspaceRoot
 )
 
 Set-StrictMode -Version Latest
@@ -21,15 +19,6 @@ if ([string]::IsNullOrWhiteSpace($EmuleWorkspaceRoot)) {
 $EmuleWorkspaceRoot = [System.IO.Path]::GetFullPath($EmuleWorkspaceRoot)
 $toolingRepoRoot = [System.IO.Path]::GetFullPath((Join-Path $EmuleWorkspaceRoot 'repos\eMule-tooling'))
 $normalizerPath = Join-Path $toolingRepoRoot 'helpers\source-normalizer.py'
-
-if ([string]::IsNullOrWhiteSpace($SetupRepoRoot)) {
-    $candidateSetupRoot = [System.IO.Path]::GetFullPath((Join-Path (Split-Path -Parent $EmuleWorkspaceRoot) 'eMulebb-setup'))
-    if (Test-Path -LiteralPath $candidateSetupRoot -PathType Container) {
-        $SetupRepoRoot = $candidateSetupRoot
-    }
-} else {
-    $SetupRepoRoot = [System.IO.Path]::GetFullPath($SetupRepoRoot)
-}
 
 function Resolve-WorkspacePath([string]$RelativePath) {
     [System.IO.Path]::GetFullPath((Join-Path $EmuleWorkspaceRoot $RelativePath))
@@ -124,7 +113,6 @@ if (-not (Test-Path -LiteralPath $normalizerPath -PathType Leaf)) {
 $pythonCommand = Get-PythonCommand
 $scopes = @(
     @{ Label = 'tooling'; RepoRoot = Resolve-WorkspacePath 'repos\eMule-tooling' }
-    @{ Label = 'setup'; RepoRoot = $SetupRepoRoot }
     @{ Label = 'build'; RepoRoot = Resolve-WorkspacePath 'repos\eMule-build' }
     @{ Label = 'tests'; RepoRoot = Resolve-WorkspacePath 'repos\eMule-build-tests' }
     @{ Label = 'app-main'; RepoRoot = Resolve-WorkspacePath 'workspaces\v0.72a\app\eMule-main' }
