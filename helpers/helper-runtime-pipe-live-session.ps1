@@ -2244,8 +2244,11 @@ if (-not $SkipBuild) {
 
     Push-Location $buildRepoPath
     try {
-        & python -m emule_workspace build app --workspace-root $emuleWorkspaceRoot --config Debug --platform x64 --variant main
+        $previousWorkspaceRoot = $env:EMULE_WORKSPACE_ROOT
+        $env:EMULE_WORKSPACE_ROOT = $emuleWorkspaceRoot
+        & python -m emule_workspace build app --config Debug --platform x64 --variant main
     } finally {
+        $env:EMULE_WORKSPACE_ROOT = $previousWorkspaceRoot
         Pop-Location
     }
     if ($LASTEXITCODE -ne 0) {
