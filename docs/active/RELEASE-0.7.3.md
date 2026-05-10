@@ -82,6 +82,17 @@ now superseded by the 0.7.3 beta release line. Do not create a public GitHub
 release or upload packages for `emule-bb-v1.0.0`, `emule-bb-v1.0.1`, or any
 temporary `1.1.1` rehearsal asset.
 
+Current 0.7.3 package rehearsal evidence is recorded in [CI-031](items/CI-031.md):
+
+- `eMule-broadband-0.7.3-x64.zip`:
+  `fac8762ffe970c739f8b55d9513a610e3e6cef5cd3d1e8be7d3be43211089b5c`
+- `eMule-broadband-0.7.3-arm64.zip`:
+  `d30d7085ecb2ce75342c09e498e95697400089a0ee151133296c839c4911684c`
+
+The package rehearsal passed on app commit `74e5c76`, build commit `0ead21a`,
+and tooling commit `d93b06b`. Final beta tagging still requires the remaining
+minimum beta proof listed below.
+
 ## Candidate Decisions
 
 | Candidate | Beta 0.7.3 decision rule |
