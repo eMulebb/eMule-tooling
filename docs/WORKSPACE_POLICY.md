@@ -423,8 +423,8 @@ The canonical workspace currently materializes these app worktrees:
   normalization drift.
 - `repos\eMule-tooling\hooks\pre-commit` is the shared workspace hook entrypoint
   for catching normalization drift before commit.
-- `repos\eMule-tooling\helpers\install-editorconfig-hook.ps1` configures a
-  repo-local `core.hooksPath` to that shared hook directory.
+- `python -m emule_workspace sync` configures repo-local `core.hooksPath` to
+  that shared hook directory.
 - Routine `validate` must fail when modified tracked files in workspace-owned
   repos or canonical app worktrees drift from their declared normalization
   policy.
