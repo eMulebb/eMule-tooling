@@ -358,6 +358,7 @@ The canonical workspace currently materializes these app worktrees:
   - branch policy
   - dependency pin policy
   - active documentation path policy
+  - PowerShell boundary policy
   - project entrypoint policy
   - warning policy
 - `check-clean-worktree.py` is an explicit cleanliness guard for CI or
@@ -432,15 +433,18 @@ The canonical workspace currently materializes these app worktrees:
 ## PowerShell Runtime Policy
 
 - Workspace-wide PowerShell policy is centralized in `repos\eMule-tooling`.
-- All tracked `*.ps1` scripts in workspace-owned repos must require `pwsh`
-  `7.6` with an explicit `#Requires -Version 7.6` header.
-- The only exception is `repos\eMule-tooling\scripts\`, where scripts must stay
-  compatible with Windows PowerShell `5.1` and must declare
+- `repos\eMule-tooling\scripts\` is the only directory in the active workspace
+  where tracked `*.ps1` files may remain.
+- PowerShell files in `repos\eMule-tooling\scripts\` are release-facing Windows
+  administration/operator scripts; they are intentionally allowed to stay
+  PowerShell and must stay compatible with Windows PowerShell `5.1`.
+- Allowed scripts in `repos\eMule-tooling\scripts\` must declare
   `#Requires -Version 5.1`.
-- New or updated PowerShell scripts must not rely on weaker or implicit runtime
-  assumptions.
-- Workspace hygiene checks must fail when a tracked PowerShell script declares
-  the wrong required version or omits the required `#Requires` header.
+- New tracked PowerShell files must not be added anywhere else in workspace-owned
+  repos or managed app worktrees.
+- Workspace hygiene checks must fail when tracked PowerShell appears outside
+  `repos\eMule-tooling\scripts\` or when an allowed script omits the required
+  `#Requires -Version 5.1` header.
 
 ## Active Build Policy
 

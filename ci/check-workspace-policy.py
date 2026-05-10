@@ -586,6 +586,44 @@ def audit_warning_policy(root: Path) -> None:
     print("Warning policy audit passed.")
 
 
+def tracked_powershell_paths(repo_root: Path) -> tuple[str, ...]:
+    """Returns tracked PowerShell script paths for one repo."""
+
+    return run_git(repo_root, ["ls-files", "*.ps1"]).lines
+
+
+def audit_powershell_boundary(root: Path) -> None:
+    """Checks that only the release-facing tooling scripts directory carries PowerShell."""
+
+    tooling_root = resolve_workspace_path(root, r"repos\eMule-tooling")
+    scan_roots = (
+        tooling_root,
+        resolve_workspace_path(root, r"repos\eMule-build"),
+        resolve_workspace_path(root, r"repos\eMule-build-tests"),
+        resolve_workspace_path(root, r"repos\eMule"),
+        resolve_workspace_path(root, r"workspaces\v0.72a\app\eMule-main"),
+        resolve_workspace_path(root, r"workspaces\v0.72a\app\eMule-v0.72a-community"),
+        resolve_workspace_path(root, r"workspaces\v0.72a\app\eMule-v0.72a-broadband"),
+        resolve_workspace_path(root, r"workspaces\v0.72a\app\eMule-v0.72a-tracing-harness-community"),
+    )
+    issues: list[str] = []
+    for repo_root in scan_roots:
+        if not repo_root.is_dir():
+            continue
+        for relative_path in tracked_powershell_paths(repo_root):
+            normalized = relative_path.replace("\\", "/")
+            if repo_root == tooling_root and normalized.startswith("scripts/"):
+                path = repo_root / relative_path
+                first_non_empty = next((line.strip() for line in read_text(path).splitlines() if line.strip()), "")
+                if first_non_empty != "#Requires -Version 5.1":
+                    issues.append(f"{path}: tooling scripts PowerShell must declare #Requires -Version 5.1.")
+                continue
+            issues.append(f"{repo_root}\\{relative_path}: tracked PowerShell is only allowed under repos\\eMule-tooling\\scripts.")
+    if issues:
+        raise RuntimeError("\n".join(issues))
+    print("PowerShell boundary audit passed.")
+
+
 def modified_tracked_paths(repo_root: Path) -> tuple[str, ...]:
     """Returns modified tracked paths for normalization checks."""
 
@@ -786,6 +824,7 @@ AUDITS = {
     "doc-paths": audit_doc_paths,
     "editorconfig-policy": audit_editorconfig_policy,
     "project-entrypoints": audit_project_entrypoints,
+    "powershell-boundary": audit_powershell_boundary,
     "warning-policy": audit_warning_policy,
 }
 
