@@ -120,30 +120,30 @@ function Resolve-WorkspaceAppRoot {
     )
 
     $workspaceRootPath = Get-NormalizedPath -Path $WorkspaceRoot
-    $manifestPath = Join-Path $workspaceRootPath 'deps.psd1'
+    $manifestPath = Join-Path $workspaceRootPath 'deps.json'
     if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) {
         throw "Workspace manifest '$manifestPath' does not exist."
     }
 
-    $manifest = Import-PowerShellDataFile -LiteralPath $manifestPath
+    $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
     $manifestCandidates = New-Object System.Collections.Generic.List[string]
 
-    $seedPath = $manifest.Workspace.AppRepo.SeedRepo.Path
+    $seedPath = $manifest.workspace.app_repo.seed_repo.path
     if (-not [string]::IsNullOrWhiteSpace($seedPath)) {
         $manifestCandidates.Add((Join-Path $workspaceRootPath $seedPath))
     }
 
     foreach ($preferredVariantName in $PreferredVariantNames) {
-        foreach ($variant in @($manifest.Workspace.AppRepo.Variants)) {
-            if ($variant.Name -eq $preferredVariantName -and -not [string]::IsNullOrWhiteSpace($variant.Path)) {
-                $manifestCandidates.Add((Join-Path $workspaceRootPath $variant.Path))
+        foreach ($variant in @($manifest.workspace.app_repo.variants)) {
+            if ($variant.name -eq $preferredVariantName -and -not [string]::IsNullOrWhiteSpace($variant.path)) {
+                $manifestCandidates.Add((Join-Path $workspaceRootPath $variant.path))
             }
         }
     }
 
-    foreach ($variant in @($manifest.Workspace.AppRepo.Variants)) {
-        if (-not [string]::IsNullOrWhiteSpace($variant.Path)) {
-            $manifestCandidates.Add((Join-Path $workspaceRootPath $variant.Path))
+    foreach ($variant in @($manifest.workspace.app_repo.variants)) {
+        if (-not [string]::IsNullOrWhiteSpace($variant.path)) {
+            $manifestCandidates.Add((Join-Path $workspaceRootPath $variant.path))
         }
     }
 

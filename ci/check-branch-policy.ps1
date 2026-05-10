@@ -62,27 +62,27 @@ function Assert-BranchAllowed([string]$RepoLabel, [string]$ExpectedBranch, [stri
     throw "$RepoLabel is on branch '$CurrentBranch', expected '$ExpectedBranch'."
 }
 
-$buildDepsPath = Resolve-WorkspacePath 'repos\eMule-build\deps.psd1'
+$buildDepsPath = Resolve-WorkspacePath 'repos\eMule-build\deps.json'
 if (-not (Test-Path -LiteralPath $buildDepsPath)) {
     throw "Missing build dependency manifest: $buildDepsPath"
 }
 
-$buildDeps = Import-PowerShellDataFile -LiteralPath $buildDepsPath
-$workspaceName = if ($buildDeps.ContainsKey('Workspace') -and $buildDeps.Workspace.ContainsKey('Name')) {
-    [string]$buildDeps.Workspace.Name
+$buildDeps = Get-Content -Raw -LiteralPath $buildDepsPath | ConvertFrom-Json
+$workspaceName = if ($null -ne $buildDeps.workspace -and -not [string]::IsNullOrWhiteSpace($buildDeps.workspace.name)) {
+    [string]$buildDeps.workspace.name
 } else {
     'v0.72a'
 }
 
 $workspaceRootPath = Resolve-WorkspacePath ("workspaces\{0}" -f $workspaceName)
-$workspaceManifestPath = Join-Path $workspaceRootPath 'deps.psd1'
+$workspaceManifestPath = Join-Path $workspaceRootPath 'deps.json'
 if (-not (Test-Path -LiteralPath $workspaceManifestPath)) {
     throw "Missing generated workspace manifest: $workspaceManifestPath"
 }
 
-$workspaceManifest = Import-PowerShellDataFile -LiteralPath $workspaceManifestPath
-if (-not ($workspaceManifest.ContainsKey('Workspace') -and $workspaceManifest.Workspace.ContainsKey('AppRepo'))) {
-    throw "Generated workspace manifest '$workspaceManifestPath' is missing Workspace.AppRepo."
+$workspaceManifest = Get-Content -Raw -LiteralPath $workspaceManifestPath | ConvertFrom-Json
+if ($null -eq $workspaceManifest.workspace -or $null -eq $workspaceManifest.workspace.app_repo) {
+    throw "Generated workspace manifest '$workspaceManifestPath' is missing workspace.app_repo."
 }
 
 $convertWorkspaceRelativePathToRootRelative = {
@@ -96,24 +96,26 @@ $convertWorkspaceRelativePathToRootRelative = {
     [System.IO.Path]::GetRelativePath($EmuleWorkspaceRoot, $absolutePath)
 }
 
-$appRepo = @{} + $workspaceManifest.Workspace.AppRepo
-$seedRepo = @{} + $appRepo.SeedRepo
-if ($seedRepo.ContainsKey('Path')) {
-    $seedRepo.Path = & $convertWorkspaceRelativePathToRootRelative $seedRepo.Path
+$appRepo = $workspaceManifest.workspace.app_repo
+$seedRepo = $appRepo.seed_repo
+if ($null -ne $seedRepo -and -not [string]::IsNullOrWhiteSpace($seedRepo.path)) {
+    $seedRepo.path = & $convertWorkspaceRelativePathToRootRelative $seedRepo.path
 }
-$appRepo.SeedRepo = $seedRepo
 
 $normalizedVariants = [System.Collections.Generic.List[hashtable]]::new()
-foreach ($variant in @($appRepo.Variants)) {
-    $normalizedVariant = @{} + $variant
-    if ($normalizedVariant.ContainsKey('Path')) {
-        $normalizedVariant.Path = & $convertWorkspaceRelativePathToRootRelative $normalizedVariant.Path
+foreach ($variant in @($appRepo.variants)) {
+    $normalizedVariant = @{
+        name = [string]$variant.name
+        path = [string]$variant.path
+        branch = [string]$variant.branch
+    }
+    if (-not [string]::IsNullOrWhiteSpace($normalizedVariant.path)) {
+        $normalizedVariant.path = & $convertWorkspaceRelativePathToRootRelative $normalizedVariant.path
     }
     $normalizedVariants.Add($normalizedVariant) | Out-Null
 }
-$appRepo.Variants = @($normalizedVariants)
 
-$canonicalRepoPath = Resolve-WorkspacePath $appRepo.SeedRepo.Path
+$canonicalRepoPath = Resolve-WorkspacePath $seedRepo.path
 if (-not (Test-Path -LiteralPath $canonicalRepoPath)) {
     throw "Canonical app repo is missing: $canonicalRepoPath"
 }
@@ -123,28 +125,28 @@ if ($canonicalBranch -ne '(detached)') {
     throw "Canonical app repo must be detached; found branch '$canonicalBranch'."
 }
 
-$expectedAnchorRevision = "origin/$($appRepo.SeedRepo.Branch)"
+$expectedAnchorRevision = "origin/$($seedRepo.branch)"
 $canonicalHead = Get-HeadCommit $canonicalRepoPath
 $expectedAnchorHead = Get-HeadCommit $canonicalRepoPath $expectedAnchorRevision
 if ($canonicalHead -ne $expectedAnchorHead) {
     throw "Canonical app repo HEAD is $canonicalHead, expected detached $expectedAnchorRevision at $expectedAnchorHead."
 }
 
-foreach ($variant in @($appRepo.Variants)) {
-    $variantPath = Resolve-WorkspacePath $variant.Path
+foreach ($variant in @($normalizedVariants)) {
+    $variantPath = Resolve-WorkspacePath $variant.path
     if (-not (Test-Path -LiteralPath $variantPath)) {
         throw "Managed app worktree is missing: $variantPath"
     }
 
     $currentBranch = Get-CurrentBranch $variantPath
     if ($currentBranch -eq '(detached)') {
-        throw "Managed app worktree '$($variant.Name)' must stay on a named branch, but is detached."
+        throw "Managed app worktree '$($variant.name)' must stay on a named branch, but is detached."
     }
     if ($currentBranch -like 'stale/*') {
-        throw "Managed app worktree '$($variant.Name)' must not use stale history branch '$currentBranch'."
+        throw "Managed app worktree '$($variant.name)' must not use stale history branch '$currentBranch'."
     }
 
-    Assert-BranchAllowed -RepoLabel $variantPath -ExpectedBranch $variant.Branch -CurrentBranch $currentBranch
+    Assert-BranchAllowed -RepoLabel $variantPath -ExpectedBranch $variant.branch -CurrentBranch $currentBranch
 }
 
 Write-Host 'Branch policy audit passed.'

@@ -33,25 +33,49 @@ function Invoke-Git([string]$RepoRoot, [string[]]$Arguments) {
     }
 }
 
-$defaultSiblingSetupRoot = Join-Path (Split-Path -Parent $EmuleWorkspaceRoot) 'eMulebb-setup'
-if ([string]::IsNullOrWhiteSpace($SetupRepoRoot) -and (Test-Path -LiteralPath $defaultSiblingSetupRoot)) {
-    $SetupRepoRoot = $defaultSiblingSetupRoot
-}
-
-if (-not [string]::IsNullOrWhiteSpace($SetupRepoRoot)) {
-    $SetupRepoRoot = [System.IO.Path]::GetFullPath($SetupRepoRoot)
-}
-
-$thirdPartyRepos = $null
-if (-not [string]::IsNullOrWhiteSpace($SetupRepoRoot)) {
-    $reposManifestPath = Join-Path $SetupRepoRoot 'repos.psd1'
-    if (-not (Test-Path -LiteralPath $reposManifestPath)) {
-        throw "Setup repo root does not contain repos.psd1: $SetupRepoRoot"
+function Get-PythonCommand {
+    $python = Get-Command 'python' -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($null -ne $python) {
+        return @($python.Source)
     }
 
-    $reposManifest = Import-PowerShellDataFile -LiteralPath $reposManifestPath
-    $thirdPartyRepos = @($reposManifest.ThirdPartyRepos)
+    $py = Get-Command 'py' -ErrorAction SilentlyContinue | Select-Object -First 1
+    if ($null -ne $py) {
+        return @($py.Source, '-3')
+    }
+
+    throw 'Python 3 is required to read eMule-build topology.'
 }
+
+$buildRepoRoot = Resolve-WorkspacePath 'repos\eMule-build'
+$pythonCommand = @(Get-PythonCommand)
+$pythonExe = $pythonCommand[0]
+$pythonArgs = @($pythonCommand | Select-Object -Skip 1)
+$topologyScript = @'
+import json
+from emule_workspace.topology import canonical_topology
+
+print(json.dumps([
+    {"relative_path": repo.relative_path, "branch": repo.branch}
+    for repo in canonical_topology().third_party_repos
+]))
+'@
+$previousPythonPath = $env:PYTHONPATH
+try {
+    $env:PYTHONPATH = if ([string]::IsNullOrWhiteSpace($previousPythonPath)) {
+        $buildRepoRoot
+    } else {
+        '{0};{1}' -f $buildRepoRoot, $previousPythonPath
+    }
+    $thirdPartyReposJson = & $pythonExe @pythonArgs -c $topologyScript
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Unable to read third-party pins from eMule-build topology.'
+    }
+} finally {
+    $env:PYTHONPATH = $previousPythonPath
+}
+
+$thirdPartyRepos = @($thirdPartyReposJson | ConvertFrom-Json)
 
 foreach ($relativePath in @(
     'repos\third_party\eMule-cryptopp',
@@ -83,14 +107,12 @@ foreach ($relativePath in @(
         throw "Dependency repo '$repoName' is on '$($currentBranchResult.Text)', expected active branch '$expectedBranch' from local origin/HEAD."
     }
 
-    if ($null -ne $thirdPartyRepos) {
-        $entry = @($thirdPartyRepos | Where-Object { $_.RelativePath -eq $relativePath } | Select-Object -First 1)[0]
-        if ($null -eq $entry) {
-            throw "Setup pin manifest is missing third-party repo path '$relativePath'."
-        }
-        if ($entry.Branch -ne $expectedBranch) {
-            throw "Setup pin for '$repoName' is '$($entry.Branch)', expected '$expectedBranch'."
-        }
+    $entry = @($thirdPartyRepos | Where-Object { $_.relative_path -eq $relativePath } | Select-Object -First 1)[0]
+    if ($null -eq $entry) {
+        throw "Python topology is missing third-party repo path '$relativePath'."
+    }
+    if ($entry.branch -ne $expectedBranch) {
+        throw "Python topology pin for '$repoName' is '$($entry.branch)', expected '$expectedBranch'."
     }
 }
 
