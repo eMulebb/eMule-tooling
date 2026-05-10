@@ -28,7 +28,7 @@ jobs:
       - name: Checkout eMule-tooling
         uses: actions/checkout@v4
         with:
-          repository: itlezy/eMule-tooling
+          repository: eMulebb/eMule-tooling
           ref: main
           path: tooling
 
