@@ -53,6 +53,18 @@ The central policy defaults to low-drift hardening and bug-fix work. Major
 behavioral changes are exception work and must be explicitly justified rather
 than blended into routine cleanup or modernization.
 
+Shared CI and policy guard code lives under `ci\`:
+
+- `ci\check-workspace-policy.py` is the Python workspace policy audit entrypoint
+  used by `python -m emule_workspace validate`
+- `ci\policy_guards.py` owns reusable guard implementations such as tracked-file
+  privacy, basic hygiene, and explicit clean-worktree checks
+- `ci\guard-tracked-files.py`, `ci\check-basic-hygiene.py`, and
+  `ci\check-clean-worktree.py` are operator-facing Python wrappers
+- `.github\workflows\reusable-baseline.yml` is the reusable baseline workflow;
+  consumers should pin the stable ref documented in
+  [`docs/reference/CI-BASELINE.md`](docs/reference/CI-BASELINE.md)
+
 Normalization helpers live here too:
 
 - `helpers\source-normalizer.py` checks or rewrites tracked text files to match
@@ -60,6 +72,11 @@ Normalization helpers live here too:
 - `hooks\pre-commit` is the shared workspace pre-commit hook entrypoint
 - `python -m emule_workspace sync` configures repo-local `core.hooksPath` to
   use that shared hook
+
+Release-facing Windows operator scripts are the only tracked PowerShell files
+allowed in the active workspace. They live under `scripts\`, must stay Windows
+PowerShell 5.1-compatible, and executable scripts must have matching `.cmd`
+wrappers.
 
 ## Workspace Convention
 
