@@ -22,8 +22,8 @@ Use these status names in branch protection:
 
 ## Shared Scripts
 
-- `ci/guard-tracked-files.ps1`
-- `ci/check-basic-hygiene.ps1`
+- `ci/guard-tracked-files.py`
+- `ci/check-basic-hygiene.py`
 
 Each consumer repo keeps its own:
 

@@ -32,24 +32,29 @@ jobs:
           ref: main
           path: tooling
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
       - name: Run tracked-file privacy guard
-        shell: pwsh
+        shell: cmd
         run: >
-          .\tooling\ci\guard-tracked-files.ps1
-          -RepoRoot "$PWD\repo"
-          -PolicyPath "$PWD\repo\${{ inputs.policy_path }}"
-          -SummaryPath "$PWD\repo\.ci\tracked-file-privacy-guard-summary.json"
+          python tooling\ci\guard-tracked-files.py
+          --repo-root "%CD%\repo"
+          --policy-path "%CD%\repo\${{ inputs.policy_path }}"
+          --summary-path "%CD%\repo\.ci\tracked-file-privacy-guard-summary.json"
 
       - name: Run basic hygiene checks
-        shell: pwsh
+        shell: cmd
         run: >
-          .\tooling\ci\check-basic-hygiene.ps1
-          -RepoRoot "$PWD\repo"
-          -RepoKind "${{ inputs.repo_kind }}"
-          -SummaryPath "$PWD\repo\.ci\basic-hygiene-summary.json"
+          python tooling\ci\check-basic-hygiene.py
+          --repo-root "%CD%\repo"
+          --repo-kind "${{ inputs.repo_kind }}"
+          --summary-path "%CD%\repo\.ci\basic-hygiene-summary.json"
 
       - name: Run optional extra step
         if: ${{ inputs.extra_step_script != '' }}
-        shell: pwsh
+        shell: cmd
         run: >
-          & "$PWD\repo\${{ inputs.extra_step_script }}"
+          call "%CD%\repo\${{ inputs.extra_step_script }}"
