@@ -12,7 +12,7 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `62`
+**Current non-done count:** `61`
 **Latest status refresh:** 2026-05-09
 **Non-done by status:** `43` Open, `8` In Progress, `14` Deferred, `0` Blocked.
 **Non-done by area:** `4` Bugs, `21` Refactors, `27` Features, `13` Build/CI.
