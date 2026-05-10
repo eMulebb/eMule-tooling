@@ -246,7 +246,7 @@ The canonical workspace currently materializes these app worktrees:
   do not alter the build contract.
 - An exception to targeted regression work is acceptable only when the change
   has no meaningful runtime or observable behavior surface.
-- Cleanliness checks like `check-clean-worktree.ps1` are appropriate for CI,
+- Cleanliness checks like `check-clean-worktree.py` are appropriate for CI,
   release prep, or explicit hygiene passes, but are not the default requirement
   for every in-progress feature branch.
 
@@ -360,7 +360,7 @@ The canonical workspace currently materializes these app worktrees:
   - active documentation path policy
   - project entrypoint policy
   - warning policy
-- `check-clean-worktree.ps1` is an explicit cleanliness guard for CI or
+- `check-clean-worktree.py` is an explicit cleanliness guard for CI or
   pre-release verification; it is not part of routine `validate` because local
   feature work may legitimately leave tracked changes in progress.
 

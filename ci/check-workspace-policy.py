@@ -14,6 +14,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Sequence
 
+from workspace_ci import run_clean_worktree_guard
+
 
 @dataclass(frozen=True)
 class GitResult:
@@ -769,9 +771,17 @@ def audit_doc_paths(root: Path) -> None:
     print("Active documentation path audit passed.")
 
 
+def audit_clean_worktree(root: Path) -> None:
+    """Runs the explicit tracked worktree cleanliness guard."""
+
+    run_clean_worktree_guard(workspace_root=root)
+    print("Tracked worktree cleanliness audit passed.")
+
+
 AUDITS = {
     "build-policy": audit_build_policy,
     "branch-policy": audit_branch_policy,
+    "clean-worktree": audit_clean_worktree,
     "dependency-pins": audit_dependency_pins,
     "doc-paths": audit_doc_paths,
     "editorconfig-policy": audit_editorconfig_policy,

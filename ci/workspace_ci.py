@@ -37,6 +37,32 @@ class BasicHygieneFailure(RuntimeError):
         self.summary = summary
 
 
+class CleanWorktreeFailure(RuntimeError):
+    """Failure raised when tracked worktree changes are present."""
+
+    def __init__(self, issues: tuple[str, ...]) -> None:
+        super().__init__("\n\n".join(issues))
+        self.issues = issues
+
+
+WORKSPACE_CLEAN_REPO_PATHS = (
+    "repos/eMule",
+    "repos/eMule-build",
+    "repos/eMule-build-tests",
+    "repos/eMule-tooling",
+    "repos/third_party/eMule-cryptopp",
+    "repos/third_party/eMule-id3lib",
+    "repos/third_party/eMule-mbedtls",
+    "repos/third_party/eMule-miniupnp",
+    "repos/third_party/eMule-ResizableLib",
+    "repos/third_party/eMule-zlib",
+    "workspaces/v0.72a/app/eMule-main",
+    "workspaces/v0.72a/app/eMule-v0.72a-community",
+    "workspaces/v0.72a/app/eMule-v0.72a-broadband",
+    "workspaces/v0.72a/app/eMule-v0.72a-tracing-harness-community",
+)
+
+
 def get_tracked_files(repo_root: Path) -> list[str]:
     """Returns Git-tracked paths under one repository."""
 
@@ -50,6 +76,40 @@ def get_tracked_files(repo_root: Path) -> list[str]:
         detail = completed.stderr.decode("utf-8", errors="replace").strip()
         raise RuntimeError(f"git ls-files failed for '{repo_root}'." + (f" {detail}" if detail else ""))
     return [entry for entry in completed.stdout.decode("utf-8", errors="surrogateescape").split("\0") if entry.strip()]
+
+
+def run_clean_worktree_guard(*, workspace_root: Path, setup_repo_root: Path | None = None) -> None:
+    """Fails when managed workspace repos contain tracked changes."""
+
+    repos_to_check = [workspace_root.resolve() / relative_path for relative_path in WORKSPACE_CLEAN_REPO_PATHS]
+    if setup_repo_root is not None:
+        repos_to_check.insert(0, setup_repo_root.resolve())
+
+    issues: list[str] = []
+    for repo_root in repos_to_check:
+        if not repo_root.exists():
+            continue
+        status_lines = tracked_status_lines(repo_root)
+        if status_lines:
+            issues.append(f"Tracked changes present in {repo_root}:\n" + "\n".join(status_lines))
+    if issues:
+        raise CleanWorktreeFailure(tuple(issues))
+
+
+def tracked_status_lines(repo_root: Path) -> tuple[str, ...]:
+    """Returns modified tracked status lines for one Git repo."""
+
+    completed = subprocess.run(
+        ["git", "-C", str(repo_root), "status", "--short", "--untracked-files=no", "--ignore-submodules=all"],
+        check=False,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+    if completed.returncode != 0:
+        detail = completed.stderr.strip()
+        raise RuntimeError(f"git status failed for '{repo_root}'." + (f" {detail}" if detail else ""))
+    return tuple(line for line in completed.stdout.splitlines() if line.strip())
 
 
 def get_personal_identifiers(repo_root: Path) -> tuple[str, ...]:

@@ -43,7 +43,7 @@ public release is `emule-bb-v1.1.1`.
       `auto-browse-live` was accepted as inconclusive because the live networks
       connected but no safe downloadable browse-capable sourced transfer was
       available.
-- [x] `pwsh -File repos\eMule-tooling\ci\check-clean-worktree.ps1 --workspace-root .`
+- [x] `python repos\eMule-tooling\ci\check-clean-worktree.py`
       passed on 2026-05-09 after the fresh proof evidence commit.
 
 ## Release Identity
