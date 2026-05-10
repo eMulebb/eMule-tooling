@@ -27,6 +27,7 @@ security:
   - ApiKeyAuth: []
 tags:
   - name: App
+  - name: Diagnostics
   - name: Stats
   - name: Categories
   - name: Transfers
@@ -86,11 +87,14 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/OkAcceptedResponse"
-  /app/operations/capture-dump:
+  /diagnostics/dumps:
     post:
-      tags: [App]
+      tags: [Diagnostics]
       summary: Capture an operator-requested eMule diagnostic dump.
       operationId: captureDiagnosticDump
+      description: >
+        Unsafe diagnostic endpoint. It is available only when diagnostic REST
+        endpoints are explicitly enabled in the WebServer configuration.
       requestBody:
         required: true
         content:
@@ -100,6 +104,25 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/DiagnosticDumpResponse"
+  /diagnostics/crash-tests:
+    post:
+      tags: [Diagnostics]
+      summary: Trigger a diagnostic crash to verify dump generation.
+      operationId: triggerDiagnosticCrashTest
+      description: >
+        Unsafe diagnostic endpoint. It is available only when diagnostic REST
+        endpoints are explicitly enabled in the WebServer configuration. A
+        successful request intentionally terminates the process, so clients
+        should treat connection loss after acceptance as the expected result.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DiagnosticCrashTestRequest"
+      responses:
+        "200":
+          $ref: "#/components/responses/OkAcceptedResponse"
   /status:
     get:
       tags: [Stats]
@@ -729,7 +752,7 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/OkAcceptedResponse"
-  /servers/met-url-imports:
+  /servers/operations/import-met-url:
     post:
       tags: [Servers]
       summary: Import or update server.met from a URL.
@@ -791,7 +814,7 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/KadResponse"
-  /kad/nodes-url-imports:
+  /kad/operations/import-nodes-url:
     post:
       tags: [Kad]
       summary: Import or update nodes.dat from a URL.
@@ -1857,6 +1880,14 @@ components:
         fullMemory:
           type: boolean
           default: false
+    DiagnosticCrashTestRequest:
+      type: object
+      additionalProperties: false
+      required: [confirmCrash]
+      properties:
+        confirmCrash:
+          type: boolean
+          enum: [true]
     DeleteAllSearchesRequest:
       type: object
       additionalProperties: false

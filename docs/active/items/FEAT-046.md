@@ -44,11 +44,11 @@ Covered by the [Beta 0.7.3 REST and Arr execution plan](../plans/RELEASE-0.7.3-R
 
 ## Progress
 
-- 2026-05-02: Native `main` added `POST /api/v1/servers/met-url-imports`,
+- 2026-05-02: Native `main` added `POST /api/v1/servers/operations/import-met-url`,
   `PATCH /api/v1/servers/{serverId}` property updates, and
   `POST /api/v1/kad/operations/bootstrap`. Route seam and live-smoke contract
   coverage were updated in `eMule-build-tests`.
-- 2026-05-07: Native `main` added `POST /api/v1/kad/nodes-url-imports`,
+- 2026-05-07: Native `main` added `POST /api/v1/kad/operations/import-nodes-url`,
   wired it to the existing validated `nodes.dat` URL import path, and added
   native route plus OpenAPI contract coverage.
 - 2026-05-07: Added native malformed `nodes.dat` install preservation coverage

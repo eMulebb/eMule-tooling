@@ -75,9 +75,9 @@ content-layout operations.
 The release API must cover every useful runtime action from the legacy
 WebServer: transfers, shared files, shared directories, uploads, upload queue,
 servers, Kad, searches, friends, logs, categories, statistics, preferences, and
-application shutdown. Operator diagnostic dump capture is included for trusted
-local release-smoke and support workflows, and remains outside broad automated
-mutation/stress loops.
+application shutdown. Operator diagnostic dump capture and crash-test endpoints
+live under `/diagnostics`, require explicit diagnostic REST opt-in, and remain
+outside broad automated mutation/stress loops.
 
 The release API intentionally excludes:
 
