@@ -43,11 +43,14 @@ Directive precedence is:
   `main` branch unless the user explicitly requests a separate branch.
 - App edits belong in `workspaces\v0.72a\app\eMule-main`; do not edit the
   canonical `repos\eMule` branch-store checkout for normal app work.
-- Interactive build, validation, and test commands must go through
-  `repos\eMule-build\workspace.ps1`.
-- `workspace.ps1` owns a single workspace lock. Never start multiple
-  `workspace.ps1` invocations in parallel; run build, validation, test, and
-  live-test commands strictly sequentially.
+- Interactive build, validation, and test commands must go through the
+  supported `repos\eMule-build` orchestration entrypoints.
+- Prefer `python -m emule_workspace` for commands already ported to the
+  Python-first orchestration layer. `workspace.ps1` remains a legacy entrypoint
+  only for commands not yet ported.
+- `repos\eMule-build` orchestration owns a single workspace lock. Never start
+  multiple build, validation, test, or live-test invocations in parallel; run
+  them strictly sequentially.
 - Do not run ad hoc direct `MSBuild` commands from an app worktree,
   `srchybrid`, or `repos\eMule-build-tests`.
 
@@ -332,8 +335,10 @@ The canonical workspace currently materializes these app worktrees:
 - App worktrees do not by themselves define a complete supported app-build
   environment; dependency materialization and third-party build inputs are part
   of the `eMulebb-setup` plus `eMule-build` contract.
-- Interactive build, validation, and test work must use
-  `repos\eMule-build\workspace.ps1`.
+- Interactive build, validation, and test work must use the supported
+  `repos\eMule-build` orchestration entrypoints. The Python-first
+  `emule_workspace` CLI is authoritative for commands it has already ported;
+  `workspace.ps1` is legacy-only until the remaining commands are migrated.
 - Direct ad hoc `MSBuild` commands from an app worktree, `srchybrid`, or
   `repos\eMule-build-tests` are prohibited. Direct `MSBuild` invocation is
   allowed only inside owned orchestration implementation that is itself called

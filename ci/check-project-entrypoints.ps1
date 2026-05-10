@@ -63,6 +63,11 @@ $buildWorkspaceScript = Resolve-WorkspacePath 'repos\eMule-build\workspace.ps1'
 Assert-FileContains $buildWorkspaceScript 'srchybrid\\emule\.vcxproj' 'workspace.ps1 must build the app through srchybrid\emule.vcxproj.'
 Assert-FileNotContains $buildWorkspaceScript 'emule\.slnx?' 'workspace.ps1 must not rely on emule.sln or emule.slnx.'
 
+$buildPythonProject = Resolve-WorkspacePath 'repos\eMule-build\pyproject.toml'
+$buildPythonCli = Resolve-WorkspacePath 'repos\eMule-build\emule_workspace\cli.py'
+Assert-FileContains $buildPythonProject 'emule-workspace' 'eMule-build must expose the Python-first emule_workspace orchestration package.'
+Assert-FileContains $buildPythonCli 'test python' 'emule_workspace CLI must include the migrated Python test command surface.'
+
 foreach ($activeDocPath in @(
     (Resolve-WorkspacePath 'repos\eMule-build\README.md'),
     (Resolve-WorkspacePath 'repos\eMule-build-tests\README.md'),
@@ -74,7 +79,7 @@ foreach ($activeDocPath in @(
     Assert-FileNotContains `
         $activeDocPath `
         '(?i)(^|\s|`|&)(?:&\s*)?msbuild(?:\.exe)?\s+(?:[./\\\w:-]+\.vcxproj|[./\\\w:-]+\.slnx?|/t:|/p:|-t:|-p:)' `
-        "$activeDocPath must not document direct MSBuild command lines as active build entrypoints; use repos\eMule-build\workspace.ps1."
+        "$activeDocPath must not document direct MSBuild command lines as active build entrypoints; use repos\eMule-build orchestration."
 }
 
 Write-Host 'Project entrypoint audit passed.'
