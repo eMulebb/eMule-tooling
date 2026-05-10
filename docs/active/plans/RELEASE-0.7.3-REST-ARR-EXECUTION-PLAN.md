@@ -189,6 +189,26 @@ should revalidate the API surfaces below before treating that evidence as fresh.
   control
 - long-path and Unicode REST paths for shared directories, transfers, and logs
 
+Latest beta 0.7.3 REST closure proof:
+
+- `python -m emule_workspace validate`
+- `python -m emule_workspace build app --config Debug --platform x64`
+- `python -m emule_workspace build app --config Release --platform x64`
+- `python -m emule_workspace test python --path tests\python\test_rest_api_smoke.py --path tests\python\test_release_golden.py --quiet`
+- `python -m emule_workspace test live-e2e --config Release --platform x64 --suite rest-api --rest-coverage-budget contract-stress --rest-stress-budget smoke --rest-stress-duration-seconds 10 --rest-stress-concurrency 4 --rest-download-trigger-count 3 --skip-live-seed-refresh`
+- Result: passed on 2026-05-10.
+- Live artifact:
+  `repos\eMule-build-tests\reports\rest-api-smoke\20260510-223841-eMule-main-release`
+- REST contract summary: 84 OpenAPI routes in the registry, 82 safe routes
+  exercised, 2 unsafe routes skipped, 0 failed routes, 37 success outcomes,
+  and 45 expected-error outcomes.
+- Route execution summary: 1 direct route and 83 UI-thread-dispatched routes;
+  `GET /api/v1/app` is the only direct native route.
+- REST stress summary: 3870 requests, 0 native REST non-JSON responses,
+  0 timeouts, and no failure sample.
+- Local dump configuration was enabled for `emule.exe`, `umdh.exe`,
+  `procdump.exe`, and `procdump64.exe`.
+
 Latest native route/OpenAPI drift proof:
 
 - `python -m pytest
