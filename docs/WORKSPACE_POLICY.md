@@ -45,6 +45,9 @@ Directive precedence is:
   canonical `repos\eMule` branch-store checkout for normal app work.
 - Interactive build, validation, and test commands must go through
   `repos\eMule-build\workspace.ps1`.
+- `workspace.ps1` owns a single workspace lock. Never start multiple
+  `workspace.ps1` invocations in parallel; run build, validation, test, and
+  live-test commands strictly sequentially.
 - Do not run ad hoc direct `MSBuild` commands from an app worktree,
   `srchybrid`, or `repos\eMule-build-tests`.
 
