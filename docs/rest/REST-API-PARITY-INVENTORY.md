@@ -84,6 +84,7 @@ contract.
 | File recheck | `POST /transfers/{hash}/operations/recheck` | implemented | Existing route exists; final route and envelope need alignment. |
 | Preview transfer | `POST /transfers/{hash}/operations/preview` | implemented | Route validates preview readiness before launching the legacy preview action. |
 | Get transfer sources | `GET /transfers/{hash}/sources` | implemented | Current route exists. |
+| Get one transfer source | `GET /transfers/{hash}/sources/{clientId}` | implemented | Uses the same stable source selector as peer operations. |
 | Get transfer part/gap/request detail | `GET /transfers/{hash}/details` | implemented | Native route returns transfer, part, and source detail; aMuTorrent hydrates part/gap/request fields from it. |
 | Browse source | `POST /transfers/{hash}/sources/{clientId}/operations/browse` | implemented | Uses source user hash as the stable selector where available. |
 | Add/remove friend from transfer peer | `POST /transfers/{hash}/sources/{clientId}/operations/add-friend`, `.../remove-friend`, plus `/friends` | implemented | Transfer-source peer operations use the same stable `clientId` selector exposed by source rows. |
@@ -117,6 +118,8 @@ contract.
 |---|---|---|---|
 | List active uploads | `GET /uploads` | implemented | Current REST exposes uploads; aMuTorrent currently drops this data in its data pipeline. |
 | List upload queue | `GET /upload-queue` | implemented | Current REST exposes queue. |
+| Show one active upload | `GET /uploads/{clientId}` | implemented | Returns the selected upload row plus existing score breakdown state for controller drill-down. |
+| Show one queued upload | `GET /upload-queue/{clientId}` | implemented | Returns the selected waiting-queue row plus existing score breakdown state for controller drill-down. |
 | Remove upload client | `DELETE /uploads/{clientId}` or `POST /uploads/{clientId}/operations/remove` | implemented | Stable selectors are either user hash or `address:port` when no hash exists. |
 | Give release slot | `POST /uploads/{clientId}/operations/release-slot` | implemented | Uses the normal upload-queue removal path for active slots. |
 | Upload context menu ban/unban | `POST /uploads/{clientId}/operations/ban`, `.../unban` | implemented | Same peer-control command family as transfer sources. |
@@ -155,6 +158,7 @@ contract.
 | Legacy action | REST target | Status | Impact and notes |
 |---|---|---|---|
 | Start search | `POST /searches` | implemented | Returns `{id, query, method, status, results}` for async polling. |
+| List search sessions | `GET /searches` | implemented | Returns active search sessions without expanding result rows. |
 | Get search results | `GET /searches/{searchId}` | implemented | aMuTorrent should poll this until stable and verify the echoed `method`. |
 | Stop/delete one search | `DELETE /searches/{searchId}` | implemented | Existing stop route exists; final route deletes the search session. |
 | Delete all searches | `DELETE /searches` | implemented | Uses the existing delete-all-searches UI action. |

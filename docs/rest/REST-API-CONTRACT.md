@@ -103,14 +103,15 @@ beta 0.7.3. Search resources echo the resolved method so controllers can
 distinguish eD2K server/global searches from Kad searches without inferring from
 result timing or counts.
 
-`GET /api/v1/searches/{searchId}` returns the current native visible result
-snapshot for that search. Beta 0.7.3 intentionally does not expose search
-result paging; the route does not accept `limit` or `offset`, and the strict
-route table rejects unknown query parameters. Controllers should poll the search
-resource and treat `results` as a bounded native snapshot governed by eMule's
-existing search-result retention and visibility behavior. Each native result
-also carries the resolved search method when the result is returned through a
-search resource.
+`GET /api/v1/searches` lists active native search sessions without expanding
+their result rows. `GET /api/v1/searches/{searchId}` returns the current native
+visible result snapshot for one search. Beta 0.7.3 intentionally does not
+expose search result paging; search routes do not accept `limit` or `offset`,
+and the strict route table rejects unknown query parameters. Controllers should
+poll the search resource and treat `results` as a bounded native snapshot
+governed by eMule's existing search-result retention and visibility behavior.
+Each native result also carries the resolved search method when the result is
+returned through a search resource.
 
 `POST /api/v1/searches/{searchId}/results/{hash}/operations/download` starts a
 download from one visible search result by lowercase 32-character eD2K hash.
@@ -120,6 +121,13 @@ does not preserve partial `.part` state on cancel, so controllers must send
 `deleteFiles: true` for incomplete transfers and treat that as native cancel
 semantics rather than an optional disk-delete toggle. The route validator
 rejects `deleteFiles: false` before dispatch.
+
+Selected peer reads are available for controller drill-down through
+`GET /transfers/{hash}/sources/{clientId}`, `GET /uploads/{clientId}`, and
+`GET /upload-queue/{clientId}`. These routes use the same `clientId` selector
+as peer operations and expose read models only; chat/message APIs and peer
+shared-file browse result retrieval remain outside the beta 0.7.3 native v1
+contract.
 
 ## Implementation Status
 
