@@ -162,9 +162,9 @@ contract.
 
 | Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
-| Start search | `POST /searches` | implemented | Returns `{id, query, method, status, results}` for async polling. |
+| Start search | `POST /searches` | implemented | Returns `{id, query, method, type, status, results}` for async polling. |
 | List search sessions | `GET /searches` | implemented | Returns active search sessions without expanding result rows. |
-| Get search results | `GET /searches/{searchId}` | implemented | aMuTorrent should poll this until stable and verify the echoed `method`. |
+| Get search results | `GET /searches/{searchId}` | implemented | aMuTorrent should poll this until stable and verify the echoed `method` and `type`. |
 | Stop/delete one search | `DELETE /searches/{searchId}` | implemented | Existing stop route exists; final route deletes the search session. |
 | Delete all searches | `DELETE /searches` | implemented | Uses the existing delete-all-searches UI action. |
 | Start search with method/type/min/max/availability/extension filters | `POST /searches` | implemented | Method, type, size, and extension filters are parsed by the native command seam. |
@@ -196,7 +196,7 @@ contract.
 |---|---|---|
 | Endpoint adapter route names | implemented | aMuTorrent now prefers final operation/resource routes for transfers, servers, shared reload, and search-result download. |
 | Response envelopes | implemented | Native REST now always emits `{data, meta}` success envelopes and `{error:{code,message,details}}` errors; aMuTorrent unwraps both. |
-| Torznab search method policy | implemented | Prowlarr/Torznab compatibility dispatches native searches with the same `automatic` default token used by `/api/v1/searches`. |
+| Torznab search method policy | implemented | Prowlarr/Torznab movie and TV searches dispatch native `video` searches through both `kad` and `global`, combining connected-network results; other families keep the native automatic policy. |
 | qBittorrent transfer delete semantics | implemented | qBit-compatible delete requests always forward native transfer cancel with `deleteFiles:true`; eMule does not provide a partial-state-preserving delete for incomplete transfers. |
 | Shared-file deletion | implemented | Shared deletes call `/shared-files/{hash}` instead of transfer delete helpers. |
 | Uploads in data pipeline | implemented | `/uploads` rows remain preserved through the eMule BB manager fetch result. |

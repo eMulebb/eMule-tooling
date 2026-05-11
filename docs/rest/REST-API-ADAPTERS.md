@@ -82,7 +82,10 @@ Supported responses:
 - `400 application/xml` for malformed query parameters or unsupported request
   types.
 - `401 application/xml` for missing or invalid API keys.
-- `503 application/xml` when the native REST API key is not configured.
+- `503 application/xml` when the native REST API key is not configured or the
+  native search bridge is still busy and no non-empty cached response exists.
 
-Searches dispatch to the same native default `automatic` search method used by
-`POST /api/v1/searches`; Torznab does not define a separate Kad-only policy.
+Movie and TV searches dispatch native `video` searches through both `kad` and
+`global`, combining eD2K hashes from the connected networks. Other Torznab
+families keep the native file-family mapping and default automatic search
+policy used by `POST /api/v1/searches`.

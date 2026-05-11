@@ -112,11 +112,14 @@ The release API intentionally excludes:
 ## Search Semantics
 
 `POST /api/v1/searches` starts a native eMule search using the requested method:
-`automatic`, `server`, `global`, or `kad`. The route maps directly to the
-existing eD2K/Kad search modes and must not change stock search semantics for
-beta 0.7.3. Search resources echo the resolved method so controllers can
-distinguish eD2K server/global searches from Kad searches without inferring from
-result timing or counts.
+`automatic`, `server`, `global`, or `kad`. The request may also select a native
+search file type with `type`: `any`, `archive`, `audio`, `cdimage`, `iso`,
+`image`, `program`, `video`, `document`, or `emulecollection`. The route maps
+directly to the existing eD2K/Kad search modes and file-type filters and must
+not change stock search semantics for beta 0.7.3. Search resources echo the
+resolved method and normalized type so controllers can distinguish eD2K
+server/global searches from Kad searches and audit the selected file filter
+without inferring from result timing or counts.
 
 `GET /api/v1/searches` lists active native search sessions without expanding
 their result rows. `GET /api/v1/searches/{searchId}` returns the current native
@@ -125,10 +128,11 @@ expose search result paging; search routes do not accept `limit` or `offset`,
 and the strict route table rejects unknown query parameters. Controllers should
 poll the search resource and treat `results` as a bounded native snapshot
 governed by eMule's existing search-result retention and visibility behavior.
-Each native result also carries the resolved search method when the result is
-returned through a search resource. Search creation does not clear existing
-searches as a side effect; controllers must call `DELETE /api/v1/searches`
-with `confirmDeleteAllSearches: true` when they need a clean search set.
+Each native result also carries the resolved search method and selected search
+type when the result is returned through a search resource. Search creation does
+not clear existing searches as a side effect; controllers must call
+`DELETE /api/v1/searches` with `confirmDeleteAllSearches: true` when they need a
+clean search set.
 
 `POST /api/v1/searches/{searchId}/results/{hash}/operations/download` starts a
 download from one visible search result by lowercase 32-character eD2K hash.
