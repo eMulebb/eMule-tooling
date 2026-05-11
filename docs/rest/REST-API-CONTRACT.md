@@ -2,6 +2,7 @@
 
 **Status:** beta 0.7.3 broadband contract
 **Source of truth:** [REST-API-OPENAPI.yaml](REST-API-OPENAPI.yaml)
+**Adapter subsets:** [REST-API-ADAPTERS.md](REST-API-ADAPTERS.md)
 **Legacy parity inventory:** [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md)
 **Primary implementation:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main\srchybrid\WebServerJson.cpp`
 **Route seam:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main\srchybrid\WebServerJsonSeams.h`
@@ -44,6 +45,13 @@ to implement the full qBittorrent Web API surface, including unrelated RSS,
 tracker, peer-management, sync, logging, ban-list, global-speed, or complete
 content-layout operations.
 
+The legacy template-based WebServer UI is kept as deprecated code behind the
+same listener. The release goal for that engine is compile preservation and not
+functional parity. HTML templates, legacy page routes, and template interaction
+state are not part of the REST v1 contract, not part of the adapter contract,
+and not a release-gated behavior surface beyond avoiding shared listener
+regressions.
+
 ## Contract Rules
 
 - root every endpoint at `/api/v1/...`
@@ -60,6 +68,8 @@ content-layout operations.
   `GET /snapshot` and `GET /logs`
 - return errors as `{ "error": { "code": "...", "message": "...", "details": {} } }`
 - return the updated resource from mutations when practical
+- keep public response DTOs closed in OpenAPI; additive fields require an
+  explicit OpenAPI update and matching contract tests in the same change
 - expose one canonical public route for each operation; upload removal uses
   `POST /uploads/{clientId}/operations/remove`, not a duplicate `DELETE`
   alias
@@ -90,7 +100,7 @@ outside broad automated mutation/stress loops.
 The release API intentionally excludes:
 
 - HTML sessions, login/logout, templates, sort state, column hiding, and other
-  legacy WebServer presentation state
+  deprecated legacy WebServer presentation state
 - WebServer page-only preferences such as HTML gzip and refresh interval
 - host operating-system shutdown and reboot
 - binary shared-file streaming
@@ -144,6 +154,11 @@ envelopes, and reports whether each native route is direct or UI-thread
 dispatched. aMuTorrent's eMule BB adapter consumes the same final field names
 while keeping aMuTorrent's own public routes stable.
 
+The live smoke harness validates route coverage and response envelopes against
+OpenAPI. The strict DTO policy is enforced by tests that reject open-ended
+public response schemas except for explicitly documented extension maps such as
+`error.details` and `app.capabilities`.
+
 ## Controller Compatibility Matrix
 
 | Consumer | Surface | Contract boundary | Proof lane |
@@ -153,6 +168,8 @@ while keeping aMuTorrent's own public routes stable.
 | Prowlarr Torznab | Torznab XML adapter | Keeps Torznab XML/error shape adapter-local while reusing native parsing and search commands. | Prowlarr live |
 | Radarr/Sonarr | Torznab plus qBit-compatible download client | Uses Arr-facing compatibility routes without broadening `/api/v1`. | Radarr/Sonarr live |
 | qBittorrent-compatible clients | `/api/v2` | Implements the Arr-needed qBit subset only; qBit text/session errors stay adapter-shaped. | qBit route completeness and Arr live |
+
+Adapter subset details are documented in [REST-API-ADAPTERS.md](REST-API-ADAPTERS.md).
 
 ## Execution Model
 

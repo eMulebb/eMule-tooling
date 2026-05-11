@@ -1286,7 +1286,7 @@ components:
   schemas:
     EnvelopeMeta:
       type: object
-      additionalProperties: true
+      additionalProperties: false
       properties:
         apiVersion:
           type: string
@@ -1337,6 +1337,7 @@ components:
       properties:
         error:
           type: object
+          additionalProperties: false
           required: [code, message]
           properties:
             code:
@@ -1410,6 +1411,7 @@ components:
           type: boolean
         webServer:
           type: object
+          additionalProperties: false
           properties:
             https:
               type: boolean
@@ -1431,7 +1433,7 @@ components:
               $ref: "#/components/schemas/Preferences"
     Preferences:
       type: object
-      additionalProperties: true
+      additionalProperties: false
       properties:
         downloadLimitKiBps:
           type: integer
@@ -1563,8 +1565,14 @@ components:
               $ref: "#/components/schemas/Stats"
     Stats:
       type: object
-      additionalProperties: true
+      additionalProperties: false
       properties:
+        connected:
+          type: boolean
+        downloadSpeedKiBps:
+          type: number
+        uploadSpeedKiBps:
+          type: number
         sessionDownloadedBytes:
           type: integer
         sessionUploadedBytes:
@@ -1577,6 +1585,22 @@ components:
           type: integer
         activeUploads:
           type: integer
+        waitingUploads:
+          type: integer
+        downloadCount:
+          type: integer
+        ed2kConnected:
+          type: boolean
+        ed2kHighId:
+          type: boolean
+        kadRunning:
+          type: boolean
+        kadConnected:
+          type: boolean
+        kadFirewalled:
+          type:
+            - boolean
+            - "null"
     SnapshotEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -1585,6 +1609,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 app:
                   $ref: "#/components/schemas/App"
@@ -1649,7 +1674,9 @@ components:
         name:
           type: string
         path:
-          type: string
+          type:
+            - string
+            - "null"
         comment:
           type: string
         color:
@@ -1765,8 +1792,33 @@ components:
           minimum: 0
           maximum: 1
         sources:
-          type: object
-          additionalProperties: true
+          type: integer
+          minimum: 0
+        sourcesTransferring:
+          type: integer
+          minimum: 0
+        autoPriority:
+          type: boolean
+        eta:
+          type:
+            - integer
+            - "null"
+        addedAt:
+          type:
+            - integer
+            - "null"
+        completedAt:
+          type:
+            - integer
+            - "null"
+        partsTotal:
+          type: integer
+          minimum: 0
+        partsAvailable:
+          type: integer
+          minimum: 0
+        stopped:
+          type: boolean
         downloadSpeedKiBps:
           type: number
         uploadSpeedKiBps:
@@ -1817,28 +1869,50 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               properties:
                 transfer:
                   $ref: "#/components/schemas/Transfer"
                 parts:
                   type: array
                   items:
-                    type: object
-                    additionalProperties: true
-                gaps:
-                  type: array
-                  items:
-                    type: object
-                    additionalProperties: true
-                requests:
-                  type: array
-                  items:
-                    type: object
-                    additionalProperties: true
+                    $ref: "#/components/schemas/TransferPart"
                 sources:
                   type: array
                   items:
                     $ref: "#/components/schemas/TransferSource"
+    TransferPart:
+      type: object
+      additionalProperties: false
+      required: [index, start, end, size, completedBytes, gapBytes, complete, requested, corrupted, availableSources]
+      properties:
+        index:
+          type: integer
+          minimum: 0
+        start:
+          type: integer
+          minimum: 0
+        end:
+          type: integer
+          minimum: 0
+        size:
+          type: integer
+          minimum: 0
+        completedBytes:
+          type: integer
+          minimum: 0
+        gapBytes:
+          type: integer
+          minimum: 0
+        complete:
+          type: boolean
+        requested:
+          type: boolean
+        corrupted:
+          type: boolean
+        availableSources:
+          type: integer
+          minimum: 0
     TransferSourceListEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -1863,7 +1937,7 @@ components:
               $ref: "#/components/schemas/TransferSource"
     TransferSource:
       type: object
-      additionalProperties: true
+      additionalProperties: false
       properties:
         clientId:
           type: string
@@ -1879,10 +1953,26 @@ components:
           type: string
         downloadState:
           type: string
+        clientSoftware:
+          type: string
         downloadSpeedKiBps:
           type: number
-        requestedParts:
+        availableParts:
           type: integer
+        partCount:
+          type: integer
+        serverIp:
+          type: string
+        serverPort:
+          type: integer
+        lowId:
+          type: boolean
+        queueRank:
+          type: integer
+        viewSharedFiles:
+          type: boolean
+        sharedFilesRequestPending:
+          type: boolean
     DeleteFilesRequest:
       type: object
       additionalProperties: false
@@ -2028,6 +2118,30 @@ components:
           type: string
         ed2kLink:
           type: string
+        directory:
+          type: string
+        autoUploadPriority:
+          type: boolean
+        allTimeRequests:
+          type: integer
+        allTimeAccepts:
+          type: integer
+        allTimeTransferred:
+          type: integer
+        partCount:
+          type: integer
+        partFile:
+          type: boolean
+        complete:
+          type: boolean
+        hasComment:
+          type: boolean
+        userRating:
+          type: integer
+        publishedEd2k:
+          type: boolean
+        sharedByRule:
+          type: boolean
         requests:
           type: integer
         acceptedRequests:
@@ -2079,8 +2193,15 @@ components:
                   type: array
                   items:
                     type: object
+                    additionalProperties: false
                     properties:
+                      source:
+                        type: string
                       userName:
+                        type:
+                          - string
+                          - "null"
+                      fileName:
                         type: string
                       rating:
                         type: integer
@@ -2108,7 +2229,7 @@ components:
                 monitorOwned:
                   type: array
                   items:
-                    $ref: "#/components/schemas/SharedDirectory"
+                    type: string
                 hashingCount:
                   type: integer
                   minimum: 0
@@ -2133,6 +2254,12 @@ components:
         exists:
           type: boolean
         monitored:
+          type: boolean
+        monitorOwned:
+          type: boolean
+        shareable:
+          type: boolean
+        accessible:
           type: boolean
     SharedDirectoryReplaceRequest:
       type: object
@@ -2162,13 +2289,21 @@ components:
                     $ref: "#/components/schemas/Upload"
     Upload:
       type: object
-      additionalProperties: true
+      additionalProperties: false
       properties:
         clientId:
           type: string
         userName:
           type: string
         userHash:
+          type:
+            - string
+            - "null"
+        clientSoftware:
+          type: string
+        clientMod:
+          type: string
+        uploadState:
           type: string
         fileHash:
           type: string
@@ -2178,8 +2313,44 @@ components:
           type: number
         uploadedBytes:
           type: integer
-        requestedFileSizeBytes:
+        queueSessionUploaded:
           type: integer
+        payloadBuffered:
+          type: integer
+        waitTimeMs:
+          type: integer
+        waitStartedTick:
+          type: integer
+        score:
+          type: integer
+        address:
+          type: string
+        port:
+          type: integer
+        serverIp:
+          type: string
+        serverPort:
+          type: integer
+        lowId:
+          type: boolean
+        friendSlot:
+          type: boolean
+        uploading:
+          type: boolean
+        waitingQueue:
+          type: boolean
+        requestedFileHash:
+          type:
+            - string
+            - "null"
+        requestedFileName:
+          type:
+            - string
+            - "null"
+        requestedFileSizeBytes:
+          type:
+            - integer
+            - "null"
         scoreBreakdown:
           $ref: "#/components/schemas/UploadScoreBreakdown"
     UploadEnvelope:
@@ -2533,8 +2704,10 @@ components:
           type: string
     SearchResult:
       type: object
-      additionalProperties: true
+      additionalProperties: false
       properties:
+        searchId:
+          type: string
         method:
           type: string
           enum: [automatic, server, global, kad]
@@ -2552,6 +2725,36 @@ components:
           type: string
         extension:
           type: string
+        complete:
+          type:
+            - boolean
+            - "null"
+        knownType:
+          type: string
+        directory:
+          type:
+            - string
+            - "null"
+        clientIp:
+          type: string
+        clientPort:
+          type: integer
+        serverIp:
+          type: string
+        serverPort:
+          type: integer
+        clientCount:
+          type: integer
+        serverCount:
+          type: integer
+        kadPublishInfo:
+          type: integer
+        rating:
+          type: integer
+        hasComment:
+          type: boolean
+        spam:
+          type: boolean
     SearchResultDownloadRequest:
       type: object
       additionalProperties: false
