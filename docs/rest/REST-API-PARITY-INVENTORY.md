@@ -1,10 +1,15 @@
-# eMule BB REST API Parity Inventory
+# eMule BB REST API Migrated Action Inventory
 
 **Status:** pre-release implementation checklist
 **Contract:** [REST-API-OPENAPI.yaml](REST-API-OPENAPI.yaml)
-**Scope:** every runtime legacy WebServer action that should matter to a local
-controller, plus explicit exclusions for presentation-only or host-level
-actions.
+**Scope:** controller-relevant runtime capabilities historically reachable
+through WebServer command handlers, plus explicit exclusions for
+presentation-only, deprecated template UI, or host-level actions.
+
+This inventory is not a functional parity promise for the legacy
+template-based WebServer UI. That engine is deprecated and compile-only; its
+HTML pages, templates, sessions, and page interaction state are not release
+gates.
 
 ## Classification Rules
 
@@ -12,7 +17,7 @@ actions.
 |---|---|
 | `implemented` | Current `main` already exposes equivalent REST behavior, though route shape or envelope may still need alignment with the OpenAPI contract. |
 | `deferred` | Required before the complete broadband REST release, but not yet implemented or not yet verified against the OpenAPI contract. |
-| `obsolete` | Intentionally excluded from REST because it is legacy web-page presentation state, session plumbing, binary streaming, host OS control, or outside the adapter's declared purpose. |
+| `obsolete` | Intentionally excluded from REST because it is deprecated web-page presentation state, session plumbing, binary streaming, host OS control, or outside the adapter's declared purpose. |
 
 `deferred` does not mean optional. It means the work is still required unless
 the user explicitly approves removing that runtime capability from the release
@@ -38,7 +43,7 @@ contract.
 
 ## Application And Preferences
 
-| Legacy action | REST target | Status | Impact and notes |
+| Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
 | Show app/version/runtime information | `GET /app` | implemented | Current REST exposes app data; final route must include static capability map and elevation status. |
 | Show global status/statistics summary | `GET /status`, `GET /stats`, `GET /snapshot` | implemented | Current status/snapshot coverage exists; final split needs stable envelopes and richer stat fields. |
@@ -56,7 +61,7 @@ contract.
 
 ## Categories
 
-| Legacy action | REST target | Status | Impact and notes |
+| Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
 | List categories | `GET /categories` | implemented | Existing REST exposes categories; envelope and route contract need final alignment. |
 | Create category | `POST /categories` | implemented | Required for aMuTorrent category management. |
@@ -67,7 +72,7 @@ contract.
 
 ## Transfers
 
-| Legacy action | REST target | Status | Impact and notes |
+| Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
 | List downloads | `GET /transfers` | implemented | Current REST already returns transfer rows. |
 | Show one download | `GET /transfers/{hash}` | implemented | Current route exists. |
@@ -82,7 +87,7 @@ contract.
 | Set transfer priority low/normal/high/auto | `PATCH /transfers/{hash}` | implemented | Final enum is `low`, `normal`, `high`, `auto`; completed/shared priority is separate. |
 | Set transfer category | `PATCH /transfers/{hash}` | implemented | Supports category id/name; final naming must be `categoryId`/`categoryName`. |
 | File recheck | `POST /transfers/{hash}/operations/recheck` | implemented | Existing route exists; final route and envelope need alignment. |
-| Preview transfer | `POST /transfers/{hash}/operations/preview` | implemented | Route validates preview readiness before launching the legacy preview action. |
+| Preview transfer | `POST /transfers/{hash}/operations/preview` | implemented | Route validates preview readiness before launching the existing preview command. |
 | Get transfer sources | `GET /transfers/{hash}/sources` | implemented | Current route exists. |
 | Get one transfer source | `GET /transfers/{hash}/sources/{clientId}` | implemented | Uses the same stable source selector as peer operations. |
 | Get transfer part/gap/request detail | `GET /transfers/{hash}/details` | implemented | Native route returns transfer, part, and source detail; aMuTorrent hydrates part/gap/request fields from it. |
@@ -94,7 +99,7 @@ contract.
 
 ## Shared Files And Shared Directories
 
-| Legacy action | REST target | Status | Impact and notes |
+| Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
 | List shared files | `GET /shared-files` | implemented | Current REST has shared-file listing. |
 | Show one shared file | `GET /shared-files/{hash}` | implemented | Current route exists. |
@@ -114,7 +119,7 @@ contract.
 
 ## Uploads And Queue
 
-| Legacy action | REST target | Status | Impact and notes |
+| Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
 | List active uploads | `GET /uploads` | implemented | Current REST exposes uploads; aMuTorrent currently drops this data in its data pipeline. |
 | List upload queue | `GET /upload-queue` | implemented | Current REST exposes queue. |
@@ -128,13 +133,13 @@ contract.
 
 ## Servers
 
-| Legacy action | REST target | Status | Impact and notes |
+| Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
 | List servers | `GET /servers` | implemented | Current REST exposes list/status through earlier route shapes. |
 | Show server status | `GET /status`, `GET /servers` | implemented | Final contract folds status into resource rows and `/status`. |
 | Connect to best server | `POST /servers/operations/connect` | implemented | Existing route exists; final route is resource-operation shaped. |
 | Connect to specific server | `POST /servers/{serverId}/operations/connect` | implemented | `serverId` is URL-encoded `address:port`. |
-| Disconnect or stop connecting | `POST /servers/operations/disconnect` | implemented | Covers both disconnect and stop-connecting legacy actions. |
+| Disconnect or stop connecting | `POST /servers/operations/disconnect` | implemented | Covers both disconnect and stop-connecting runtime commands. |
 | Add server | `POST /servers` | implemented | Final create supports `address`, `port`, `name`, `priority`, `static`, and `connect`. |
 | Remove server | `DELETE /servers/{serverId}` | implemented | Existing route exists. |
 | Add server to static list | `PATCH /servers/{serverId}` with `static: true` | implemented | Static membership is handled as a server property. |
@@ -144,18 +149,18 @@ contract.
 
 ## Kad
 
-| Legacy action | REST target | Status | Impact and notes |
+| Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
 | Show Kad status | `GET /kad` | implemented | Current status route exists. |
 | Start Kad | `POST /kad/operations/start` | implemented | Existing command route must align to final route. |
 | Stop Kad | `POST /kad/operations/stop` | implemented | Existing command route must align to final route. |
 | Recheck Kad firewall | `POST /kad/operations/recheck-firewall` | implemented | Existing route exists. |
-| Bootstrap Kad | `POST /kad/operations/bootstrap` | implemented | Supports optional `{address, port}` and otherwise starts Kad through the legacy UI action. |
+| Bootstrap Kad | `POST /kad/operations/bootstrap` | implemented | Supports optional `{address, port}` and otherwise starts Kad through the existing Kad command path. |
 | Update nodes.dat from URL | `POST /kad/operations/import-nodes-url` | implemented | Marshalled through the existing validated nodes.dat import path. |
 
 ## Searches
 
-| Legacy action | REST target | Status | Impact and notes |
+| Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
 | Start search | `POST /searches` | implemented | Returns `{id, query, method, status, results}` for async polling. |
 | List search sessions | `GET /searches` | implemented | Returns active search sessions without expanding result rows. |
@@ -169,7 +174,7 @@ contract.
 
 ## Logs
 
-| Legacy action | REST target | Status | Impact and notes |
+| Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
 | Show recent log lines | `GET /logs` | implemented | Current REST has bounded recent logs. |
 | Warning when process runs elevated | `GET /logs` plus app startup warning | implemented | Startup warning was added earlier; REST exposes recent log buffer. |
@@ -181,7 +186,7 @@ contract.
 |---|---|---|
 | Binary shared-file streaming through REST | obsolete | Metadata and ED2K links are enough for controller integration; local file serving changes risk profile. |
 | Host OS shutdown/reboot | obsolete | Not needed by aMuTorrent and too destructive for the trusted local API. |
-| HTML WebServer sessions and low-rights mode | obsolete | REST is all-in behind `X-API-Key`. |
+| Deprecated template sessions and low-rights mode | obsolete | REST is all-in behind `X-API-Key`. |
 | Dynamic capability negotiation | obsolete | eMule BB and aMuTorrent ship together; static contract compliance is simpler and stricter. |
 | Granular REST permissions | obsolete | User explicitly chose all-in API-key behavior. |
 

@@ -3,7 +3,7 @@
 **Status:** beta 0.7.3 broadband contract
 **Source of truth:** [REST-API-OPENAPI.yaml](REST-API-OPENAPI.yaml)
 **Adapter subsets:** [REST-API-ADAPTERS.md](REST-API-ADAPTERS.md)
-**Legacy parity inventory:** [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md)
+**Migrated action inventory:** [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md)
 **Primary implementation:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main\srchybrid\WebServerJson.cpp`
 **Route seam:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main\srchybrid\WebServerJsonSeams.h`
 
@@ -90,12 +90,14 @@ regressions.
 
 ## Scope
 
-The release API must cover every useful runtime action from the legacy
-WebServer: transfers, shared files, shared directories, uploads, upload queue,
-servers, Kad, searches, friends, logs, categories, statistics, preferences, and
-application shutdown. Operator diagnostic dump capture and crash-test endpoints
-live under `/diagnostics`, require explicit diagnostic REST opt-in, and remain
-outside broad automated mutation/stress loops.
+The release API must cover controller-relevant runtime capabilities that were
+historically reachable through WebServer command handlers: transfers, shared
+files, shared directories, uploads, upload queue, servers, Kad, searches,
+friends, logs, categories, statistics, preferences, and application shutdown.
+That inventory tracks migrated behavior, not a promise that the deprecated
+template UI keeps functioning. Operator diagnostic dump capture and crash-test
+endpoints live under `/diagnostics`, require explicit diagnostic REST opt-in,
+and remain outside broad automated mutation/stress loops.
 
 The release API intentionally excludes:
 
