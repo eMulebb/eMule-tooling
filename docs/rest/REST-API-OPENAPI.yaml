@@ -2732,6 +2732,9 @@ components:
           type: integer
         fileType:
           type: string
+          description: >
+            Raw native file-type tag reported by the search result row. This is
+            not constrained to the search request type enum and is not remapped.
         extension:
           type: string
         complete:

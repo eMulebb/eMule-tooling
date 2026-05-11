@@ -129,8 +129,10 @@ and the strict route table rejects unknown query parameters. Controllers should
 poll the search resource and treat `results` as a bounded native snapshot
 governed by eMule's existing search-result retention and visibility behavior.
 Each native result also carries the resolved search method and selected search
-type when the result is returned through a search resource. Search creation does
-not clear existing searches as a side effect; controllers must call
+type when the result is returned through a search resource. `SearchResult.fileType`
+is the raw native file-type tag reported for that row; it is not constrained to
+or remapped through the search-filter token enum. Search creation does not clear
+existing searches as a side effect; controllers must call
 `DELETE /api/v1/searches` with `confirmDeleteAllSearches: true` when they need a
 clean search set.
 
