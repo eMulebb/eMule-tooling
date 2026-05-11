@@ -157,6 +157,9 @@ Selected peer reads are available for controller drill-down through
 as peer operations and expose read models only; chat/message APIs and peer
 shared-file browse result retrieval remain outside the beta 0.7.3 native v1
 contract.
+Transfer source rows expose `downloadState` with the same lowercase compact
+token policy as the rest of v1; native debug labels are not part of the REST
+contract.
 
 ## Implementation Status
 

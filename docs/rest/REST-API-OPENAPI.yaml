@@ -1686,12 +1686,14 @@ components:
           minimum: 0
           maximum: 16777215
         priority:
-          $ref: "#/components/schemas/CategoryPriority"
-    CategoryPriority:
+          type: integer
+          minimum: 0
+    CategoryPriorityInput:
       oneOf:
         - type: string
           enum: [verylow, low, normal, high, veryhigh]
         - type: integer
+          minimum: 0
     CategoryCreateRequest:
       type: object
       additionalProperties: false
@@ -1713,10 +1715,7 @@ components:
           minimum: 0
           maximum: 16777215
         priority:
-          oneOf:
-            - $ref: "#/components/schemas/CategoryPriority"
-            - type: integer
-              minimum: 0
+          $ref: "#/components/schemas/CategoryPriorityInput"
     CategoryPatch:
       type: object
       additionalProperties: false
@@ -1738,10 +1737,7 @@ components:
           minimum: 0
           maximum: 16777215
         priority:
-          oneOf:
-            - $ref: "#/components/schemas/CategoryPriority"
-            - type: integer
-              minimum: 0
+          $ref: "#/components/schemas/CategoryPriorityInput"
     TransferListEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -1949,10 +1945,9 @@ components:
           type: string
         port:
           type: integer
-        state:
-          type: string
         downloadState:
           type: string
+          enum: [downloading, onqueue, connected, connecting, waitcallback, waitcallbackkad, reqhashset, noneededparts, toomanyconns, toomanyconnskad, lowtolowip, banned, error, none, remotequeuefull, unknown]
         clientSoftware:
           type: string
         downloadSpeedKiBps:
