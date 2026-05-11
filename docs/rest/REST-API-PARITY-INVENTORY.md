@@ -15,7 +15,7 @@ gates.
 
 | Status | Meaning |
 |---|---|
-| `implemented` | Current `main` already exposes equivalent REST behavior, though route shape or envelope may still need alignment with the OpenAPI contract. |
+| `implemented` | Current `main` exposes the route through the OpenAPI contract and matching native route seam. |
 | `deferred` | Required before the complete broadband REST release, but not yet implemented or not yet verified against the OpenAPI contract. |
 | `obsolete` | Intentionally excluded from REST because it is deprecated web-page presentation state, session plumbing, binary streaming, host OS control, or outside the adapter's declared purpose. |
 
@@ -45,8 +45,8 @@ contract.
 
 | Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
-| Show app/version/runtime information | `GET /app` | implemented | Current REST exposes app data; final route must include static capability map and elevation status. |
-| Show global status/statistics summary | `GET /status`, `GET /stats`, `GET /snapshot` | implemented | Current status/snapshot coverage exists; final split needs stable envelopes and richer stat fields. |
+| Show app/version/runtime information | `GET /app` | implemented | Returns app identity, build flavor, runtime state, and static capabilities. |
+| Show global status/statistics summary | `GET /status`, `GET /stats`, `GET /snapshot` | implemented | Status, stats, and snapshot routes use stable v1 envelopes. |
 | Update WebServer gzip preference | none | obsolete | HTML/WebServer gzip is page-serving presentation behavior, not a native controller preference. |
 | Update WebServer refresh interval | none | obsolete | HTML/WebServer refresh timing remains in `[WebServer] PageRefreshTime`; controller UIs own their own polling cadence. |
 | Update max download speed | `PATCH /app/preferences` | implemented | Uses `downloadLimitKiBps`; valid range is `1..4294967294` to match finite UI limits and avoid the unlimited sentinel. |
@@ -63,7 +63,7 @@ contract.
 
 | Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
-| List categories | `GET /categories` | implemented | Existing REST exposes categories; envelope and route contract need final alignment. |
+| List categories | `GET /categories` | implemented | Returns the category collection envelope. |
 | Create category | `POST /categories` | implemented | Required for aMuTorrent category management. |
 | Edit category | `PATCH /categories/{categoryId}` | implemented | Default category id `0` remains protected. |
 | Delete category | `DELETE /categories/{categoryId}` | implemented | Must preserve normal eMule constraints. |
@@ -76,17 +76,17 @@ contract.
 |---|---|---|---|
 | List downloads | `GET /transfers` | implemented | Current REST already returns transfer rows. |
 | Show one download | `GET /transfers/{hash}` | implemented | Current route exists. |
-| Add ED2K URL | `POST /transfers` | implemented | Final contract accepts `link` or `links`. |
-| Pause transfer | `POST /transfers/{hash}/operations/pause` | implemented | Existing command route must be aligned to resource operation route. |
-| Resume transfer | `POST /transfers/{hash}/operations/resume` | implemented | Same route-shape alignment needed. |
-| Stop transfer | `POST /transfers/{hash}/operations/stop` | implemented | Same route-shape alignment needed. |
+| Add ED2K URL | `POST /transfers` | implemented | Accepts `link` or `links` and always returns the per-item operation envelope. |
+| Pause transfer | `POST /transfers/{hash}/operations/pause` | implemented | Returns the stable per-item operation envelope. |
+| Resume transfer | `POST /transfers/{hash}/operations/resume` | implemented | Returns the stable per-item operation envelope. |
+| Stop transfer | `POST /transfers/{hash}/operations/stop` | implemented | Returns the stable per-item operation envelope. |
 | Cancel transfer | `DELETE /transfers/{hash}` with `deleteFiles: true` | implemented | Native eMule cancel removes partial `.part` state; adapters must not send `deleteFiles:false` for incomplete transfers. |
 | Delete transfer local files | `DELETE /transfers/{hash}` with `deleteFiles: true` | implemented | `deleteFiles` is the preferred spelling. |
 | Clear completed transfers | `POST /transfers/operations/clear-completed` | implemented | Uses the existing main-window clear-completed path. |
 | Rename incomplete transfer | `PATCH /transfers/{hash}` | implemented | Current main includes rename support for incomplete files only. |
 | Set transfer priority | `PATCH /transfers/{hash}` | implemented | Final enum is `auto`, `verylow`, `low`, `normal`, `high`, and `veryhigh`; shared-file release priority is separate. |
 | Set transfer category | `PATCH /transfers/{hash}` | implemented | Supports category id/name; final naming must be `categoryId`/`categoryName`. |
-| File recheck | `POST /transfers/{hash}/operations/recheck` | implemented | Existing route exists; final route and envelope need alignment. |
+| File recheck | `POST /transfers/{hash}/operations/recheck` | implemented | Returns the accepted-operation envelope after queuing the native recheck. |
 | Preview transfer | `POST /transfers/{hash}/operations/preview` | implemented | Route validates preview readiness before launching the existing preview command. |
 | Get transfer sources | `GET /transfers/{hash}/sources` | implemented | Current route exists. |
 | Get one transfer source | `GET /transfers/{hash}/sources/{clientId}` | implemented | Uses the same stable source selector as peer operations. |
@@ -103,15 +103,15 @@ contract.
 |---|---|---|---|
 | List shared files | `GET /shared-files` | implemented | Current REST has shared-file listing. |
 | Show one shared file | `GET /shared-files/{hash}` | implemented | Current route exists. |
-| Add one shared file by path | `POST /shared-files` | implemented | Current route exists; final response should return resource envelope. |
-| Unshare one file | `DELETE /shared-files/{hash}` | implemented | Existing behavior needs final `deleteFiles` naming and tests. |
+| Add one shared file by path | `POST /shared-files` | implemented | Returns a shared-file create operation result because hashing may be asynchronous. |
+| Unshare one file | `DELETE /shared-files/{hash}` | implemented | Uses final `deleteFiles` naming and returns the delete-result envelope. |
 | Delete shared local file | `DELETE /shared-files/{hash}` with `deleteFiles: true` | implemented | Native deletion requires explicit `deleteFiles:true`; default delete only unshares/excludes where allowed. |
 | Set shared-file upload priority | `PATCH /shared-files/{hash}` | implemented | Supports `auto`, `verylow`, `low`, `normal`, `high`, and native upload `release`. |
 | Update shared-file comment/rating | `PATCH /shared-files/{hash}` | implemented | Current main supports comment/rating for completed shared files. |
 | Get ED2K link | `GET /shared-files/{hash}/ed2k-link` | implemented | Metadata only; binary file streaming remains excluded. |
 | Show known file comments | `GET /shared-files/{hash}/comments` | implemented | Returns the local known-file comment/rating metadata as a comments collection. |
 | Binary file download from WebServer `getfile` | none | obsolete | User explicitly excluded binary shared-file streaming. |
-| Reload shared files | `POST /shared-files/operations/reload` and `/shared-directories/operations/reload` | implemented | Existing reload route exists; final contract names operation routes. |
+| Reload shared files | `POST /shared-files/operations/reload` and `/shared-directories/operations/reload` | implemented | Final contract names both operation routes. |
 | List shared directories | `GET /shared-directories` | implemented | Current REST supports configured roots. |
 | Replace shared directory roots | `PATCH /shared-directories` | implemented | Request roots accept compact string paths or `{path, recursive}` objects; current live E2E covers persistence. |
 | Auto-share folder live monitor add/remove file events | `GET /shared-files` plus live E2E | implemented | Live REST test coverage exists in `eMule-build-tests`; final contract stays resource-based. |
@@ -135,9 +135,9 @@ contract.
 
 | Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
-| List servers | `GET /servers` | implemented | Current REST exposes list/status through earlier route shapes. |
+| List servers | `GET /servers` | implemented | Returns the server collection envelope. |
 | Show server status | `GET /status`, `GET /servers` | implemented | Final contract folds status into resource rows and `/status`. |
-| Connect to best server | `POST /servers/operations/connect` | implemented | Existing route exists; final route is resource-operation shaped. |
+| Connect to best server | `POST /servers/operations/connect` | implemented | Final route is resource-operation shaped and returns server status. |
 | Connect to specific server | `POST /servers/{serverId}/operations/connect` | implemented | `serverId` is URL-encoded `address:port`. |
 | Disconnect or stop connecting | `POST /servers/operations/disconnect` | implemented | Covers both disconnect and stop-connecting runtime commands. |
 | Add server | `POST /servers` | implemented | Final create supports `address`, `port`, `name`, `priority`, `static`, and `connect`. |
@@ -152,9 +152,9 @@ contract.
 | Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
 | Show Kad status | `GET /kad` | implemented | Current status route exists. |
-| Start Kad | `POST /kad/operations/start` | implemented | Existing command route must align to final route. |
-| Stop Kad | `POST /kad/operations/stop` | implemented | Existing command route must align to final route. |
-| Recheck Kad firewall | `POST /kad/operations/recheck-firewall` | implemented | Existing route exists. |
+| Start Kad | `POST /kad/operations/start` | implemented | Final route returns Kad status. |
+| Stop Kad | `POST /kad/operations/stop` | implemented | Final route returns Kad status. |
+| Recheck Kad firewall | `POST /kad/operations/recheck-firewall` | implemented | Returns Kad status plus firewall-check operation flags. |
 | Bootstrap Kad | `POST /kad/operations/bootstrap` | implemented | Requires `{address, port}` and validates the port range before dispatch. |
 | Update nodes.dat from URL | `POST /kad/operations/import-nodes-url` | implemented | Marshalled through the existing validated nodes.dat import path. |
 
@@ -165,10 +165,10 @@ contract.
 | Start search | `POST /searches` | implemented | Returns `{id, query, method, type, status, results}` for async polling. |
 | List search sessions | `GET /searches` | implemented | Returns active search sessions without expanding result rows. |
 | Get search results | `GET /searches/{searchId}` | implemented | aMuTorrent should poll this until stable and verify the echoed `method` and `type`. |
-| Stop/delete one search | `DELETE /searches/{searchId}` | implemented | Existing stop route exists; final route deletes the search session. |
+| Stop/delete one search | `DELETE /searches/{searchId}` | implemented | Final route deletes the search session. |
 | Delete all searches | `DELETE /searches` | implemented | Uses the existing delete-all-searches UI action. |
 | Start search with method/type/min/max/availability/extension filters | `POST /searches` | implemented | Method, type, size, and extension filters are parsed by the native command seam. |
-| Add selected search result to downloads | `POST /searches/{searchId}/results/{hash}/operations/download` | implemented | aMuTorrent uses this route when a native search id is available. |
+| Add selected search result to downloads | `POST /searches/{searchId}/results/{hash}/operations/download` | implemented | Returns an operation result with the accepted search id and hash. |
 | Clear searches before new search | `DELETE /searches` | implemented | Explicit clear is required; `POST /searches` no longer accepts `clearExisting` before v1 freeze. |
 | Search page sort, table layout, and refresh | none | obsolete | Presentation-only. |
 

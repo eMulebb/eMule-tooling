@@ -68,13 +68,17 @@ regressions.
   `release`
 - return success envelopes as `{ "data": ..., "meta": ... }`
 - return unpaged collections as `{ "data": { "items": [...] }, "meta": ... }`
+- return transfer add and transfer pause/resume/stop/delete operations as
+  stable per-item operation envelopes, including the single-link and single-hash
+  routes
 - expose `offset`/`limit` pagination only on `GET /shared-files` and
   `GET /upload-queue`, with responses shaped as
   `{ "data": { "items": [...], "total": n, "offset": n, "limit": n }, "meta": ... }`
 - expose `limit` without `offset` only for bounded snapshots/tails such as
   `GET /snapshot` and `GET /logs`
 - return errors as `{ "error": { "code": "...", "message": "...", "details": {} } }`
-- return the updated resource from mutations when practical
+- return the updated resource from mutations when practical; asynchronous or
+  native operation routes return explicit operation-result DTOs instead
 - keep public response DTOs closed in OpenAPI; additive fields require an
   explicit OpenAPI update and matching contract tests in the same change
 - expose one canonical public route for each operation; upload removal uses
@@ -153,7 +157,10 @@ side effect; controllers must call
 clean search set.
 
 `POST /api/v1/searches/{searchId}/results/{hash}/operations/download` starts a
-download from one visible search result by lowercase 32-character eD2K hash.
+download from one visible search result by lowercase 32-character eD2K hash and
+returns an operation result with the accepted search id and hash. It does not
+pretend to return a `Transfer` resource before the native download queue has
+materialized one.
 
 `DELETE /api/v1/transfers/{hash}` cancels an incomplete native transfer. eMule
 does not preserve partial `.part` state on cancel, so controllers must send

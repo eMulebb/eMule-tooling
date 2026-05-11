@@ -215,6 +215,7 @@ paths:
           schema:
             type: integer
             minimum: 0
+            maximum: 4294967295
       responses:
         "200":
           $ref: "#/components/responses/TransferListResponse"
@@ -326,7 +327,7 @@ paths:
       operationId: browseTransferSource
       responses:
         "200":
-          $ref: "#/components/responses/OkAcceptedResponse"
+          $ref: "#/components/responses/TransferSourceBrowseResponse"
   /transfers/{hash}/sources/{clientId}/operations/add-friend:
     parameters:
       - $ref: "#/components/parameters/FileHash"
@@ -370,7 +371,7 @@ paths:
       operationId: banTransferSource
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/PeerBanResponse"
   /transfers/{hash}/sources/{clientId}/operations/unban:
     parameters:
       - $ref: "#/components/parameters/FileHash"
@@ -381,7 +382,7 @@ paths:
       operationId: unbanTransferSource
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/PeerBanResponse"
   /transfers/{hash}/sources/{clientId}/operations/release-slot:
     parameters:
       - $ref: "#/components/parameters/FileHash"
@@ -466,7 +467,7 @@ paths:
               $ref: "#/components/schemas/SharedFileCreateRequest"
       responses:
         "200":
-          $ref: "#/components/responses/SharedFileResponse"
+          $ref: "#/components/responses/SharedFileCreateResponse"
   /shared-files/operations/reload:
     post:
       tags: [SharedFiles]
@@ -597,7 +598,7 @@ paths:
       operationId: removeUploadClient
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/UploadRemoveResponse"
   /uploads/{clientId}/operations/add-friend:
     parameters:
       - $ref: "#/components/parameters/ClientId"
@@ -627,7 +628,7 @@ paths:
       operationId: banUploadClient
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/PeerBanResponse"
   /uploads/{clientId}/operations/unban:
     parameters:
       - $ref: "#/components/parameters/ClientId"
@@ -637,7 +638,7 @@ paths:
       operationId: unbanUploadClient
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/PeerBanResponse"
   /upload-queue:
     get:
       tags: [Uploads]
@@ -658,7 +659,7 @@ paths:
       operationId: removeUploadQueueClient
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/UploadRemoveResponse"
   /upload-queue/{clientId}:
     parameters:
       - $ref: "#/components/parameters/ClientId"
@@ -708,7 +709,7 @@ paths:
       operationId: banUploadQueueClient
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/PeerBanResponse"
   /upload-queue/{clientId}/operations/unban:
     parameters:
       - $ref: "#/components/parameters/ClientId"
@@ -718,7 +719,7 @@ paths:
       operationId: unbanUploadQueueClient
       responses:
         "200":
-          $ref: "#/components/responses/OkResponse"
+          $ref: "#/components/responses/PeerBanResponse"
   /servers:
     get:
       tags: [Servers]
@@ -769,7 +770,7 @@ paths:
               $ref: "#/components/schemas/UrlImportRequest"
       responses:
         "200":
-          $ref: "#/components/responses/OkAcceptedResponse"
+          $ref: "#/components/responses/UrlImportResponse"
   /servers/{serverId}:
     parameters:
       - $ref: "#/components/parameters/ServerId"
@@ -809,7 +810,7 @@ paths:
       operationId: connectServer
       responses:
         "200":
-          $ref: "#/components/responses/OkAcceptedResponse"
+          $ref: "#/components/responses/ServerStatusResponse"
   /kad:
     get:
       tags: [Kad]
@@ -831,7 +832,7 @@ paths:
               $ref: "#/components/schemas/UrlImportRequest"
       responses:
         "200":
-          $ref: "#/components/responses/OkAcceptedResponse"
+          $ref: "#/components/responses/UrlImportResponse"
   /kad/operations/start:
     post:
       tags: [Kad]
@@ -944,7 +945,7 @@ paths:
               $ref: "#/components/schemas/SearchResultDownloadRequest"
       responses:
         "200":
-          $ref: "#/components/responses/TransferResponse"
+          $ref: "#/components/responses/SearchResultDownloadResponse"
   /friends:
     get:
       tags: [Friends]
@@ -1014,6 +1015,7 @@ components:
       schema:
         type: integer
         minimum: 0
+        maximum: 4294967295
     ClientId:
       name: clientId
       in: path
@@ -1043,14 +1045,16 @@ components:
       schema:
         type: integer
         minimum: 0
+        maximum: 2147483647
         default: 0
     SearchId:
       name: searchId
       in: path
       required: true
       schema:
-        type: string
-        pattern: "^[0-9]+$"
+        type: integer
+        minimum: 0
+        maximum: 4294967295
     ServerId:
       name: serverId
       in: path
@@ -1151,6 +1155,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/OkEnvelope"
+    PeerBanResponse:
+      description: Peer ban-state operation envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PeerBanEnvelope"
     PreferencesResponse:
       description: Preferences envelope.
       content:
@@ -1163,6 +1173,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/SearchEnvelope"
+    SearchResultDownloadResponse:
+      description: Search-result download operation envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SearchResultDownloadEnvelope"
     SearchListResponse:
       description: Search-session collection envelope.
       content:
@@ -1205,6 +1221,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/SharedFileEnvelope"
+    SharedFileCreateResponse:
+      description: Shared-file create operation envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SharedFileCreateEnvelope"
     SharedFileDeleteResponse:
       description: Shared-file delete result envelope.
       content:
@@ -1247,6 +1269,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/TransferEnvelope"
+    TransferSourceBrowseResponse:
+      description: Transfer-source browse operation envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TransferSourceBrowseEnvelope"
     TransferSourceListResponse:
       description: Transfer-source collection envelope.
       content:
@@ -1271,6 +1299,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/UploadEnvelope"
+    UploadRemoveResponse:
+      description: Upload removal operation envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UploadRemoveEnvelope"
     UploadQueueListResponse:
       description: Upload-queue collection envelope.
       content:
@@ -1283,6 +1317,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/UploadQueueEntryEnvelope"
+    UrlImportResponse:
+      description: URL import operation envelope.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UrlImportEnvelope"
   schemas:
     EnvelopeMeta:
       type: object
@@ -1310,6 +1350,24 @@ components:
           $ref: "#/components/schemas/Ok"
         meta:
           $ref: "#/components/schemas/EnvelopeMeta"
+    PeerBanEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/PeerBanResult"
+    PeerBanResult:
+      type: object
+      additionalProperties: false
+      required: [ok, banned]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        banned:
+          type: boolean
     DiagnosticDumpEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -1858,6 +1916,7 @@ components:
         categoryId:
           type: integer
           minimum: 0
+          maximum: 4294967295
         categoryName:
           type: string
           minLength: 1
@@ -1900,6 +1959,7 @@ components:
         categoryId:
           type: integer
           minimum: 0
+          maximum: 4294967295
         categoryName:
           type: string
           minLength: 1
@@ -1977,6 +2037,26 @@ components:
           properties:
             data:
               $ref: "#/components/schemas/TransferSource"
+    TransferSourceBrowseEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/TransferSourceBrowseResult"
+    TransferSourceBrowseResult:
+      type: object
+      additionalProperties: false
+      required: [ok, alreadyPending, searchId]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        alreadyPending:
+          type: boolean
+        searchId:
+          type: string
     TransferSource:
       type: object
       additionalProperties: false
@@ -2112,6 +2192,32 @@ components:
           properties:
             data:
               $ref: "#/components/schemas/SharedFile"
+    SharedFileCreateEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/SharedFileCreateResult"
+    SharedFileCreateResult:
+      type: object
+      additionalProperties: false
+      required: [ok, path, alreadyShared, queued, file]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        path:
+          type: string
+        alreadyShared:
+          type: boolean
+        queued:
+          type: boolean
+        file:
+          oneOf:
+            - $ref: "#/components/schemas/SharedFile"
+            - type: "null"
     SharedFileDeleteEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2421,6 +2527,25 @@ components:
           properties:
             data:
               $ref: "#/components/schemas/Upload"
+    UploadRemoveEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/UploadRemoveResult"
+    UploadRemoveResult:
+      type: object
+      additionalProperties: false
+      required: [ok, removed]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        removed:
+          type: string
+          enum: [queue, slot]
     UploadScoreBreakdown:
       type: object
       additionalProperties: false
@@ -2628,7 +2753,23 @@ components:
         url:
           type: string
           minLength: 1
-          format: uri
+    UrlImportEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/UrlImportResult"
+    UrlImportResult:
+      type: object
+      additionalProperties: false
+      required: [ok, imported]
+      properties:
+        ok:
+          type: boolean
+        imported:
+          type: boolean
     KadEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2848,11 +2989,32 @@ components:
         categoryId:
           type: integer
           minimum: 0
+          maximum: 4294967295
         categoryName:
           type: string
           minLength: 1
         paused:
           type: boolean
+    SearchResultDownloadEnvelope:
+      unevaluatedProperties: false
+      allOf:
+        - $ref: "#/components/schemas/EnvelopeBase"
+        - type: object
+          properties:
+            data:
+              $ref: "#/components/schemas/SearchResultDownloadResult"
+    SearchResultDownloadResult:
+      type: object
+      additionalProperties: false
+      required: [ok, searchId, hash]
+      properties:
+        ok:
+          type: boolean
+          const: true
+        searchId:
+          type: string
+        hash:
+          type: string
     FriendListEnvelope:
       unevaluatedProperties: false
       allOf:
