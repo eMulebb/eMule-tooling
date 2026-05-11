@@ -115,9 +115,10 @@ The release API intentionally excludes:
 `automatic`, `server`, `global`, or `kad`. The request may also select a native
 search file type with the exact eMule file-type token: empty string for any
 type, `Arc`, `Audio`, `Iso`, `Image`, `Pro`, `Video`, `Doc`, or
-`EmuleCollection`. The route maps directly to the existing eD2K/Kad search
-modes and file-type filters and must not change stock search semantics for
-beta 0.7.3. Search resources echo the resolved method and native type so
+`EmuleCollection`. No aliases, alternate casing, or request-time type remapping
+are accepted. The route maps directly to the existing eD2K/Kad search modes
+and file-type filters and must not change stock search semantics for
+beta 0.7.3. Search resources echo the resolved method and selected native type so
 controllers can distinguish eD2K server/global searches from Kad searches and
 audit the selected file filter without inferring from result timing or counts.
 
@@ -130,9 +131,10 @@ poll the search resource and treat `results` as a bounded native snapshot
 governed by eMule's existing search-result retention and visibility behavior.
 Each native result also carries the resolved search method and selected search
 type when the result is returned through a search resource. `SearchResult.fileType`
-is the raw native file-type tag reported for that row; it is not constrained to
-or remapped through the search-filter token enum. Search creation does not clear
-existing searches as a side effect; controllers must call
+is the raw native file-type tag reported for that row; `SearchResult.fileType`
+remains row metadata and is not constrained to or remapped through the
+search-filter token enum. Search creation does not clear existing searches as a
+side effect; controllers must call
 `DELETE /api/v1/searches` with `confirmDeleteAllSearches: true` when they need a
 clean search set.
 
@@ -166,6 +168,14 @@ The live smoke harness validates route coverage and response envelopes against
 OpenAPI. The strict DTO policy is enforced by tests that reject open-ended
 public response schemas except for explicitly documented extension maps such as
 `error.details` and `app.capabilities`.
+
+## Search Refactoring Notes
+
+Future cleanup should keep the current wire contract unchanged while reducing
+implementation duplication: the native REST command seam can collapse toward the
+exact type string contract instead of maintaining a parallel enum, and the
+Torznab family-to-native-type mapping still resolves to native REST tokens
+accepted by `/api/v1/searches`.
 
 ## Controller Compatibility Matrix
 

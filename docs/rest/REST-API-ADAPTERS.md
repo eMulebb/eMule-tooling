@@ -88,4 +88,6 @@ Supported responses:
 Movie and TV searches dispatch native `Video` searches through connected
 `global` first and connected `kad` second, combining eD2K hashes from the
 available networks. Other Torznab families keep the native file-family mapping
-and default automatic search policy used by `POST /api/v1/searches`.
+and default automatic search policy used by `POST /api/v1/searches`. The
+adapter-side result filter for extension, size, and Torznab family only narrows
+returned rows; it does not replace the native `type` field sent to REST v1.
