@@ -1601,13 +1601,16 @@ components:
     Status:
       type: object
       additionalProperties: false
+      required: [stats, servers, kad]
       properties:
         connected:
           type: boolean
         downloadSpeedKiBps:
           type: number
+          minimum: 0
         uploadSpeedKiBps:
           type: number
+          minimum: 0
         servers:
           $ref: "#/components/schemas/ServerStatus"
         kad:
@@ -1625,29 +1628,40 @@ components:
     Stats:
       type: object
       additionalProperties: false
+      required: [connected, downloadSpeedKiBps, uploadSpeedKiBps, sessionDownloadedBytes, sessionUploadedBytes, activeUploads, waitingUploads, downloadCount, ed2kConnected, ed2kHighId, kadRunning, kadConnected, kadFirewalled]
       properties:
         connected:
           type: boolean
         downloadSpeedKiBps:
           type: number
+          minimum: 0
         uploadSpeedKiBps:
           type: number
+          minimum: 0
         sessionDownloadedBytes:
           type: integer
+          minimum: 0
         sessionUploadedBytes:
           type: integer
+          minimum: 0
         totalDownloadedBytes:
           type: integer
+          minimum: 0
         totalUploadedBytes:
           type: integer
+          minimum: 0
         activeDownloads:
           type: integer
+          minimum: 0
         activeUploads:
           type: integer
+          minimum: 0
         waitingUploads:
           type: integer
+          minimum: 0
         downloadCount:
           type: integer
+          minimum: 0
         ed2kConnected:
           type: boolean
         ed2kHighId:
@@ -1836,8 +1850,10 @@ components:
           type: string
         sizeBytes:
           type: integer
+          minimum: 0
         completedBytes:
           type: integer
+          minimum: 0
         state:
           $ref: "#/components/schemas/TransferState"
         priority:
@@ -1882,8 +1898,10 @@ components:
           type: boolean
         downloadSpeedKiBps:
           type: number
+          minimum: 0
         uploadSpeedKiBps:
           type: number
+          minimum: 0
         ed2kLink:
           type: string
     TransferState:
@@ -2065,6 +2083,7 @@ components:
     TransferSource:
       type: object
       additionalProperties: false
+      required: [clientId, userName, userHash, address, port, downloadState, clientSoftware, downloadSpeedKiBps, availableParts, partCount, serverIp, serverPort, lowId, queueRank, viewSharedFiles, sharedFilesRequestPending]
       properties:
         clientId:
           type: string
@@ -2076,6 +2095,8 @@ components:
           type: string
         port:
           type: integer
+          minimum: 0
+          maximum: 65535
         downloadState:
           type: string
           enum: [downloading, onqueue, connected, connecting, waitcallback, waitcallbackkad, reqhashset, noneededparts, toomanyconns, toomanyconnskad, lowtolowip, banned, error, none, remotequeuefull, unknown]
@@ -2083,18 +2104,24 @@ components:
           type: string
         downloadSpeedKiBps:
           type: number
+          minimum: 0
         availableParts:
           type: integer
+          minimum: 0
         partCount:
           type: integer
+          minimum: 0
         serverIp:
           type: string
         serverPort:
           type: integer
+          minimum: 0
+          maximum: 65535
         lowId:
           type: boolean
         queueRank:
           type: integer
+          minimum: 0
         viewSharedFiles:
           type: boolean
         sharedFilesRequestPending:
@@ -2251,7 +2278,7 @@ components:
     SharedFile:
       type: object
       additionalProperties: false
-      required: [hash, name, sizeBytes]
+      required: [hash, name, path, directory, sizeBytes, priority, autoUploadPriority, requests, acceptedRequests, transferredBytes, allTimeRequests, allTimeAccepts, allTimeTransferred, partCount, partFile, complete, comment, rating, hasComment, userRating, publishedEd2k, sharedByRule]
       properties:
         hash:
           type: string
@@ -2261,6 +2288,7 @@ components:
           type: string
         sizeBytes:
           type: integer
+          minimum: 0
         priority:
           $ref: "#/components/schemas/SharedFilePriority"
         rating:
@@ -2277,12 +2305,16 @@ components:
           type: boolean
         allTimeRequests:
           type: integer
+          minimum: 0
         allTimeAccepts:
           type: integer
+          minimum: 0
         allTimeTransferred:
           type: integer
+          minimum: 0
         partCount:
           type: integer
+          minimum: 0
         partFile:
           type: boolean
         complete:
@@ -2291,16 +2323,20 @@ components:
           type: boolean
         userRating:
           type: integer
+          minimum: 0
         publishedEd2k:
           type: boolean
         sharedByRule:
           type: boolean
         requests:
           type: integer
+          minimum: 0
         acceptedRequests:
           type: integer
+          minimum: 0
         transferredBytes:
           type: integer
+          minimum: 0
     SharedFileCreateRequest:
       type: object
       additionalProperties: false
@@ -2466,6 +2502,7 @@ components:
     Upload:
       type: object
       additionalProperties: false
+      required: [clientId, userName, userHash, clientSoftware, clientMod, uploadState, uploadSpeedKiBps, uploadedBytes, queueSessionUploaded, payloadBuffered, waitTimeMs, waitStartedTick, score, address, port, serverIp, serverPort, lowId, friendSlot, uploading, waitingQueue, requestedFileHash, requestedFileName, requestedFileSizeBytes]
       properties:
         clientId:
           type: string
@@ -2488,26 +2525,37 @@ components:
           type: string
         uploadSpeedKiBps:
           type: number
+          minimum: 0
         uploadedBytes:
           type: integer
+          minimum: 0
         queueSessionUploaded:
           type: integer
+          minimum: 0
         payloadBuffered:
           type: integer
+          minimum: 0
         waitTimeMs:
           type: integer
+          minimum: 0
         waitStartedTick:
           type: integer
+          minimum: 0
         score:
           type: integer
+          minimum: 0
         address:
           type: string
         port:
           type: integer
+          minimum: 0
+          maximum: 65535
         serverIp:
           type: string
         serverPort:
           type: integer
+          minimum: 0
+          maximum: 65535
         lowId:
           type: boolean
         friendSlot:
@@ -2528,6 +2576,7 @@ components:
           type:
             - integer
             - "null"
+          minimum: 0
         scoreBreakdown:
           $ref: "#/components/schemas/UploadScoreBreakdown"
     UploadEnvelope:
@@ -2567,8 +2616,10 @@ components:
           enum: [available, friendSlot, cooldown, unavailable]
         baseScore:
           type: integer
+          minimum: 0
         effectiveScore:
           type: integer
+          minimum: 0
         coreScore:
           type: number
         effectiveScoreFloat:
@@ -2581,14 +2632,17 @@ components:
           type: boolean
         lowRatioBonus:
           type: integer
+          minimum: 0
         lowIdPenaltyApplied:
           type: boolean
         lowIdDivisor:
           type: integer
+          minimum: 0
         oldClientPenaltyApplied:
           type: boolean
         cooldownRemainingMs:
           type: integer
+          minimum: 0
     UploadQueueListEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2621,6 +2675,7 @@ components:
           properties:
             queueRank:
               type: integer
+              minimum: 0
     UploadQueueEntryEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2655,7 +2710,7 @@ components:
     Server:
       type: object
       additionalProperties: false
-      required: [address, port]
+      required: [address, port, name, priority, static, connected, connecting, current, description, dynIp, failedCount, hardFiles, ip, ping, softFiles, version, users, files]
       properties:
         address:
           type: string
@@ -2682,20 +2737,26 @@ components:
           type: string
         failedCount:
           type: integer
+          minimum: 0
         hardFiles:
           type: integer
+          minimum: 0
         ip:
           type: string
         ping:
           type: integer
+          minimum: 0
         softFiles:
           type: integer
+          minimum: 0
         version:
           type: string
         users:
           type: integer
+          minimum: 0
         files:
           type: integer
+          minimum: 0
     ServerStatusEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2707,6 +2768,7 @@ components:
     ServerStatus:
       type: object
       additionalProperties: false
+      required: [connected, connecting, currentServer, lowId, serverCount]
       properties:
         connected:
           type: boolean
@@ -2794,6 +2856,7 @@ components:
     Kad:
       type: object
       additionalProperties: false
+      required: [running, connected, firewalled, bootstrapping, bootstrapProgress, users, files]
       properties:
         running:
           type: boolean
@@ -2805,22 +2868,28 @@ components:
             - "null"
         nodes:
           type: integer
+          minimum: 0
         users:
           type:
             - integer
             - "null"
+          minimum: 0
         files:
           type:
             - integer
             - "null"
+          minimum: 0
         bootstrapping:
           type: boolean
         bootstrapProgress:
           type: integer
+          minimum: 0
         indexedSources:
           type: integer
+          minimum: 0
         indexedKeywords:
           type: integer
+          minimum: 0
         operationQueued:
           type: boolean
         alreadyRunning:
@@ -2952,10 +3021,13 @@ components:
           type: string
         sizeBytes:
           type: integer
+          minimum: 0
         sources:
           type: integer
+          minimum: 0
         completeSources:
           type: integer
+          minimum: 0
         fileType:
           type: string
           description: >
@@ -2978,18 +3050,26 @@ components:
           type: string
         clientPort:
           type: integer
+          minimum: 0
+          maximum: 65535
         serverIp:
           type: string
         serverPort:
           type: integer
+          minimum: 0
+          maximum: 65535
         clientCount:
           type: integer
+          minimum: 0
         serverCount:
           type: integer
+          minimum: 0
         kadPublishInfo:
           type: integer
+          minimum: 0
         rating:
           type: integer
+          minimum: 0
         hasComment:
           type: boolean
         spam:
@@ -3067,6 +3147,8 @@ components:
             - "null"
         port:
           type: integer
+          minimum: 0
+          maximum: 65535
         lastSeen:
           type:
             - string
