@@ -90,7 +90,7 @@ contract.
 | Preview transfer | `POST /transfers/{hash}/operations/preview` | implemented | Route validates preview readiness before launching the existing preview command. |
 | Get transfer sources | `GET /transfers/{hash}/sources` | implemented | Current route exists. |
 | Get one transfer source | `GET /transfers/{hash}/sources/{clientId}` | implemented | Uses the same stable source selector as peer operations. |
-| Get transfer part/gap/request detail | `GET /transfers/{hash}/details` | implemented | Native route returns transfer, part, and source detail; aMuTorrent hydrates part/gap/request fields from it. |
+| Get transfer part/source detail | `GET /transfers/{hash}/details` | implemented | Native route returns transfer, part, and source detail; aMuTorrent hydrates transfer detail from it. |
 | Browse source | `POST /transfers/{hash}/sources/{clientId}/operations/browse` | implemented | Uses source user hash as the stable selector where available. |
 | Add/remove friend from transfer peer | `POST /transfers/{hash}/sources/{clientId}/operations/add-friend`, `.../remove-friend`, plus `/friends` | implemented | Transfer-source peer operations use the same stable `clientId` selector exposed by source rows. |
 | Ban/unban transfer peer | `POST /transfers/{hash}/sources/{clientId}/operations/ban`, `.../unban` | implemented | Mirrors pro-user source context-menu controls. |
@@ -200,7 +200,7 @@ contract.
 | qBittorrent transfer delete semantics | implemented | qBit-compatible delete requests always forward native transfer cancel with `deleteFiles:true`; eMule does not provide a partial-state-preserving delete for incomplete transfers. |
 | Shared-file deletion | implemented | Shared deletes call `/shared-files/{hash}` instead of transfer delete helpers. |
 | Uploads in data pipeline | implemented | `/uploads` rows remain preserved through the eMule BB manager fetch result. |
-| Transfer detail hydration | implemented | aMuTorrent hydrates peers plus part/gap/request detail from `/transfers/{hash}/details`. |
+| Transfer detail hydration | implemented | aMuTorrent hydrates peers plus part/source detail from `/transfers/{hash}/details`. |
 | Search polling | implemented | aMuTorrent stores the returned `id` and polls `/searches/{searchId}` for results. |
 | Browser smoke | implemented | `eMule-build-tests` now owns `amutorrent-browser-smoke.py`, launched from the aggregate live E2E suite. |
 

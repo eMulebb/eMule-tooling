@@ -290,7 +290,7 @@ paths:
       - $ref: "#/components/parameters/FileHash"
     get:
       tags: [Transfers]
-      summary: Return detailed part, gap, request, and source state for one transfer.
+      summary: Return detailed part and source state for one transfer.
       operationId: getTransferDetails
       responses:
         "200":

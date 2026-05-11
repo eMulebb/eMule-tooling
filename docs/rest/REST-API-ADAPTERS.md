@@ -19,6 +19,13 @@ for beta 0.7.3 beyond preserving shared listener buildability.
 qBittorrent Web API clone. It uses qBittorrent-shaped content types, text
 responses, session cookies, and form bodies where Arr clients expect them.
 
+Reference surface used for compatibility decisions:
+
+- qBittorrent Web API wiki, especially application, auth, and torrent routes:
+  <https://github.com/qbittorrent/qBittorrent/wiki/WebUI-API-%28qBittorrent-4.1%29>
+- Radarr qBittorrent download client schema fields as exposed by
+  `/api/v3/downloadclient/schema`.
+
 Supported routes:
 
 | Method | Route | Auth | Contract role |
@@ -29,17 +36,17 @@ Supported routes:
 | `GET` | `/api/v2/app/preferences` | yes | Minimal preference payload for Arr client tests. |
 | `GET` | `/api/v2/torrents/categories` | yes | Category map. |
 | `POST` | `/api/v2/torrents/createCategory` | yes | Create a native category from qBit form field `category`. |
-| `GET` | `/api/v2/torrents/info` | yes | Transfer list, optionally filtered by `category`. |
-| `GET` | `/api/v2/torrents/properties` | yes | One transfer's qBit-shaped properties by `hash`. |
-| `GET` | `/api/v2/torrents/files` | yes | One transfer's qBit-shaped file list by `hash`. |
-| `POST` | `/api/v2/torrents/add` | yes | Add one Torznab-emitted magnet converted back to an eD2K link. |
+| `GET` | `/api/v2/torrents/info` | yes | Transfer list, optionally filtered by `category`; rows include Arr import fields such as `save_path` and `content_path` from the native category path. |
+| `GET` | `/api/v2/torrents/properties` | yes | One transfer's qBit-shaped properties by `hash`, including path, size, progress, and seeding-time fields consumed by Arr completed download handling. |
+| `GET` | `/api/v2/torrents/files` | yes | One transfer's qBit-shaped file list by `hash`, including file `name`, `size`, and `progress`. |
+| `POST` | `/api/v2/torrents/add` | yes | Add one Torznab-emitted magnet converted back to an eD2K link; accepts Arr qBit form fields that eMule ignores after validation. |
 | `POST` | `/api/v2/torrents/delete` | yes | Delete/cancel transfers by `hashes`; always maps to native `deleteFiles: true`. |
 | `POST` | `/api/v2/torrents/setCategory` | yes | Assign a native category by `hashes` and `category`. |
 | `POST` | `/api/v2/torrents/pause` | yes | Pause transfers by `hashes`. |
 | `POST` | `/api/v2/torrents/stop` | yes | Stop transfers by `hashes`. |
 | `POST` | `/api/v2/torrents/resume` | yes | Resume transfers by `hashes`. |
 | `POST` | `/api/v2/torrents/start` | yes | Start/resume transfers by `hashes`. |
-| `POST` | `/api/v2/torrents/setShareLimits` | yes | Accepted no-op for Arr compatibility after validating `hashes`. |
+| `POST` | `/api/v2/torrents/setShareLimits` | yes | Accepted no-op for Arr compatibility after validating `hashes`, `ratioLimit`, `seedingTimeLimit`, and `inactiveSeedingTimeLimit`. |
 | `POST` | `/api/v2/torrents/topPrio` | yes | Accepted no-op for Arr compatibility after validating `hashes`. |
 | `POST` | `/api/v2/torrents/setForceStart` | yes | Accepted no-op after validating `hashes` and optional boolean `value`. |
 
@@ -52,6 +59,12 @@ controls, and full content-layout operations.
 The Torznab adapter is a Prowlarr/Radarr/Sonarr search bridge. It emits XML and
 uses adapter-shaped status codes and bodies; it never returns native v1 JSON
 envelopes.
+
+Reference surface used for compatibility decisions:
+
+- Torznab specification: <https://torznab.github.io/spec-1.3-draft/>
+- Newznab search category conventions used by Arr clients:
+  <https://newznab.readthedocs.io/en/latest/misc/api/>
 
 Supported request shape:
 

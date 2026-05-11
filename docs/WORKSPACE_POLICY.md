@@ -262,6 +262,11 @@ The canonical workspace currently materializes these app worktrees:
 - Standalone live test entrypoints must use the same defaults as aggregate live
   runners. Do not make UPnP or the `hide.me` bind depend on aggregate-only
   wrapper flags.
+- Live-wire media titles and search terms are operator-owned runtime inputs.
+  Never hardcode real movie, series, or release titles in tracked harness code,
+  docs, or tests. Load live terms from `live-wire-inputs.local.json` or an
+  explicit `--live-wire-inputs-file`; tracked examples and fixtures may use only
+  generic placeholders.
 
 ## Backport And Baseline Maintenance Rules
 
