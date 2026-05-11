@@ -1716,6 +1716,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items]
               properties:
                 items:
@@ -1807,6 +1808,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items]
               properties:
                 items:
@@ -2023,6 +2025,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items]
               properties:
                 items:
@@ -2169,6 +2172,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items, total, offset, limit]
               properties:
                 items:
@@ -2327,8 +2331,11 @@ components:
           properties:
             data:
               type: object
-              required: [link]
+              additionalProperties: false
+              required: [hash, link]
               properties:
+                hash:
+                  type: string
                 link:
                   type: string
     CommentListEnvelope:
@@ -2339,6 +2346,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items]
               properties:
                 items:
@@ -2446,6 +2454,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items]
               properties:
                 items:
@@ -2586,6 +2595,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items, total, offset, limit]
               properties:
                 items:
@@ -2625,6 +2635,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items]
               properties:
                 items:
@@ -2832,6 +2843,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items]
               properties:
                 items:
@@ -3023,6 +3035,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items]
               properties:
                 items:
@@ -3076,6 +3089,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items]
               properties:
                 items:
@@ -3106,6 +3120,7 @@ components:
           properties:
             data:
               type: object
+              additionalProperties: false
               required: [items]
               properties:
                 items:
