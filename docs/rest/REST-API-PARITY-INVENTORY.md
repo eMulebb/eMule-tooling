@@ -196,7 +196,7 @@ contract.
 |---|---|---|
 | Endpoint adapter route names | implemented | aMuTorrent now prefers final operation/resource routes for transfers, servers, shared reload, and search-result download. |
 | Response envelopes | implemented | Native REST now always emits `{data, meta}` success envelopes and `{error:{code,message,details}}` errors; aMuTorrent unwraps both. |
-| Torznab search method policy | implemented | Prowlarr/Torznab movie and TV searches dispatch native `video` searches through both `kad` and `global`, combining connected-network results; other families keep the native automatic policy. |
+| Torznab search method policy | implemented | Prowlarr/Torznab movie and TV searches dispatch native `video` searches through connected `global` first and connected `kad` second, combining connected-network results; other families keep the native automatic policy. |
 | qBittorrent transfer delete semantics | implemented | qBit-compatible delete requests always forward native transfer cancel with `deleteFiles:true`; eMule does not provide a partial-state-preserving delete for incomplete transfers. |
 | Shared-file deletion | implemented | Shared deletes call `/shared-files/{hash}` instead of transfer delete helpers. |
 | Uploads in data pipeline | implemented | `/uploads` rows remain preserved through the eMule BB manager fetch result. |
