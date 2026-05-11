@@ -116,6 +116,12 @@ The release API intentionally excludes:
 - granular REST permissions or low-rights REST mode
 - dynamic capability negotiation between eMule BB and aMuTorrent
 
+`PATCH /api/v1/shared-directories` replaces the configured shared-directory
+roots and requires `confirmReplaceRoots: true`. Each root may be either a
+non-empty string path or an object with a non-empty `path` and optional
+`recursive` flag. Response-only directory state such as existence, monitoring,
+or shareability is not accepted in the replacement request.
+
 ## Search Semantics
 
 `POST /api/v1/searches` starts a native eMule search using the requested method:

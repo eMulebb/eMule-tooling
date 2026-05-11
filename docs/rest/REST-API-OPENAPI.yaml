@@ -1484,6 +1484,7 @@ components:
     PreferencesPatch:
       type: object
       additionalProperties: false
+      minProperties: 1
       properties:
         downloadLimitKiBps:
           type: integer
@@ -1706,6 +1707,7 @@ components:
           type:
             - string
             - "null"
+          minLength: 1
         comment:
           type: string
         color:
@@ -1728,6 +1730,7 @@ components:
           type:
             - string
             - "null"
+          minLength: 1
         comment:
           type: string
         color:
@@ -2193,6 +2196,7 @@ components:
       properties:
         path:
           type: string
+          minLength: 1
     SharedFilePatch:
       type: object
       additionalProperties: false
@@ -2314,7 +2318,20 @@ components:
         roots:
           type: array
           items:
-            $ref: "#/components/schemas/SharedDirectory"
+            $ref: "#/components/schemas/SharedDirectoryRootInput"
+    SharedDirectoryRootInput:
+      oneOf:
+        - type: string
+          minLength: 1
+        - type: object
+          additionalProperties: false
+          required: [path]
+          properties:
+            path:
+              type: string
+              minLength: 1
+            recursive:
+              type: boolean
     UploadListEnvelope:
       unevaluatedProperties: false
       allOf:

@@ -113,7 +113,7 @@ contract.
 | Binary file download from WebServer `getfile` | none | obsolete | User explicitly excluded binary shared-file streaming. |
 | Reload shared files | `POST /shared-files/operations/reload` and `/shared-directories/operations/reload` | implemented | Existing reload route exists; final contract names operation routes. |
 | List shared directories | `GET /shared-directories` | implemented | Current REST supports configured roots. |
-| Replace shared directory roots | `PATCH /shared-directories` | implemented | Current live E2E covers persistence. |
+| Replace shared directory roots | `PATCH /shared-directories` | implemented | Request roots accept compact string paths or `{path, recursive}` objects; current live E2E covers persistence. |
 | Auto-share folder live monitor add/remove file events | `GET /shared-files` plus live E2E | implemented | Live REST test coverage exists in `eMule-build-tests`; final contract stays resource-based. |
 | Shared-files sort/column state | none | obsolete | Presentation-only. |
 
