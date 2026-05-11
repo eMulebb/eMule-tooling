@@ -8,64 +8,70 @@ This file is not policy, not backlog authority, and not a substitute for
 
 ## Current State
 
-- Date: 2026-05-02.
+- Date: 2026-05-12.
 - Active app worktree: `%EMULE_WORKSPACE_ROOT%\workspaces\v0.72a\app\eMule-main`
   on `main`.
 - Supporting repos checked this session:
   - `%EMULE_WORKSPACE_ROOT%\repos\eMule-tooling` on `main`
   - `%EMULE_WORKSPACE_ROOT%\repos\eMule-build-tests` on `main`
-- All checked active repos are clean on `main...origin/main`.
-- Latest tooling commit:
-  `f1de5c8 FEAT-050 track completion command automation`.
-- Latest app commits:
-  - `1db8f7c FEAT-050 keep completion command seam standalone`
-  - `6854c1d FEAT-050 launch completion command after retained file`
-  - `b6ce2ef FEAT-050 add completion command preferences`
-- Latest tests commit:
-  `db45066 FEAT-050 cover completion command seams`.
+- App and build-test repos are clean on `main...origin/main`.
+- `%EMULE_WORKSPACE_ROOT%\repos\eMule-tooling` has unrelated untracked
+  `docs\audits\BETA-READINESS-*.md` files; they were left untouched.
+- Latest app commit:
+  `07572d6 CI-024 report shared hashing REST busy state`.
+- Latest build-tests commit:
+  `641700f CI-024 gate Arr acquisition on shared hashing idle`.
 
 ## Completed This Session
 
-- Added `FEAT-050` backlog tracking for a qBittorrent-style command/program
-  launch after file completion.
-- Implemented disabled-by-default Files preferences:
-  - `RunCommandOnFileCompletion`
-  - `FileCompletionProgram`
-  - `FileCompletionArguments`
-- Implemented program-plus-arguments command shape with direct `CreateProcess`
-  launch, no shell.
-- Restricted configured completion programs to `.exe` and `.com`.
-- Hooked launch only after successful retained file completion, after the
-  existing completion notification and collection handling.
-- Skipped duplicate-discard, failed completion, disabled option, unsupported
-  executable extension, and app-shutdown cases.
-- Added supported argument tokens:
-  - `%F` completed full file path, auto-quoted
-  - `%D` completed directory, auto-quoted
-  - `%N` completed file name
-  - `%H` lowercase file hash
-  - `%S` file size in bytes
-  - `%C` category name
-- Added seam coverage for launch request construction, token expansion, path
-  quoting, skip conditions, and executable extension filtering.
+- Investigated whether a large shared-folder tree can block REST/Arr live
+  tests.
+- Confirmed the web listener can still answer cheap routes while native-state
+  routes can stall behind UI/native model work.
+- Added REST shared-hashing diagnostics:
+  - `/api/v1/status` stats now include `sharedHashingCount` and
+    `sharedHashingActive`.
+  - `/api/v1/shared-directories` uses the same null-safe hashing counter.
+- Added a `SERVICE_BUSY` REST error mapping to HTTP `503`.
+- Made `/api/v1/transfers` reject while shared hashing is active instead of
+  letting transfer snapshots pile up behind a long shared-file scan.
+- Added Arr live-test gating so Radarr/Sonarr acquisition waits until
+  `sharedHashingCount == 0` after REST startup and after eMule category setup.
+- Kept the live-wire policy intact: no movie or series titles were hardcoded.
 
 ## Validation References
 
-Recent completed validation from this session:
+Completed validation:
 
-- `python -m emule_workspace validate` passed after final commits.
-- `python -m emule_workspace build tests --config Debug --platform x64`
-  passed.
-- `python -m emule_workspace test all --config Debug --platform x64
-  --test-run-variant main --baseline-variant community` passed:
-  - native parity: `475 passed`, `72 skipped`
-  - live-diff completed with existing warning-style case-set mismatch messages
-    and exit code `0`
-- App Debug x64 builds passed during the FEAT-050 UI and runtime hook slices.
-- Final post-commit app rebuild attempt hit `LNK1168` because the Debug
-  `emule.exe` was still running from
-  `%EMULE_WORKSPACE_ROOT%\workspaces\v0.72a\app\eMule-main\srchybrid\x64\Debug\emule.exe`
-  as process `12888` at the time of handoff.
+- `python -m pytest tests\python\test_radarr_sonarr_emulebb_live.py -q`
+  passed: `43 passed`.
+- `python -m pytest tests\python\test_rest_api_smoke.py -q` passed:
+  `85 passed`.
+- `python -m emule_workspace build app --config Release --platform x64
+  --build-output-mode ErrorsOnly` passed with `0 warnings`.
+- `python -m emule_workspace test all --config Release --platform x64
+  --build-output-mode ErrorsOnly` passed with exit code `0`.
+
+## Live-Test Handoff
+
+- A Radarr live rerun was started with:
+  `python -m emule_workspace test live-e2e --suite radarr-emulebb --config
+  Release --platform x64 --build-output-mode ErrorsOnly
+  --live-wire-inputs-file
+  %EMULE_WORKSPACE_ROOT%\repos\eMule-build-tests\live-wire-inputs.local.json
+  --fail-fast`.
+- The user intentionally interrupted that run after roughly 11 minutes.
+- Partial report:
+  `%EMULE_WORKSPACE_ROOT%\repos\eMule-build-tests\reports\radarr-emulebb-live\20260511-235514-eMule-main-release\result.json`.
+- Important partial result: the new shared-hashing gates both passed:
+  - `shared_hashing_idle_after_rest_ready`: `hashingCount=0`, `idle=true`
+  - `shared_hashing_idle_after_category_setup`: `hashingCount=0`, `idle=true`
+- The interrupted report ended at `radarr_search_and_grab` with a
+  `URLError` connection-refused message after cleanup started. Do not treat
+  that interrupted run as a completed acquisition verdict.
+- No `emule.exe` process was left running after the interruption. The only
+  observed Python processes were unrelated local services:
+  `Plex-Auto-Languages` and `qbautom`.
 
 ## Next Steps
 
@@ -73,10 +79,9 @@ Recent completed validation from this session:
   workspace task.
 - Use `python -m emule_workspace` for build, validation, test, and live
   commands.
-- Do not run direct MSBuild from app worktrees or test repos.
-- Before rebuilding the app, close the running Debug `emule.exe` process that
-  is locking the output binary, then rerun:
-  `python -m emule_workspace build app --config Debug --platform x64
-  --variant main`.
-- Good next implementation focus: continue release stabilization around REST
-  completeness, live E2E/UI coverage, and broadband release hardening.
+- Continue with Radarr first, then Sonarr, using logs and
+  `%EMULE_WORKSPACE_ROOT%\repos\eMule-build-tests\.env.local` plus
+  `live-wire-inputs.local.json`.
+- Treat the shared-hashing question as answered for the latest run:
+  hashing was idle, so the next debugging focus is the Radarr/prowlarr
+  connection-refused failure during `radarr_search_and_grab`.
