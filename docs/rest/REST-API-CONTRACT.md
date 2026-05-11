@@ -113,13 +113,13 @@ The release API intentionally excludes:
 
 `POST /api/v1/searches` starts a native eMule search using the requested method:
 `automatic`, `server`, `global`, or `kad`. The request may also select a native
-search file type with `type`: `any`, `archive`, `audio`, `cdimage`, `iso`,
-`image`, `program`, `video`, `document`, or `emulecollection`. The route maps
-directly to the existing eD2K/Kad search modes and file-type filters and must
-not change stock search semantics for beta 0.7.3. Search resources echo the
-resolved method and normalized type so controllers can distinguish eD2K
-server/global searches from Kad searches and audit the selected file filter
-without inferring from result timing or counts.
+search file type with the exact eMule file-type token: empty string for any
+type, `Arc`, `Audio`, `Iso`, `Image`, `Pro`, `Video`, `Doc`, or
+`EmuleCollection`. The route maps directly to the existing eD2K/Kad search
+modes and file-type filters and must not change stock search semantics for
+beta 0.7.3. Search resources echo the resolved method and native type so
+controllers can distinguish eD2K server/global searches from Kad searches and
+audit the selected file filter without inferring from result timing or counts.
 
 `GET /api/v1/searches` lists active native search sessions without expanding
 their result rows. `GET /api/v1/searches/{searchId}` returns the current native

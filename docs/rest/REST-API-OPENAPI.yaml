@@ -2640,7 +2640,7 @@ components:
           enum: [automatic, server, global, kad]
         type:
           type: string
-          enum: [any, archive, audio, cdimage, image, program, video, document, emulecollection]
+          enum: ["", Arc, Audio, Iso, Image, Pro, Video, Doc, EmuleCollection]
         status:
           type: string
           enum: [running, complete]
@@ -2669,7 +2669,7 @@ components:
           enum: [automatic, server, global, kad]
         type:
           type: string
-          enum: [any, archive, audio, cdimage, image, program, video, document, emulecollection]
+          enum: ["", Arc, Audio, Iso, Image, Pro, Video, Doc, EmuleCollection]
         status:
           type: string
           enum: [running, stopped, complete, error]
@@ -2695,7 +2695,7 @@ components:
           enum: [automatic, server, global, kad]
         type:
           type: string
-          enum: [any, archive, audio, cdimage, iso, image, program, video, document, emulecollection]
+          enum: ["", Arc, Audio, Iso, Image, Pro, Video, Doc, EmuleCollection]
         minSizeBytes:
           type: integer
           minimum: 0
@@ -2719,7 +2719,7 @@ components:
           enum: [automatic, server, global, kad]
         type:
           type: string
-          enum: [any, archive, audio, cdimage, image, program, video, document, emulecollection]
+          enum: ["", Arc, Audio, Iso, Image, Pro, Video, Doc, EmuleCollection]
         hash:
           type: string
         name:
