@@ -62,6 +62,10 @@ regressions.
 - use `camelCase` field names
 - use lowercase compact exact tokens for enum-like string values, with no
   camelCase, snake_case, case folding, or aliases
+- keep native priority families separate: transfer download priority uses
+  `auto`, `verylow`, `low`, `normal`, `high`, and `veryhigh`; shared-file
+  upload priority uses `auto`, `verylow`, `low`, `normal`, `high`, and
+  `release`
 - return success envelopes as `{ "data": ..., "meta": ... }`
 - return unpaged collections as `{ "data": { "items": [...] }, "meta": ... }`
 - expose `offset`/`limit` pagination only on `GET /shared-files` and

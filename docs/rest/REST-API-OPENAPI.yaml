@@ -854,7 +854,7 @@ paths:
       summary: Bootstrap Kad from node address or known peers.
       operationId: bootstrapKad
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
@@ -1826,30 +1826,72 @@ components:
       enum: [downloading, paused, queued, checking, completing, completed, error, missingfiles]
     TransferPriority:
       type: string
-      enum: [verylow, low, normal, high, veryhigh, release, auto]
+      enum: [auto, verylow, low, normal, high, veryhigh]
+    SharedFilePriority:
+      type: string
+      enum: [auto, verylow, low, normal, high, release]
     TransferCreateRequest:
       type: object
       additionalProperties: false
+      oneOf:
+        - required: [link]
+          not:
+            required: [links]
+        - required: [links]
+          not:
+            required: [link]
+      not:
+        required: [categoryId, categoryName]
       properties:
         link:
           type: string
+          minLength: 1
         links:
           type: array
+          minItems: 1
           items:
             type: string
+            minLength: 1
         categoryId:
           type: integer
           minimum: 0
         categoryName:
           type: string
+          minLength: 1
         paused:
           type: boolean
     TransferPatch:
       type: object
       additionalProperties: false
+      oneOf:
+        - required: [priority]
+          not:
+            anyOf:
+              - required: [name]
+              - required: [categoryId]
+              - required: [categoryName]
+        - required: [name]
+          not:
+            anyOf:
+              - required: [priority]
+              - required: [categoryId]
+              - required: [categoryName]
+        - required: [categoryId]
+          not:
+            anyOf:
+              - required: [priority]
+              - required: [name]
+              - required: [categoryName]
+        - required: [categoryName]
+          not:
+            anyOf:
+              - required: [priority]
+              - required: [name]
+              - required: [categoryId]
       properties:
         name:
           type: string
+          minLength: 1
         priority:
           $ref: "#/components/schemas/TransferPriority"
         categoryId:
@@ -1857,6 +1899,7 @@ components:
           minimum: 0
         categoryName:
           type: string
+          minLength: 1
     TransferDetailsEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2104,7 +2147,7 @@ components:
         sizeBytes:
           type: integer
         priority:
-          $ref: "#/components/schemas/TransferPriority"
+          $ref: "#/components/schemas/SharedFilePriority"
         rating:
           type: integer
           minimum: 0
@@ -2153,9 +2196,13 @@ components:
     SharedFilePatch:
       type: object
       additionalProperties: false
+      minProperties: 1
+      dependentRequired:
+        comment: [rating]
+        rating: [comment]
       properties:
         priority:
-          $ref: "#/components/schemas/TransferPriority"
+          $ref: "#/components/schemas/SharedFilePriority"
         rating:
           type: integer
           minimum: 0
@@ -2459,6 +2506,8 @@ components:
           type: string
         port:
           type: integer
+          minimum: 1
+          maximum: 65535
         name:
           type: string
         priority:
@@ -2528,8 +2577,11 @@ components:
       properties:
         address:
           type: string
+          minLength: 1
         port:
           type: integer
+          minimum: 1
+          maximum: 65535
         name:
           type: string
         priority:
@@ -2542,6 +2594,7 @@ components:
     ServerPatch:
       type: object
       additionalProperties: false
+      minProperties: 1
       properties:
         name:
           type: string
@@ -2557,6 +2610,7 @@ components:
       properties:
         url:
           type: string
+          minLength: 1
           format: uri
     KadEnvelope:
       unevaluatedProperties: false
@@ -2603,11 +2657,15 @@ components:
     KadBootstrapRequest:
       type: object
       additionalProperties: false
+      required: [address, port]
       properties:
         address:
           type: string
+          minLength: 1
         port:
           type: integer
+          minimum: 1
+          maximum: 65535
     SearchListEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -2767,12 +2825,15 @@ components:
     SearchResultDownloadRequest:
       type: object
       additionalProperties: false
+      not:
+        required: [categoryId, categoryName]
       properties:
         categoryId:
           type: integer
           minimum: 0
         categoryName:
           type: string
+          minLength: 1
         paused:
           type: boolean
     FriendListEnvelope:

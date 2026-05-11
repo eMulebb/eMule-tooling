@@ -84,7 +84,7 @@ contract.
 | Delete transfer local files | `DELETE /transfers/{hash}` with `deleteFiles: true` | implemented | `deleteFiles` is the preferred spelling. |
 | Clear completed transfers | `POST /transfers/operations/clear-completed` | implemented | Uses the existing main-window clear-completed path. |
 | Rename incomplete transfer | `PATCH /transfers/{hash}` | implemented | Current main includes rename support for incomplete files only. |
-| Set transfer priority low/normal/high/auto | `PATCH /transfers/{hash}` | implemented | Final enum is `low`, `normal`, `high`, `auto`; completed/shared priority is separate. |
+| Set transfer priority | `PATCH /transfers/{hash}` | implemented | Final enum is `auto`, `verylow`, `low`, `normal`, `high`, and `veryhigh`; shared-file release priority is separate. |
 | Set transfer category | `PATCH /transfers/{hash}` | implemented | Supports category id/name; final naming must be `categoryId`/`categoryName`. |
 | File recheck | `POST /transfers/{hash}/operations/recheck` | implemented | Existing route exists; final route and envelope need alignment. |
 | Preview transfer | `POST /transfers/{hash}/operations/preview` | implemented | Route validates preview readiness before launching the existing preview command. |
@@ -106,7 +106,7 @@ contract.
 | Add one shared file by path | `POST /shared-files` | implemented | Current route exists; final response should return resource envelope. |
 | Unshare one file | `DELETE /shared-files/{hash}` | implemented | Existing behavior needs final `deleteFiles` naming and tests. |
 | Delete shared local file | `DELETE /shared-files/{hash}` with `deleteFiles: true` | implemented | Native deletion requires explicit `deleteFiles:true`; default delete only unshares/excludes where allowed. |
-| Set shared-file upload priority | `PATCH /shared-files/{hash}` | implemented | Supports `verylow`, `low`, `normal`, `high`, `veryhigh`, `release`, and `auto`. |
+| Set shared-file upload priority | `PATCH /shared-files/{hash}` | implemented | Supports `auto`, `verylow`, `low`, `normal`, `high`, and native upload `release`. |
 | Update shared-file comment/rating | `PATCH /shared-files/{hash}` | implemented | Current main supports comment/rating for completed shared files. |
 | Get ED2K link | `GET /shared-files/{hash}/ed2k-link` | implemented | Metadata only; binary file streaming remains excluded. |
 | Show known file comments | `GET /shared-files/{hash}/comments` | implemented | Returns the local known-file comment/rating metadata as a comments collection. |
@@ -155,7 +155,7 @@ contract.
 | Start Kad | `POST /kad/operations/start` | implemented | Existing command route must align to final route. |
 | Stop Kad | `POST /kad/operations/stop` | implemented | Existing command route must align to final route. |
 | Recheck Kad firewall | `POST /kad/operations/recheck-firewall` | implemented | Existing route exists. |
-| Bootstrap Kad | `POST /kad/operations/bootstrap` | implemented | Supports optional `{address, port}` and otherwise starts Kad through the existing Kad command path. |
+| Bootstrap Kad | `POST /kad/operations/bootstrap` | implemented | Requires `{address, port}` and validates the port range before dispatch. |
 | Update nodes.dat from URL | `POST /kad/operations/import-nodes-url` | implemented | Marshalled through the existing validated nodes.dat import path. |
 
 ## Searches
