@@ -85,9 +85,9 @@ Supported responses:
 - `503 application/xml` when the native REST API key is not configured or the
   native search bridge is still busy and no non-empty cached response exists.
 
-Movie and TV searches dispatch native `Video` searches through connected
+Movie and TV searches dispatch REST `video` searches through connected
 `global` first and connected `kad` second, combining eD2K hashes from the
-available networks. Other Torznab families keep the native file-family mapping
+available networks. Other Torznab families keep the REST file-family mapping
 and default automatic search policy used by `POST /api/v1/searches`. The
 adapter-side result filter for extension, size, and Torznab family only narrows
-returned rows; it does not replace the native `type` field sent to REST v1.
+returned rows; it does not replace the REST `type` field sent to REST v1.

@@ -106,7 +106,7 @@ contract.
 | Add one shared file by path | `POST /shared-files` | implemented | Current route exists; final response should return resource envelope. |
 | Unshare one file | `DELETE /shared-files/{hash}` | implemented | Existing behavior needs final `deleteFiles` naming and tests. |
 | Delete shared local file | `DELETE /shared-files/{hash}` with `deleteFiles: true` | implemented | Native deletion requires explicit `deleteFiles:true`; default delete only unshares/excludes where allowed. |
-| Set shared-file upload priority | `PATCH /shared-files/{hash}` | implemented | Supports `veryLow`, `low`, `normal`, `high`, `veryHigh`, `release`, and `auto`. |
+| Set shared-file upload priority | `PATCH /shared-files/{hash}` | implemented | Supports `verylow`, `low`, `normal`, `high`, `veryhigh`, `release`, and `auto`. |
 | Update shared-file comment/rating | `PATCH /shared-files/{hash}` | implemented | Current main supports comment/rating for completed shared files. |
 | Get ED2K link | `GET /shared-files/{hash}/ed2k-link` | implemented | Metadata only; binary file streaming remains excluded. |
 | Show known file comments | `GET /shared-files/{hash}/comments` | implemented | Returns the local known-file comment/rating metadata as a comments collection. |
@@ -196,7 +196,7 @@ contract.
 |---|---|---|
 | Endpoint adapter route names | implemented | aMuTorrent now prefers final operation/resource routes for transfers, servers, shared reload, and search-result download. |
 | Response envelopes | implemented | Native REST now always emits `{data, meta}` success envelopes and `{error:{code,message,details}}` errors; aMuTorrent unwraps both. |
-| Torznab search method policy | implemented | Prowlarr/Torznab movie and TV searches dispatch native `Video` searches through connected `global` first and connected `kad` second, combining connected-network results; other families keep the native automatic policy. |
+| Torznab search method policy | implemented | Prowlarr/Torznab movie and TV searches dispatch REST `video` searches through connected `global` first and connected `kad` second, combining connected-network results; other families keep the native automatic policy. |
 | qBittorrent transfer delete semantics | implemented | qBit-compatible delete requests always forward native transfer cancel with `deleteFiles:true`; eMule does not provide a partial-state-preserving delete for incomplete transfers. |
 | Shared-file deletion | implemented | Shared deletes call `/shared-files/{hash}` instead of transfer delete helpers. |
 | Uploads in data pipeline | implemented | `/uploads` rows remain preserved through the eMule BB manager fetch result. |

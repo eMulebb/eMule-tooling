@@ -1690,7 +1690,7 @@ components:
     CategoryPriority:
       oneOf:
         - type: string
-          enum: [veryLow, low, normal, high, veryHigh]
+          enum: [verylow, low, normal, high, veryhigh]
         - type: integer
     CategoryCreateRequest:
       type: object
@@ -1827,10 +1827,10 @@ components:
           type: string
     TransferState:
       type: string
-      enum: [downloading, paused, queued, checking, completing, completed, error, missing_files]
+      enum: [downloading, paused, queued, checking, completing, completed, error, missingfiles]
     TransferPriority:
       type: string
-      enum: [veryLow, low, normal, high, veryHigh, release, auto]
+      enum: [verylow, low, normal, high, veryhigh, release, auto]
     TransferCreateRequest:
       type: object
       additionalProperties: false
@@ -2305,6 +2305,7 @@ components:
           type: string
         uploadState:
           type: string
+          enum: [uploading, queued, connecting, banned, idle]
         fileHash:
           type: string
         fileName:
@@ -2640,7 +2641,7 @@ components:
           enum: [automatic, server, global, kad]
         type:
           type: string
-          enum: ["", Arc, Audio, Iso, Image, Pro, Video, Doc, EmuleCollection]
+          enum: ["", arc, audio, iso, image, pro, video, doc, emulecollection]
         status:
           type: string
           enum: [running, complete]
@@ -2669,7 +2670,7 @@ components:
           enum: [automatic, server, global, kad]
         type:
           type: string
-          enum: ["", Arc, Audio, Iso, Image, Pro, Video, Doc, EmuleCollection]
+          enum: ["", arc, audio, iso, image, pro, video, doc, emulecollection]
         status:
           type: string
           enum: [running, stopped, complete, error]
@@ -2695,7 +2696,7 @@ components:
           enum: [automatic, server, global, kad]
         type:
           type: string
-          enum: ["", Arc, Audio, Iso, Image, Pro, Video, Doc, EmuleCollection]
+          enum: ["", arc, audio, iso, image, pro, video, doc, emulecollection]
         minSizeBytes:
           type: integer
           minimum: 0
@@ -2719,7 +2720,7 @@ components:
           enum: [automatic, server, global, kad]
         type:
           type: string
-          enum: ["", Arc, Audio, Iso, Image, Pro, Video, Doc, EmuleCollection]
+          enum: ["", arc, audio, iso, image, pro, video, doc, emulecollection]
         hash:
           type: string
         name:
@@ -2743,6 +2744,7 @@ components:
             - "null"
         knownType:
           type: string
+          enum: [shared, downloading, downloaded, cancelled, unknown, undetermined]
         directory:
           type:
             - string

@@ -30,8 +30,9 @@ Radarr/Sonarr controller flows, and qBittorrent-compatible download-client
 routes may keep adapter-specific quirks where those clients require them, but
 shared parsing, validation, safety, and serialization should come from the same
 native helpers wherever practical. Adapter compatibility must not broaden or
-weaken the native `/api/v1` OpenAPI contract. Torznab searches use the native
-default `automatic` search method instead of pinning an adapter-only Kad policy.
+weaken the native `/api/v1` OpenAPI contract. Torznab movie and TV searches run
+connected `global` and `kad` probes and combine results; non-media Torznab
+families keep the native default `automatic` search policy.
 qBittorrent-compatible transfer delete requests are adapted to native cancel
 semantics and therefore forward `deleteFiles: true` to the shared transfer
 delete command even when a qBit caller omits or clears its optional flag.
@@ -59,6 +60,8 @@ regressions.
 - serve JSON only
 - inherit the normal WebServer bind, HTTPS, and allowed-IP behavior
 - use `camelCase` field names
+- use lowercase compact exact tokens for enum-like string values, with no
+  camelCase, snake_case, case folding, or aliases
 - return success envelopes as `{ "data": ..., "meta": ... }`
 - return unpaged collections as `{ "data": { "items": [...] }, "meta": ... }`
 - expose `offset`/`limit` pagination only on `GET /shared-files` and
@@ -113,12 +116,13 @@ The release API intentionally excludes:
 
 `POST /api/v1/searches` starts a native eMule search using the requested method:
 `automatic`, `server`, `global`, or `kad`. The request may also select a native
-search file type with the exact eMule file-type token: empty string for any
-type, `Arc`, `Audio`, `Iso`, `Image`, `Pro`, `Video`, `Doc`, or
-`EmuleCollection`. No aliases, alternate casing, or request-time type remapping
-are accepted. The route maps directly to the existing eD2K/Kad search modes
-and file-type filters and must not change stock search semantics for
-beta 0.7.3. Search resources echo the resolved method and selected native type so
+search file type with the exact REST file-type token: empty string for any
+type, `arc`, `audio`, `iso`, `image`, `pro`, `video`, `doc`, or
+`emulecollection`. No aliases, alternate casing, or request-time type remapping
+are accepted. The route maps those public tokens directly to the existing
+eD2K/Kad search modes and file-type filters and must not change stock search
+semantics for beta 0.7.3. Search resources echo the resolved method and
+selected REST type so
 controllers can distinguish eD2K server/global searches from Kad searches and
 audit the selected file filter without inferring from result timing or counts.
 
@@ -174,8 +178,8 @@ public response schemas except for explicitly documented extension maps such as
 Future cleanup should keep the current wire contract unchanged while reducing
 implementation duplication: the native REST command seam can collapse toward the
 exact type string contract instead of maintaining a parallel enum, and the
-Torznab family-to-native-type mapping still resolves to native REST tokens
-accepted by `/api/v1/searches`.
+Torznab family-to-search-type mapping still resolves to REST tokens accepted by
+`/api/v1/searches`.
 
 ## Controller Compatibility Matrix
 
