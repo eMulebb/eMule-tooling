@@ -27,6 +27,7 @@ evidence only and must not be published.
 **Beta-release gate history:** [RELEASE-0.7.3-GATE-HISTORY](RELEASE-0.7.3-GATE-HISTORY.md)
 **Beta-release checklist:** [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md)
 **Beta-release runbook:** [RELEASE-0.7.3-RUNBOOK](RELEASE-0.7.3-RUNBOOK.md)
+**Beta controller surface matrix:** [CONTROLLER-SURFACE-MATRIX](CONTROLLER-SURFACE-MATRIX.md)
 **Beta-release execution plans:** [REST/Arr](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md),
 [Live E2E](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md),
 [Download completion hook](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
@@ -45,6 +46,7 @@ Latest review trail:
 - [RELEASE-0.7.3-GATE-HISTORY](RELEASE-0.7.3-GATE-HISTORY.md)
 - [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md)
 - [RELEASE-0.7.3-RUNBOOK](RELEASE-0.7.3-RUNBOOK.md)
+- [CONTROLLER-SURFACE-MATRIX](CONTROLLER-SURFACE-MATRIX.md)
 - [RELEASE-0.7.3 REST/Arr execution plan](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md)
 - [RELEASE-0.7.3 Live E2E execution plan](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md)
 - [RELEASE-0.7.3 Download completion hook execution plan](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)

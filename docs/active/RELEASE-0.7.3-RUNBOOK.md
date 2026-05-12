@@ -42,6 +42,22 @@ for the gates being closed.
 
 ## Live E2E Proof
 
+Run the short backend green lane first:
+
+```powershell
+python -m emule_workspace test live-e2e --profile beta-green --fail-fast
+```
+
+Run the focused controller API surface lane before the final release lane:
+
+```powershell
+python -m emule_workspace test live-e2e --profile controller-surface --fail-fast
+```
+
+The controller-surface lane is the named proof for native `/api/v1`,
+qBittorrent-compatible `/api/v2`, Torznab/Arr, and aMuTorrent. See
+[CONTROLLER-SURFACE-MATRIX](CONTROLLER-SURFACE-MATRIX.md).
+
 Run the full maintained Release x64 live lane:
 
 ```powershell

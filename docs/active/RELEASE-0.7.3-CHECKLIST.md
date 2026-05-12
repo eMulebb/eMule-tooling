@@ -41,6 +41,9 @@ operator gives a separate tagging instruction.
       `auto-browse-live` was accepted as inconclusive because the live networks
       connected but no safe downloadable browse-capable sourced transfer was
       available.
+- [ ] controller-surface Release x64 `live-e2e` passed; artifact pending.
+      This is the focused proof for native `/api/v1`, qBittorrent-compatible
+      `/api/v2`, Torznab/Arr, and aMuTorrent before final beta tagging.
 - [ ] `python repos\eMule-tooling\ci\check-clean-worktree.py`
       passed on 2026-05-09 after the fresh proof evidence commit.
 

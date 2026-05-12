@@ -43,6 +43,7 @@ for all of the following:
 
 - [Beta 0.7.3 community parity audit plan](plans/RELEASE-0.7.3-COMMUNITY-PARITY-AUDIT.md)
 - [Beta 0.7.3 community parity review](reviews/REVIEW-2026-05-09-release-0.7.3-community-parity.md)
+- [Beta 0.7.3 controller surface matrix](CONTROLLER-SURFACE-MATRIX.md)
 
 ## Release Gates
 
@@ -116,6 +117,8 @@ Minimum beta proof before tagging:
 - Release app build for ARM64
 - Debug and Release test builds for x64
 - Native REST contract and adapter smoke replay
+- Controller-surface replay for native REST, qBittorrent-compatible `/api/v2`,
+  Torznab/Arr, and aMuTorrent
 - Controller live E2E replay for aMuTorrent, Prowlarr, Radarr, and Sonarr
 - Area-specific gates listed above
 - Packaging and release asset rehearsal for x64 and ARM64

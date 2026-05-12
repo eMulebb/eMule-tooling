@@ -24,7 +24,7 @@ not fix a confirmed Beta 0.7.3 regression or missing advertised behavior.
 | one-command Beta 0.7.3 proof orchestration through `python -m emule_workspace` | next-patch | add a single command that runs validate, required builds, native tests, live smoke suites when configured, package rehearsals, and final summary collection |
 | compact operator summary for live E2E artifacts | next-patch | emit a short JSON/Markdown summary with suite name, outcome, profile path, ports, app exit status, and inconclusive diagnostics |
 | packaging manifest diff report against the previous release asset | next-patch | compare file list, hashes, docs, language DLLs, unsupported artifacts, and app/build commits against the previous tagged package |
-| controller compatibility matrix for native REST, qBit, Torznab, Arr, and aMuTorrent consumers | next-patch | publish a maintained matrix tying controller workflows to API families and evidence artifacts |
+| controller compatibility matrix for native REST, qBit, Torznab, Arr, and aMuTorrent consumers | beta-closeout slice | publish a maintained matrix tying controller workflows to API families and evidence artifacts |
 | clearer release-note separation between stock parity, Broadband features, and intentionally frozen legacy areas | next-patch | split future release notes into parity, advertised Broadband/API behavior, packaging, and frozen/removal sections |
 | automated changed-surface grouping for future release audits | future | convert the manual CI-022 grouping into a repeatable report generator |
 | lightweight UI smoke coverage for representative language/resource loads | future | add selected language-load UI smoke beyond language DLL build/package proof |
@@ -36,7 +36,7 @@ not fix a confirmed Beta 0.7.3 regression or missing advertised behavior.
       and operator-readable shape.
 - [ ] Release packages can be diffed against a previous release package and
       manifest.
-- [ ] Controller compatibility matrix is linked from active release docs.
+- [x] Controller compatibility matrix is linked from active release docs.
 - [ ] Future release notes use separate sections for stock parity, Broadband
       features, packaging, and frozen legacy decisions.
 - [ ] Changed-surface grouping is reproducible from a command or script.
