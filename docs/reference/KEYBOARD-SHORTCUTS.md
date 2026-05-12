@@ -10,6 +10,7 @@ remove, or repurpose shortcuts.
 |----------|-------|----------|
 | `Alt+X` | main shell | Cleanly exits through `CemuleDlg::OnClose()` and respects Prompt on exit. |
 | `Alt+U` | main shell | Opens the existing floating hotmenu. |
+| `Alt+T` | main shell | Opens the Tools popup. |
 | `Ctrl+Tab` / `Ctrl+Shift+Tab` | main shell | Cycles primary toolbar panes. |
 
 ## Reserved Main-Shell Mnemonics
@@ -39,7 +40,7 @@ When Search is the active main pane, the Search parameter bar owns:
 - EMULE_KEYBOARD_SHORTCUT: do not reassign `Alt+X`; it is the direct app-exit
   mnemonic.
 - The old hidden hotmenu `Alt+X` button was retired; floating hotmenu ownership
-  is now `Alt+U`.
+  is now `Alt+U`, and Tools ownership is `Alt+T`.
 - Search-local mnemonics deliberately avoid the reserved main-shell letters.
 - Modal dialogs keep local keyboard behavior. The app-level shortcuts are for
   the main shell and its primary modeless UI.
@@ -53,6 +54,7 @@ When Search is the active main pane, the Search parameter bar owns:
 - With Prompt on exit enabled, `Alt+X` should show the existing confirmation
   before shutdown.
 - `Alt+U` should open the floating hotmenu.
+- `Alt+T` should open the Tools popup.
 - In Search, `Alt+N` should focus the Name textbox without selecting existing
   text.
 - In Search, `Alt+Y`, `Alt+D`, `Alt+G`, `Alt+E`, `Alt+R`, and `Alt+L` should
