@@ -1981,6 +1981,7 @@ components:
         name:
           type: string
           minLength: 1
+          maxLength: 255
         priority:
           $ref: "#/components/schemas/TransferPriority"
         categoryId:
@@ -2833,6 +2834,8 @@ components:
         url:
           type: string
           minLength: 1
+          maxLength: 2048
+          pattern: '^https?://[^\s/?#][^\s]*$'
     UrlImportEnvelope:
       unevaluatedProperties: false
       allOf:

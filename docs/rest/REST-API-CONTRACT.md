@@ -88,6 +88,10 @@ regressions.
   dispatching commands
 - reject unknown JSON body fields and unknown or malformed query parameters with
   `400 INVALID_ARGUMENT`
+- validate public rename text with the same UTF-8/control-character and
+  255-character public filename limit used by REST-adjacent link conversion
+- accept server.met and nodes.dat URL imports only as trimmed `http://` or
+  `https://` URLs with a host, no whitespace, and a 2048-character limit
 - require explicit booleans such as `deleteFiles: true` for destructive local
   file deletion
 - use HTTP 200 for valid bulk requests with per-item results
