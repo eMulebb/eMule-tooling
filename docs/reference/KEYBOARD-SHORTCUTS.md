@@ -35,6 +35,12 @@ When Search is the active main pane, the Search parameter bar owns:
 | `Alt+R` | Activates Reset. |
 | `Alt+L` | Activates Cancel. |
 
+## Search Pane Navigation
+
+| Shortcut | Behavior |
+|----------|----------|
+| `F6` | Toggles focus between the Search Name textbox and the search results list. |
+
 ## Mnemonic Policy
 
 - EMULE_KEYBOARD_SHORTCUT: do not reassign `Alt+X`; it is the direct app-exit
@@ -60,6 +66,8 @@ When Search is the active main pane, the Search parameter bar owns:
 - In Search, `Alt+Y`, `Alt+D`, `Alt+G`, `Alt+E`, `Alt+R`, and `Alt+L` should
   drive Type, Method, Search Go, More, Reset, and Cancel through local native
   mnemonic behavior.
+- In Search, `F6` should move focus between the Name textbox and the search
+  results list.
 - Outside Search, `Alt+N` should not switch panes or steal focus.
 - Preferences, About, and confirmation dialogs should retain their normal
   local keyboard handling.
