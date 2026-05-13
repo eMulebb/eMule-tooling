@@ -44,7 +44,6 @@ Historical gate evidence and superseded cluster plans live under
 | ID | Priority | Area | Required outcome |
 |----|----------|------|------------------|
 | [BUG-102](items/BUG-102.md) | Major | aMuTorrent live E2E | Browser smoke uses the generated harness port or reliably discovers the actual isolated port. |
-| [BUG-111](items/BUG-111.md) | Critical | Release/update trust | Release, update, and help URLs use the policy-owned `emulebb` namespace. |
 | [CI-034](items/CI-034.md) | Major | Packaging | `package-release` rejects dirty provenance and records the selected `main` source accurately. |
 | [CI-035](items/CI-035.md) | Major | Final proof | Current-head beta proof passes and fresh x64/ARM64 package hashes are recorded. |
 
@@ -53,6 +52,8 @@ tag blocker unless a later item promotes a specific slice.
 
 Accepted non-blockers for beta `0.7.3`:
 
+- [BUG-111](../history/items/BUG-111.md): release, update, and help URLs now
+  use the policy-owned `emulebb` namespace.
 - [BUG-112](../history/items/BUG-112.md): legacy WebServer/qBit-compatible
   session-token hardening is Wont-Fix for this beta.
 - [REF-034](items/REF-034.md): Crypto++ 8.9 dependency refresh is deferred

@@ -17,13 +17,15 @@ Every actionable release task must have its own item ID.
 
 | Order | ID | Owner repo | Required outcome |
 |-------|----|------------|------------------|
-| 1 | [BUG-111](../items/BUG-111.md) | app/tests | Release, update, and help URLs point at `emulebb` destinations and focused update-check coverage rejects stale namespace drift. |
-| 2 | [BUG-102](../items/BUG-102.md) | build-tests | aMuTorrent browser smoke isolates or discovers the generated runtime port and passes against current `main`. |
-| 3 | [CI-034](../items/CI-034.md) | build | `package-release` records the selected `main` provenance and rejects dirty source inputs. |
-| 4 | [CI-035](../items/CI-035.md) | build/tests/tooling | Fresh current-head proof and x64/ARM64 package hashes are recorded before tag creation. |
+| 1 | [BUG-102](../items/BUG-102.md) | build-tests | aMuTorrent browser smoke isolates or discovers the generated runtime port and passes against current `main`. |
+| 2 | [CI-034](../items/CI-034.md) | build | `package-release` records the selected `main` provenance and rejects dirty source inputs. |
+| 3 | [CI-035](../items/CI-035.md) | build/tests/tooling | Fresh current-head proof and x64/ARM64 package hashes are recorded before tag creation. |
 
 ## Non-Blocking Follow-Up
 
+- [BUG-111](../../history/items/BUG-111.md) is closed; app release, update,
+  and help URLs now point at `emulebb` destinations with focused update-check
+  coverage.
 - [FEAT-056](../items/FEAT-056.md) owns post-beta proof automation and operator
   evidence UX. Do not block beta `0.7.3` on it unless a later release decision
   promotes a specific slice into a new beta-blocking item ID.
