@@ -19,6 +19,10 @@ Every actionable release task must have its own item ID.
 |-------|----|------------|------------------|
 | 1 | [CI-035](../items/CI-035.md) | build/tests/tooling | Fresh current-head proof and x64/ARM64 package hashes are recorded before tag creation. |
 
+Execution is paused by operator direction on 2026-05-13. Do not run additional
+live proof, package-release finalization, or Git tagging commands until a new
+explicit instruction resumes release proof.
+
 ## Non-Blocking Follow-Up
 
 - [CI-034](../../history/items/CI-034.md) is closed; `package-release` now

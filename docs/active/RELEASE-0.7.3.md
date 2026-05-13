@@ -6,6 +6,8 @@ Use it for status, release-source truth, and the open beta task list.
 ## Current Status
 
 - Status: Blocked.
+- Proof status: paused by operator direction on 2026-05-13; no further live
+  testing, package refresh, or Git tags until a new explicit instruction.
 - Release source: selected reviewed `main` commit in
   `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main`.
 - Tag target: `emule-bb-v0.7.3` on the selected reviewed `main` commit after
@@ -44,6 +46,13 @@ Historical gate evidence and superseded cluster plans live under
 | ID | Priority | Area | Required outcome |
 |----|----------|------|------------------|
 | [CI-035](items/CI-035.md) | Major | Final proof | Current-head beta proof passes and fresh x64/ARM64 package hashes are recorded. |
+
+## Remaining Release Backlog
+
+The beta backlog is narrowed to `CI-035` only. Remaining work is final proof,
+fresh x64/ARM64 package regeneration, hash recording, clean-worktree
+confirmation, and the later operator-controlled tag instruction. No live proof
+or tagging is active while the pause above is in effect.
 
 `FEAT-056` remains post-beta automation and evidence UX work. It is not a beta
 tag blocker unless a later item promotes a specific slice.

@@ -4,6 +4,14 @@ This is the final operator checklist for beta target `emule-bb-v0.7.3`.
 Do not record stale proof here; every row must be refreshed on the selected
 reviewed `main` commit.
 
+## Proof Pause
+
+Final proof is paused by operator direction on 2026-05-13. Do not run additional
+live E2E, do not regenerate final packages, and do not create Git tags until a
+new explicit instruction resumes release proof. Partial evidence captured before
+the pause is recorded in [CI-035](items/CI-035.md); it does not complete this
+checklist.
+
 ## Gate Revalidation
 
 - [ ] [RELEASE-0.7.3](RELEASE-0.7.3.md) has no open beta-blocking task without
@@ -33,6 +41,10 @@ reviewed `main` commit.
 
 Record command summaries, commits, log paths, report paths, package paths, and
 SHA-256 hashes in [CI-035](items/CI-035.md).
+
+Current state: non-live build/test rows have partial passing evidence in
+[CI-035](items/CI-035.md). Live proof, final package refresh, clean-worktree
+confirmation, and final hash recording remain incomplete.
 
 ## Release Identity
 
