@@ -230,6 +230,7 @@ not active item docs.
 | [REF-038](../history/items/REF-038.md) | Minor | Done | Harden optional MediaInfo DLL loading and metadata extraction seams |
 | [REF-039](../history/items/REF-039.md) | Minor | Done | Classify MediaInfo loader failures and bound metadata extraction counts |
 | [REF-040](../history/items/REF-040.md) | Minor | Done | Harden external UnRAR DLL loading |
+| [REF-041](../history/items/REF-041.md) | Minor | Done | Move remaining active app DLL probes to LoadLibraryEx |
 
 ---
 
