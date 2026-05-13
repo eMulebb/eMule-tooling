@@ -6,7 +6,16 @@
 
 ## Executive Summary
 
-Release blocker. The beta candidate has solid evidence of bounded REST parsing, static-file containment, release package naming, and disabled-by-default REST/WebServer exposure, but I found release-blocking security issues in the update/release trust path and authenticated web surface. The app's release update checker still queries `itlezy/eMule` instead of the policy-owned `eMulebb/eMule` release namespace, the legacy WebServer session token is generated from `srand(time(NULL))`/`rand()`, the IP-filter updater defaults to HTTP transport for a security input, and the active Crypto++ pin is 8.4 while dependency docs describe 8.9.
+Historical security audit. The beta candidate had solid evidence of bounded
+REST parsing, static-file containment, release package naming, and
+disabled-by-default REST/WebServer exposure, but this audit found security
+issues in the update/release trust path, authenticated web surface, IP-filter
+update transport, and Crypto++ dependency truth.
+
+2026-05-13 release-owner disposition: only the update/release trust path remains
+beta-blocking. Legacy WebServer session-token hardening is Wont-Fix for beta
+`0.7.3`; IP-filter HTTP update transport is accepted as not release scope; and
+Crypto++ 8.9 refresh is deferred post-beta.
 
 ## Review Checklist
 
@@ -18,7 +27,8 @@ Release blocker. The beta candidate has solid evidence of bounded REST parsing, 
 - [x] Reviewed broadband stabilization worktree `workspaces\v0.72a\app\eMule-v0.72a-broadband` at `release/v0.72a-broadband` commit `57dd9f7`.
 - [x] Reviewed update-check, release packaging, REST/API auth, WebServer sessions, static-file serving, direct download, IP-filter update, and dependency pin evidence.
 - [x] Verified `repos\eMule-build-tests` had pre-existing modified/untracked files and did not modify them.
-- [ ] Re-run security-focused validation after fixes land: REST/native tests, update-check tests, WebServer auth/session tests, IP-filter update tests, and package-release rehearsal.
+- [ ] Re-run security-focused validation after fixes land: update-check tests
+      and package-release rehearsal.
 - [ ] Reconcile dependency status docs with actual topology before tagging.
 
 ## Findings
@@ -203,4 +213,6 @@ Execution checklist:
 
 ## Beta Readiness Verdict
 
-Do not tag or publish `emule-bb-v0.7.3` until the release-update endpoint is moved to `eMulebb/eMule`, WebServer session tokens are made cryptographically unpredictable, and the Crypto++ pin/doc mismatch plus IP-filter HTTP default are either fixed or explicitly documented with release-owner acceptance.
+Do not tag or publish `emule-bb-v0.7.3` until the release-update endpoint is
+moved to `eMulebb/eMule` and the accepted non-blocker decisions above are
+reflected in the active release docs.

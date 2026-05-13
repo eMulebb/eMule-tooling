@@ -18,17 +18,23 @@ Every actionable release task must have its own item ID.
 | Order | ID | Owner repo | Required outcome |
 |-------|----|------------|------------------|
 | 1 | [BUG-111](../items/BUG-111.md) | app/tests | Release, update, and help URLs point at `emulebb` destinations and focused update-check coverage rejects stale namespace drift. |
-| 2 | [BUG-112](../items/BUG-112.md) | app/tests | Legacy WebServer/qBit-compatible session tokens use secure randomness and fail closed if secure generation is unavailable. |
-| 3 | [BUG-102](../items/BUG-102.md) | build-tests | aMuTorrent browser smoke isolates or discovers the generated runtime port and passes against current `main`. |
-| 4 | [REF-034](../items/REF-034.md) | build/tooling | Decide and record whether beta ships Crypto++ 8.4 or upgrades to 8.9; docs and topology must agree. |
-| 5 | [CI-034](../items/CI-034.md) | build | `package-release` records the selected `main` provenance and rejects dirty source inputs. |
-| 6 | [CI-035](../items/CI-035.md) | build/tests/tooling | Fresh current-head proof and x64/ARM64 package hashes are recorded before tag creation. |
+| 2 | [BUG-102](../items/BUG-102.md) | build-tests | aMuTorrent browser smoke isolates or discovers the generated runtime port and passes against current `main`. |
+| 3 | [CI-034](../items/CI-034.md) | build | `package-release` records the selected `main` provenance and rejects dirty source inputs. |
+| 4 | [CI-035](../items/CI-035.md) | build/tests/tooling | Fresh current-head proof and x64/ARM64 package hashes are recorded before tag creation. |
 
 ## Non-Blocking Follow-Up
 
 - [FEAT-056](../items/FEAT-056.md) owns post-beta proof automation and operator
   evidence UX. Do not block beta `0.7.3` on it unless a later release decision
   promotes a specific slice into a new beta-blocking item ID.
+- [BUG-112](../../history/items/BUG-112.md) is Wont-Fix for beta `0.7.3`;
+  legacy WebServer/qBit-compatible session-token hardening is not release
+  scope.
+- [REF-034](../items/REF-034.md) is deferred; the Crypto++ 8.9 refresh is
+  post-beta dependency hardening.
+- The IP-filter HTTP update transport finding in
+  [BETA-READINESS-SECURITY-2026-05-11](../../audits/BETA-READINESS-SECURITY-2026-05-11.md)
+  is accepted as not release scope.
 
 ## Historical Inputs
 

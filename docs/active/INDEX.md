@@ -12,9 +12,9 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `64`
+**Current non-done count:** `63`
 **Latest release-doc refresh:** 2026-05-13
-**Non-done by status:** `43` Open, `7` In Progress, `14` Deferred, `0` Blocked.
+**Non-done by status:** `41` Open, `7` In Progress, `15` Deferred, `0` Blocked.
 **Backlog counts:** item tables below are authoritative.
 **Beta 0.7.3 relevance:** Most non-done items below are future or deferred work;
 current beta gate and proof status is controlled by [RELEASE-0.7.3](RELEASE-0.7.3.md).
@@ -186,7 +186,7 @@ not the tag source.
 | [BUG-101](../history/items/BUG-101.md) | Major | Done | Shared Files 50k recursive tree stress profile does not reach main window |
 | [BUG-102](items/BUG-102.md) | Major | Open | aMuTorrent browser smoke ignores generated harness port |
 | [BUG-111](items/BUG-111.md) | Critical | Open | Release and help URLs still point outside the emulebb namespace |
-| [BUG-112](items/BUG-112.md) | Critical | Open | WebServer/qBit session tokens need CSPRNG-backed generation |
+| [BUG-112](../history/items/BUG-112.md) | Critical | Wont-Fix | WebServer/qBit session tokens need CSPRNG-backed generation |
 
 `BUG-103` through `BUG-110` were superseded internal post-tag evidence labels,
 not active item docs. Active bug-item numbering resumes at `BUG-111`.
@@ -223,7 +223,7 @@ not active item docs. Active bug-item numbering resumes at `BUG-111`.
 | [REF-031](../history/items/REF-031.md) | Minor | Done | Review upload queue scoring against community and stale baselines |
 | [REF-032](items/REF-032.md) | Minor | In Progress | Use MFC-native property sheets and dynamic layout instead of CTreePropSheet / ResizableLib |
 | [REF-033](items/REF-033.md) | Trivial | Open | Remove remaining IE/MSHTML drag-drop, HTML Help, and legacy IE web-client baggage |
-| [REF-034](items/REF-034.md) | Minor | Open | Upgrade Crypto++ from 8.4 to 8.9 and refresh the local MSVC/ARM64 project fork |
+| [REF-034](items/REF-034.md) | Minor | Deferred | Resolve Crypto++ 8.4 vs 8.9 dependency truth |
 | [REF-035](items/REF-035.md) | Minor | Open | Adopt WIL for narrow Windows and COM RAII cleanup |
 | [REF-036](items/REF-036.md) | Minor | Open | Adopt GSL contracts for buffer and pointer boundary hardening |
 | [REF-037](../history/items/REF-037.md) | Major | Done | Beta 0.7.3 legacy and frozen feature disposition ledger |

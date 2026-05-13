@@ -45,13 +45,21 @@ Historical gate evidence and superseded cluster plans live under
 |----|----------|------|------------------|
 | [BUG-102](items/BUG-102.md) | Major | aMuTorrent live E2E | Browser smoke uses the generated harness port or reliably discovers the actual isolated port. |
 | [BUG-111](items/BUG-111.md) | Critical | Release/update trust | Release, update, and help URLs use the policy-owned `emulebb` namespace. |
-| [BUG-112](items/BUG-112.md) | Critical | Web auth | Legacy WebServer/qBit-compatible session tokens use CSPRNG-backed generation and fail closed. |
 | [CI-034](items/CI-034.md) | Major | Packaging | `package-release` rejects dirty provenance and records the selected `main` source accurately. |
 | [CI-035](items/CI-035.md) | Major | Final proof | Current-head beta proof passes and fresh x64/ARM64 package hashes are recorded. |
-| [REF-034](items/REF-034.md) | Minor | Dependencies | Crypto++ 8.4 vs 8.9 beta decision is explicit and docs/topology agree. |
 
 `FEAT-056` remains post-beta automation and evidence UX work. It is not a beta
 tag blocker unless a later item promotes a specific slice.
+
+Accepted non-blockers for beta `0.7.3`:
+
+- [BUG-112](../history/items/BUG-112.md): legacy WebServer/qBit-compatible
+  session-token hardening is Wont-Fix for this beta.
+- [REF-034](items/REF-034.md): Crypto++ 8.9 dependency refresh is deferred
+  post-beta.
+- IP-filter HTTP update transport from
+  [BETA-READINESS-SECURITY-2026-05-11](../audits/BETA-READINESS-SECURITY-2026-05-11.md)
+  is accepted as not release scope.
 
 ## Ship Rule
 
