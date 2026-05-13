@@ -1,5 +1,7 @@
 # eMuleAI And Mod Archive Broadband Scan
 
+> Historical review/provenance. Current backlog state lives in `docs/active/`.
+
 This is a long-form reference for comparing current `eMule-main` with
 `analysis\emuleai` and `analysis\mods-archive`.
 

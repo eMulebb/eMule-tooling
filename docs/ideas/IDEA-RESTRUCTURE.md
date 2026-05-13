@@ -1,5 +1,8 @@
 # Restructure Guidance
 
+> Exploratory idea material. This is not an active implementation plan unless a
+> future `docs/active/` item explicitly promotes a specific slice.
+
 ## Table of Contents
 
 - [Current problem](#current-problem)

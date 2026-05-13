@@ -41,13 +41,13 @@ pointer truncation, old SDK API shims) and simplifies the feasibility analysis.
 
 | # | Library | Version | Link type | Purpose | Removal ref |
 |---|---------|---------|-----------|---------|-------------|
-| 1 | **Crypto++** | 8.9.0 | Static `.lib` | RSA/AES/MD5/hash — client credits, crypto ops | `DEP_001` in DEP-REMOVAL.md |
-| 2 | **id3lib** | 3.9.1 | Static `.lib` | ID3 tag read/write for media files | `DEP_002` in DEP-REMOVAL.md |
-| 3 | **miniupnpc** | 2.3.3 | Static `.lib` | UPnP port mapping / NAT traversal | `DEP_003` in DEP-REMOVAL.md |
-| 4 | **ResizableLib** | master | Static `.lib` | MFC resizable dialogs | `DEP_005` in DEP-REMOVAL.md |
-| 5 | **zlib** | 1.3.2 | Static `.lib` (CMake) | Deflate/gzip compression | `DEP_004` in DEP-REMOVAL.md |
-| 6 | ~~**MbedTLS**~~ | ~~4.0.0~~ | ~~Static `.lib`~~ | ~~TLS 1.3, X.509, WebSocket security~~ **[REMOVED]** | `DEP_006` in DEP-REMOVAL.md |
-| 7 | ~~**TF-PSA-Crypto**~~ | ~~1.0.0~~ | ~~Static `.lib`~~ | ~~PSA Crypto API layer under MbedTLS~~ **[REMOVED]** | `DEP_006` in DEP-REMOVAL.md |
+| 1 | **Crypto++** | 8.9.0 | Static `.lib` | RSA/AES/MD5/hash — client credits, crypto ops | `DEP_001` in `HIST-DEP-REMOVAL.md` |
+| 2 | **id3lib** | 3.9.1 | Static `.lib` | ID3 tag read/write for media files | `DEP_002` in `HIST-DEP-REMOVAL.md` |
+| 3 | **miniupnpc** | 2.3.3 | Static `.lib` | UPnP port mapping / NAT traversal | `DEP_003` in `HIST-DEP-REMOVAL.md` |
+| 4 | **ResizableLib** | master | Static `.lib` | MFC resizable dialogs | `DEP_005` in `HIST-DEP-REMOVAL.md` |
+| 5 | **zlib** | 1.3.2 | Static `.lib` (CMake) | Deflate/gzip compression | `DEP_004` in `HIST-DEP-REMOVAL.md` |
+| 6 | ~~**MbedTLS**~~ | ~~4.0.0~~ | ~~Static `.lib`~~ | ~~TLS 1.3, X.509, WebSocket security~~ **[REMOVED]** | `DEP_006` in `HIST-DEP-REMOVAL.md` |
+| 7 | ~~**TF-PSA-Crypto**~~ | ~~1.0.0~~ | ~~Static `.lib`~~ | ~~PSA Crypto API layer under MbedTLS~~ **[REMOVED]** | `DEP_006` in `HIST-DEP-REMOVAL.md` |
 
 ---
 
@@ -300,7 +300,8 @@ MbedTLS CMake supports `USE_SHARED_MBEDTLS_LIBRARY=ON` for DLL builds. However:
 4. Replace with copy of 6 (or more) DLLs to output directory
 5. Remove `MBEDTLS_ALLOW_PRIVATE_ACCESS` from eMule — **this accesses struct internals that
    are opaque in DLL builds**. The code using `private/sha1.h` must be rewritten to use the
-   public PSA API only. See also `GAP_005` in AUDIT-CODEREVIEW.md.
+   public PSA API only. See also `GAP_005` in
+   `../audits/AUDIT-CODEREVIEW.md`.
 6. Validate `threading_alt.h` is visible to the DLL (not just eMule) — currently the patch
    adds the file to the source tree; must be in the DLL's include path too
 7. Ensure `bcrypt.dll` is present (always present on Windows 10+ — no deployment concern)

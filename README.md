@@ -28,8 +28,10 @@ is:
 - reference-doc index: [`docs/INDEX.md`](docs/INDEX.md)
 - active backlog index: [`docs/active/INDEX.md`](docs/active/INDEX.md)
 - broadband feature notes: [`docs/reference/FEATURE-BROADBAND.md`](docs/reference/FEATURE-BROADBAND.md)
-- API server reference: [`docs/rest/PLAN-API-SERVER.md`](docs/rest/PLAN-API-SERVER.md)
-- modernization roadmap: [`docs/reference/PLAN-MODERNIZATION-2026.md`](docs/reference/PLAN-MODERNIZATION-2026.md)
+- historical API sidecar plan:
+  [`docs/history/rest/HIST-PLAN-API-SERVER.md`](docs/history/rest/HIST-PLAN-API-SERVER.md)
+- modernization idea:
+  [`docs/ideas/IDEA-MODERNIZATION-2026.md`](docs/ideas/IDEA-MODERNIZATION-2026.md)
 
 This repo does not own workspace materialization, app source, or build/test
 execution contracts. It is the authoritative documentation home for
@@ -42,8 +44,9 @@ Documentation is intentionally organized by document role:
   execution plans, and dated review trail
 - `docs/architecture/`, `docs/rest/`, and `docs/reference/` = durable technical
   and product reference
-- `docs/audits/`, `docs/dependencies/`, and `docs/history/` = provenance and
-  historical analysis
+- `docs/dependencies/DEP-STATUS.md` = current dependency decision record
+- `docs/history/` = provenance, historical analysis, dated audits, old plans,
+  and closed item records
 - `docs/ideas/` = exploratory proposals only, not active implementation plans
 
 If a status statement in `docs/` conflicts with `docs/active`, treat

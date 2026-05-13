@@ -1,7 +1,7 @@
 # Historical Named Pipe + Node.js Sidecar API Plan
 
 **Status:** Historical / Superseded
-**Canonical shipped contract:** `REST-API-CONTRACT.md`
+**Canonical shipped contract:** [REST-API-CONTRACT.md](../../rest/REST-API-CONTRACT.md)
 **Related:** `WEB_APIs.md` (in-process approach analysis)
 
 > This document no longer describes the active `main` runtime.

@@ -1,5 +1,9 @@
 # eMule 2026 — Full Modernization Engineering Roadmap
 
+> Exploratory idea material. This is not an active implementation plan or
+> release scope unless a future `docs/active/` item explicitly promotes a
+> specific slice.
+
 **Audience:** Engineering team
 **Horizon:** 12 months of sustained effort
 **Baseline:** eMule 0.72a + current eMulebb `v0.72a-broadband-dev` branch

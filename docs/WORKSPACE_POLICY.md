@@ -380,8 +380,9 @@ The canonical workspace currently materializes these app worktrees:
 - All Markdown documentation belongs under `repos\eMule-tooling\docs`; do not
   create a parallel active-doc tree outside `docs`.
 - `repos\eMule-tooling\docs\DOCS_POLICY.md` owns the documentation taxonomy:
-  active docs under `docs\active`, exploratory ideas under `docs\ideas`, and
-  reference/history/audit material under role-specific folders.
+  active docs under `docs\active`, exploratory ideas under `docs\ideas`,
+  current reference material under role-specific folders, and stale or
+  historical material under `docs\history`.
 - `repos\eMule-tooling\docs\RESUME.md` is the short current handoff pointer.
   Update it only when terminating a session or when the user explicitly asks
   for a current handoff. Detailed durable analysis belongs in tooling docs.

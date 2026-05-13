@@ -39,7 +39,8 @@ Do not publish GitHub releases or package assets for those labels.
 - [Controller surface matrix](CONTROLLER-SURFACE-MATRIX.md)
 
 Historical gate evidence and superseded cluster plans live under
-`docs\history\release-0.7.3`. Audit provenance lives under `docs\audits`.
+`docs\history\release-0.7.3`. Release audit provenance lives under
+`docs\history\release-0.7.3\audits`.
 
 ## Open Beta Tasks
 
@@ -71,7 +72,7 @@ Accepted non-blockers for beta `0.7.3`:
 - [REF-034](items/REF-034.md): Crypto++ 8.9 dependency refresh is deferred
   post-beta.
 - IP-filter HTTP update transport from
-  [BETA-READINESS-SECURITY-2026-05-11](../audits/BETA-READINESS-SECURITY-2026-05-11.md)
+  [BETA-READINESS-SECURITY-2026-05-11](../history/release-0.7.3/audits/BETA-READINESS-SECURITY-2026-05-11.md)
   is accepted as not release scope.
 
 ## Ship Rule

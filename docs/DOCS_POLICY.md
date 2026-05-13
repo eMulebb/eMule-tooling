@@ -20,13 +20,12 @@ status.
 ## Reference Docs
 
 - `docs/architecture/`: durable architecture notes
-- `docs/rest/`: REST contract and API reference
-- `docs/reference/`: durable product, feature, guide, and modernization
-  background
-- `docs/audits/`: audit reports and static analysis provenance
-- `docs/dependencies/`: dependency health and dependency-change analysis
+- `docs/rest/`: current REST contract and API reference
+- `docs/reference/`: durable current product, feature, and guide background
+- `docs/dependencies/`: current dependency health and decision records
 - `docs/history/`: closed item records, dated review findings, historical
-  comparisons, source salvage, old ledgers, and superseded release plans
+  comparisons, source salvage, old ledgers, dated audits, stale dependency
+  analysis, and superseded release plans
 
 Reference docs may preserve historical branch names, old paths, and old
 decisions as provenance, but they do not override active status.
@@ -46,6 +45,10 @@ Examples: CMake adoption and Boost adoption.
 - Move closed item records (Done, Passed, Wont-Fix) to `docs/history/items/`.
 - Move dated review reports to `docs/history/reviews/` after they stop driving
   active execution.
+- Move stale audit reports to `docs/history/audits/`; move release-specific
+  audit snapshots under that release's `docs/history/release-*` folder.
+- Prefix historical analysis files outside the standard closed-item/review
+  folders with `HIST-`; prefix speculative proposals with `IDEA-`.
 - Keep the current release execution sequence in one active plan. Superseded
   release cluster plans belong under `docs/history/`.
 - Every actionable active task must have its own item ID under

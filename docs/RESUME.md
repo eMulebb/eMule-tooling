@@ -15,8 +15,8 @@ This file is not policy, not backlog authority, and not a substitute for
   - `%EMULE_WORKSPACE_ROOT%\repos\eMule-tooling` on `main`
   - `%EMULE_WORKSPACE_ROOT%\repos\eMule-build-tests` on `main`
 - App and build-test repos are clean on `main...origin/main`.
-- `%EMULE_WORKSPACE_ROOT%\repos\eMule-tooling` has unrelated untracked
-  `docs\audits\BETA-READINESS-*.md` files; they were left untouched.
+- Beta-readiness audit snapshots now live under
+  `docs\history\release-0.7.3\audits`.
 - Latest app commit:
   `07572d6 CI-024 report shared hashing REST busy state`.
 - Latest build-tests commit:

@@ -39,7 +39,7 @@ Severity levels:
 - **P3** - Cosmetic / long-term aspiration
 
 Cross-references to existing docs: `AUDIT-DEADCODE.md`, `FEATURE-MODERN-LIMITS.md`,
-`PLAN-MODERNIZATION-2026.md`, `REFACTOR-TASKS.md`.
+`IDEA-MODERNIZATION-2026.md`, `REFACTOR-TASKS.md`.
 
 ---
 
@@ -1105,7 +1105,7 @@ Or use `<chrono>` for type-safe time representation.
 
 - `AUDIT-DEADCODE.md` — Dead code patterns and cleanup tracking
 - `FEATURE-MODERN-LIMITS.md` — Limit modernization plan and progress
-- `PLAN-MODERNIZATION-2026.md` — Full 12-month engineering roadmap
+- `IDEA-MODERNIZATION-2026.md` — Full 12-month engineering roadmap idea
 - `REFACTOR-TASKS.md` — Refactoring task tracking
 - `GUIDE-LONGPATHS.md` — Long path migration guide
 - `AUDIT-SECURITY.md` — Security audit findings

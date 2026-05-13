@@ -1,5 +1,8 @@
 # External VPN Kill Switch Design
 
+> Exploratory idea material. This is not an active implementation plan unless a
+> future `docs/active/` item explicitly promotes a specific slice.
+
 **Status:** Design / Planning
 **Scope:** External helper tool, not an in-process eMule feature
 

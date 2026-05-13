@@ -1,6 +1,8 @@
 # Retired Thumbnail Preview Capability
 
-This document is retained as feature history only. The internal thumbnail-preview capability was removed from this branch instead of being migrated to Media Foundation or FFmpeg.
+This document is retained as feature history only. The internal
+thumbnail-preview capability was removed from this branch instead of being
+migrated to Media Foundation or FFmpeg.
 
 ## Table of Contents
 

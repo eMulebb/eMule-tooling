@@ -43,7 +43,7 @@ explicit instruction resumes release proof.
 - [REF-034](../items/REF-034.md) is deferred; the Crypto++ 8.9 refresh is
   post-beta dependency hardening.
 - The IP-filter HTTP update transport finding in
-  [BETA-READINESS-SECURITY-2026-05-11](../../audits/BETA-READINESS-SECURITY-2026-05-11.md)
+  [BETA-READINESS-SECURITY-2026-05-11](../../history/release-0.7.3/audits/BETA-READINESS-SECURITY-2026-05-11.md)
   is accepted as not release scope.
 
 ## Historical Inputs
@@ -52,7 +52,8 @@ The following are provenance, not current execution owners:
 
 - `docs\history\release-0.7.3\RELEASE-0.7.3-GATE-HISTORY.md`
 - superseded release cluster plans under `docs\history\release-0.7.3`
-- 2026-05-11 beta readiness audits under `docs\audits`
+- 2026-05-11 beta readiness audits under
+  `docs\history\release-0.7.3\audits`
 
 ## Validation Bar
 
