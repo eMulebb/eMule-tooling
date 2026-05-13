@@ -32,12 +32,12 @@ package authorization document.
 
 | Area | Release gate items | Deep-plan responsibility |
 |------|--------------------|--------------------------|
-| Native REST errors | [BUG-075](../../active/items/BUG-075.md) | stable JSON error envelope and status mapping |
-| WebServer boundary | [BUG-076](../../active/items/BUG-076.md), [BUG-077](../../active/items/BUG-077.md) | malformed REST isolation and mixed REST/legacy stress |
-| Contract completeness | [CI-014](../../active/items/CI-014.md), [CI-015](../../active/items/CI-015.md), [FEAT-047](../../active/items/FEAT-047.md) | OpenAPI-backed smoke, route drift checks, stress budgets |
-| aMuTorrent | [AMUT-001](../../active/items/AMUT-001.md), [AMUT-002](../../active/items/AMUT-002.md) | UI consumer proof and transfer-detail hydration |
-| Arr adapters | [ARR-001](../../active/items/ARR-001.md) | Torznab/qBittorrent adapter proof without native API drift |
-| REST controller candidates | [FEAT-045](../../active/items/FEAT-045.md), [FEAT-046](../../active/items/FEAT-046.md), [FEAT-048](../../active/items/FEAT-048.md), [FEAT-049](../../active/items/FEAT-049.md) | documented deferral or promotion path for controller parity work |
+| Native REST errors | [BUG-075](../items/BUG-075.md) | stable JSON error envelope and status mapping |
+| WebServer boundary | [BUG-076](../items/BUG-076.md), [BUG-077](../items/BUG-077.md) | malformed REST isolation and mixed REST/legacy stress |
+| Contract completeness | [CI-014](../items/CI-014.md), [CI-015](../items/CI-015.md), [FEAT-047](../items/FEAT-047.md) | OpenAPI-backed smoke, route drift checks, stress budgets |
+| aMuTorrent | [AMUT-001](../items/AMUT-001.md), [AMUT-002](../items/AMUT-002.md) | UI consumer proof and transfer-detail hydration |
+| Arr adapters | [ARR-001](../items/ARR-001.md) | Torznab/qBittorrent adapter proof without native API drift |
+| REST controller candidates | [FEAT-045](../items/FEAT-045.md), [FEAT-046](../items/FEAT-046.md), [FEAT-048](../items/FEAT-048.md), [FEAT-049](../items/FEAT-049.md) | documented deferral or promotion path for controller parity work |
 
 ## Current Revalidation Focus
 
@@ -139,44 +139,44 @@ should revalidate the API surfaces below before treating that evidence as fresh.
 
 ### REST and WebServer Robustness
 
-- Keep [BUG-075](../../active/items/BUG-075.md) as the typed error contract owner.
-- Keep [BUG-076](../../active/items/BUG-076.md) as the malformed request boundary owner.
-- Keep [BUG-077](../../active/items/BUG-077.md) as the mixed REST and legacy HTML stress owner.
+- Keep [BUG-075](../items/BUG-075.md) as the typed error contract owner.
+- Keep [BUG-076](../items/BUG-076.md) as the malformed request boundary owner.
+- Keep [BUG-077](../items/BUG-077.md) as the mixed REST and legacy HTML stress owner.
 - Any future route, parser, auth, or WebServer concurrency change must rerun the
   REST smoke and malformed/concurrent matrix before beta 0.7.3 evidence is
   reused.
 
 ### Contract Completeness
 
-- Keep [CI-014](../../active/items/CI-014.md) as the OpenAPI and route drift gate.
-- Keep [CI-015](../../active/items/CI-015.md) as the malformed and concurrent request matrix gate.
-- Keep [FEAT-047](../../active/items/FEAT-047.md) closed by documenting the beta 0.7.3 search
+- Keep [CI-014](../items/CI-014.md) as the OpenAPI and route drift gate.
+- Keep [CI-015](../items/CI-015.md) as the malformed and concurrent request matrix gate.
+- Keep [FEAT-047](../items/FEAT-047.md) closed by documenting the beta 0.7.3 search
   snapshot behavior instead of adding paging or bounds changes.
 - New `/api/v1` routes require OpenAPI, native route seam, live smoke, and
   REST contract documentation updates in the same closure slice.
 
 ### Controller Integrations
 
-- Keep [AMUT-001](../../active/items/AMUT-001.md) as the live aMuTorrent browser proof.
-- Keep [ARR-001](../../active/items/ARR-001.md) as the live Prowlarr, Radarr, Sonarr, Torznab,
+- Keep [AMUT-001](../items/AMUT-001.md) as the live aMuTorrent browser proof.
+- Keep [ARR-001](../items/ARR-001.md) as the live Prowlarr, Radarr, Sonarr, Torznab,
   and qBittorrent-compatible proof.
-- Treat [AMUT-002](../../active/items/AMUT-002.md) as promoted for beta 0.7.3. The
-  aMuTorrent adapter consumes [FEAT-045](../../active/items/FEAT-045.md) only when eMule
+- Treat [AMUT-002](../items/AMUT-002.md) as promoted for beta 0.7.3. The
+  aMuTorrent adapter consumes [FEAT-045](../items/FEAT-045.md) only when eMule
   BB advertises `transferDetails`, and browser smoke coverage verifies the
   hydrated detail fields.
 
 ### Candidate Promotion Rules
 
-- [FEAT-045](../../active/items/FEAT-045.md) is closed for beta 0.7.3: the dedicated
+- [FEAT-045](../items/FEAT-045.md) is closed for beta 0.7.3: the dedicated
   transfer detail endpoint is implemented, advertised through capability
   metadata, and consumed by aMuTorrent through `AMUT-002`.
-- [FEAT-046](../../active/items/FEAT-046.md) is closed for beta 0.7.3: server.met import,
+- [FEAT-046](../items/FEAT-046.md) is closed for beta 0.7.3: server.met import,
   Kad bootstrap, nodes.dat URL import, malformed preservation, and live seed
   import evidence are covered.
-- [FEAT-048](../../active/items/FEAT-048.md) is closed for beta 0.7.3 by audit: existing
+- [FEAT-048](../items/FEAT-048.md) is closed for beta 0.7.3 by audit: existing
   upload controls are covered, unsupported operations return typed errors, and
   no additional queue mutation was promoted.
-- [FEAT-049](../../active/items/FEAT-049.md) is closed for beta 0.7.3 by audit: aMuTorrent
+- [FEAT-049](../items/FEAT-049.md) is closed for beta 0.7.3 by audit: aMuTorrent
   needs no additional runtime preference keys, risky internals remain private,
   and the curated surface has live round-trip plus bad-value coverage.
 

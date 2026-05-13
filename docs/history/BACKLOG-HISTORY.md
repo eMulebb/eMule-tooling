@@ -26,14 +26,14 @@ current status source; use [docs/active/INDEX](../active/INDEX.md) and
 
 ## Review Records
 
-- [2026-05-02 outbound bind compliance audit](../active/reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
-- [2026-05-01 release readiness regression scan](../active/reviews/REVIEW-2026-05-01-release-readiness-regression-scan.md)
-- [2026-04-26 main bug/concurrency scan](../active/reviews/REVIEW-2026-04-26-main-bug-concurrency-scan.md)
-- [2026-04-26 eMuleAI/mods broadband scan](../active/reviews/REVIEW-2026-04-26-emuleai-mods-broadband-scan.md)
-- [2026-04-25 current-main backlog refresh](../active/reviews/REVIEW-2026-04-25-current-main-backlog-refresh.md)
-- [2026-04-20 eMuleAI/mods main backlog pass](../active/reviews/REVIEW-2026-04-20-emuleai-mods-main-backlog-pass.md)
-- [2026-04-20 feature expansion beyond stock](../active/reviews/REVIEW-2026-04-20-feature-expansion-beyond-stock.md)
-- [2026-04-18 eMuleAI vs main hardening pass](../active/reviews/REVIEW-2026-04-18-emuleai-vs-main-hardening-pass.md)
+- [2026-05-02 outbound bind compliance audit](reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
+- [2026-05-01 release readiness regression scan](reviews/REVIEW-2026-05-01-release-readiness-regression-scan.md)
+- [2026-04-26 main bug/concurrency scan](reviews/REVIEW-2026-04-26-main-bug-concurrency-scan.md)
+- [2026-04-26 eMuleAI/mods broadband scan](reviews/REVIEW-2026-04-26-emuleai-mods-broadband-scan.md)
+- [2026-04-25 current-main backlog refresh](reviews/REVIEW-2026-04-25-current-main-backlog-refresh.md)
+- [2026-04-20 eMuleAI/mods main backlog pass](reviews/REVIEW-2026-04-20-emuleai-mods-main-backlog-pass.md)
+- [2026-04-20 feature expansion beyond stock](reviews/REVIEW-2026-04-20-feature-expansion-beyond-stock.md)
+- [2026-04-18 eMuleAI vs main hardening pass](reviews/REVIEW-2026-04-18-emuleai-vs-main-hardening-pass.md)
 
 Older item-level history lives in the individual `BUG-*`, `REF-*`, `FEAT-*`,
 `CI-*`, `AMUT-*`, and `ARR-*` files.

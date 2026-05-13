@@ -9,72 +9,72 @@ validated, and reflected in their item docs.
 
 Covered items:
 
-- [BUG-078](../../active/items/BUG-078.md) - qBit compatibility auth can fail open when session RNG is unavailable
-- [BUG-079](../../active/items/BUG-079.md) - WebSocket shutdown can close the termination event while accepted clients still wait on it
-- [BUG-080](../../active/items/BUG-080.md) - WebSocket shutdown can forcibly terminate the listener thread
-- [BUG-081](../../active/items/BUG-081.md) - HTTPS WebSocket handshake and read loops can spin on WANT_READ/WANT_WRITE
-- [BUG-082](../../active/items/BUG-082.md) - GeoLocation and IPFilter background refresh flags can race and remain stuck
-- [BUG-083](../../active/items/BUG-083.md) - Client UDP malformed-packet logging can read past a one-byte packet
-- [BUG-084](../../active/items/BUG-084.md) - Web admin high-level actions leak the process token handle
-- [BUG-085](../../active/items/BUG-085.md) - Kad/client UDP encryption preference gating needs Release 1 compatibility proof
-- [BUG-086](../../active/items/BUG-086.md) - HTTPS WebSocket casts SOCKET storage to mbedtls_net_context
-- [BUG-087](../../active/items/BUG-087.md) - HTTPS WebSocket queued writes can stall after TLS WANT_READ
-- [BUG-088](../../active/items/BUG-088.md) - WebSocket timeout shutdown leaves global state unsafe for restart
-- [BUG-089](../../active/items/BUG-089.md) - UDP control sender can deadlock on exception while holding sendLocker
-- [BUG-090](../../active/items/BUG-090.md) - Background refresh completion can wedge when UI PostMessage fails
-- [BUG-091](../../active/items/BUG-091.md) - DirectDownload ignores close-time write failures
-- [BUG-092](../../active/items/BUG-092.md) - Background refresh workers can write through freed owner memory after shutdown
-- [BUG-093](../../active/items/BUG-093.md) - Failed refresh completion can synchronously block worker on UI thread
-- [BUG-094](../../active/items/BUG-094.md) - ResumeThread failure leaks suspended refresh thread objects
-- [BUG-095](../../active/items/BUG-095.md) - WebSocket accepted-client tracking is not exception-safe after thread start
-- [BUG-096](../../active/items/BUG-096.md) - DirectDownload lacks bounded timeout and cancellation contract
-- [BUG-097](../../active/items/BUG-097.md) - Startup-cache save worker can outlive shared-file list owner
-- [BUG-074](../../active/items/BUG-074.md) - Archive preview scanner uses volatile cancellation and synchronous UI handoff
-- [BUG-098](../../active/items/BUG-098.md) - Archive recovery worker uses raw part-file owner across async work
-- [BUG-099](../../active/items/BUG-099.md) - WebSocket listener startup is not exception-safe after global state initialization
-- [BUG-100](../../active/items/BUG-100.md) - DirectDownload has bounded timeouts but no hard owner cancellation contract
+- [BUG-078](../items/BUG-078.md) - qBit compatibility auth can fail open when session RNG is unavailable
+- [BUG-079](../items/BUG-079.md) - WebSocket shutdown can close the termination event while accepted clients still wait on it
+- [BUG-080](../items/BUG-080.md) - WebSocket shutdown can forcibly terminate the listener thread
+- [BUG-081](../items/BUG-081.md) - HTTPS WebSocket handshake and read loops can spin on WANT_READ/WANT_WRITE
+- [BUG-082](../items/BUG-082.md) - GeoLocation and IPFilter background refresh flags can race and remain stuck
+- [BUG-083](../items/BUG-083.md) - Client UDP malformed-packet logging can read past a one-byte packet
+- [BUG-084](../items/BUG-084.md) - Web admin high-level actions leak the process token handle
+- [BUG-085](../items/BUG-085.md) - Kad/client UDP encryption preference gating needs Release 1 compatibility proof
+- [BUG-086](../items/BUG-086.md) - HTTPS WebSocket casts SOCKET storage to mbedtls_net_context
+- [BUG-087](../items/BUG-087.md) - HTTPS WebSocket queued writes can stall after TLS WANT_READ
+- [BUG-088](../items/BUG-088.md) - WebSocket timeout shutdown leaves global state unsafe for restart
+- [BUG-089](../items/BUG-089.md) - UDP control sender can deadlock on exception while holding sendLocker
+- [BUG-090](../items/BUG-090.md) - Background refresh completion can wedge when UI PostMessage fails
+- [BUG-091](../items/BUG-091.md) - DirectDownload ignores close-time write failures
+- [BUG-092](../items/BUG-092.md) - Background refresh workers can write through freed owner memory after shutdown
+- [BUG-093](../items/BUG-093.md) - Failed refresh completion can synchronously block worker on UI thread
+- [BUG-094](../items/BUG-094.md) - ResumeThread failure leaks suspended refresh thread objects
+- [BUG-095](../items/BUG-095.md) - WebSocket accepted-client tracking is not exception-safe after thread start
+- [BUG-096](../items/BUG-096.md) - DirectDownload lacks bounded timeout and cancellation contract
+- [BUG-097](../items/BUG-097.md) - Startup-cache save worker can outlive shared-file list owner
+- [BUG-074](../items/BUG-074.md) - Archive preview scanner uses volatile cancellation and synchronous UI handoff
+- [BUG-098](../items/BUG-098.md) - Archive recovery worker uses raw part-file owner across async work
+- [BUG-099](../items/BUG-099.md) - WebSocket listener startup is not exception-safe after global state initialization
+- [BUG-100](../items/BUG-100.md) - DirectDownload has bounded timeouts but no hard owner cancellation contract
 
 ## Current State
 
 `eMule-main` was clean at the 2026-05-08 follow-up review time. The original
-Beta 0.7.3 stability items through [BUG-096](../../active/items/BUG-096.md) are done on `main`.
+Beta 0.7.3 stability items through [BUG-096](../items/BUG-096.md) are done on `main`.
 The latest follow-up adversarial pass promoted three Beta 0.7.3 blockers.
-[BUG-097](../../active/items/BUG-097.md) and [BUG-099](../../active/items/BUG-099.md) are now done on
-`main`; [BUG-100](../../active/items/BUG-100.md) is now done on `main`. Archive preview and recovery findings
-[BUG-074](../../active/items/BUG-074.md) and [BUG-098](../../active/items/BUG-098.md) are Wont-Fix
+[BUG-097](../items/BUG-097.md) and [BUG-099](../items/BUG-099.md) are now done on
+`main`; [BUG-100](../items/BUG-100.md) is now done on `main`. Archive preview and recovery findings
+[BUG-074](../items/BUG-074.md) and [BUG-098](../items/BUG-098.md) are Wont-Fix
 by product decision because those deprecated features are entirely frozen,
 including known bugs.
 
 ## Sequencing
 
-1. Fix the remote-auth blocker first: [BUG-078](../../active/items/BUG-078.md).
+1. Fix the remote-auth blocker first: [BUG-078](../items/BUG-078.md).
 2. Fix WebSocket shutdown as one coherent lifetime slice:
-   [BUG-079](../../active/items/BUG-079.md), [BUG-080](../../active/items/BUG-080.md), and
-   [BUG-081](../../active/items/BUG-081.md).
+   [BUG-079](../items/BUG-079.md), [BUG-080](../items/BUG-080.md), and
+   [BUG-081](../items/BUG-081.md).
 3. Fix background refresh state ownership:
-   [BUG-082](../../active/items/BUG-082.md).
+   [BUG-082](../items/BUG-082.md).
 4. Fix narrow bounds and handle leaks:
-   [BUG-083](../../active/items/BUG-083.md) and [BUG-084](../../active/items/BUG-084.md).
+   [BUG-083](../items/BUG-083.md) and [BUG-084](../items/BUG-084.md).
 5. Prove or adjust Kad/client UDP encryption behavior:
-   [BUG-085](../../active/items/BUG-085.md).
+   [BUG-085](../items/BUG-085.md).
 6. Close the refresh shutdown use-after-free and synchronous UI handoff as one
-   coherent lifetime slice: [BUG-092](../../active/items/BUG-092.md) and
-   [BUG-093](../../active/items/BUG-093.md).
+   coherent lifetime slice: [BUG-092](../items/BUG-092.md) and
+   [BUG-093](../items/BUG-093.md).
 7. Close the refresh launch-failure leak in the same owner/context model:
-   [BUG-094](../../active/items/BUG-094.md).
+   [BUG-094](../items/BUG-094.md).
 8. Close WebSocket accepted-client tracking exception safety:
-   [BUG-095](../../active/items/BUG-095.md).
+   [BUG-095](../items/BUG-095.md).
 9. Add bounded timeout or cancellation semantics for refresh downloads:
-   [BUG-096](../../active/items/BUG-096.md).
+   [BUG-096](../items/BUG-096.md).
 10. Close startup-cache save worker lifetime:
-    [BUG-097](../../active/items/BUG-097.md).
+    [BUG-097](../items/BUG-097.md).
 11. Do not implement archive preview or recovery bug fixes while those
-    deprecated features are frozen; keep [BUG-074](../../active/items/BUG-074.md) and
-    [BUG-098](../../active/items/BUG-098.md) marked Wont-Fix unless explicitly unfrozen.
+    deprecated features are frozen; keep [BUG-074](../items/BUG-074.md) and
+    [BUG-098](../items/BUG-098.md) marked Wont-Fix unless explicitly unfrozen.
 12. Close WebSocket listener startup exception safety:
-    [BUG-099](../../active/items/BUG-099.md).
+    [BUG-099](../items/BUG-099.md).
 13. Add hard owner cancellation for background direct downloads:
-    [BUG-100](../../active/items/BUG-100.md).
+    [BUG-100](../items/BUG-100.md).
 Each slice must be committed and pushed before the next independent slice starts.
 
 ## Shared Implementation Rules
@@ -427,7 +427,7 @@ Implementation:
   refresh completion delivery.
 - Treat successful `PostMessage` as the only UI-thread ownership transfer.
 - Treat failed post as deterministic terminal cleanup, or route it through the
-  owner cancellation/join model from [BUG-092](../../active/items/BUG-092.md).
+  owner cancellation/join model from [BUG-092](../items/BUG-092.md).
 - Keep UI-owned state transitions on the UI thread without blocking worker
   threads on the UI message pump.
 
@@ -575,7 +575,7 @@ Disposition:
 
 Status:
 
-- Wont-Fix. See [BUG-074](../../active/items/BUG-074.md).
+- Wont-Fix. See [BUG-074](../items/BUG-074.md).
 
 ### BUG-098 - archive recovery worker part-file lifetime
 
@@ -589,7 +589,7 @@ Disposition:
 
 Status:
 
-- Wont-Fix. See [BUG-098](../../active/items/BUG-098.md).
+- Wont-Fix. See [BUG-098](../items/BUG-098.md).
 
 ### BUG-099 - WebSocket listener startup exception safety
 
@@ -648,7 +648,7 @@ Status:
   synchronizes WinInet session, connection, and request handle close ownership.
   GeoLocation and IPFilter background refresh owners cancel that token during
   teardown while preserving the bounded-timeout fallback behavior from
-  [BUG-096](../../active/items/BUG-096.md).
+  [BUG-096](../items/BUG-096.md).
 
 ## Release Exit Criteria
 
@@ -659,7 +659,7 @@ All covered items must be either:
 
 All current Beta 0.7.3 stability blockers in this plan are either `Done` on `main` with
 commit evidence or Wont-Fix by explicit product decision. Archive
-preview/recovery findings [BUG-074](../../active/items/BUG-074.md) and
-[BUG-098](../../active/items/BUG-098.md) are Wont-Fix because those deprecated features
+preview/recovery findings [BUG-074](../items/BUG-074.md) and
+[BUG-098](../items/BUG-098.md) are Wont-Fix because those deprecated features
 are frozen. Remaining release work is the broader checklist/runbook validation
 outside this stability-blocker closure plan.

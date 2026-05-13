@@ -21,7 +21,7 @@ Theme and translation work remained out of scope.
 
 That item is restored to the active index in this pass:
 
-- [FEAT-031](../items/FEAT-031.md) — auto-browse compatible remote shared-file inventories with
+- [FEAT-031](../../active/items/FEAT-031.md) — auto-browse compatible remote shared-file inventories with
   persisted cache
 
 ## New Feature Promotions

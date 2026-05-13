@@ -10,9 +10,9 @@ path, not by filename alone.
 - `docs/active/INDEX.md`: active backlog dashboard and item tables
 - `docs/active/RELEASE-0.7.3*.md`: Beta release control, checklist, runbook,
   and release operator docs
-- `docs/active/items/`: item records, acceptance criteria, and evidence
+- `docs/active/items/`: active item records for Open, In Progress, Blocked,
+  and Deferred work
 - `docs/active/plans/`: the single current beta release execution plan
-- `docs/active/reviews/`: dated revalidation and review findings
 
 If another doc conflicts with `docs/active/`, `docs/active/` wins for current
 status.
@@ -25,8 +25,8 @@ status.
   background
 - `docs/audits/`: audit reports and static analysis provenance
 - `docs/dependencies/`: dependency health and dependency-change analysis
-- `docs/history/`: historical comparisons, source salvage, old ledgers, and
-  superseded release plans
+- `docs/history/`: closed item records, dated review findings, historical
+  comparisons, source salvage, old ledgers, and superseded release plans
 
 Reference docs may preserve historical branch names, old paths, and old
 decisions as provenance, but they do not override active status.
@@ -43,6 +43,9 @@ Examples: CMake adoption and Boost adoption.
 ## Writing Rules
 
 - Keep current decisions in `docs/active/`, not in historical reference docs.
+- Move closed item records (Done, Passed, Wont-Fix) to `docs/history/items/`.
+- Move dated review reports to `docs/history/reviews/` after they stop driving
+  active execution.
 - Keep the current release execution sequence in one active plan. Superseded
   release cluster plans belong under `docs/history/`.
 - Every actionable active task must have its own item ID under

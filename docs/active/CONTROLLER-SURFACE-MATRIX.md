@@ -30,10 +30,10 @@ release proof.
 
 After each closeout run, record the current artifact paths in:
 
-- [AMUT-001](items/AMUT-001.md) and [AMUT-002](items/AMUT-002.md) for aMuTorrent
-- [ARR-001](items/ARR-001.md) for Prowlarr/Radarr/Sonarr and qBit-compatible flows
-- [CI-024](items/CI-024.md) for controller replay status
-- [CI-025](items/CI-025.md) for native REST and adapter contract drift
+- [AMUT-001](../history/items/AMUT-001.md) and [AMUT-002](../history/items/AMUT-002.md) for aMuTorrent
+- [ARR-001](../history/items/ARR-001.md) for Prowlarr/Radarr/Sonarr and qBit-compatible flows
+- [CI-024](../history/items/CI-024.md) for controller replay status
+- [CI-025](../history/items/CI-025.md) for native REST and adapter contract drift
 - [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md) before tagging
 
 All live reports must show the workspace live-network policy:

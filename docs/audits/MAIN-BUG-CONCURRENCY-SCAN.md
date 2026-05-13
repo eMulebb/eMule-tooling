@@ -6,8 +6,8 @@ concurrency issues, memory risks, persistence crash windows, and small
 legacy-code hardening opportunities.
 
 Active status and implementation order are tracked in
-[`../docs/active/INDEX.md`](../active/INDEX.md). The dated active review is
-[`../docs/active/REVIEW-2026-04-26-main-bug-concurrency-scan.md`](../active/reviews/REVIEW-2026-04-26-main-bug-concurrency-scan.md).
+[`../active/INDEX.md`](../active/INDEX.md). The dated historical review is
+[`../history/reviews/REVIEW-2026-04-26-main-bug-concurrency-scan.md`](../history/reviews/REVIEW-2026-04-26-main-bug-concurrency-scan.md).
 
 ## Summary
 
@@ -15,12 +15,12 @@ The scan found six current-main issues worth tracking:
 
 | Backlog | Area | Summary |
 |---------|------|---------|
-| [BUG-069](../active/items/BUG-069.md) | WebServer/static files | Static file requests need final canonical root-containment checks and bounded streaming. |
-| [BUG-070](../active/items/BUG-070.md) | helper threads | Upload/disk helper shutdown waits should handle worker launch failure. |
-| [BUG-071](../active/items/BUG-071.md) | server list persistence | `server.met` save and auto-update should use checked atomic promotion. |
-| [BUG-072](../active/items/BUG-072.md) | Kad persistence | `preferencesKad.dat` and `nodes.dat` should stop saving in place. |
-| [BUG-073](../active/items/BUG-073.md) | WebServer sessions | Session and bad-login arrays need synchronization across request threads. |
-| [BUG-074](../active/items/BUG-074.md) | archive preview | The scanner needs real cancellation/lifetime synchronization or retirement. |
+| [BUG-069](../history/items/BUG-069.md) | WebServer/static files | Static file requests need final canonical root-containment checks and bounded streaming. |
+| [BUG-070](../history/items/BUG-070.md) | helper threads | Upload/disk helper shutdown waits should handle worker launch failure. |
+| [BUG-071](../history/items/BUG-071.md) | server list persistence | `server.met` save and auto-update should use checked atomic promotion. |
+| [BUG-072](../history/items/BUG-072.md) | Kad persistence | `preferencesKad.dat` and `nodes.dat` should stop saving in place. |
+| [BUG-073](../history/items/BUG-073.md) | WebServer sessions | Session and bad-login arrays need synchronization across request threads. |
+| [BUG-074](../history/items/BUG-074.md) | archive preview | The scanner needs real cancellation/lifetime synchronization or retirement. |
 
 ## Maintenance Fit
 

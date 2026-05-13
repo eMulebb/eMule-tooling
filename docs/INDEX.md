@@ -25,8 +25,9 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 | [active/RELEASE-0.7.3-CHECKLIST](active/RELEASE-0.7.3-CHECKLIST.md) | Beta release operator checklist |
 | [active/RELEASE-0.7.3-RUNBOOK](active/RELEASE-0.7.3-RUNBOOK.md) | Beta release operator runbook |
 | [active/plans/RELEASE-0.7.3-EXECUTION-PLAN](active/plans/RELEASE-0.7.3-EXECUTION-PLAN.md) | Current beta release execution plan |
-| [active/items/](active/items/) | Backlog item records |
-| [active/reviews/](active/reviews/) | Dated revalidation reviews |
+| [active/items/](active/items/) | Active item records for Open, In Progress, Blocked, and Deferred work |
+| [history/items/](history/items/) | Closed item records |
+| [history/reviews/](history/reviews/) | Dated revalidation reviews |
 | [history/release-0.7.3/](history/release-0.7.3/) | Superseded beta gate evidence and old cluster plans |
 
 ## Reference Families
@@ -36,7 +37,7 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 | [architecture/](architecture/) | Durable architecture notes |
 | [audits/](audits/) | Audit reports and static-analysis provenance |
 | [dependencies/](dependencies/) | Dependency health and dependency-change analysis |
-| [history/](history/) | Historical comparisons, source salvage, and old ledgers |
+| [history/](history/) | Closed item records, dated reviews, historical comparisons, source salvage, and old ledgers |
 | [ideas/](ideas/) | Exploratory proposals only, not active implementation plans |
 | [reference/](reference/) | Product, feature, guide, and modernization background |
 | [rest/](rest/) | REST contract and API reference |

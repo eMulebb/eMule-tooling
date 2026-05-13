@@ -9,10 +9,10 @@ review. These are release-gate test items, not product feature work. They block
 
 Covered items:
 
-- [CI-018](../../active/items/CI-018.md) - Shared Files 50k-file tree refresh stress gate
-- [CI-019](../../active/items/CI-019.md) - HTTPS and REST socket adversity stress gate
-- [CI-020](../../active/items/CI-020.md) - REST and legacy WebServer error-path coverage gate
-- [CI-021](../../active/items/CI-021.md) - WebSocket and legacy socket leak-churn gate
+- [CI-018](../items/CI-018.md) - Shared Files 50k-file tree refresh stress gate
+- [CI-019](../items/CI-019.md) - HTTPS and REST socket adversity stress gate
+- [CI-020](../items/CI-020.md) - REST and legacy WebServer error-path coverage gate
+- [CI-021](../items/CI-021.md) - WebSocket and legacy socket leak-churn gate
 
 ## Current State
 
@@ -23,13 +23,13 @@ fault paths, and resource-accounted socket churn.
 
 ## Sequencing
 
-1. Implement [CI-018](../../active/items/CI-018.md) first because it expands the Shared
+1. Implement [CI-018](../items/CI-018.md) first because it expands the Shared
    Files fixture and UI-harness capabilities that later release runs can reuse.
-2. Implement [CI-019](../../active/items/CI-019.md) next to put the existing REST contract
+2. Implement [CI-019](../items/CI-019.md) next to put the existing REST contract
    and stress matrix through HTTPS and raw socket adversity.
-3. Implement [CI-020](../../active/items/CI-020.md) after the HTTPS harness path exists so
+3. Implement [CI-020](../items/CI-020.md) after the HTTPS harness path exists so
    the error-path matrix can run over both HTTP and HTTPS where useful.
-4. Implement [CI-021](../../active/items/CI-021.md) last as the resource-accounting soak
+4. Implement [CI-021](../items/CI-021.md) last as the resource-accounting soak
    that combines the socket churn surfaces and proves cleanup.
 
 Each slice must be committed and pushed before the next independent slice
@@ -91,7 +91,7 @@ Status:
 - Live smoke artifact
   `repos\eMule-build-tests\reports\shared-files-ui-e2e\20260508-125931-eMule-main-release\tree-refresh-stress-10k\result.json`
   failed before churn with `Timed out waiting for eMule main window`; this is
-  tracked as [BUG-101](../../active/items/BUG-101.md).
+  tracked as [BUG-101](../items/BUG-101.md).
 - Passing 50k smoke artifact
   `repos\eMule-build-tests\reports\shared-files-ui-e2e\20260508-170043-eMule-main-release\result.json`
   and passing 160-cycle operator soak artifact
