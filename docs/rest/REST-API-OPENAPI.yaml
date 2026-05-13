@@ -1901,6 +1901,8 @@ components:
           minimum: 0
         stopped:
           type: boolean
+        fakeFile:
+          $ref: "#/components/schemas/FakeFileAnalysis"
         downloadSpeedKiBps:
           type: number
           minimum: 0
@@ -1915,6 +1917,47 @@ components:
     TransferPriority:
       type: string
       enum: [auto, verylow, low, normal, high, veryhigh]
+    FakeFileAnalysis:
+      type: object
+      additionalProperties: false
+      required: [score, severity, reasons, pendingHeaderCheck, observedNames, observedExtensions, claimedType, extensionType, detectedHeaderType, cached]
+      properties:
+        score:
+          type: integer
+          minimum: 0
+          maximum: 100
+        severity:
+          type: string
+          enum: [none, low, medium, high, critical]
+        reasons:
+          type: array
+          items:
+            type: string
+            enum: [multiple_names, bad_signal_name, bad_signal_comment, header_extension_mismatch, claimed_type_mismatch, spam_score, spam_status, bad_rating, fake_rating, multiple_aich, executable_masquerade, archive_masquerade, pending_header_check]
+        pendingHeaderCheck:
+          type: boolean
+        observedNames:
+          type: array
+          items:
+            type: string
+        observedExtensions:
+          type: array
+          items:
+            type: string
+        claimedType:
+          type:
+            - string
+            - "null"
+        extensionType:
+          type:
+            - string
+            - "null"
+        detectedHeaderType:
+          type:
+            - string
+            - "null"
+        cached:
+          type: boolean
     SharedFilePriority:
       type: string
       enum: [auto, verylow, low, normal, high, release]
@@ -3082,6 +3125,8 @@ components:
           type: boolean
         spam:
           type: boolean
+        fakeFile:
+          $ref: "#/components/schemas/FakeFileAnalysis"
     SearchResultDownloadRequest:
       type: object
       additionalProperties: false
