@@ -1,5 +1,10 @@
 # eMule v0.72a — Dependency DLL Conversion Analysis
 
+> Historical analysis only. This document is not current release policy and
+> must not be used as an active DLL-conversion plan. The current decision record
+> is [DEP-STATUS.md](DEP-STATUS.md): dependency forks stay as-is for beta
+> `0.7.3`, with no DLL conversion, removal, or update work selected.
+
 **Target platform: Windows 10+ x64 ONLY**
 **Build: MSVC v143 (VS 2022), static MFC, `/MT` CRT**
 **Source analysis: `c:\prj\p2p\eMule\analysis\bbclean7`**

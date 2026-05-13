@@ -14,7 +14,7 @@ This directory is the active backlog and revalidation layer for this repo. Use
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
 **Current non-done count:** `60`
 **Latest release-doc refresh:** 2026-05-13
-**Non-done by status:** `38` Open, `7` In Progress, `15` Deferred, `0` Blocked.
+**Non-done by status:** `37` Open, `7` In Progress, `16` Deferred, `0` Blocked.
 **Backlog counts:** item tables below are authoritative.
 **Beta 0.7.3 relevance:** Most non-done items below are future or deferred work;
 current beta gate and proof status is controlled by [RELEASE-0.7.3](RELEASE-0.7.3.md).
@@ -217,7 +217,7 @@ not active item docs.
 | [REF-025](items/REF-025.md) | Minor | In Progress | Remove legacy feature set — IRC, SMTP, Scheduler, MiniMule, wizard, splash, update checker |
 | [REF-026](../history/items/REF-026.md) | Minor | Done | Manifest — keep Win10/11+ compatibility GUID only and move Common Controls into manifests |
 | [REF-027](items/REF-027.md) | Minor | Open | CaptchaGenerator — replace CxImage with ATL CImage / native GDI (community ref) |
-| [REF-028](items/REF-028.md) | Minor | Open | Upgrade MbedTLS to 4.0 — API rename + TLS 1.3 readiness (community ref) |
+| [REF-028](items/REF-028.md) | Minor | Deferred | Audit current MbedTLS 4.1 integration |
 | [REF-029](items/REF-029.md) | Major | Open | Move UDP sockets to WSAPoll backend — AsyncDatagramSocket (experimental ref) |
 | [REF-030](items/REF-030.md) | Minor | Open | Replace WSAAsyncGetHostByName with worker-thread resolver in DownloadQueue (experimental ref) |
 | [REF-031](../history/items/REF-031.md) | Minor | Done | Review upload queue scoring against community and stale baselines |
