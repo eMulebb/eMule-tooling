@@ -229,6 +229,7 @@ not active item docs.
 | [REF-037](../history/items/REF-037.md) | Major | Done | Beta 0.7.3 legacy and frozen feature disposition ledger |
 | [REF-038](../history/items/REF-038.md) | Minor | Done | Harden optional MediaInfo DLL loading and metadata extraction seams |
 | [REF-039](../history/items/REF-039.md) | Minor | Done | Classify MediaInfo loader failures and bound metadata extraction counts |
+| [REF-040](../history/items/REF-040.md) | Minor | Done | Harden external UnRAR DLL loading |
 
 ---
 
