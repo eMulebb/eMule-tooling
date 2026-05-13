@@ -32,6 +32,27 @@ Start by treating eMule BB like eMule:
 
 Only add REST controllers once the native app is behaving as expected.
 
+## Stock Data Compatibility
+
+Existing stock eMule profiles should generally drop into eMule BB for the
+important identity, download, server, Kad, and known-file state. eMule BB keeps
+the core persistence formats compatible for `preferences.dat`, `clients.met`,
+`cryptkey.dat`, `known.met`, `known2.met`, `cancelled.met`, `.part.met`,
+`server.met`, and `nodes.dat`.
+
+The reverse direction is not a perfect round trip after eMule BB has run. Stock
+eMule ignores BB-only `preferences.ini` keys, and older stock builds may not
+handle Unicode/BOM-written path lists such as `shareddir.dat` and
+`sharedfiles.dat` the same way. eMule BB also writes local sidecars that stock
+does not understand: `shareignore.dat`, `shareddir.monitored.dat`,
+`shareddir.monitor-owned.dat`, `sharedcache.dat`, and `shareddups.dat`.
+
+Most sidecars are harmless if ignored or deleted, especially the shared-library
+startup caches. The meaningful rollback difference is sharing policy: stock
+does not know BB's share-ignore rules or monitored-share ownership, so it may
+treat monitor-owned shared directories as ordinary shares and will not preserve
+why those directories were present.
+
 ## Broadband Upload Tuning
 
 The broadband controller is designed for finite, realistic upload budgets.
