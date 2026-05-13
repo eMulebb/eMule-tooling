@@ -43,7 +43,6 @@ Historical gate evidence and superseded cluster plans live under
 
 | ID | Priority | Area | Required outcome |
 |----|----------|------|------------------|
-| [CI-034](items/CI-034.md) | Major | Packaging | `package-release` rejects dirty provenance and records the selected `main` source accurately. |
 | [CI-035](items/CI-035.md) | Major | Final proof | Current-head beta proof passes and fresh x64/ARM64 package hashes are recorded. |
 
 `FEAT-056` remains post-beta automation and evidence UX work. It is not a beta
@@ -51,6 +50,9 @@ tag blocker unless a later item promotes a specific slice.
 
 Accepted non-blockers for beta `0.7.3`:
 
+- [CI-034](../history/items/CI-034.md): package-release now rejects dirty
+  provenance inputs and records selected `main` source/build/test/tooling
+  commits in package manifests.
 - [BUG-102](../history/items/BUG-102.md): aMuTorrent browser smoke now uses
   generated harness ports with isolated state and passed on current `main`.
 - [BUG-111](../history/items/BUG-111.md): release, update, and help URLs now

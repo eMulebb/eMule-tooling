@@ -12,9 +12,9 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `61`
+**Current non-done count:** `60`
 **Latest release-doc refresh:** 2026-05-13
-**Non-done by status:** `39` Open, `7` In Progress, `15` Deferred, `0` Blocked.
+**Non-done by status:** `38` Open, `7` In Progress, `15` Deferred, `0` Blocked.
 **Backlog counts:** item tables below are authoritative.
 **Beta 0.7.3 relevance:** Most non-done items below are future or deferred work;
 current beta gate and proof status is controlled by [RELEASE-0.7.3](RELEASE-0.7.3.md).
@@ -349,7 +349,7 @@ not active item docs.
 | [CI-031](../history/items/CI-031.md) | Major | Done | Beta 0.7.3 packaging, architecture, and release asset parity gate |
 | [CI-032](../history/items/CI-032.md) | Major | Done | Beta 0.7.3 post-tag focused coverage gaps |
 | [CI-033](../history/items/CI-033.md) | Major | Done | Beta 0.7.3 internal pre-release proof |
-| [CI-034](items/CI-034.md) | Major | Open | Package-release provenance and dirty-input guard |
+| [CI-034](../history/items/CI-034.md) | Major | Done | Package-release provenance and dirty-input guard |
 | [CI-035](items/CI-035.md) | Major | Open | Final current-head beta proof and fresh package hashes |
 
 ---

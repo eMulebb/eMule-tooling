@@ -17,11 +17,13 @@ Every actionable release task must have its own item ID.
 
 | Order | ID | Owner repo | Required outcome |
 |-------|----|------------|------------------|
-| 1 | [CI-034](../items/CI-034.md) | build | `package-release` records the selected `main` provenance and rejects dirty source inputs. |
-| 2 | [CI-035](../items/CI-035.md) | build/tests/tooling | Fresh current-head proof and x64/ARM64 package hashes are recorded before tag creation. |
+| 1 | [CI-035](../items/CI-035.md) | build/tests/tooling | Fresh current-head proof and x64/ARM64 package hashes are recorded before tag creation. |
 
 ## Non-Blocking Follow-Up
 
+- [CI-034](../../history/items/CI-034.md) is closed; `package-release` now
+  rejects dirty provenance inputs and records selected source/build/test/tooling
+  commits in package manifests.
 - [BUG-102](../../history/items/BUG-102.md) is closed; the dedicated
   aMuTorrent browser smoke passed on current `main` with generated harness port
   and isolated state coverage.
