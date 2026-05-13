@@ -1,5 +1,9 @@
 # Beta Readiness Review: Build, Test, Packaging, and Release
 
+> Historical snapshot: this audit preserves the 2026-05-11 findings. Current
+> beta 0.7.3 release source and pending execution status are controlled by
+> [RELEASE-0.7.3-PENDING-EXECUTION-PLAN](../active/plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md).
+
 ## Executive Summary
 
 Release blocker. The build/release path has the right public beta identity (`0.7.3`, `emule-bb-v0.7.3`, and `eMule-broadband-0.7.3-ARCH.zip`), but the current publishable assets are not proven against current `main`, final release proof rows are still open, `eMule-build-tests` is currently dirty, and `package-release` can create provenance-mismatched packages from dirty source/doc trees. These need to be closed before the first beta can be tagged or published.

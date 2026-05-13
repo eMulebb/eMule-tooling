@@ -4,9 +4,12 @@ This runbook is the operator path for proving `emule-bb-v0.7.3`. Use it with
 [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md); the checklist records the
 evidence and final ship decisions.
 
-Current status: `release/v0.72a-broadband` is pre-release stabilization and
-not ready for an official release. The runbook is the path to prove and cut a
-release; it is not evidence that a release already exists.
+Current status: beta 0.7.3 is cut from the selected reviewed `main` commit
+after refreshed proof passes and the operator gives a separate tagging
+instruction. `release/v0.72a-broadband` is a pre-release
+stabilization/reference branch for this beta, not the tag source. The runbook is
+the path to prove and cut a release; it is not evidence that a release already
+exists.
 
 ## Preflight
 
@@ -19,6 +22,7 @@ git -C repos\eMule-tooling status --short --branch
 git -C repos\eMule-build status --short --branch
 git -C repos\eMule-build-tests status --short --branch
 git -C workspaces\v0.72a\app\eMule-main status --short --branch
+git -C workspaces\v0.72a\app\eMule-main rev-parse --short HEAD
 ```
 
 Do not continue to tagging if any active repo has unrelated uncommitted changes
@@ -110,11 +114,15 @@ After the final full run:
 
 - update [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md) with command,
   commit, artifact, status, and ship decision evidence
+- confirm
+  [RELEASE-0.7.3-PENDING-EXECUTION-PLAN](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md)
+  has no unaccepted P0 blocker remaining
 - confirm every gate is `Passed` or `Inconclusive Accepted`
 - confirm every release candidate is shipped, deferred, or promoted
 - confirm release notes use `eMule broadband edition` as the full product name
   and `eMule BB` as the compact app/mod name
-- create the annotated tag only after the checklist is complete
+- create the annotated tag on the selected reviewed `main` commit only after
+  the checklist is complete
 
 The beta tag is:
 

@@ -1,5 +1,9 @@
 # Beta Readiness Review: Regression and Compatibility
 
+> Historical snapshot: this audit preserves the 2026-05-11 findings. Current
+> beta 0.7.3 release source and pending execution status are controlled by
+> [RELEASE-0.7.3-PENDING-EXECUTION-PLAN](../active/plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md).
+
 ## Executive Summary
 
 Release blocker. The active release-intent branch is not aligned with current `main`, and the release packaging entrypoint packages `main` directly while policy requires official releases to be tagged on a chosen release-branch commit. That creates a concrete risk that the first beta package, release tag, update-check identity, and regression proof will refer to different code.

@@ -1,5 +1,9 @@
 # Beta Readiness Review: Security
 
+> Historical snapshot: this audit preserves the 2026-05-11 findings. Current
+> beta 0.7.3 release source and pending execution status are controlled by
+> [RELEASE-0.7.3-PENDING-EXECUTION-PLAN](../active/plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md).
+
 ## Executive Summary
 
 Release blocker. The beta candidate has solid evidence of bounded REST parsing, static-file containment, release package naming, and disabled-by-default REST/WebServer exposure, but I found release-blocking security issues in the update/release trust path and authenticated web surface. The app's release update checker still queries `itlezy/eMule` instead of the policy-owned `eMulebb/eMule` release namespace, the legacy WebServer session token is generated from `srand(time(NULL))`/`rand()`, the IP-filter updater defaults to HTTP transport for a security input, and the active Crypto++ pin is 8.4 while dependency docs describe 8.9.

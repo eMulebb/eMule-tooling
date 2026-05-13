@@ -7,6 +7,12 @@ Current status: the previous `1.0.0` and `1.0.1` evidence passes are superseded.
 The beta 0.7.3 checklist must be refreshed on current `main` before tagging or publishing assets.
 Tagging is explicitly held: do not create or push `emule-bb-v0.7.3` until the
 operator gives a separate tagging instruction.
+The beta 0.7.3 tag source is the selected reviewed `main` commit after the
+pending execution plan is complete; `release/v0.72a-broadband` is not the tag
+source for this beta.
+
+Current pending release work is tracked in
+[RELEASE-0.7.3-PENDING-EXECUTION-PLAN](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md).
 
 ## Gate Revalidation
 
@@ -16,6 +22,10 @@ operator gives a separate tagging instruction.
       artifacts in its item doc
 - [ ] every candidate is shipped, promoted, or explicitly deferred in
       [RELEASE-0.7.3](RELEASE-0.7.3.md)
+- [ ] every P0 item in
+      [RELEASE-0.7.3-PENDING-EXECUTION-PLAN](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md)
+      is fixed, deferred with explicit release-owner acceptance, or converted
+      into a blocking item doc
 - [ ] any accepted inconclusive live-network result records the external
       condition that blocked proof
 
@@ -52,6 +62,7 @@ operator gives a separate tagging instruction.
 - [ ] release notes use `eMule broadband edition` as the public product name
 - [ ] release notes use `eMule BB` as the compact app/mod name
 - [ ] annotated beta tag is `emule-bb-v0.7.3`
+- [ ] annotated beta tag points at the selected reviewed `main` commit
 - [x] x64 beta asset is `eMule-broadband-0.7.3-x64.zip`
 - [x] ARM64 beta asset is `eMule-broadband-0.7.3-arm64.zip`
 

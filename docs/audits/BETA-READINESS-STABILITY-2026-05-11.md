@@ -1,5 +1,9 @@
 # Beta Readiness Review: Stability
 
+> Historical snapshot: this audit preserves the 2026-05-11 findings. Current
+> beta 0.7.3 release source and pending execution status are controlled by
+> [RELEASE-0.7.3-PENDING-EXECUTION-PLAN](../active/plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md).
+
 ## Executive Summary
 
 Release blocker. The active candidate is no longer the candidate proven by the recorded 0.7.3 package rehearsal: current `eMule-main` is `df1191e`, while the recorded 0.7.3 package manifests were produced from app commit `74e5c76`. The intervening commits touch runtime REST and adapter paths, so the beta tag should remain held until the minimum proof and package rehearsal are rerun on current heads. I also found a high-risk UPnP/NAT traversal lifetime path where PCP/NAT-PMP discovery can outlive its owner after a timeout and where thread-launch failure can crash instead of failing closed.

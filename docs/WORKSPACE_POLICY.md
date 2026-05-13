@@ -89,8 +89,8 @@ Directive precedence is:
 
   | Branch | Role | Release status |
   |---|---|---|
-  | `main` | active eMule BB integration line | not a release branch |
-  | `release/v0.72a-broadband` | broadband pre-release stabilization line | only release-intent branch, not ready for an official release until the Release 1.0 gates and operator steps are complete |
+  | `main` | active eMule BB integration line | beta 0.7.3 release source after reviewed release proof passes |
+  | `release/v0.72a-broadband` | broadband pre-release stabilization/reference line | not the beta 0.7.3 tag source; may receive selective reviewed backports only if explicitly needed |
   | `release/v0.72a-community` | seam-enabled parity and regression baseline | test-only branch; the `release/` prefix is legacy branch naming |
   | `tracing-harness/v0.72a-community` | variant-client parity harness | not a release branch and not the default regression baseline |
 - `release/v0.72a-build`, `release/v0.72a-bugfix`,
@@ -98,11 +98,12 @@ Directive precedence is:
   `tracing-harness/v0.72a` are retired historical references.
 - Small merge work on the broadband pre-release stabilization branch is allowed
   only to backport reviewed fixes or keep the branch buildable.
-- Future release work should branch from reviewed commits already present on
-  `main`.
-- The only branch with release intent in the policy sense is
-  `release/v0.72a-broadband`; promotion flows from reviewed commits already
-  present on `main`.
+- Beta 0.7.3 release work is cut from a reviewed commit already present on
+  `main`; the annotated beta tag belongs on that selected `main` commit after
+  release proof and operator approval.
+- Future release-branch promotion, if needed after beta 0.7.3, flows from
+  reviewed commits already present on `main` and must be documented before the
+  release branch becomes authoritative again.
 - Do not start normal feature work directly on release branches.
 
 ### Supporting Repos
@@ -270,9 +271,10 @@ The canonical workspace currently materializes these app worktrees:
 
 ## Backport And Baseline Maintenance Rules
 
-- `release/v0.72a-broadband` is the active broadband pre-release
-  stabilization branch. It is release-intent, but it is not ready for an
-  official release until the Release 1.0 gates and operator steps are complete.
+- `release/v0.72a-broadband` is the broadband pre-release
+  stabilization/reference branch. It is not the beta 0.7.3 tag source. It may
+  receive selective reviewed backports only when needed to preserve a usable
+  stabilization reference.
 - `release/v0.72a-community` is the seam-enabled parity and regression
   baseline. It is test-only even though its legacy branch name uses the
   `release/` prefix.
@@ -533,8 +535,9 @@ The canonical workspace currently materializes these app worktrees:
 
 ## Tags
 
-- Official releases should be marked with annotated tags on the chosen
-  release-branch commit.
+- Official beta 0.7.3 release should be marked with an annotated tag on the
+  selected reviewed `main` commit after release proof passes and the operator
+  gives a separate tagging instruction.
 - Public GitHub releases and uploaded release assets start at
   `emule-bb-v0.7.3`. Superseded higher-version evidence tags, if present, are
   internal markers only and must not have published package assets attached.

@@ -5,7 +5,7 @@ path, not by filename alone.
 
 ## Active Docs
 
-`docs/active/` owns current backlog and Release 1 truth:
+`docs/active/` owns current backlog and release truth:
 
 - `docs/active/INDEX.md`: active backlog dashboard and item tables
 - `docs/active/RELEASE-0.7.3*.md`: Beta release control, checklist, runbook,

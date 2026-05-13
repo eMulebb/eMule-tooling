@@ -21,6 +21,7 @@ They must not be published as public releases or package assets.
 - Baseline for stock/community behavior: `release/v0.72a-community`
 - Candidate app line: `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main`
   on `main`
+- Tag source: selected reviewed `main` commit after refreshed beta proof passes
 - Previous superseded evidence tags: `emule-bb-v1.0.0`,
   `emule-bb-v1.0.1`
 
@@ -43,6 +44,7 @@ for all of the following:
 
 - [Beta 0.7.3 community parity audit plan](plans/RELEASE-0.7.3-COMMUNITY-PARITY-AUDIT.md)
 - [Beta 0.7.3 community parity review](reviews/REVIEW-2026-05-09-release-0.7.3-community-parity.md)
+- [Beta 0.7.3 pending execution plan](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md)
 - [Beta 0.7.3 controller surface matrix](CONTROLLER-SURFACE-MATRIX.md)
 
 ## Release Gates
@@ -94,6 +96,14 @@ The package rehearsal passed on app commit `74e5c76`, build commit `0ead21a`,
 and tooling commit `2d904c3`. Do not create or push the `emule-bb-v0.7.3` tag
 yet; tagging is explicitly held until the remaining minimum beta proof below is
 complete and the operator gives a separate tagging instruction.
+
+The release-source decision for beta 0.7.3 is now `main`: the final annotated
+tag will be placed on the selected reviewed `main` commit, not on
+`release/v0.72a-broadband`. The remaining release blockers and execution order
+are controlled by
+[RELEASE-0.7.3-PENDING-EXECUTION-PLAN](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md).
+The older package rehearsal hashes above remain historical evidence only until
+fresh packages are generated from current release-ready heads.
 
 ## Candidate Decisions
 

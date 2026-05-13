@@ -1,5 +1,9 @@
 # Beta Readiness Review: Feature Completeness
 
+> Historical snapshot: this audit preserves the 2026-05-11 findings. Current
+> beta 0.7.3 release source and pending execution status are controlled by
+> [RELEASE-0.7.3-PENDING-EXECUTION-PLAN](../active/plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md).
+
 ## Executive Summary
 
 Release blocker. The advertised eMule BB feature set is largely implemented, but the first beta cannot be treated as release-ready because final proof and package evidence are stale against current `main`, the release-intent branch is not aligned with the current candidate, and public-facing update/API identity surfaces still carry pre-`emulebb` or stock-eMule identity.

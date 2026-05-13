@@ -33,7 +33,8 @@ evidence only and must not be published.
 [Download completion hook](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
 [NAT mapping](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md),
 [stability blockers](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md),
-[SDET stress gates](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md)
+[SDET stress gates](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md),
+[pending release blockers](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md)
 
 Latest review trail:
 
@@ -53,6 +54,7 @@ Latest review trail:
 - [RELEASE-0.7.3 NAT mapping execution plan](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md)
 - [RELEASE-0.7.3 stability blockers execution plan](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
 - [RELEASE-0.7.3 SDET stress execution plan](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md)
+- [RELEASE-0.7.3 pending execution plan](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md)
 - [REVIEW-2026-05-02-outbound-bind-compliance-audit](reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
 - [REVIEW-2026-05-01-release-readiness-regression-scan](reviews/REVIEW-2026-05-01-release-readiness-regression-scan.md)
 - [REVIEW-2026-04-26-main-bug-concurrency-scan](reviews/REVIEW-2026-04-26-main-bug-concurrency-scan.md)
@@ -86,14 +88,19 @@ regression checks. When behavior changes, compare `main` against
 `release/v0.72a-community` as the seam-enabled parity and regression baseline
 where that comparison is meaningful.
 
+**Beta 0.7.3 source rule:** the public beta tag is cut from the selected
+reviewed `main` commit after refreshed proof passes and operator approval.
+`release/v0.72a-broadband` is a stabilization/reference branch for this beta,
+not the tag source.
+
 **Baseline stack rule:**
 
 - `release/v0.72a-community` = seam-enabled parity and regression baseline,
   test-only
 - `tracing-harness/v0.72a-community` = behavior-changing variant-client parity
   harness, not the default baseline
-- `release/v0.72a-broadband` = broadband pre-release stabilization branch and
-  the only release-intent branch
+- `release/v0.72a-broadband` = broadband pre-release stabilization/reference
+  branch
 
 ---
 
@@ -385,13 +392,14 @@ The first-release gate remains recorded in [RELEASE-0.7.3](RELEASE-0.7.3-GATE-HI
 that page for superseded 1.0.0 gate status, candidate decisions, and release validation
 scope.
 
-Release 1 implementation detail lives in the cluster execution plans:
+Beta 0.7.3 implementation detail lives in the cluster execution plans:
 [REST/Arr](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md),
 [Live E2E](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md),
 [Download completion hook](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
 [NAT mapping](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md),
 [Beta 0.7.3 stability blockers](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md),
-and [SDET stress gates](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md).
+[SDET stress gates](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md), and
+[pending release blockers](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md).
 
 ## Reference Material
 
