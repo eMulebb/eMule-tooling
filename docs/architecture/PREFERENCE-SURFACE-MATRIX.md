@@ -70,6 +70,12 @@ HTML form fields are separate from that REST preference surface.
 | `MinFreeDiskSpaceIncoming` | `eMule` | `5` GiB | Persisted bytes; clamped to `5..5120` GiB. | Files page edits GiB. | None |
 | `AutoArchivePreviewStart` | `eMule` | `false` | Boolean. | Tweaks advanced tree checkbox. | None |
 | `ExtractMetaData` | `eMule` | `1` | Values above `1` normalize to `1`; UI exposes `0`/`1`. | Files page checkbox/radio behavior. | None |
+| `MediaInfo_MediaInfoDllPath` | `eMule` | `MEDIAINFO.DLL` | Hidden profile-only path; `<noload>` disables optional DLL loading. Absolute paths are tried directly; relative paths are resolved under the app folder. | None | None |
+| `MediaInfo_RIFF` | `eMule` | `true` | Hidden profile-only boolean enabling the built-in RIFF fallback probe. | None | None |
+| `MediaInfo_RM` | `eMule` | `true` | Hidden profile-only boolean enabling the built-in RealMedia fallback probe. | None | None |
+| `MediaInfo_WM` | `eMule` | `true` | Hidden profile-only boolean enabling the built-in Windows Media fallback probe when compiled. | None | None |
+| `MediaInfo_MediaDet` | `eMule` | `true` | Hidden profile-only boolean enabling legacy DirectShow MediaDet as the File Info last fallback. | None | None |
+| `MediaInfo_ID3LIB` | `eMule` | `true` | Hidden profile-only boolean enabling the retained MPEG-audio `id3lib` fallback. | None | None |
 | `ShowSharedFilesDetails` | `eMule` | `true` | Boolean. | Shared files/UI page checkbox. | None |
 | `AutoShowLookups` | `eMule` | `true` | Boolean. | Kad/display page checkbox. | None |
 | `RemoveFilesToBin` | `eMule` | `true` | Boolean. | Files page checkbox. | None |

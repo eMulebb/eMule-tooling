@@ -52,7 +52,7 @@ not yet at the final IOCP-style architecture described later in this document.
 | `CFrameGrabThread` | FrameGrabThread.h:30 | BELOW_NORMAL | Decode video frames for preview | PostMessage TM_FRAMEGRABFINISHED |
 | `CGDIThread` | GDIThread.h:9 | NORMAL | GDI off-screen rendering | CEvent m_hEventKill/m_hEventDead + CCriticalSection |
 | `CPreviewThread` | Preview.h:24 | BELOW_NORMAL | Launch external preview process | Fires and forgets |
-| `CGetMediaInfoThread` | FileInfoDialog.cpp:232 | LOWEST | Read media file metadata | PostMessage UM_MEDIA_INFO_RESULT |
+| `CGetMediaInfoThread` | FileInfoDialog.cpp:232 | LOWEST | Read media file metadata | SendMessage UM_MEDIA_INFO_RESULT |
 | `CLoadDataThread` | Indexed.h:64 | BELOW_NORMAL | Load Kademlia index data from disk | CMutex m_mutSync + volatile flags |
 | `CStartDiscoveryThread` | UPnPImplMiniLib.h:36 | NORMAL | miniupnpc UPnP device discovery | CMutex m_mutBusy |
 
