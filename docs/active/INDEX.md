@@ -228,6 +228,7 @@ not active item docs.
 | [REF-036](items/REF-036.md) | Minor | Open | Adopt GSL contracts for buffer and pointer boundary hardening |
 | [REF-037](../history/items/REF-037.md) | Major | Done | Beta 0.7.3 legacy and frozen feature disposition ledger |
 | [REF-038](../history/items/REF-038.md) | Minor | Done | Harden optional MediaInfo DLL loading and metadata extraction seams |
+| [REF-039](../history/items/REF-039.md) | Minor | Done | Classify MediaInfo loader failures and bound metadata extraction counts |
 
 ---
 
