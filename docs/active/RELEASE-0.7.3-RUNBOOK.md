@@ -58,6 +58,20 @@ No release-blocking suite may fail. A live-network suite may be accepted as
 inconclusive only when the child report proves the app and harness behaved
 correctly and the checklist records the external condition.
 
+## Focused Stabilization Stress
+
+When release proof resumes and the operator wants extra crash, leak, CPU, REST
+concurrency, and dump evidence before the full lane, run:
+
+```powershell
+python -m emule_workspace test live-e2e --profile stabilization-stress --fail-fast
+```
+
+This profile runs `rest-api`, `rest-cold-start-dump-stress`, and
+`local-dumps-crash-smoke` with REST soak stress, socket/TLS adversity, leak
+churn, cold-start resource telemetry, download churn, and crash-dump evidence
+checks. It is not a substitute for the full maintained Release x64 live lane.
+
 ## Packaging
 
 ```powershell

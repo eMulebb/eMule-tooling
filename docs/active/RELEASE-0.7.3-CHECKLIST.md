@@ -46,6 +46,16 @@ Current state: non-live build/test rows have partial passing evidence in
 [CI-035](items/CI-035.md). Live proof, final package refresh, clean-worktree
 confirmation, and final hash recording remain incomplete.
 
+## Stabilization Add-On
+
+After the proof pause is lifted, run this focused add-on only when extra
+crash/leak/CPU/REST concurrency evidence is requested before the full live lane:
+
+- [ ] `python -m emule_workspace test live-e2e --profile stabilization-stress --fail-fast`
+
+This add-on does not replace the required controller-surface and full Release
+x64 live E2E rows above.
+
 ## Release Identity
 
 - [ ] Release notes use `eMule broadband edition` as the public product name.
