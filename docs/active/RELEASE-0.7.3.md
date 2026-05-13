@@ -43,7 +43,6 @@ Historical gate evidence and superseded cluster plans live under
 
 | ID | Priority | Area | Required outcome |
 |----|----------|------|------------------|
-| [BUG-102](items/BUG-102.md) | Major | aMuTorrent live E2E | Browser smoke uses the generated harness port or reliably discovers the actual isolated port. |
 | [CI-034](items/CI-034.md) | Major | Packaging | `package-release` rejects dirty provenance and records the selected `main` source accurately. |
 | [CI-035](items/CI-035.md) | Major | Final proof | Current-head beta proof passes and fresh x64/ARM64 package hashes are recorded. |
 
@@ -52,6 +51,8 @@ tag blocker unless a later item promotes a specific slice.
 
 Accepted non-blockers for beta `0.7.3`:
 
+- [BUG-102](../history/items/BUG-102.md): aMuTorrent browser smoke now uses
+  generated harness ports with isolated state and passed on current `main`.
 - [BUG-111](../history/items/BUG-111.md): release, update, and help URLs now
   use the policy-owned `emulebb` namespace.
 - [BUG-112](../history/items/BUG-112.md): legacy WebServer/qBit-compatible

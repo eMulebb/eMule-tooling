@@ -17,12 +17,14 @@ Every actionable release task must have its own item ID.
 
 | Order | ID | Owner repo | Required outcome |
 |-------|----|------------|------------------|
-| 1 | [BUG-102](../items/BUG-102.md) | build-tests | aMuTorrent browser smoke isolates or discovers the generated runtime port and passes against current `main`. |
-| 2 | [CI-034](../items/CI-034.md) | build | `package-release` records the selected `main` provenance and rejects dirty source inputs. |
-| 3 | [CI-035](../items/CI-035.md) | build/tests/tooling | Fresh current-head proof and x64/ARM64 package hashes are recorded before tag creation. |
+| 1 | [CI-034](../items/CI-034.md) | build | `package-release` records the selected `main` provenance and rejects dirty source inputs. |
+| 2 | [CI-035](../items/CI-035.md) | build/tests/tooling | Fresh current-head proof and x64/ARM64 package hashes are recorded before tag creation. |
 
 ## Non-Blocking Follow-Up
 
+- [BUG-102](../../history/items/BUG-102.md) is closed; the dedicated
+  aMuTorrent browser smoke passed on current `main` with generated harness port
+  and isolated state coverage.
 - [BUG-111](../../history/items/BUG-111.md) is closed; app release, update,
   and help URLs now point at `emulebb` destinations with focused update-check
   coverage.

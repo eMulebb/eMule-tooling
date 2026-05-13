@@ -12,9 +12,9 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `62`
+**Current non-done count:** `61`
 **Latest release-doc refresh:** 2026-05-13
-**Non-done by status:** `40` Open, `7` In Progress, `15` Deferred, `0` Blocked.
+**Non-done by status:** `39` Open, `7` In Progress, `15` Deferred, `0` Blocked.
 **Backlog counts:** item tables below are authoritative.
 **Beta 0.7.3 relevance:** Most non-done items below are future or deferred work;
 current beta gate and proof status is controlled by [RELEASE-0.7.3](RELEASE-0.7.3.md).
@@ -184,7 +184,7 @@ not the tag source.
 | [BUG-099](../history/items/BUG-099.md) | Major | Done | WebSocket listener startup is not exception-safe after global state initialization |
 | [BUG-100](../history/items/BUG-100.md) | Major | Done | DirectDownload has bounded timeouts but no hard owner cancellation contract |
 | [BUG-101](../history/items/BUG-101.md) | Major | Done | Shared Files 50k recursive tree stress profile does not reach main window |
-| [BUG-102](items/BUG-102.md) | Major | Open | aMuTorrent browser smoke ignores generated harness port |
+| [BUG-102](../history/items/BUG-102.md) | Major | Done | aMuTorrent browser smoke ignores generated harness port |
 | [BUG-111](../history/items/BUG-111.md) | Critical | Done | Release and help URLs still point outside the emulebb namespace |
 | [BUG-112](../history/items/BUG-112.md) | Critical | Wont-Fix | WebServer/qBit session tokens need CSPRNG-backed generation |
 
