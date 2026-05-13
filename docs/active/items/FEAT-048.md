@@ -23,7 +23,7 @@ needs; unsupported actions should return typed errors.
 
 ## Execution Plan
 
-Covered by the [Beta 0.7.3 REST and Arr execution plan](../plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md).
+Historical release context: [Beta 0.7.3 REST and Arr execution plan](../../history/release-0.7.3/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md).
 
 ## Acceptance Criteria
 

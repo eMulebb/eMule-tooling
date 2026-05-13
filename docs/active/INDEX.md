@@ -12,49 +12,34 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `61`
-**Latest status refresh:** 2026-05-09
-**Non-done by status:** `43` Open, `8` In Progress, `14` Deferred, `0` Blocked.
-**Non-done by area:** `4` Bugs, `21` Refactors, `27` Features, `13` Build/CI.
+**Current non-done count:** `66`
+**Latest release-doc refresh:** 2026-05-13
+**Non-done by status:** `44` Open, `8` In Progress, `14` Deferred, `0` Blocked.
+**Backlog counts:** item tables below are authoritative.
 **Beta 0.7.3 relevance:** Most non-done items below are future or deferred work;
 current beta gate and proof status is controlled by [RELEASE-0.7.3](RELEASE-0.7.3.md).
 **Broadband release status:** `emule-bb-v0.7.3` is the first beta/public
 release target. Superseded `1.0.0`, `1.0.1`, and `1.1.1` labels are internal
 evidence only and must not be published.
 **Beta-release backlog view:** [RELEASE-0.7.3](RELEASE-0.7.3.md)
-**Beta-release audit plan:** [Beta 0.7.3 community parity audit](plans/RELEASE-0.7.3-COMMUNITY-PARITY-AUDIT.md)
 **Beta-release review:** [Beta 0.7.3 community parity review](reviews/REVIEW-2026-05-09-release-0.7.3-community-parity.md)
-**Beta-release gate history:** [RELEASE-0.7.3-GATE-HISTORY](RELEASE-0.7.3-GATE-HISTORY.md)
 **Beta-release checklist:** [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md)
 **Beta-release runbook:** [RELEASE-0.7.3-RUNBOOK](RELEASE-0.7.3-RUNBOOK.md)
 **Beta controller surface matrix:** [CONTROLLER-SURFACE-MATRIX](CONTROLLER-SURFACE-MATRIX.md)
-**Beta-release execution plans:** [REST/Arr](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md),
-[Live E2E](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md),
-[Download completion hook](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
-[NAT mapping](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md),
-[stability blockers](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md),
-[SDET stress gates](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md),
-[pending release blockers](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md)
+**Beta-release execution plan:** [RELEASE-0.7.3-EXECUTION-PLAN](plans/RELEASE-0.7.3-EXECUTION-PLAN.md)
+**Historical beta evidence:** `docs\history\release-0.7.3`
 
 Latest review trail:
 
 - [RELEASE-0.7.3](RELEASE-0.7.3.md)
-- [RELEASE-0.7.3 community parity audit plan](plans/RELEASE-0.7.3-COMMUNITY-PARITY-AUDIT.md)
 - [REVIEW-2026-05-09-release-0.7.3-changed-surface-ledger](reviews/REVIEW-2026-05-09-release-0.7.3-changed-surface-ledger.md)
 - [REVIEW-2026-05-09-release-0.7.3-legacy-frozen-disposition](reviews/REVIEW-2026-05-09-release-0.7.3-legacy-frozen-disposition.md)
 - [REVIEW-2026-05-09-release-0.7.3-post-tag-hardening-replay](reviews/REVIEW-2026-05-09-release-0.7.3-post-tag-hardening-replay.md)
 - [REVIEW-2026-05-09-release-0.7.3-community-parity](reviews/REVIEW-2026-05-09-release-0.7.3-community-parity.md)
-- [RELEASE-0.7.3-GATE-HISTORY](RELEASE-0.7.3-GATE-HISTORY.md)
 - [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md)
 - [RELEASE-0.7.3-RUNBOOK](RELEASE-0.7.3-RUNBOOK.md)
 - [CONTROLLER-SURFACE-MATRIX](CONTROLLER-SURFACE-MATRIX.md)
-- [RELEASE-0.7.3 REST/Arr execution plan](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md)
-- [RELEASE-0.7.3 Live E2E execution plan](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md)
-- [RELEASE-0.7.3 Download completion hook execution plan](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md)
-- [RELEASE-0.7.3 NAT mapping execution plan](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md)
-- [RELEASE-0.7.3 stability blockers execution plan](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md)
-- [RELEASE-0.7.3 SDET stress execution plan](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md)
-- [RELEASE-0.7.3 pending execution plan](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md)
+- [RELEASE-0.7.3 execution plan](plans/RELEASE-0.7.3-EXECUTION-PLAN.md)
 - [REVIEW-2026-05-02-outbound-bind-compliance-audit](reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md)
 - [REVIEW-2026-05-01-release-readiness-regression-scan](reviews/REVIEW-2026-05-01-release-readiness-regression-scan.md)
 - [REVIEW-2026-04-26-main-bug-concurrency-scan](reviews/REVIEW-2026-04-26-main-bug-concurrency-scan.md)
@@ -71,7 +56,7 @@ Latest review trail:
 Wont-Fix
 
 **Directory role:** `docs/active/` owns current backlog status, release
-control, item evidence, execution plans, and dated revalidation notes.
+control, item evidence, the current release execution plan, and dated revalidation notes.
 Long-form background and historical reference analysis live in the other
 role-specific `docs/` folders.
 
@@ -209,6 +194,12 @@ not the tag source.
 | [BUG-099](items/BUG-099.md) | Major | **Done** | WebSocket listener startup is not exception-safe after global state initialization |
 | [BUG-100](items/BUG-100.md) | Major | **Done** | DirectDownload has bounded timeouts but no hard owner cancellation contract |
 | [BUG-101](items/BUG-101.md) | Major | **Done** | Shared Files 50k recursive tree stress profile does not reach main window |
+| [BUG-102](items/BUG-102.md) | Major | Open | aMuTorrent browser smoke ignores generated harness port |
+| [BUG-111](items/BUG-111.md) | Critical | Open | Release and help URLs still point outside the emulebb namespace |
+| [BUG-112](items/BUG-112.md) | Critical | Open | WebServer/qBit session tokens need CSPRNG-backed generation |
+
+`BUG-103` through `BUG-110` were superseded internal post-tag evidence labels,
+not active item docs. Active bug-item numbering resumes at `BUG-111`.
 
 ---
 
@@ -368,6 +359,8 @@ not the tag source.
 | [CI-031](items/CI-031.md) | Major | Done | Beta 0.7.3 packaging, architecture, and release asset parity gate |
 | [CI-032](items/CI-032.md) | Major | Done | Beta 0.7.3 post-tag focused coverage gaps |
 | [CI-033](items/CI-033.md) | Major | Done | Beta 0.7.3 internal pre-release proof |
+| [CI-034](items/CI-034.md) | Major | Open | Package-release provenance and dirty-input guard |
+| [CI-035](items/CI-035.md) | Major | Open | Final current-head beta proof and fresh package hashes |
 
 ---
 
@@ -384,22 +377,11 @@ not the tag source.
 ## Release Focus
 
 Beta 0.7.3 hardening is controlled by [RELEASE-0.7.3](RELEASE-0.7.3.md).
-Use that page for patch-release gate status, candidate decisions, and validation
-scope. Its detailed comparison workflow lives in the
-[Beta 0.7.3 community parity audit plan](plans/RELEASE-0.7.3-COMMUNITY-PARITY-AUDIT.md).
-
-The first-release gate remains recorded in [RELEASE-0.7.3](RELEASE-0.7.3-GATE-HISTORY.md). Use
-that page for superseded 1.0.0 gate status, candidate decisions, and release validation
-scope.
-
-Beta 0.7.3 implementation detail lives in the cluster execution plans:
-[REST/Arr](plans/RELEASE-0.7.3-REST-ARR-EXECUTION-PLAN.md),
-[Live E2E](plans/RELEASE-0.7.3-LIVE-E2E-EXECUTION-PLAN.md),
-[Download completion hook](plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md),
-[NAT mapping](plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md),
-[Beta 0.7.3 stability blockers](plans/RELEASE-0.7.3-STABILITY-BLOCKERS-EXECUTION-PLAN.md),
-[SDET stress gates](plans/RELEASE-0.7.3-SDET-STRESS-EXECUTION-PLAN.md), and
-[pending release blockers](plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md).
+Use that page for release status, source decision, and the open beta task table.
+The current implementation sequence lives in the single
+[Beta 0.7.3 execution plan](plans/RELEASE-0.7.3-EXECUTION-PLAN.md).
+Superseded release gate evidence and old cluster plans live under
+`docs\history\release-0.7.3`.
 
 ## Reference Material
 

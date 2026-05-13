@@ -24,10 +24,10 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 | [active/RELEASE-0.7.3](active/RELEASE-0.7.3.md) | Beta release control document |
 | [active/RELEASE-0.7.3-CHECKLIST](active/RELEASE-0.7.3-CHECKLIST.md) | Beta release operator checklist |
 | [active/RELEASE-0.7.3-RUNBOOK](active/RELEASE-0.7.3-RUNBOOK.md) | Beta release operator runbook |
-| [active/RELEASE-0.7.3-GATE-HISTORY](active/RELEASE-0.7.3-GATE-HISTORY.md) | Superseded internal gate-history evidence |
-| [active/plans/](active/plans/) | Release execution plans |
+| [active/plans/RELEASE-0.7.3-EXECUTION-PLAN](active/plans/RELEASE-0.7.3-EXECUTION-PLAN.md) | Current beta release execution plan |
 | [active/items/](active/items/) | Backlog item records |
 | [active/reviews/](active/reviews/) | Dated revalidation reviews |
+| [history/release-0.7.3/](history/release-0.7.3/) | Superseded beta gate evidence and old cluster plans |
 
 ## Reference Families
 

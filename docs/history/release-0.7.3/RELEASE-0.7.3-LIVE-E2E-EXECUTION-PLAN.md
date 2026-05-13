@@ -1,8 +1,11 @@
 # Beta 0.7.3 Live E2E Execution Plan
 
+> Historical release plan only. Current beta `0.7.3` execution is controlled by
+> [RELEASE-0.7.3-EXECUTION-PLAN](../../active/plans/RELEASE-0.7.3-EXECUTION-PLAN.md).
+
 This is the active execution plan for the Release 1 live E2E umbrella. It does
-not own gate status; use [RELEASE-0.7.3](../RELEASE-0.7.3-GATE-HISTORY.md) for release decisions
-and [CI-011](../items/CI-011.md) for completion evidence.
+not own gate status; use [RELEASE-0.7.3](RELEASE-0.7.3-GATE-HISTORY.md) for release decisions
+and [CI-011](../../active/items/CI-011.md) for completion evidence.
 
 Current status: the 2026-05-09 full Release x64 live lane passed with
 `auto-browse-live` accepted as inconclusive because the live networks connected
@@ -11,7 +14,7 @@ tag or package until the release checklist and clean-worktree gate are complete.
 
 ## Decisions
 
-- [CI-011](../items/CI-011.md) owns the operator-facing aggregate command and result
+- [CI-011](../../active/items/CI-011.md) owns the operator-facing aggregate command and result
   artifact shape.
 - The final release proof is the full Release x64 `live-e2e` run, not a set of
   focused diagnostic runs.
@@ -26,10 +29,10 @@ tag or package until the release checklist and clean-worktree gate are complete.
 
 | Area | Release item | Execution responsibility |
 |------|--------------|--------------------------|
-| Aggregate release lane | [CI-011](../items/CI-011.md) | one supported command, stable suite selection, and aggregate result artifact |
-| REST robustness | [BUG-075](../items/BUG-075.md), [BUG-076](../items/BUG-076.md), [BUG-077](../items/BUG-077.md), [CI-014](../items/CI-014.md), [CI-015](../items/CI-015.md) | included through the `rest-api` suite |
-| Controller integrations | [AMUT-001](../items/AMUT-001.md), [ARR-001](../items/ARR-001.md) | included through aMuTorrent and Arr live suites |
-| Release identity | [RELEASE-0.7.3-CHECKLIST](../RELEASE-0.7.3-CHECKLIST.md) | final operator evidence and artifact naming checks |
+| Aggregate release lane | [CI-011](../../active/items/CI-011.md) | one supported command, stable suite selection, and aggregate result artifact |
+| REST robustness | [BUG-075](../../active/items/BUG-075.md), [BUG-076](../../active/items/BUG-076.md), [BUG-077](../../active/items/BUG-077.md), [CI-014](../../active/items/CI-014.md), [CI-015](../../active/items/CI-015.md) | included through the `rest-api` suite |
+| Controller integrations | [AMUT-001](../../active/items/AMUT-001.md), [ARR-001](../../active/items/ARR-001.md) | included through aMuTorrent and Arr live suites |
+| Release identity | [RELEASE-0.7.3-CHECKLIST](../../active/RELEASE-0.7.3-CHECKLIST.md) | final operator evidence and artifact naming checks |
 
 ## Required Aggregate Suites
 
@@ -67,8 +70,8 @@ python -m emule_workspace test live-e2e --config Release --platform x64
 ```
 
 Record the aggregate result path and any accepted inconclusive external
-condition in [CI-011](../items/CI-011.md) and
-[RELEASE-0.7.3-CHECKLIST](../RELEASE-0.7.3-CHECKLIST.md).
+condition in [CI-011](../../active/items/CI-011.md) and
+[RELEASE-0.7.3-CHECKLIST](../../active/RELEASE-0.7.3-CHECKLIST.md).
 
 ## Latest Revalidation
 

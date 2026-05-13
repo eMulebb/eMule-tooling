@@ -1,8 +1,8 @@
 # Backlog Dependency Graph
 
 This graph captures useful implementation ordering hints. It is not a release
-gate; Release 1 status is controlled by
-[RELEASE-0.7.3-GATE-HISTORY](../active/RELEASE-0.7.3-GATE-HISTORY.md).
+gate; beta `0.7.3` status is controlled by
+[RELEASE-0.7.3](../active/RELEASE-0.7.3.md).
 
 ## Build And Tooling
 

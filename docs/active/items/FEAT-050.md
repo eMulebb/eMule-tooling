@@ -26,7 +26,7 @@ automation value without creating a shell-execution surface.
 ## Execution Plan
 
 Covered by the
-[Beta 0.7.3 Download Completion Hook execution plan](../plans/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md).
+[Beta 0.7.3 Download Completion Hook execution plan](../../history/release-0.7.3/RELEASE-0.7.3-DOWNLOAD-COMPLETION-HOOK-EXECUTION-PLAN.md).
 
 ## Acceptance Criteria
 

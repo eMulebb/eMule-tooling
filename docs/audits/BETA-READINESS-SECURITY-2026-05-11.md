@@ -2,7 +2,7 @@
 
 > Historical snapshot: this audit preserves the 2026-05-11 findings. Current
 > beta 0.7.3 release source and pending execution status are controlled by
-> [RELEASE-0.7.3-PENDING-EXECUTION-PLAN](../active/plans/RELEASE-0.7.3-PENDING-EXECUTION-PLAN.md).
+> [RELEASE-0.7.3-EXECUTION-PLAN](../active/plans/RELEASE-0.7.3-EXECUTION-PLAN.md).
 
 ## Executive Summary
 

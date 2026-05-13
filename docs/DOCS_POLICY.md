@@ -9,9 +9,9 @@ path, not by filename alone.
 
 - `docs/active/INDEX.md`: active backlog dashboard and item tables
 - `docs/active/RELEASE-0.7.3*.md`: Beta release control, checklist, runbook,
-  gate history, and release-specific plans
+  and release operator docs
 - `docs/active/items/`: item records, acceptance criteria, and evidence
-- `docs/active/plans/`: execution plans for closing or revalidating work
+- `docs/active/plans/`: the single current beta release execution plan
 - `docs/active/reviews/`: dated revalidation and review findings
 
 If another doc conflicts with `docs/active/`, `docs/active/` wins for current
@@ -25,7 +25,8 @@ status.
   background
 - `docs/audits/`: audit reports and static analysis provenance
 - `docs/dependencies/`: dependency health and dependency-change analysis
-- `docs/history/`: historical comparisons, source salvage, and old ledgers
+- `docs/history/`: historical comparisons, source salvage, old ledgers, and
+  superseded release plans
 
 Reference docs may preserve historical branch names, old paths, and old
 decisions as provenance, but they do not override active status.
@@ -33,7 +34,7 @@ decisions as provenance, but they do not override active status.
 ## Ideas
 
 `docs/ideas/` contains exploratory proposals only. These documents are not
-active implementation plans and must not be treated as Release 1 scope or
+active implementation plans and must not be treated as current release scope or
 current branch direction unless a future active item explicitly promotes a
 specific slice.
 
@@ -42,8 +43,11 @@ Examples: CMake adoption and Boost adoption.
 ## Writing Rules
 
 - Keep current decisions in `docs/active/`, not in historical reference docs.
-- Keep execution details in `docs/active/plans/`; item docs should link to the
-  owning plan instead of duplicating strategy.
+- Keep the current release execution sequence in one active plan. Superseded
+  release cluster plans belong under `docs/history/`.
+- Every actionable active task must have its own item ID under
+  `docs/active/items/`; release dashboards and plans should point to item IDs
+  instead of carrying anonymous task rows.
 - Do not create new top-level Markdown files in `docs/` unless they are policy
   or navigation entry points.
 - Add new exploratory proposals under `docs/ideas/` with an explicit

@@ -38,7 +38,7 @@ a PCP/NAT-PMP-capable path.
 
 ## Execution Plan
 
-Covered by the [Beta 0.7.3 NAT Mapping execution plan](../plans/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md).
+Historical release context: [Beta 0.7.3 NAT Mapping execution plan](../../history/release-0.7.3/RELEASE-0.7.3-NAT-MAPPING-EXECUTION-PLAN.md).
 
 ## Acceptance Criteria
 

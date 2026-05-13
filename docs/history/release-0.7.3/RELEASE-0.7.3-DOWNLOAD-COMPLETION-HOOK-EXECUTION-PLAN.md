@@ -1,8 +1,11 @@
 # Beta 0.7.3 Download Completion Hook Execution Plan
 
+> Historical release plan only. Current beta `0.7.3` execution is controlled by
+> [RELEASE-0.7.3-EXECUTION-PLAN](../../active/plans/RELEASE-0.7.3-EXECUTION-PLAN.md).
+
 This is the active execution plan for the Release 1 download completion hook.
-It does not own gate status; use [RELEASE-0.7.3](../RELEASE-0.7.3-GATE-HISTORY.md) for release
-decisions and [FEAT-050](../items/FEAT-050.md) for completion evidence.
+It does not own gate status; use [RELEASE-0.7.3](RELEASE-0.7.3-GATE-HISTORY.md) for release
+decisions and [FEAT-050](../../active/items/FEAT-050.md) for completion evidence.
 
 Current status: the hook is passed for Release 1. Future changes to completion
 finalization, preferences, or token expansion must revalidate this plan before
@@ -10,7 +13,7 @@ the Release 1 evidence is reused.
 
 ## Decisions
 
-- [FEAT-050](../items/FEAT-050.md) is the only optional workflow feature promoted into
+- [FEAT-050](../../active/items/FEAT-050.md) is the only optional workflow feature promoted into
   the first release gate outside the REST/controller line.
 - The feature stays disabled by default.
 - The configured command is executable-only. Scripts are allowed only when the

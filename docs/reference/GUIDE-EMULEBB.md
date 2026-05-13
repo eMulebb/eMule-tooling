@@ -104,9 +104,9 @@ aMuTorrent/Arr validation.
 
 Before treating a build as release-quality, check:
 
-- [Release 1 control](../active/RELEASE-0.7.3-GATE-HISTORY.md)
-- [Release 1 checklist](../active/RELEASE-0.7.3-CHECKLIST.md)
-- [Release 1 runbook](../active/RELEASE-0.7.3-RUNBOOK.md)
+- [Beta 0.7.3 dashboard](../active/RELEASE-0.7.3.md)
+- [Beta 0.7.3 checklist](../active/RELEASE-0.7.3-CHECKLIST.md)
+- [Beta 0.7.3 runbook](../active/RELEASE-0.7.3-RUNBOOK.md)
 - [Active backlog index](../active/INDEX.md)
 
 ## Troubleshooting Pointers
@@ -129,4 +129,4 @@ that can be tested, explained, and validated.
 - [Documentation policy](../DOCS_POLICY.md)
 - [Broadband feature notes](FEATURE-BROADBAND.md)
 - [REST API contract](../rest/REST-API-CONTRACT.md)
-- [Release 1 status](../active/RELEASE-0.7.3-GATE-HISTORY.md)
+- [Beta 0.7.3 status](../active/RELEASE-0.7.3.md)

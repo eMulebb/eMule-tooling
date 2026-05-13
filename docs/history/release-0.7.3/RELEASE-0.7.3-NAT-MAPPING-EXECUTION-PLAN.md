@@ -1,8 +1,11 @@
 # Beta 0.7.3 NAT Mapping Execution Plan
 
+> Historical release plan only. Current beta `0.7.3` execution is controlled by
+> [RELEASE-0.7.3-EXECUTION-PLAN](../../active/plans/RELEASE-0.7.3-EXECUTION-PLAN.md).
+
 This is the active execution plan for NAT mapping modernization. It does not
-own gate status; use [RELEASE-0.7.3](../RELEASE-0.7.3-GATE-HISTORY.md) for release decisions and
-[FEAT-032](../items/FEAT-032.md) for item state and evidence.
+own gate status; use [RELEASE-0.7.3](RELEASE-0.7.3-GATE-HISTORY.md) for release decisions and
+[FEAT-032](../../active/items/FEAT-032.md) for item state and evidence.
 
 Current status: NAT mapping is a Release 1 candidate, not a blocker. The
 code/build slice can be accepted for Release 1 if current validation passes,
@@ -58,7 +61,7 @@ Live-network proof, when available:
 
 ## Release 1 Decision Rule
 
-Mark [FEAT-032](../items/FEAT-032.md) complete only after the code/build slice is landed
+Mark [FEAT-032](../../active/items/FEAT-032.md) complete only after the code/build slice is landed
 and live-network validation is recorded. If the local network cannot provide
 PCP/NAT-PMP proof, keep the item deferred for Release 1 and record the external
 condition instead of delaying the release tag.

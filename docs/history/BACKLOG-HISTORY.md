@@ -2,7 +2,7 @@
 
 This is a compact historical reference for the active backlog. It is not the
 current status source; use [docs/active/INDEX](../active/INDEX.md) and
-[Release 1.0 control](../active/RELEASE-0.7.3-GATE-HISTORY.md) for active decisions.
+[Release 0.7.3 dashboard](../active/RELEASE-0.7.3.md) for active decisions.
 
 ## Revalidation Trail
 
