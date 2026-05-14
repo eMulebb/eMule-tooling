@@ -67,8 +67,25 @@ These shortcuts are local to the Shared Directories tree.
 | Shortcut | Behavior |
 |----------|----------|
 | `Ctrl+Shift+O` | Opens the selected directory. |
-| `Ctrl+I` | Opens details for selected files in the current directory view. |
-| `Ctrl+L` | Copies ED2K links for selected files in the current directory view. |
+
+Shared Directories intentionally keeps keyboard ownership tree-native. File
+details and ED2K copy shortcuts are handled by the Shared Files list, where the
+file selection is visible.
+
+## File Copy Menus
+
+The Downloads, Search Results, and Shared Files context menus expose a Copy
+submenu for power users. Direct shortcuts remain conservative:
+`Ctrl+L` copies plain ED2K links and `Ctrl+Shift+C` copies the summary line
+where summaries are supported.
+
+Menu-only Copy actions include:
+
+| Context | Additional Copy Fields |
+|---------|------------------------|
+| Downloads | size, status, progress, file path, folder path, plain ED2K, HTML ED2K, file summary |
+| Search Results | size, type, plain ED2K, HTML ED2K, result summary |
+| Shared Files | size, file path, folder path, plain ED2K, HTML ED2K, file summary |
 
 ## Reserved Main-Shell Mnemonics
 
