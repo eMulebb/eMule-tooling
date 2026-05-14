@@ -316,6 +316,7 @@ not active item docs.
 | [FEAT-058](../history/items/FEAT-058.md) | Minor | Done | Beta 0.7.3 closeout UX polish and audit report |
 | [FEAT-059](../history/items/FEAT-059.md) | Minor | Done | Move tray icon visibility preference next to minimize-to-tray |
 | [FEAT-060](../history/items/FEAT-060.md) | Minor | Done | Preference inventory, mapping, clamp, and persistence audit |
+| [FEAT-061](../history/items/FEAT-061.md) | Minor | Done | Strong preference schema validation |
 
 ---
 

@@ -66,6 +66,11 @@ REST preference metadata hardening also changed the app and build-tests
 candidates. Treat all final proof rows as pending until rerun on the pushed
 heads that exist after this hardening lands.
 
+The accepted [FEAT-061](../history/items/FEAT-061.md) strong preference schema
+validation changed the build-tests candidate. Treat all final proof rows as
+pending until rerun on the pushed heads that exist after this schema hardening
+lands.
+
 When proof resumes, run the remaining queue in this order:
 
 1. Revalidate the active release docs and item dispositions.
