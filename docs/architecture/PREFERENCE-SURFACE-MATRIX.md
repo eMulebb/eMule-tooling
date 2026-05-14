@@ -82,6 +82,7 @@ HTML form fields are separate from that REST preference surface.
 | `RememberCancelledFiles` | `eMule` | `true` | Boolean. | Files page checkbox. | None |
 | `RememberDownloadedFiles` | `eMule` | `true` | Boolean. | Files page checkbox. | None |
 | `AutoClearCompleted` | `eMule` | `false` | Boolean. | Files/display page checkbox. | None |
+| `AutoBroadbandIO` | `eMule` | `true` | Boolean. | Tweaks storage/persistence checkbox. | `autoBroadbandIo`, PATCH boolean |
 | `FileBufferSize` | `eMule` | `67108864` bytes | Clamped to `16` KiB through `512` MiB. | Tweaks slider edits KiB. | None |
 | `FileBufferTimeLimit` | `eMule` | `120` seconds | Clamped `1..86400` seconds; persisted as milliseconds. | Tweaks advanced tree numeric field. | None |
 | `QueueSize` | `eMule` | `10000` | Clamped `2000..10000`. | Tweaks advanced tree numeric field. | `queueSize`, PATCH `2000..10000` |
@@ -393,6 +394,7 @@ errors instead of relying on silent INI/setter normalization.
 | `safeServerConnect` | `SafeServerConnect` | Yes | Boolean | Saves `SafeServerConnect` |
 | `networkKademlia` | `NetworkKademlia` | Yes | Boolean | Saves `NetworkKademlia` |
 | `networkEd2k` | `NetworkED2K` | Yes | Boolean | Saves `NetworkED2K` |
+| `autoBroadbandIo` | `AutoBroadbandIO` | Yes | Boolean | Saves `AutoBroadbandIO` |
 
 ## Explicit Non-Preference Scope
 

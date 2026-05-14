@@ -1561,6 +1561,8 @@ components:
           type: boolean
         networkEd2k:
           type: boolean
+        autoBroadbandIo:
+          type: boolean
     PreferencesPatch:
       type: object
       additionalProperties: false
@@ -1611,6 +1613,8 @@ components:
         networkKademlia:
           type: boolean
         networkEd2k:
+          type: boolean
+        autoBroadbandIo:
           type: boolean
     StatusEnvelope:
       unevaluatedProperties: false

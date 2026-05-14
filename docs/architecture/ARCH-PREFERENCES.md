@@ -162,8 +162,8 @@ These notes explain runtime meaning that is easy to miss from the matrix alone.
 - `Autoconnect` affects startup sequencing. Its default remains off.
 - `NetworkED2K` and `NetworkKademlia` enable or disable whole network activity
   paths, not just UI visibility.
-- `FileBufferSize`, `FileBufferTimeLimit`, `CommitFiles`, and sparse/prealloc
-  options are durability/performance tradeoffs.
+- `AutoBroadbandIO`, `FileBufferSize`, `FileBufferTimeLimit`, `CommitFiles`,
+  and sparse/prealloc options are durability/performance tradeoffs.
 - `MinFreeDiskSpaceConfig`, `MinFreeDiskSpaceTemp`, and
   `MinFreeDiskSpaceIncoming` are operational write-safety floors, not only UI
   warnings.
