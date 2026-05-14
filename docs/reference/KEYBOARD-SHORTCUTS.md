@@ -28,7 +28,8 @@ selected downloads and do not become global app accelerators.
 | `Ctrl+I` | Opens details for the selected download rows. |
 | `Ctrl+L` | Copies selected download ED2K links. |
 | `Ctrl+Shift+C` | Copies selected download file summaries. |
-| `Delete` | Cancels selected active downloads; removes completed downloads from the visible list. |
+| `Delete` / `Canc` | Cancels selected active downloads after confirmation; removes completed downloads from the visible list. |
+| `Shift+Delete` / `Shift+Canc` | Cancels selected downloads without confirmation, using the same completed-file path as the Cancel command. |
 | `F2` | Renames one selected incomplete download; `Ctrl+F2` runs filename cleanup. |
 | `Enter` | Opens the selected completed download when it can be opened. |
 | `Alt+Enter` | Opens details for the selected download rows. |
