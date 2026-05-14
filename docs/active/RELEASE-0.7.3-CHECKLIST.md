@@ -57,6 +57,10 @@ polish changed release-facing docs after the previous prep audit. Treat all
 final proof rows as pending until rerun on the pushed heads that exist after
 that polish lands.
 
+The accepted [FEAT-059](../history/items/FEAT-059.md) tray preference UI polish
+also changed the app candidate. Treat all final proof rows as pending until
+rerun on the pushed heads that exist after that polish lands.
+
 When proof resumes, run the remaining queue in this order:
 
 1. Revalidate the active release docs and item dispositions.

@@ -314,6 +314,7 @@ not active item docs.
 | [FEAT-055](../history/items/FEAT-055.md) | Minor | Done | Beta 0.7.3 improvement triage lane |
 | [FEAT-056](items/FEAT-056.md) | Minor | Deferred | Post-beta-0.7.3 release proof automation and operator evidence UX |
 | [FEAT-058](../history/items/FEAT-058.md) | Minor | Done | Beta 0.7.3 closeout UX polish and audit report |
+| [FEAT-059](../history/items/FEAT-059.md) | Minor | Done | Move tray icon visibility preference next to minimize-to-tray |
 
 ---
 
