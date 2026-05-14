@@ -11,6 +11,7 @@ remove, or repurpose shortcuts.
 | `Alt+X` | main shell | Cleanly exits through `CemuleDlg::OnClose()` and respects Prompt on exit. |
 | `Alt+U` | main shell | Opens the existing floating hotmenu. |
 | `Alt+T` | main shell | Opens the Tools popup. |
+| `Alt+O` | main shell | Opens Options. |
 | `Ctrl+Tab` / `Ctrl+Shift+Tab` | main shell | Cycles primary toolbar panes. |
 
 ## Downloads List Shortcuts
@@ -23,6 +24,10 @@ selected downloads and do not become global app accelerators.
 | `Ctrl+P` | Pauses selected downloads that can be paused. |
 | `Ctrl+S` | Resumes selected downloads that can be resumed. |
 | `Ctrl+T` | Stops selected downloads that can be stopped. |
+| `Ctrl+Shift+P` | Pauses all pausable downloads in the current category. |
+| `Ctrl+Shift+S` | Resumes all resumable downloads in the current category. |
+| `Ctrl++` / `Ctrl+-` | Raises or lowers selected download priority one manual step. |
+| `Ctrl+Shift++` / `Ctrl+Shift+-` | Sets selected download priority to High or Low. |
 | `Ctrl+O` | Opens the selected completed download when it can be opened. |
 | `Ctrl+Shift+O` | Opens the selected download's folder. |
 | `Ctrl+I` | Opens details for the selected download rows. |
@@ -136,6 +141,11 @@ When Search is the active main pane, the Search parameter bar owns:
   before shutdown.
 - `Alt+U` should open the floating hotmenu.
 - `Alt+T` should open the Tools popup.
+- `Alt+O` should open Options.
+- In Downloads, `Ctrl+Shift+P` and `Ctrl+Shift+S` should act on the current
+  transfer category, even when no row is selected.
+- In Downloads, `Ctrl++`, `Ctrl+-`, `Ctrl+Shift++`, and `Ctrl+Shift+-` should
+  update selected download priorities without changing unrelated rows.
 - In Search, `Alt+N` should focus the Name textbox without selecting existing
   text.
 - In Search, `Alt+Y`, `Alt+D`, `Alt+G`, `Alt+E`, `Alt+R`, and `Alt+L` should
