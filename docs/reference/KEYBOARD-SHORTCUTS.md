@@ -23,6 +23,11 @@ selected downloads and do not become global app accelerators.
 | `Ctrl+P` | Pauses selected downloads that can be paused. |
 | `Ctrl+S` | Resumes selected downloads that can be resumed. |
 | `Ctrl+T` | Stops selected downloads that can be stopped. |
+| `Ctrl+O` | Opens the selected completed download when it can be opened. |
+| `Ctrl+Shift+O` | Opens the selected download's folder. |
+| `Ctrl+I` | Opens details for the selected download rows. |
+| `Ctrl+L` | Copies selected download ED2K links. |
+| `Ctrl+Shift+C` | Copies selected download file summaries. |
 | `Delete` | Cancels selected active downloads; removes completed downloads from the visible list. |
 | `F2` | Renames one selected incomplete download; `Ctrl+F2` runs filename cleanup. |
 | `Enter` | Opens the selected completed download when it can be opened. |
@@ -30,6 +35,40 @@ selected downloads and do not become global app accelerators.
 | `Ctrl+C` | Copies selected download ED2K links. |
 | `Ctrl+V` | Pastes a direct ED2K download link when available. |
 | `Ctrl+F` | Starts list find. |
+
+## Search Results List Shortcuts
+
+These shortcuts are local to Search Results.
+
+| Shortcut | Behavior |
+|----------|----------|
+| `Ctrl+D` | Downloads selected search results. |
+| `Ctrl+Shift+D` | Downloads selected search results paused. |
+| `Ctrl+I` | Opens details for selected results. |
+| `Ctrl+L` | Copies selected result ED2K links. |
+| `Ctrl+Shift+C` | Copies selected result summaries. |
+
+## Shared Files Shortcuts
+
+These shortcuts are local to the Shared Files list.
+
+| Shortcut | Behavior |
+|----------|----------|
+| `Ctrl+O` | Opens the selected shared file. |
+| `Ctrl+Shift+O` | Opens the selected shared file's folder. |
+| `Ctrl+I` | Opens details for selected shared files. |
+| `Ctrl+L` | Copies selected shared-file ED2K links. |
+| `Ctrl+Shift+C` | Copies selected shared-file summaries. |
+
+## Shared Directories Shortcuts
+
+These shortcuts are local to the Shared Directories tree.
+
+| Shortcut | Behavior |
+|----------|----------|
+| `Ctrl+Shift+O` | Opens the selected directory. |
+| `Ctrl+I` | Opens details for selected files in the current directory view. |
+| `Ctrl+L` | Copies ED2K links for selected files in the current directory view. |
 
 ## Reserved Main-Shell Mnemonics
 
