@@ -82,8 +82,9 @@ regressions.
 - expose app lifecycle through `app.lifecycle` and `status.lifecycle` using
   lowercase compact state tokens: `starting`, `running`, `shuttingdown`, and
   `done`; the exit-confirmation dialog remains public `running` state
-- reject mutating REST requests while lifecycle is `starting`, and reject all
-  REST requests once lifecycle is `shuttingdown` or `done`
+- reject mutating REST requests, diagnostic unsafe requests, and
+  `POST /app/shutdown` while lifecycle is `starting`, and reject all REST
+  requests once lifecycle is `shuttingdown` or `done`
 - return errors as `{ "error": { "code": "...", "message": "...", "details": {} } }`
 - return the updated resource from mutations when practical; asynchronous or
   native operation routes return explicit operation-result DTOs instead
@@ -234,6 +235,9 @@ capabilities. Lifecycle gating is evaluated before direct execution, so direct
 routes are still rejected after shutdown begins. Runtime reads, mutations,
 destructive operations, and adapter bridges remain UI-thread dispatched until
 ownership is proven safe at the implementation layer.
+The same lifecycle command policy is reused by qBit-compatible and Torznab
+bridge calls that invoke native REST commands in-process, so adapter bridges do
+not bypass startup/shutdown safety gates.
 
 Use [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md) for residual
 release-gate and live-smoke tracking. Runtime route completeness is expected to
