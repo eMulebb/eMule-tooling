@@ -76,6 +76,9 @@ regressions.
   `{ "data": { "items": [...], "total": n, "offset": n, "limit": n }, "meta": ... }`
 - expose `limit` without `offset` only for bounded snapshots/tails such as
   `GET /snapshot` and `GET /logs`
+- expose shared-files startup readiness through `status.stats.sharedFilesReady`
+  and `status.sharedStartupCache`; clients must not infer readiness from an
+  empty `sharedFiles` array during startup warmup
 - return errors as `{ "error": { "code": "...", "message": "...", "details": {} } }`
 - return the updated resource from mutations when practical; asynchronous or
   native operation routes return explicit operation-result DTOs instead
