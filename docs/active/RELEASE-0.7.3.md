@@ -78,6 +78,10 @@ Accepted non-blockers for beta `0.7.3`:
 - [FEAT-059](../history/items/FEAT-059.md): Display preferences now keep
   `Always show tray icon` adjacent to `Minimize to system tray`; it resets the
   candidate head but does not replace fresh proof or package hashes.
+- [FEAT-060](../history/items/FEAT-060.md): preference INI keys are now covered
+  by a machine-readable inventory and REST mutable preference metadata is
+  centralized; it resets the candidate heads but does not replace fresh proof or
+  package hashes.
 - [REF-034](items/REF-034.md): Crypto++ 8.9 dependency refresh is deferred
   post-beta.
 - IP-filter HTTP update transport from
@@ -95,6 +99,7 @@ Beta `0.7.3` can be tagged only when:
 - no active workspace repo has unrelated uncommitted changes; and
 - the operator gives a separate tagging instruction.
 
-The accepted `FEAT-058` and `FEAT-059` closeout polish changed release-facing
-documentation and app UI after the previous prep audit. Final proof must target
-the pushed heads that exist after this polish lands.
+The accepted `FEAT-058`, `FEAT-059`, and `FEAT-060` closeout hardening changed
+release-facing documentation, app UI, app REST metadata, and build-test
+guardrails after the previous prep audit. Final proof must target the pushed
+heads that exist after this polish and hardening lands.
