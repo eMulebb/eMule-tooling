@@ -1453,7 +1453,7 @@ components:
     App:
       type: object
       additionalProperties: false
-      required: [name, version, apiVersion, capabilities]
+      required: [name, version, apiVersion, lifecycle, capabilities]
       properties:
         name:
           type: string
@@ -1465,6 +1465,8 @@ components:
           type: string
         platform:
           type: string
+        lifecycle:
+          $ref: "#/components/schemas/AppLifecycle"
         elevated:
           type: boolean
         webServer:
@@ -1481,6 +1483,26 @@ components:
           type: object
           additionalProperties:
             type: boolean
+    AppLifecycle:
+      type: object
+      additionalProperties: false
+      required: [state, startupComplete, coreReady, sharedFilesReady, acceptingRest, acceptingMutations, shutdownInProgress]
+      properties:
+        state:
+          type: string
+          enum: [starting, running, shuttingdown, done]
+        startupComplete:
+          type: boolean
+        coreReady:
+          type: boolean
+        sharedFilesReady:
+          type: boolean
+        acceptingRest:
+          type: boolean
+        acceptingMutations:
+          type: boolean
+        shutdownInProgress:
+          type: boolean
     PreferencesEnvelope:
       unevaluatedProperties: false
       allOf:
@@ -1601,8 +1623,10 @@ components:
     Status:
       type: object
       additionalProperties: false
-      required: [stats, servers, kad, sharedStartupCache]
+      required: [lifecycle, stats, servers, kad, sharedStartupCache]
       properties:
+        lifecycle:
+          $ref: "#/components/schemas/AppLifecycle"
         connected:
           type: boolean
         downloadSpeedKiBps:

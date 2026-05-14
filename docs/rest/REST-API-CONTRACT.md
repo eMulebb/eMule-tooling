@@ -79,6 +79,11 @@ regressions.
 - expose shared-files startup readiness through `status.stats.sharedFilesReady`
   and `status.sharedStartupCache`; clients must not infer readiness from an
   empty `sharedFiles` array during startup warmup
+- expose app lifecycle through `app.lifecycle` and `status.lifecycle` using
+  lowercase compact state tokens: `starting`, `running`, `shuttingdown`, and
+  `done`; the exit-confirmation dialog remains public `running` state
+- reject mutating REST requests while lifecycle is `starting`, and reject all
+  REST requests once lifecycle is `shuttingdown` or `done`
 - return errors as `{ "error": { "code": "...", "message": "...", "details": {} } }`
 - return the updated resource from mutations when practical; asynchronous or
   native operation routes return explicit operation-result DTOs instead
@@ -224,7 +229,9 @@ Adapter subset details are documented in [REST-API-ADAPTERS.md](REST-API-ADAPTER
 
 The native route table records whether a route is direct or UI-thread
 dispatched. `GET /api/v1/app` is currently the only direct route because it
-serves static application identity/build metadata. Runtime reads, mutations,
+serves application identity, lifecycle, build metadata, and static
+capabilities. Lifecycle gating is evaluated before direct execution, so direct
+routes are still rejected after shutdown begins. Runtime reads, mutations,
 destructive operations, and adapter bridges remain UI-thread dispatched until
 ownership is proven safe at the implementation layer.
 

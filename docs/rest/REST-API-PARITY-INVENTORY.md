@@ -45,7 +45,7 @@ contract.
 
 | Migrated capability | REST target | Status | Impact and notes |
 |---|---|---|---|
-| Show app/version/runtime information | `GET /app` | implemented | Returns app identity, build flavor, runtime state, and static capabilities. |
+| Show app/version/runtime information | `GET /app` | implemented | Returns app identity, build flavor, lifecycle state, and static capabilities while REST is accepting requests. |
 | Show global status/statistics summary | `GET /status`, `GET /stats`, `GET /snapshot` | implemented | Status, stats, and snapshot routes use stable v1 envelopes. |
 | Update WebServer gzip preference | none | obsolete | HTML/WebServer gzip is page-serving presentation behavior, not a native controller preference. |
 | Update WebServer refresh interval | none | obsolete | HTML/WebServer refresh timing remains in `[WebServer] PageRefreshTime`; controller UIs own their own polling cadence. |
