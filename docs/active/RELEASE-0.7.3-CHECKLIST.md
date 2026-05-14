@@ -46,6 +46,22 @@ Current state: non-live build/test rows have partial passing evidence in
 [CI-035](items/CI-035.md). Live proof, final package refresh, clean-worktree
 confirmation, and final hash recording remain incomplete.
 
+2026-05-14 closeout prep did not run live E2E, regenerate packages, or create
+tags. Existing package manifests are rehearsal artifacts from older commits and
+must not be used as final release hashes. Recent live reports may be cited as
+supporting signal only where [CI-035](items/CI-035.md) classifies them; they do
+not complete the required current-head proof rows.
+
+When proof resumes, run the remaining queue in this order:
+
+1. Revalidate the active release docs and item dispositions.
+2. Run the required command rows above on the selected current app `main` head.
+3. Regenerate x64 and ARM64 packages only after proof succeeds.
+4. Record fresh package paths, manifests, SHA-256 hashes, and repo commits in
+   [CI-035](items/CI-035.md).
+5. Leave the annotated tag step blocked until the operator gives a separate tag
+   instruction.
+
 ## Stabilization Add-On
 
 After the proof pause is lifted, run this focused add-on only when extra

@@ -69,6 +69,9 @@ Accepted non-blockers for beta `0.7.3`:
   use the policy-owned `emulebb` namespace.
 - [BUG-112](../history/items/BUG-112.md): legacy WebServer/qBit-compatible
   session-token hardening is Wont-Fix for this beta.
+- [FEAT-057](../history/items/FEAT-057.md): qBittorrent-style download
+  shortcuts and batch menu actions landed as user-facing polish; it does not
+  change the final proof/package/tag gates.
 - [REF-034](items/REF-034.md): Crypto++ 8.9 dependency refresh is deferred
   post-beta.
 - IP-filter HTTP update transport from
