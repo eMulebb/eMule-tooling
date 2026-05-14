@@ -72,6 +72,9 @@ Accepted non-blockers for beta `0.7.3`:
 - [FEAT-057](../history/items/FEAT-057.md): qBittorrent-style download
   shortcuts and batch menu actions landed as user-facing polish; it does not
   change the final proof/package/tag gates.
+- [FEAT-058](../history/items/FEAT-058.md): final closeout copy/audit polish
+  aligned release-facing docs with the beta `0.7.3` source rule; it resets the
+  candidate head but does not replace fresh proof or package hashes.
 - [REF-034](items/REF-034.md): Crypto++ 8.9 dependency refresh is deferred
   post-beta.
 - IP-filter HTTP update transport from
@@ -88,3 +91,7 @@ Beta `0.7.3` can be tagged only when:
   artifact, commit, and package evidence;
 - no active workspace repo has unrelated uncommitted changes; and
 - the operator gives a separate tagging instruction.
+
+The accepted `FEAT-058` closeout polish changed release-facing documentation
+after the previous prep audit. Final proof must target the pushed heads that
+exist after this polish lands.

@@ -13,7 +13,7 @@ source: FEAT-055 Beta 0.7.3 improvement triage
 ## Summary
 
 Build the follow-up tooling and documentation improvements discovered while
-hardening `emule-bb-v1.0.1`. These are intentionally post-release improvements:
+hardening the beta `0.7.3` release proof. These are intentionally post-release improvements:
 they improve future release velocity and operator evidence quality, but they do
 not fix a confirmed Beta 0.7.3 regression or missing advertised behavior.
 

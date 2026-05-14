@@ -52,6 +52,11 @@ must not be used as final release hashes. Recent live reports may be cited as
 supporting signal only where [CI-035](items/CI-035.md) classifies them; they do
 not complete the required current-head proof rows.
 
+The accepted [FEAT-058](../history/items/FEAT-058.md) closeout copy/audit
+polish changed release-facing docs after the previous prep audit. Treat all
+final proof rows as pending until rerun on the pushed heads that exist after
+that polish lands.
+
 When proof resumes, run the remaining queue in this order:
 
 1. Revalidate the active release docs and item dispositions.
@@ -76,6 +81,9 @@ x64 live E2E rows above.
 
 - [ ] Release notes use `eMule broadband edition` as the public product name.
 - [ ] Release notes use `eMule BB` as the compact app/mod/API name.
+- [ ] Package-facing README identifies reviewed `main` as the beta `0.7.3`
+      release source and treats `release/v0.72a-broadband` as a stabilization
+      reference only.
 - [ ] Annotated beta tag is `emule-bb-v0.7.3`.
 - [ ] Annotated beta tag points at the selected reviewed `main` commit.
 - [ ] x64 beta asset is `eMule-broadband-0.7.3-x64.zip`.
