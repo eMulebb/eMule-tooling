@@ -13,6 +13,24 @@ remove, or repurpose shortcuts.
 | `Alt+T` | main shell | Opens the Tools popup. |
 | `Ctrl+Tab` / `Ctrl+Shift+Tab` | main shell | Cycles primary toolbar panes. |
 
+## Downloads List Shortcuts
+
+These shortcuts are local to the Downloads file list. They operate on the
+selected downloads and do not become global app accelerators.
+
+| Shortcut | Behavior |
+|----------|----------|
+| `Ctrl+P` | Pauses selected downloads that can be paused. |
+| `Ctrl+S` | Resumes selected downloads that can be resumed. |
+| `Ctrl+T` | Stops selected downloads that can be stopped. |
+| `Delete` | Cancels selected active downloads; removes completed downloads from the visible list. |
+| `F2` | Renames one selected incomplete download; `Ctrl+F2` runs filename cleanup. |
+| `Enter` | Opens the selected completed download when it can be opened. |
+| `Alt+Enter` | Opens details for the selected download rows. |
+| `Ctrl+C` | Copies selected download ED2K links. |
+| `Ctrl+V` | Pastes a direct ED2K download link when available. |
+| `Ctrl+F` | Starts list find. |
+
 ## Reserved Main-Shell Mnemonics
 
 These native Alt mnemonics are treated as main-shell toolbar or hotmenu
