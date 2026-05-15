@@ -3,7 +3,7 @@
 
 <#
 .SYNOPSIS
-Creates, updates, or removes the Windows Defender Firewall rule for eMule.
+Creates, updates, or removes Windows Defender Firewall rules for eMule.
 
 .DESCRIPTION
 This script is intended to ship inside a release package under `scripts\`.
@@ -18,7 +18,7 @@ param(
     [string]$ExePath,
 
     [Parameter(Mandatory = $false)]
-    [string]$RuleName = 'eMule',
+    [string]$RuleName = 'eMule BB',
 
     [switch]$Remove
 )
@@ -78,17 +78,41 @@ function Resolve-RequestedExecutablePath {
     return (Get-NormalizedExistingLeafPath -Path $promptedPath)
 }
 
+<#
+.SYNOPSIS
+Builds the broad program-scoped eMule firewall rules.
+#>
+function Get-DesiredFirewallRules {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$BaseRuleName
+    )
+
+    return @(
+        [pscustomobject]@{ Name = "$BaseRuleName Inbound TCP"; Direction = 'Inbound'; Protocol = 'TCP' }
+        [pscustomobject]@{ Name = "$BaseRuleName Inbound UDP"; Direction = 'Inbound'; Protocol = 'UDP' }
+        [pscustomobject]@{ Name = "$BaseRuleName Outbound TCP"; Direction = 'Outbound'; Protocol = 'TCP' }
+        [pscustomobject]@{ Name = "$BaseRuleName Outbound UDP"; Direction = 'Outbound'; Protocol = 'UDP' }
+    )
+}
+
 try {
+    $desiredRules = @(Get-DesiredFirewallRules -BaseRuleName $RuleName)
+
     if ($Remove) {
-        $existingRules = @(Get-NetFirewallRule -DisplayName $RuleName -ErrorAction SilentlyContinue)
+        $existingRules = @()
+        foreach ($rule in $desiredRules) {
+            $existingRules += @(Get-NetFirewallRule -DisplayName $rule.Name -ErrorAction SilentlyContinue)
+        }
+
         if ($existingRules.Count -eq 0) {
-            Write-Host "No firewall rule named '$RuleName' exists."
+            Write-Host "No eMule firewall rules with base name '$RuleName' exist."
             exit 0
         }
 
-        if ($PSCmdlet.ShouldProcess($RuleName, 'Remove Windows Firewall rule')) {
+        if ($PSCmdlet.ShouldProcess($RuleName, 'Remove eMule Windows Firewall rules')) {
             $existingRules | Remove-NetFirewallRule
-            Write-Host "Removed firewall rule '$RuleName'."
+            Write-Host "Removed $($existingRules.Count) eMule firewall rule(s) with base name '$RuleName'."
         }
 
         exit 0
@@ -96,35 +120,45 @@ try {
 
     $resolvedExePath = Resolve-RequestedExecutablePath -CandidatePath $ExePath
 
-    $existingRules = @(Get-NetFirewallRule -DisplayName $RuleName -ErrorAction SilentlyContinue)
-    $existingPrograms = @()
-    $firewallRuleChanged = $false
-    if ($existingRules.Count -gt 0) {
-        $existingPrograms = @(Get-RulePrograms -Rules $existingRules)
-        if ($PSCmdlet.ShouldProcess($RuleName, 'Replace existing Windows Firewall rule')) {
-            $existingRules | Remove-NetFirewallRule
+    Write-Host 'Opening eMule across all ports, all hosts, all interfaces, and all firewall profiles.'
+    Write-Host "Program: $resolvedExePath"
+    Write-Host "Profiles: Domain, Private, Public"
+
+    foreach ($rule in $desiredRules) {
+        $existingRules = @(Get-NetFirewallRule -DisplayName $rule.Name -ErrorAction SilentlyContinue)
+        $existingPrograms = @()
+        $ruleChanged = $false
+        if ($existingRules.Count -gt 0) {
+            $existingPrograms = @(Get-RulePrograms -Rules $existingRules)
+            if ($PSCmdlet.ShouldProcess($rule.Name, 'Replace exact-name Windows Firewall rule')) {
+                $existingRules | Remove-NetFirewallRule
+                $ruleChanged = $true
+            }
+        }
+
+        if ($PSCmdlet.ShouldProcess($resolvedExePath, "Create Windows Firewall allow rule '$($rule.Name)'")) {
+            New-NetFirewallRule `
+                -DisplayName $rule.Name `
+                -Direction $rule.Direction `
+                -Action Allow `
+                -Enabled True `
+                -Profile Domain,Private,Public `
+                -Program $resolvedExePath `
+                -Protocol $rule.Protocol | Out-Null
+            $ruleChanged = $true
+        }
+
+        if ($ruleChanged) {
+            if ($existingPrograms.Count -eq 0) {
+                Write-Host "Created firewall rule '$($rule.Name)' for '$resolvedExePath'."
+            } else {
+                Write-Host "Replaced firewall rule '$($rule.Name)' for '$resolvedExePath'."
+                Write-Host "Previous rule program paths: $($existingPrograms -join ', ')"
+            }
         }
     }
 
-    if ($PSCmdlet.ShouldProcess($resolvedExePath, 'Create Windows Firewall allow rule for eMule')) {
-        New-NetFirewallRule `
-            -DisplayName $RuleName `
-            -Direction Inbound `
-            -Action Allow `
-            -Enabled True `
-            -Profile Any `
-            -Program $resolvedExePath | Out-Null
-        $firewallRuleChanged = $true
-    }
-
-    if ($firewallRuleChanged) {
-        if ($existingPrograms.Count -eq 0) {
-            Write-Host "Created firewall rule '$RuleName' for '$resolvedExePath'."
-        } else {
-            Write-Host "Replaced firewall rule '$RuleName' for '$resolvedExePath'."
-            Write-Host "Previous rule program paths: $($existingPrograms -join ', ')"
-        }
-    }
+    Write-Host 'Windows Firewall rules now allow eMule TCP/UDP inbound and outbound across all ports.'
 } catch {
     Write-Error $_
     exit 1
