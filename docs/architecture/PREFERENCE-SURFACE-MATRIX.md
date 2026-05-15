@@ -165,7 +165,7 @@ HTML form fields are separate from that REST preference surface.
 | `IPFilterUpdateEnabled` | `eMule` | `false` | Boolean. | Security page checkbox. | None |
 | `IPFilterUpdatePeriodDays` | `eMule` | `7` | Clamped `1..365`. | Security page rejects values outside `1..365`. | None |
 | `IPFilterLastUpdateTime` | `eMule` | `0` | Non-negative timestamp string. | Updated by IP-filter updater. | None |
-| `IPFilterUpdateUrl` | `eMule` | `http://upd.emule-security.org/ipfilter.zip` | String URL. | Security page text field. | None |
+| `IPFilterUpdateUrl` | `eMule` | `https://upd.emule-security.org/ipfilter.zip` | String URL. | Security page text field; dropdown suggestions live in `AC_IPFilterUpdateURLs.dat`. | None |
 | `RunCommandOnFileCompletion` | `FileCompletion` | `false` | Boolean. | Files page checkbox; when enabled, apply validates the configured program path. | None |
 | `FileCompletionProgram` | `FileCompletion` | empty string | Trimmed string path. | Files page text/path field; invalid paths are rejected when completion commands are enabled. | None |
 | `FileCompletionArguments` | `FileCompletion` | empty string | Trimmed string. | Files page text field. | None |

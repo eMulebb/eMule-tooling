@@ -120,6 +120,9 @@ persisted `CPreferences` member:
 
 - server.met URL: `http://upd.emule-security.org/server.met`
 - nodes.dat URL: `http://upd.emule-security.org/nodes.dat`
+- IP filter URL history: `AC_IPFilterUpdateURLs.dat`, seeded only when blank;
+  user-facing behavior is documented in
+  [GUIDE-IP-FILTERS](../reference/GUIDE-IP-FILTERS.md)
 - Kad bootstrap mode: load nodes from URL
 
 If one of these becomes persisted, add it to the matrix at the same time.

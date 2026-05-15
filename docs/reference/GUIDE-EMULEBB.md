@@ -25,10 +25,11 @@ familiar eMule workflow remain the baseline.
 Start by treating eMule BB like eMule:
 
 1. Use trusted server lists and known-good Kad bootstrap sources.
-2. Keep incoming, temporary, and shared directories predictable.
-3. Organize downloads with categories before adding automation.
-4. Confirm server/global/Kad search behavior in the desktop app.
-5. Let the client run long enough to build useful queue and known-client state.
+2. Review IP filter status and update sources if you use IP filtering.
+3. Keep incoming, temporary, and shared directories predictable.
+4. Organize downloads with categories before adding automation.
+5. Confirm server/global/Kad search behavior in the desktop app.
+6. Let the client run long enough to build useful queue and known-client state.
 
 Only add REST controllers once the native app is behaving as expected.
 
@@ -82,6 +83,9 @@ Large libraries need boring discipline more than novelty:
 - use stable sorting and ratio columns when curating rare or under-shared files
 
 For long-path details, see [GUIDE-LONGPATHS](GUIDE-LONGPATHS.md).
+
+For IP filter storage, update sources, and supported filter formats, see
+[GUIDE-IP-FILTERS](GUIDE-IP-FILTERS.md).
 
 ## Search And Sharing Workflow
 
