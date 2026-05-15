@@ -176,6 +176,47 @@ def translate_value(translator, source: str, extra_terms: list[str]) -> str:
     raise AssertionError("unreachable")
 
 
+def translate_values_batch(translator, sources: list[str], extra_terms: list[str], batch_size: int) -> list[str]:
+    """Translate several RC string values, falling back per-string on batch failure."""
+
+    results: list[str] = []
+    prepared: list[tuple[str, str, list[str]]] = []
+    for source in sources:
+        protected, tokens = protect_text(source.replace("&", ""), extra_terms)
+        if not re.search(r"[A-Za-z]", protected):
+            results.append(normalize_mnemonic(source, restore_text(protected, tokens)))
+        else:
+            prepared.append((source, protected, tokens))
+            results.append("")
+
+    translated_by_source: dict[int, str] = {}
+    for start in range(0, len(prepared), batch_size):
+        chunk = prepared[start : start + batch_size]
+        protected_values = [protected for _, protected, _ in chunk]
+        try:
+            translated_values = translator.translate_batch(protected_values)
+        except Exception:
+            translated_values = [None] * len(chunk)
+        if translated_values is None or len(translated_values) != len(chunk):
+            translated_values = [None] * len(chunk)
+        for offset, (source, protected, tokens) in enumerate(chunk):
+            translated = translated_values[offset]
+            if translated is None:
+                translated_by_source[start + offset] = translate_value(translator, source, extra_terms)
+            else:
+                translated_by_source[start + offset] = normalize_mnemonic(source, restore_text(translated, tokens))
+
+    prepared_index = 0
+    final: list[str] = []
+    for source, current in zip(sources, results):
+        if current:
+            final.append(current)
+        else:
+            final.append(translated_by_source[prepared_index])
+            prepared_index += 1
+    return final
+
+
 def managed_rows(rc_helper, path: Path) -> list[tuple[str, str]]:
     """Return rows from the existing managed block, if any."""
 
@@ -229,16 +270,26 @@ def run(args: argparse.Namespace) -> None:
     cache.setdefault(cache_key, {})
 
     new_rows: list[tuple[str, str]] = []
-    for index, key in enumerate(missing, 1):
+    uncached_keys = [key for key in missing if key not in existing_map and key not in cache[cache_key]]
+    for start in range(0, len(uncached_keys), args.batch_size):
+        chunk_keys = uncached_keys[start : start + args.batch_size]
+        translated_values = translate_values_batch(
+            translator,
+            [source.values[key] for key in chunk_keys],
+            args.protect_term,
+            args.batch_size,
+        )
+        for key, value in zip(chunk_keys, translated_values):
+            cache[cache_key][key] = value
+        save_cache(args.cache, cache)
+        translated_count = min(start + len(chunk_keys), len(uncached_keys))
+        if args.progress:
+            print(f"{args.target_rc.name}: cached {translated_count}/{len(uncached_keys)} new translations")
+
+    for key in missing:
         if key in existing_map:
             continue
-        if key not in cache[cache_key]:
-            value = translate_value(translator, source.values[key], args.protect_term)
-            cache[cache_key][key] = value
-            save_cache(args.cache, cache)
         new_rows.append((key, cache[cache_key][key]))
-        if args.progress and (index == 1 or index % args.progress == 0 or index == len(missing)):
-            print(f"{args.target_rc.name}: translated {index}/{len(missing)} missing ids")
 
     rows = existing_rows + new_rows
     if not args.dry_run:
@@ -258,6 +309,7 @@ def main() -> int:
     parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE, help="Translation cache path.")
     parser.add_argument("--protect-term", action="append", default=[], help="Additional literal term to preserve.")
     parser.add_argument("--progress", type=int, default=25, help="Progress interval; 0 disables progress.")
+    parser.add_argument("--batch-size", type=int, default=25, help="Number of strings to request per batch.")
     parser.add_argument("--dry-run", action="store_true", help="Translate/cache but do not rewrite the target RC.")
     args = parser.parse_args()
     run(args)
