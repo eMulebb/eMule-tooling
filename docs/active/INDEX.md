@@ -317,6 +317,7 @@ not active item docs.
 | [FEAT-059](../history/items/FEAT-059.md) | Minor | Done | Move tray icon visibility preference next to minimize-to-tray |
 | [FEAT-060](../history/items/FEAT-060.md) | Minor | Done | Preference inventory, mapping, clamp, and persistence audit |
 | [FEAT-061](../history/items/FEAT-061.md) | Minor | Done | Strong preference schema validation |
+| [FEAT-062](../history/items/FEAT-062.md) | Minor | Done | Category management dialog polish and robustness |
 
 ---
 
