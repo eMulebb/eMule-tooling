@@ -161,6 +161,8 @@ def translate_value(translator, source: str, extra_terms: list[str]) -> str:
     """Translate one RC string value while preserving RC-sensitive tokens."""
 
     protected, tokens = protect_text(source.replace("&", ""), extra_terms)
+    if not re.search(r"[A-Za-z]", protected):
+        return normalize_mnemonic(source, restore_text(protected, tokens))
     for attempt in range(5):
         try:
             translated = translator.translate(protected)
