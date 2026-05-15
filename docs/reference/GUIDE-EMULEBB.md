@@ -33,6 +33,24 @@ Start by treating eMule BB like eMule:
 
 Only add REST controllers once the native app is behaving as expected.
 
+## Bootstrap Sources
+
+New or blank profiles use HTTPS bootstrap/update sources:
+
+- `addresses.dat` is the server.met update source list. When it is missing or
+  blank, eMule BB seeds `https://upd.emule-security.org/server.met` and
+  `https://emuling.gitlab.io/server.met`.
+- The server page's manual update field defaults to
+  `https://upd.emule-security.org/server.met`.
+- The Kad bootstrap URL defaults to
+  `https://upd.emule-security.org/nodes.dat`.
+
+During release review, direct server.met candidates were accepted only when the
+endpoint returned a parseable server.met payload over HTTPS. Direct nodes.dat
+candidates were accepted only when they returned a usable bootstrap file. HTML
+download pages, stale direct files, and endpoints without a current direct
+nodes.dat payload were not added as built-in defaults.
+
 ## Stock Data Compatibility
 
 Existing stock eMule profiles should generally drop into eMule BB for the

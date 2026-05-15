@@ -118,8 +118,11 @@ slots. It is not a same-named persisted INI preference.
 Some defaults are supplied directly by UI code rather than a first-class
 persisted `CPreferences` member:
 
-- server.met URL: `http://upd.emule-security.org/server.met`
-- nodes.dat URL: `http://upd.emule-security.org/nodes.dat`
+- server.met URL: `https://upd.emule-security.org/server.met`
+- nodes.dat URL: `https://upd.emule-security.org/nodes.dat`
+- server.met URL history: `addresses.dat`, seeded only when missing or blank
+  with `https://upd.emule-security.org/server.met` and
+  `https://emuling.gitlab.io/server.met`
 - IP filter URL history: `AC_IPFilterUpdateURLs.dat`, seeded only when blank;
   user-facing behavior is documented in
   [GUIDE-IP-FILTERS](../reference/GUIDE-IP-FILTERS.md)

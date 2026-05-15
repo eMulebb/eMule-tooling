@@ -27,10 +27,9 @@ unchanged.
 The seeded dropdown suggestions are:
 
 1. `https://upd.emule-security.org/ipfilter.zip`
-2. `http://upd.emule-security.org/ipfilter.zip`
-3. `https://emuling.gitlab.io/ipfilter.zip`
-4. `https://github.com/DavidMoore/ipfilter/releases/download/lists/ipfilter.zip`
-5. `https://raw.githubusercontent.com/Naunter/BT_BlockLists/master/bt_blocklists.gz`
+2. `https://emuling.gitlab.io/ipfilter.zip`
+3. `https://github.com/DavidMoore/ipfilter/releases/download/lists/ipfilter.zip`
+4. `https://raw.githubusercontent.com/Naunter/BT_BlockLists/master/bt_blocklists.gz`
 
 The HTTPS eMule-Security URL is the default active URL for new profiles. The
 other entries are suggestions for users who want a fallback or a torrent-style
