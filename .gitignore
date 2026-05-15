@@ -1,6 +1,7 @@
 logs/
 *.log
 tmp/
+.local/
 
 .vs/
 .vscode/
