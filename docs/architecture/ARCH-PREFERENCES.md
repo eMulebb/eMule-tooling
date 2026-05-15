@@ -82,6 +82,18 @@ Branch-added geolocation and IP-filter updater keys currently remain in
 `[eMule]` to stay close to the surrounding stock security/advanced preference
 area and avoid an extra update-only section split.
 
+## Registry Identity Policy
+
+eMule BB owns branch-specific Windows registry identity under
+`HKCU\Software\eMuleBB` and does not read stock `HKCU\Software\eMule` as a
+fallback. The Windows Run value is `eMuleBBAutoStart`, and the collection-file
+ProgID is `eMuleBB.Collection`.
+
+The `ed2k` URL scheme is intentionally shared by Windows, so eMule BB only
+claims it through the explicit/setting-driven link-repair path. Default
+filesystem folder names remain stock-compatible `eMule` paths unless the user
+chooses another location.
+
 ## REST Policy
 
 `GET /api/v1/app/preferences` and `PATCH /api/v1/app/preferences` expose a

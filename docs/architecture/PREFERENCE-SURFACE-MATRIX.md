@@ -20,7 +20,7 @@ HTML form fields are separate from that REST preference surface.
 | `BringToFront` | `eMule` | `false` | Boolean. | General page checkbox. | None |
 | `OnlineSignature` | `eMule` | `false` | Boolean. | General page checkbox. | None |
 | `StartupMinimized` | `eMule` | `false` | Boolean. | General page checkbox. | None |
-| `AutoStart` | `eMule` | `false` | Boolean plus derived per-user `HKCU\Software\Microsoft\Windows\CurrentVersion\Run\eMuleAutoStart` registration. The Run command starts the executable with `-AutoStart`; Debug builds skip real registry writes. | General page checkbox; enabling reverts if Windows rejects the Run registration. | None |
+| `AutoStart` | `eMule` | `false` | Boolean plus derived per-user `HKCU\Software\Microsoft\Windows\CurrentVersion\Run\eMuleBBAutoStart` registration. The Run command starts the executable with `-AutoStart`; Debug builds skip real registry writes. | General page checkbox; enabling reverts if Windows rejects the Run registration. | None |
 | `PreventStandby` | `eMule` | `false` | Boolean; runtime effect depends on OS power API support. | General page checkbox. | None |
 | `MaxUpload` | `eMule` | `6100` KiB/s | `0` or `>= UINT32_MAX` normalizes to branch default; setters keep finite values. | Connection page numeric field. | `uploadLimitKiBps`, PATCH `1..4294967294` |
 | `MaxDownload` | `eMule` | `12207` KiB/s | Setter maps `0` to `1`; REST rejects unlimited sentinel. | Connection page numeric field. | `downloadLimitKiBps`, PATCH `1..4294967294` |
