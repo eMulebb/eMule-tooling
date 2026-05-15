@@ -361,6 +361,7 @@ not active item docs.
 | [CI-033](../history/items/CI-033.md) | Major | Done | Beta 0.7.3 internal pre-release proof |
 | [CI-034](../history/items/CI-034.md) | Major | Done | Package-release provenance and dirty-input guard |
 | [CI-035](items/CI-035.md) | Major | Open | Final current-head beta proof and fresh package hashes |
+| [CI-036](../history/items/CI-036.md) | Major | Done | Release certification test matrix |
 
 ---
 

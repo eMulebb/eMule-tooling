@@ -25,22 +25,17 @@ checklist.
 
 ## Required Commands
 
-- [ ] `python -m emule_workspace validate`
-- [ ] `python -m emule_workspace build app --config Debug --platform x64`
-- [ ] `python -m emule_workspace build app --config Release --platform x64`
-- [ ] `python -m emule_workspace build app --config Release --platform ARM64`
-- [ ] `python -m emule_workspace build tests --config Debug --platform x64`
-- [ ] `python -m emule_workspace build tests --config Release --platform x64`
-- [ ] `python -m emule_workspace test all --config Debug --platform x64`
-- [ ] `python -m emule_workspace test all --config Release --platform x64`
-- [ ] `python -m emule_workspace test live-e2e --profile controller-surface --fail-fast`
-- [ ] `python -m emule_workspace test live-e2e --config Release --platform x64`
+- [ ] `python -m emule_workspace test certification --profile fast`
+- [ ] `python -m emule_workspace test certification --profile overnight`
 - [ ] `python -m emule_workspace package-release --config Release --platform x64`
 - [ ] `python -m emule_workspace package-release --config Release --platform ARM64`
 - [ ] `python repos\eMule-tooling\ci\check-clean-worktree.py`
 
-Record command summaries, commits, log paths, report paths, package paths, and
-SHA-256 hashes in [CI-035](items/CI-035.md).
+Run certification with the required local live inputs and Arr roots when those
+are needed by the operator environment, for example
+`--live-wire-inputs-file`, `--radarr-movie-root`, and `--sonarr-series-root`.
+Record certification reports, command summaries, commits, log paths, package
+paths, and SHA-256 hashes in [CI-035](items/CI-035.md).
 
 Current state: non-live build/test rows have partial passing evidence in
 [CI-035](items/CI-035.md). Live proof, final package refresh, clean-worktree
@@ -83,13 +78,12 @@ When proof resumes, run the remaining queue in this order:
 
 ## Stabilization Add-On
 
-After the proof pause is lifted, run this focused add-on only when extra
-crash/leak/CPU/REST concurrency evidence is requested before the full live lane:
+After the proof pause is lifted, this focused add-on remains available for
+diagnosing a certification failure without rerunning the full overnight gate:
 
 - [ ] `python -m emule_workspace test live-e2e --profile stabilization-stress --fail-fast`
 
-This add-on does not replace the required controller-surface and full Release
-x64 live E2E rows above.
+This add-on does not replace the required overnight certification row above.
 
 ## Release Identity
 

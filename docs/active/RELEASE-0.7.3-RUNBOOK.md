@@ -21,47 +21,35 @@ git -C workspaces\v0.72a\app\eMule-main rev-parse --short HEAD
 Do not continue to tagging if validation fails or if any active repo has
 unrelated uncommitted changes.
 
-## Build And Native Test Proof
+## Certification Proof
 
 ```powershell
-python -m emule_workspace build app --config Debug --platform x64
-python -m emule_workspace build app --config Release --platform x64
-python -m emule_workspace build app --config Release --platform ARM64
-python -m emule_workspace build tests --config Debug --platform x64
-python -m emule_workspace build tests --config Release --platform x64
-python -m emule_workspace test all --config Debug --platform x64
-python -m emule_workspace test all --config Release --platform x64
+python -m emule_workspace test certification --profile fast
 ```
 
-Record summaries and artifact paths in [CI-035](items/CI-035.md).
-
-## Live E2E Proof
-
-Run the focused controller surface first:
+Then run the full overnight certification gate with the operator-owned live
+inputs and Arr-visible roots required by the local environment:
 
 ```powershell
-python -m emule_workspace test live-e2e --profile controller-surface --fail-fast
+python -m emule_workspace test certification --profile overnight `
+  --live-wire-inputs-file repos\eMule-build-tests\live-wire-inputs.local.json `
+  --radarr-movie-root <radarr-visible-root> `
+  --sonarr-series-root <sonarr-visible-root>
 ```
 
-Then run the full maintained Release x64 live lane:
+The certification command records a single aggregate report under
+`workspaces\v0.72a\state\certification\<timestamp>-<profile>\result.json`.
+Record that report path and the child report paths it references in
+[CI-035](items/CI-035.md).
 
-```powershell
-python -m emule_workspace test live-e2e --config Release --platform x64
-```
-
-The full run must include `preference-ui`, `shared-files-ui`,
-`config-stability-ui`, `shared-hash-ui`, `startup-profile`,
-`shared-directories-rest`, `rest-api`, `amutorrent-browser-smoke`,
-`prowlarr-emulebb`, `radarr-sonarr-emulebb`, and `auto-browse-live`.
-
-No release-blocking suite may fail. A live-network suite may be accepted as
-inconclusive only when the child report proves the app and harness behaved
-correctly and the checklist records the external condition.
+No release-blocking certification step may fail. A live-network step may be
+accepted as inconclusive only when the aggregate and child reports prove the app
+and harness behaved correctly and the checklist records the external condition.
 
 ## Focused Stabilization Stress
 
 When release proof resumes and the operator wants extra crash, leak, CPU, REST
-concurrency, and dump evidence before the full lane, run:
+concurrency, and dump evidence without rerunning the full overnight gate, run:
 
 ```powershell
 python -m emule_workspace test live-e2e --profile stabilization-stress --fail-fast
@@ -70,7 +58,7 @@ python -m emule_workspace test live-e2e --profile stabilization-stress --fail-fa
 This profile runs `rest-api`, `rest-cold-start-dump-stress`, and
 `local-dumps-crash-smoke` with REST soak stress, socket/TLS adversity, leak
 churn, cold-start resource telemetry, download churn, and crash-dump evidence
-checks. It is not a substitute for the full maintained Release x64 live lane.
+checks. It is not a substitute for the overnight certification row.
 
 ## Packaging
 
