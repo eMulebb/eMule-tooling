@@ -49,9 +49,20 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 | [architecture/ARCH-NETWORKING](architecture/ARCH-NETWORKING.md) | Networking-stack reference |
 | [architecture/ARCH-PREFERENCES](architecture/ARCH-PREFERENCES.md) | Preference architecture and compatibility policy |
 | [architecture/PREFERENCE-SURFACE-MATRIX](architecture/PREFERENCE-SURFACE-MATRIX.md) | Active preference key/default/range/UI/REST matrix |
-| [reference/GUIDE-EMULEBB](reference/GUIDE-EMULEBB.md) | eMule BB user and product guide |
+| [reference/GUIDE-EMULEBB](reference/GUIDE-EMULEBB.md) | eMule BB product guide landing page |
+| [reference/GUIDE-SETUP](reference/GUIDE-SETUP.md) | Setup, profiles, defaults, config files, and backups |
+| [reference/GUIDE-NETWORK](reference/GUIDE-NETWORK.md) | eD2K, Kad, binding, ports, UPnP, firewall, and REST listener basics |
+| [reference/GUIDE-TOOLS-MENU](reference/GUIDE-TOOLS-MENU.md) | Tools menu organization, maintenance, diagnostics, and view presets |
+| [reference/GUIDE-SHARING](reference/GUIDE-SHARING.md) | Shared directories, monitored shares, large libraries, and share-ignore policy |
+| [reference/GUIDE-DOWNLOADS-SEARCH](reference/GUIDE-DOWNLOADS-SEARCH.md) | Downloads, search, categories, fake/trust feedback, and copy workflows |
+| [reference/GUIDE-PREFERENCES](reference/GUIDE-PREFERENCES.md) | User-facing preference storage, persistence, schema, defaults, and REST mutation |
+| [reference/GUIDE-DIAGNOSTICS](reference/GUIDE-DIAGNOSTICS.md) | Logs, diagnostic snapshots, dumps, firewall repair evidence, startup cache, and IO evidence |
+| [reference/GUIDE-CONTROLLERS-REST](reference/GUIDE-CONTROLLERS-REST.md) | REST, aMuTorrent, Arr, qBit, and Torznab controller guidance |
+| [reference/GUIDE-TROUBLESHOOTING](reference/GUIDE-TROUBLESHOOTING.md) | Symptom-led troubleshooting for network, startup, transfer, REST, and filter issues |
 | [reference/FEATURE-BROADBAND](reference/FEATURE-BROADBAND.md) | Broadband controller design background |
+| [reference/GUIDE-IP-FILTERS](reference/GUIDE-IP-FILTERS.md) | IP filter storage, seeded URLs, formats, and practical use |
 | [reference/GUIDE-LONGPATHS](reference/GUIDE-LONGPATHS.md) | Long-path implementation guide |
+| [reference/KEYBOARD-SHORTCUTS](reference/KEYBOARD-SHORTCUTS.md) | Main shell and list keyboard shortcut reference |
 | [dependencies/DEP-STATUS](dependencies/DEP-STATUS.md) | Current third-party dependency decision record |
 | [rest/REST-API-CONTRACT](rest/REST-API-CONTRACT.md) | Human-readable broadband REST contract |
 | [rest/REST-API-OPENAPI](rest/REST-API-OPENAPI.yaml) | Canonical machine-readable `/api/v1` OpenAPI contract |
