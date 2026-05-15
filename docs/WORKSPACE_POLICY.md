@@ -534,6 +534,28 @@ The canonical workspace currently materializes these app worktrees:
 - Do not use `emule-broadband-v` for release tags unless the release parser,
   update-check tests, and release policy are deliberately migrated together.
 
+## Release Localization Policy
+
+- The canonical supported release language set is:
+  `es`, `pt_BR`, `pt_PT`, `it`, `ru`, `de`, `fr`, `pl`, `nl`, and `tr`.
+- The corresponding app resource files are:
+  - `es` -> `srchybrid\lang\es_ES_T.rc`
+  - `pt_BR` -> `srchybrid\lang\pt_BR.rc`
+  - `pt_PT` -> `srchybrid\lang\pt_PT.rc`
+  - `it` -> `srchybrid\lang\it_IT.rc`
+  - `ru` -> `srchybrid\lang\ru_RU.rc`
+  - `de` -> `srchybrid\lang\de_DE.rc`
+  - `fr` -> `srchybrid\lang\fr_FR.rc`
+  - `pl` -> `srchybrid\lang\pl_PL.rc`
+  - `nl` -> `srchybrid\lang\nl_NL.rc`
+  - `tr` -> `srchybrid\lang\tr_TR.rc`
+- New release-facing user-visible strings must land in `srchybrid\emule.rc`
+  and every canonical supported release language file above before release
+  proof.
+- Other legacy translation files are best-effort maintenance targets and are
+  not release-blocking unless this policy explicitly promotes them into the
+  canonical supported set.
+
 ## Tags
 
 - Official beta 0.7.3 release should be marked with an annotated tag on the
