@@ -14,6 +14,18 @@ remove, or repurpose shortcuts.
 | `Alt+O` | main shell | Opens Options. |
 | `Ctrl+Tab` / `Ctrl+Shift+Tab` | main shell | Cycles primary toolbar panes. |
 
+## Searchable List Shortcuts
+
+These shortcuts are inherited by searchable list controls such as client,
+queue, upload, download, server, search-results, and shared-files lists.
+
+| Shortcut | Behavior |
+|----------|----------|
+| `Ctrl+F` | Starts list find. |
+| `F3` | Finds the next match after list find is active. |
+| `Shift+F3` | Finds the previous match after list find is active. |
+| `Ctrl+A` | Selects all rows in the focused list. |
+
 ## Downloads List Shortcuts
 
 These shortcuts are local to the Downloads file list. They operate on the
@@ -40,7 +52,6 @@ selected downloads and do not become global app accelerators.
 | `Alt+Enter` | Opens details for the selected download rows. |
 | `Ctrl+C` | Copies selected download ED2K links. |
 | `Ctrl+V` | Pastes a direct ED2K download link when available. |
-| `Ctrl+F` | Starts list find. |
 
 ## Search Results List Shortcuts
 
@@ -53,6 +64,7 @@ These shortcuts are local to Search Results.
 | `Ctrl+I` | Opens details for selected results. |
 | `Ctrl+L` | Copies selected result ED2K links. |
 | `Ctrl+Shift+C` | Copies selected result summaries. |
+| `Ctrl+F` | Starts list find. |
 
 ## Shared Files Shortcuts
 
@@ -65,6 +77,8 @@ These shortcuts are local to the Shared Files list.
 | `Ctrl+I` | Opens details for selected shared files. |
 | `Ctrl+L` | Copies selected shared-file ED2K links. |
 | `Ctrl+Shift+C` | Copies selected shared-file summaries. |
+| `Ctrl+F` | Starts list find. |
+| `F5` | Reloads the shared-files list. |
 
 ## Shared Directories Shortcuts
 
@@ -128,6 +142,8 @@ When Search is the active main pane, the Search parameter bar owns:
 - The old hidden hotmenu `Alt+X` button was retired; floating hotmenu ownership
   is now `Alt+U`, and Tools ownership is `Alt+T`.
 - Search-local mnemonics deliberately avoid the reserved main-shell letters.
+- Shortcut reference stays in this document; do not duplicate it in a Tools
+  menu dialog.
 - Modal dialogs keep local keyboard behavior. The app-level shortcuts are for
   the main shell and its primary modeless UI.
 - Localized `.rc` files are not normalized in this pass; default English
@@ -153,6 +169,10 @@ When Search is the active main pane, the Search parameter bar owns:
   mnemonic behavior.
 - In Search, `F6` should move focus between the Name textbox and the search
   results list.
+- In searchable lists, `Ctrl+F`, `F3`, and `Shift+F3` should start find and
+  navigate matches without changing transfer state.
+- In Shared Files, `F5` should reload the shared-files list through the same
+  path as the existing reload button.
 - Outside Search, `Alt+N` should not switch panes or steal focus.
 - Preferences, About, and confirmation dialogs should retain their normal
   local keyboard handling.
