@@ -226,6 +226,29 @@ The canonical workspace currently materializes these app worktrees:
   - compatibility-preserving refactors
   - narrow logging or diagnostics that do not change default behavior
 
+## Protocol Compatibility Policy
+
+- eMule BB stays stock-compatible at the eD2K and Kad protocol layer.
+- The product must preserve stock/community eMule wire semantics, packet and tag
+  shapes, opcode meanings, peer/server interaction rules, Kad state-machine
+  behavior, persistence semantics that affect network identity, and default
+  network behavior.
+- Future protocol-adjacent evolution is limited to compatibility-preserving
+  connectivity work:
+  - IPv6 support
+  - NAT traversal and LowID relief
+  - safer bind and interface selection
+  - diagnostics, tracing, and test evidence that do not alter default behavior
+- Do not introduce protocol forks, proprietary Kad/eD2K extensions, incompatible
+  opcode or packet changes, default scheduling or routing policy drift, or
+  peer/server behavior that cannot be validated against stock/community
+  semantics.
+- Protocol-adjacent changes must carry explicit parity evidence. Use the
+  community baseline, protocol goldens, tracing harness, live-diff, or live
+  packet captures as appropriate for the changed surface.
+- IPv6 and NAT traversal work must be treated as transport/connectivity
+  modernization only. They are not permission to alter Kad or eD2K semantics.
+
 ## Validation Expectations
 
 - The default merge bar is scoped validation, not full-matrix validation for

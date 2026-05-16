@@ -17,7 +17,7 @@ eMule BB, including future Rust `p2p-overlord` work.
 
 | Lane | Scope | Existing anchors |
 |------|-------|------------------|
-| Connectivity modernization | IPv6 dual-stack operation, NAT/LowID relief, safer bind/interface behavior, and low-risk connection diagnostics. | `FEAT-032`, `FEAT-035`, `FEAT-036` |
+| Connectivity modernization | IPv6 dual-stack operation, NAT/LowID relief, safer bind/interface behavior, and low-risk connection diagnostics, while preserving stock eD2K/Kad protocol semantics. | `FEAT-032`, `FEAT-035`, `FEAT-036` |
 | Search and trust clarity | Clearer fake-file confidence wording, Kad/search popularity and consistency explanations, source-name divergence handling, and media plausibility checks when evidence is local and cheap. | `FEAT-002`, `FEAT-003`, `FEAT-006`, `FEAT-039`, `FEAT-041` |
 | UI power-user polish | Dark mode, Per-Monitor DPI, category-management polish, table/menu consistency, keyboard-friendly workflows, and preference clarity. | `FEAT-017`, `FEAT-019`, `FEAT-062` |
 | Security and operations | IP-filter input policy, PeerGuardian-style imports, whitelist/private-network policy, dependency/DLL loading hardening, diagnostics, and release-proof automation. | `FEAT-044`, `FEAT-056`, `REF-028`, `REF-038`, `REF-039`, `REF-040`, `REF-041` |
@@ -40,7 +40,8 @@ explicitly reopens them:
   this release line.
 - Bundled MediaInfo, Windows Property Store expansion, or webservice metadata
   growth.
-- Broad transport rewrites or protocol-adjacent behavior changes that cannot be
+- Protocol forks, proprietary Kad/eD2K extensions, opcode or packet/tag shape
+  changes, Kad state-machine drift, or broad transport rewrites that cannot be
   validated against current community semantics.
 
 ## Evidence Used
