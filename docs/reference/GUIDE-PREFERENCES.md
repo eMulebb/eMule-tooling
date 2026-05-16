@@ -1,13 +1,14 @@
 # Preferences Guide
 
-This is the English operator reference for eMule BB preferences and
-`preferences.ini`. It explains how the app treats settings at runtime and
-contains the complete generated `preferences.ini` key reference.
+This is the single English reference for eMule BB preferences,
+`preferences.ini`, preference compatibility policy, and the REST preference
+surface. It replaces the older split between a user guide, a preference
+architecture note, and a separate preference matrix.
 
-The exact active user-facing matrix remains
-[Preference Surface Matrix](../architecture/PREFERENCE-SURFACE-MATRIX.md).
-Architecture and compatibility policy remain in
-[Preference Architecture](../architecture/ARCH-PREFERENCES.md).
+The complete key reference in this guide is aligned with
+`repos/eMule-build-tests/manifests/preference-schema.v1.json`. The guide covers
+only schema rows whose storage file is `preferences.ini`; category records,
+statistics-only files, and UI-runtime rows are summarized in prose.
 
 ## Storage Model
 
@@ -25,6 +26,58 @@ several different kinds of data:
 Not every row is a user preference. Some rows are runtime state, compatibility
 state, or generated UI layout records. The complete key reference below marks
 those classifications explicitly.
+
+## Source Of Truth
+
+Use these sources when changing preference behavior:
+
+- app source load/save behavior
+- preference defaults, getters, setters, and normalizers
+- Preferences dialog bindings
+- REST preference metadata and OpenAPI
+- the JSON preference schema in `eMule-build-tests`
+- this guide
+
+For docs-only preference changes, compare the schema to this guide before
+committing. If code changes add, remove, rename, re-section, or reclassify a
+preference, update the schema and this guide together.
+
+## Compatibility Policy
+
+eMule BB preserves stock/community drop-in compatibility unless a change is
+explicitly chosen as a compatibility break.
+
+Rules:
+
+- established stock keys stay in their established sections
+- key lookup is case-insensitive, but writes use canonical casing
+- direct INI values are normalized when old code historically tolerated invalid
+  values
+- new user input should prefer explicit UI/REST validation over silent rewrite
+- string reads and writes go through the shared Unicode INI/profile path
+- BB-owned sections are used only where they make behavior clearer without
+  breaking stock placement
+
+Known case-only canonical writes include `StatsInterval`, `AutoCat`,
+`UpOverheadTotal`, and `UpOverheadTotalPackets`.
+
+## Sections
+
+Important sections:
+
+- default section: most stock and branch settings
+- `[FileCompletion]`: file-completion command enable/program/arguments
+- `[UploadPolicy]`: broadband upload/session policy
+- `[UPnP]`: UPnP enable, close-on-exit, and backend mode
+- `[WebServer]`: WebServer, REST listener, credentials, API key, HTTPS, bind,
+  upload limit, allowed IPs, and legacy web UI switches
+- `[Proxy]`: proxy connection settings
+- `[Statistics]`: statistics display/state records
+- `[PerfLog]`: performance logging configuration
+- `[ListControlSetup]`: generated UI list-control layout state
+
+Branch-added geolocation and IP-filter updater keys remain in the default
+section to stay near stock security/advanced behavior.
 
 ## Load, Normalize, And Save
 
@@ -46,6 +99,20 @@ Important behavior:
 
 Use `Tools > Save Preferences Now` before risky maintenance when you need an
 explicit save point.
+
+## Registry And Profile Identity
+
+eMule BB owns branch-specific Windows registry identity under
+`HKCU\Software\eMuleBB`. It does not use stock `HKCU\Software\eMule` as a
+fallback.
+
+The Windows Run value for app autostart is `eMuleBBAutoStart`. The collection
+file ProgID is `eMuleBB.Collection`. The `ed2k` URL scheme is intentionally
+shared by Windows, so eMule BB only claims it through explicit setting-driven
+link-repair behavior.
+
+Default filesystem folder names remain stock-compatible unless the user chooses
+another location.
 
 ## Behavior Groups
 
@@ -91,14 +158,73 @@ Display and state:
 - these rows are documented because they appear in `preferences.ini`, but many
   are state rather than user-tunable contracts
 
+## Important Defaults And Ranges
+
+These values are the user/operator behavior highlights most often needed during
+configuration and troubleshooting:
+
+- `MaxUpload` defaults to `6100` KiB/s; invalid unlimited-like direct values
+  normalize to the branch default
+- `MaxDownload` defaults to `12207` KiB/s; REST rejects unlimited sentinel
+  values
+- `MaxConnections` uses the recommended runtime default, normally `500` on
+  modern high/unlimited TCP-cap profiles
+- `MaxHalfConnections` and `MaxConnectionsPerFiveSeconds` default to `50`
+- missing or invalid peer TCP/UDP ports become valid randomized ports; UDP `0`
+  disables UDP
+- bind protection is effective only when a bind interface is configured
+- `ConnectionTimeout` has a minimum of `5` seconds; default is `30`
+- `DownloadTimeout` has a minimum of `5` seconds; default is `75`
+- `KadFileSearchTotal` and `KadKeywordSearchTotal` clamp to `100..5000`
+- `KadFileSearchLifetime` and `KadKeywordSearchLifetime` clamp to `30..180`
+  seconds
+- `QueueSize` clamps to `2000..10000`
+- `FileBufferSize` clamps from `16` KiB through `512` MiB
+- `FileBufferTimeLimit` clamps to `1..86400` seconds
+- free-space floors clamp to operational GiB ranges for config, temp, and
+  incoming directories
+- `MaxUploadClientsAllowed` clamps to `1..32`
+- IP filter update period clamps to `1..365` days
+- geolocation update checks are disabled by `0`; nonzero values are `7..365`
+  days
+- WebServer port must be `1..65535`; invalid or `0` normalizes to default
+  `4711`
+- WebServer upload size clamps to `0..65535` MiB
+- WebServer page refresh clamps to `0..3600` seconds
+- WebServer timeout clamps to `0..1440` minutes
+
+Exact keys, owners, UI bindings, and REST bindings are in the complete reference
+below.
+
 ## REST Preferences
 
 REST exposes a curated mutable subset of preferences. It is not a general
 `preferences.ini` editor. REST field names, accepted ranges, and validation
-rules are defined by the OpenAPI contract and the active matrix.
+rules are defined by the OpenAPI contract and this guide.
 
-If a preference is not listed as REST-bound in the generated reference or matrix,
+If a preference is not listed as REST-bound in the complete reference,
 controllers should not try to mutate it through REST.
+
+Mutable REST fields:
+
+| REST field | Backing setting | PATCH validation |
+|---|---|---|
+| `uploadLimitKiBps` | `MaxUpload` | integer `1..4294967294` |
+| `downloadLimitKiBps` | `MaxDownload` | integer `1..4294967294` |
+| `maxConnections` | `MaxConnections` | integer `1..2147483647` |
+| `maxConnectionsPerFiveSeconds` | `MaxConnectionsPerFiveSeconds` | integer `1..2147483647` |
+| `maxSourcesPerFile` | `MaxSourcesPerFile` | integer `1..2147483647` |
+| `uploadClientDataRate` | derived upload slot target | integer `1..4294967295` |
+| `maxUploadSlots` | `MaxUploadClientsAllowed` | integer `1..32` |
+| `queueSize` | `QueueSize` | integer `2000..10000` |
+| `autoConnect` | `Autoconnect` | boolean |
+| `newAutoUp` | `UAPPref` | boolean |
+| `newAutoDown` | `DAPPref` | boolean |
+| `creditSystem` | `UseCreditSystem` | boolean |
+| `safeServerConnect` | `SafeServerConnect` | boolean |
+| `networkKademlia` | `NetworkKademlia` | boolean |
+| `networkEd2k` | `NetworkED2K` | boolean |
+| `autoBroadbandIo` | `AutoBroadbandIO` | boolean |
 
 ## Direct Editing
 
@@ -113,23 +239,57 @@ Recommended rules:
 - restart or reconnect after changing network and listener keys
 - do not edit binary profile files such as `preferences.dat`
 
+## Retired And External Names
+
+Some old names remain useful when reading historical profiles or support logs,
+but current main does not read, write, migrate, or delete them unless a
+dedicated migration says otherwise.
+
+Tracked retired names include:
+
+- `DownloadCapacity`, `UploadCapacityNew`, `UploadCapacity`
+- `FileBufferSizePref`, `QueueSizePref`
+- `MiniMule`, `AICHTrustEveryHash`
+- `ResumeNextFromSameCat`, `AdjustNTFSDaylightFileTime`
+- `SkipWANIPSetup`, `SkipWANPPPSetup`, `LastWorkingImplementation`
+- `DisableMiniUPNPLibImpl`, `DisableWinServImpl`
+- `UDPReceiveBufferSize`, `BigSendBufferSize`
+- old same-named `UploadClientDataRate`
+
+REST `uploadClientDataRate` is a derived controller input that updates upload
+slots. It is not a same-named persisted INI preference.
+
+## State Outside This Key Reference
+
+This guide's full table intentionally covers only schema rows stored in
+`preferences.ini`.
+
+Other persisted surfaces:
+
+- `Category.ini`: category title, incoming path, comments, color, A4AF priority,
+  auto-category rules, filters, and category behavior flags
+- statistics-only files/sections: transfer totals, overhead counters,
+  connection/server/share high-water marks, graph/tree state, and color records
+- UI-runtime rows without `preferences.ini` storage: source bindings and runtime
+  UI/schema metadata tracked by the JSON schema
+- sidecar files such as `addresses.dat`, `AC_IPFilterUpdateURLs.dat`,
+  `shareignore.dat`, share directory files, startup caches, and filter files
+
+Server.met URL history and IP filter URL history are seeded only when missing
+or blank. If one of these sidecars becomes a first-class `preferences.ini`
+preference, add it to the schema and this guide.
+
 ## Complete preferences.ini Reference
 
-The following section is generated from the preference schema manifest in
-`repos/eMule-build-tests`. It includes every schema row whose storage file is
-`preferences.ini`. `Category.ini` and statistics-only files are intentionally
-not expanded here.
-
-<!-- BEGIN GENERATED PREFERENCES.INI REFERENCE -->
-
-Generated from `repos/eMule-build-tests/manifests/preference-schema.v1.json`.
+This section is derived from
+`repos/eMule-build-tests/manifests/preference-schema.v1.json`.
 
 Total `preferences.ini` schema entries: **329**.
 
 Dynamic rows are generated families tracked by source expression rather
 than a finite static key list. Empty defaults or normalizers mean the
-schema did not declare a single explicit value; check the behavior prose
-and the preference surface matrix for user-facing defaults and ranges.
+schema did not declare a single explicit value; check the behavior sections
+above for user-facing defaults and ranges.
 
 ### `<default>`
 
@@ -566,15 +726,13 @@ and the preference surface matrix for user-facing defaults and ranges.
 | `PageRefreshTime` | integer | read, write | None | Not explicitly declared in schema | None | None | None |
 | `UseLowRightsUser` | bool | read, write | None | Not explicitly declared in schema | None | None | None |
 
-<!-- END GENERATED PREFERENCES.INI REFERENCE -->
-
 ## Troubleshooting
 
 When a setting does not behave as expected:
 
-1. Check the classification in the generated reference.
+1. Check the classification in the complete reference.
 2. Check whether the value is UI-bound, REST-bound, hidden, dynamic, or state.
-3. Check the matrix for exact active default/range behavior.
+3. Check the behavior sections above for the important default/range behavior.
 4. Restart or reconnect if the setting controls startup, sockets, binding, or
    listener state.
 5. Use diagnostics before deleting profile files or resetting the whole config.

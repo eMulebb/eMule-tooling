@@ -47,13 +47,11 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 | Document | Description |
 |---|---|
 | [architecture/ARCH-NETWORKING](architecture/ARCH-NETWORKING.md) | Networking-stack reference |
-| [architecture/ARCH-PREFERENCES](architecture/ARCH-PREFERENCES.md) | Preference architecture and compatibility policy |
-| [architecture/PREFERENCE-SURFACE-MATRIX](architecture/PREFERENCE-SURFACE-MATRIX.md) | Active preference key/default/range/UI/REST matrix |
 | [reference/GUIDE-EMULEBB](reference/GUIDE-EMULEBB.md) | eMule BB product manual entry point, setup, tools, diagnostics, and compatibility |
 | [reference/GUIDE-NETWORK](reference/GUIDE-NETWORK.md) | eD2K, Kad, binding, ports, UPnP, firewall, and REST listener basics |
 | [reference/GUIDE-SHARING](reference/GUIDE-SHARING.md) | Shared directories, monitored shares, large libraries, and share-ignore policy |
 | [reference/GUIDE-DOWNLOADS-SEARCH](reference/GUIDE-DOWNLOADS-SEARCH.md) | Downloads, search, categories, broadband upload policy, modern limits, and copy workflows |
-| [reference/GUIDE-PREFERENCES](reference/GUIDE-PREFERENCES.md) | Complete `preferences.ini` reference, preference storage, persistence, schema, and REST mutation |
+| [reference/GUIDE-PREFERENCES](reference/GUIDE-PREFERENCES.md) | Single preference manual: `preferences.ini`, compatibility, defaults/ranges, schema coverage, and REST mutation |
 | [reference/GUIDE-CONTROLLERS-REST](reference/GUIDE-CONTROLLERS-REST.md) | REST, aMuTorrent, Arr, qBit, and Torznab controller guidance |
 | [reference/GUIDE-IP-FILTERS](reference/GUIDE-IP-FILTERS.md) | IP filter storage, seeded URLs, formats, and practical use |
 | [reference/GUIDE-LONGPATHS](reference/GUIDE-LONGPATHS.md) | Long-path product behavior, setup, limits, and troubleshooting |
