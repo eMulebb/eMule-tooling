@@ -137,9 +137,12 @@ def find_resource_endif(text: str) -> re.Match[str]:
     """Find the language resource #endif that closes the active RC block."""
 
     match = re.search(r"\r?\n#endif\s+// .* resources", text)
-    if not match:
-        raise SystemExit("Could not find the language resource #endif marker.")
-    return match
+    if match:
+        return match
+    match = re.search(r"\r?\n#endif\s*(?=\r?\n\s*\r?\n#ifndef APSTUDIO_INVOKED)", text)
+    if match:
+        return match
+    raise SystemExit("Could not find the language resource #endif marker.")
 
 
 def strip_managed_or_probe_block(text: str, probe_start: str, probe_end: str) -> str:

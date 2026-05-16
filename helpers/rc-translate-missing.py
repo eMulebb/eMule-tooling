@@ -287,6 +287,18 @@ def apply_rows(rc_helper, path: Path, rows: list[tuple[str, str]]) -> None:
     rc_helper.write_rc(path, rc_text, before + rc_helper.build_string_table(rows) + rc_text.text[endif.start() :])
 
 
+def release_validation_rows(
+    rows: list[tuple[str, str]],
+    required_ids: list[str],
+) -> list[tuple[str, str]]:
+    """Return rows that must satisfy release structural marker checks."""
+
+    if not required_ids:
+        return rows
+    required = set(required_ids)
+    return [(key, value) for key, value in rows if key in required]
+
+
 def verify_non_managed_unchanged(
     rc_helper,
     path: Path,
@@ -364,6 +376,20 @@ def run(args: argparse.Namespace) -> None:
     cached_before = set(cache[cache_key])
 
     new_rows: list[tuple[str, str]] = []
+    refreshed_keys: list[str] = []
+    if args.refresh_manual:
+        refreshed_rows: list[tuple[str, str]] = []
+        for key, value in existing_rows:
+            if key in manual_map:
+                refreshed = manual_map[key]
+                if refreshed != value:
+                    refreshed_keys.append(key)
+                refreshed_rows.append((key, refreshed))
+            else:
+                refreshed_rows.append((key, value))
+        existing_rows = refreshed_rows
+        existing_map = dict(existing_rows)
+
     manual_keys = [key for key in missing if key in manual_map and key not in existing_map]
     for key in manual_keys:
         cache[cache_key][key] = manual_map[key]
@@ -417,8 +443,8 @@ def run(args: argparse.Namespace) -> None:
 
     rows = existing_rows + new_rows
     if not args.dry_run and not args.draft_only:
-        if new_rows:
-            rc_helper.validate_placeholders(args.source_rc, rows)
+        if new_rows or refreshed_keys:
+            rc_helper.validate_placeholders(args.source_rc, release_validation_rows(rows, required))
             original_values = dict(target.values)
             apply_rows(rc_helper, args.target_rc, rows)
             verify_non_managed_unchanged(
@@ -432,6 +458,7 @@ def run(args: argparse.Namespace) -> None:
     print(
         f"{args.target_rc}: preserved {len(target.values) - len(missing)} existing rows, "
         f"added {len(new_rows)} rows ({len(manual_keys)} manual), "
+        f"refreshed {len(refreshed_keys)} rows, "
         f"missing drafts {len(missing_translation_keys)}, managed rows {len(rows)}"
     )
 
@@ -515,6 +542,11 @@ def main() -> int:
         "--manual-dir",
         type=Path,
         help="Directory containing <target-rc-stem>.tsv files for --all-stock-targets apply mode.",
+    )
+    parser.add_argument(
+        "--refresh-manual",
+        action="store_true",
+        help="Replace existing managed rows when their ids are present in a curated manual TSV.",
     )
     parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE, help="Translation cache path.")
     parser.add_argument("--protect-term", action="append", default=[], help="Additional literal term to preserve.")
