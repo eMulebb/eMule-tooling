@@ -119,8 +119,8 @@ Controllers and diagnostics:
 - native REST is the preferred automation surface
 - qBit/Torznab/Arr-style adapters are compatibility layers, not the source of
   truth
-- Tools actions expose save, reload, firewall repair, diagnostics, dumps, view
-  presets, config-file editors, and folder shortcuts
+- Tools actions expose save, reload, firewall repair, Windows maintenance,
+  diagnostics, dumps, view presets, config-file editors, and folder shortcuts
 - redacted diagnostic snapshots are the default support artifact
 
 ## Tools And Maintenance
@@ -132,7 +132,9 @@ The Tools menu is the operational shortcut surface. It groups:
 - folders: incoming, temp, config, logs, WebServer, skins, executable
 - config editors: preferences, filters, shares, categories, comments, statistics
 - network actions: server.met update, port test, firewall repair, geolocation
-- maintenance: reload filters/rules, rescan shared files, save preferences
+- maintenance: reload filters/rules, rescan shared files, save preferences,
+  enable Windows long paths, and add Defender exclusions for active download
+  folders
 - view presets: stock, extended, full, with optional width reset
 - diagnostics: logs, redacted/raw snapshots, mini dump, full dump
 

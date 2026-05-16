@@ -82,6 +82,18 @@ The repair action deletes exact-name eMule BB rules before recreating them. It
 does not remove unrelated legacy rules. The repair result appears in the
 elevated PowerShell window and in diagnostic snapshots.
 
+## Microsoft Defender
+
+`Tools > Maintenance > Exclude eMule Download Folders from Microsoft Defender`
+launches an elevated one-time PowerShell action. It adds exclusions for the
+active Incoming folder, all configured Temp folders, and category-specific
+incoming folders.
+
+Use it when Defender scanning is causing heavy disk activity during large
+downloads, hashing, or completion moves. The action skips folders already
+excluded by Defender and reports added/skipped/error counts in the elevated
+PowerShell window and app log.
+
 ## UPnP
 
 UPnP can map ports automatically when the router supports it and local policy

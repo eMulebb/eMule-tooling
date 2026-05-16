@@ -36,8 +36,9 @@ Required environment:
 - a filesystem and external tools that can tolerate the target paths
 
 The Windows policy is named `LongPathsEnabled` under the system filesystem
-policy area. It can be enabled by Group Policy, enterprise policy, or direct
-registry configuration. Restart the app after changing the policy.
+policy area. It can be enabled by Group Policy, enterprise policy, direct
+registry configuration, or `Tools > Maintenance > Enable Windows Long Paths`.
+Restart the app after changing the policy.
 
 If the Windows policy is disabled, shorter paths continue to work normally, but
 some very deep operations can still fail or be skipped with diagnostics.
@@ -168,6 +169,7 @@ Tools actions are useful for long-path operation:
 - reload share-ignore and filter files
 - rescan shared files
 - save preferences
+- enable the Windows long-path policy through an elevated one-time action
 - copy redacted diagnostic snapshots
 - capture dumps for hangs or crashes
 
