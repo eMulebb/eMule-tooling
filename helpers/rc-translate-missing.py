@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import concurrent.futures
 import importlib.util
 import json
 import re
@@ -247,6 +248,32 @@ def collect_missing_ids(source: dict[str, str], target: dict[str, str], required
     return [key for key in wanted if key in source and key not in target]
 
 
+def stock_lang_dir(source_rc: Path) -> Path:
+    """Return the stock eMule language directory for a source RC file."""
+
+    return source_rc.parent / "lang"
+
+
+def stock_rc_files(source_rc: Path) -> list[Path]:
+    """Return all stock eMule language RC files available next to source RC."""
+
+    lang_dir = stock_lang_dir(source_rc)
+    if not lang_dir.is_dir():
+        raise SystemExit(f"Stock language directory does not exist: {lang_dir}")
+    return sorted(path for path in lang_dir.glob("*.rc") if path.is_file())
+
+
+def ensure_stock_target(source_rc: Path, target_rc: Path) -> None:
+    """Fail unless target_rc is one of the stock eMule language RC files."""
+
+    lang_dir = stock_lang_dir(source_rc).resolve()
+    target = target_rc.resolve()
+    if target.parent != lang_dir or target.suffix.lower() != ".rc":
+        raise SystemExit(
+            f"{target_rc} is not a stock eMule language RC under {lang_dir}."
+        )
+
+
 def apply_rows(rc_helper, path: Path, rows: list[tuple[str, str]]) -> None:
     """Rewrite the managed block with the provided rows."""
 
@@ -313,6 +340,13 @@ def write_review_packet(
 def run(args: argparse.Namespace) -> None:
     """Translate missing strings and update the target RC managed block."""
 
+    if not args.target_rc:
+        raise SystemExit("--target-rc is required unless --all-stock-targets is used.")
+    if not args.target_lang:
+        raise SystemExit("--target-lang is required unless --all-stock-targets is used.")
+    if args.require_stock_target:
+        ensure_stock_target(args.source_rc, args.target_rc)
+
     rc_helper = load_rc_helper()
     source = rc_helper.collect_rc_strings(args.source_rc)
     target = rc_helper.collect_rc_strings(args.target_rc)
@@ -324,7 +358,7 @@ def run(args: argparse.Namespace) -> None:
     existing_rows = managed_rows(rc_helper, args.target_rc)
     existing_map = dict(existing_rows)
     missing = collect_missing_ids(source.values, target.values, required)
-    cache = load_cache(args.cache)
+    cache = {} if args.ignore_cache else load_cache(args.cache)
     cache_key = f"{args.target_lang}:{args.target_rc.name}"
     cache.setdefault(cache_key, {})
     cached_before = set(cache[cache_key])
@@ -333,7 +367,7 @@ def run(args: argparse.Namespace) -> None:
     manual_keys = [key for key in missing if key in manual_map and key not in existing_map]
     for key in manual_keys:
         cache[cache_key][key] = manual_map[key]
-    if manual_keys:
+    if manual_keys and not args.ignore_cache:
         save_cache(args.cache, cache)
     uncached_keys = [key for key in missing if key not in existing_map and key not in cache[cache_key]]
     translator = load_translator(args.target_lang) if uncached_keys and not args.no_machine_translate else None
@@ -349,7 +383,8 @@ def run(args: argparse.Namespace) -> None:
         )
         for key, value in zip(chunk_keys, translated_values):
             cache[cache_key][key] = value
-        save_cache(args.cache, cache)
+        if not args.ignore_cache:
+            save_cache(args.cache, cache)
         translated_count = min(start + len(chunk_keys), len(uncached_keys))
         if args.progress:
             print(f"{args.target_rc.name}: cached {translated_count}/{len(uncached_keys)} new translations")
@@ -398,13 +433,49 @@ def run(args: argparse.Namespace) -> None:
     )
 
 
+def _batch_one(base_args: argparse.Namespace, target_rc: Path) -> str:
+    """Generate one stock review packet in draft-only mode."""
+
+    child_args = argparse.Namespace(**vars(base_args))
+    child_args.target_rc = target_rc
+    child_args.target_lang = target_rc.stem
+    child_args.review_packet = base_args.review_dir / f"{target_rc.stem}.tsv"
+    child_args.progress = 0
+    run(child_args)
+    return str(child_args.review_packet)
+
+
+def run_all_stock_targets(args: argparse.Namespace) -> None:
+    """Generate stock-language review packets in parallel without RC writes."""
+
+    if not args.draft_only or not args.no_machine_translate:
+        raise SystemExit("--all-stock-targets requires --draft-only --no-machine-translate.")
+    if not args.review_dir:
+        raise SystemExit("--all-stock-targets requires --review-dir.")
+    if args.manual_tsv:
+        raise SystemExit("--all-stock-targets does not accept --manual-tsv; review packets are input for later manual TSVs.")
+    if args.jobs < 1:
+        raise SystemExit("--jobs must be at least 1.")
+
+    targets = stock_rc_files(args.source_rc)
+    args.review_dir.mkdir(parents=True, exist_ok=True)
+    print(f"Generating {len(targets)} stock eMule review packet(s) under {args.review_dir}")
+    if args.jobs == 1:
+        outputs = [_batch_one(args, target) for target in targets]
+    else:
+        with concurrent.futures.ThreadPoolExecutor(max_workers=args.jobs) as executor:
+            outputs = list(executor.map(lambda target: _batch_one(args, target), targets))
+    for output in outputs:
+        print(f"REVIEW {output}")
+
+
 def main() -> int:
     """Command-line entry point."""
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-rc", type=Path, required=True, help="English/source RC file.")
-    parser.add_argument("--target-rc", type=Path, required=True, help="Target language RC file.")
-    parser.add_argument("--target-lang", required=True, help="deep-translator target language code.")
+    parser.add_argument("--target-rc", type=Path, help="Target language RC file.")
+    parser.add_argument("--target-lang", help="deep-translator target language code.")
     parser.add_argument("--require-ids", type=Path, help="Optional one-id-per-line resource id list.")
     parser.add_argument(
         "--manual-tsv",
@@ -431,8 +502,32 @@ def main() -> int:
         type=Path,
         help="Write KEY/ENGLISH/DRAFT/NOTES TSV for manual or Codex review.",
     )
+    parser.add_argument(
+        "--review-dir",
+        type=Path,
+        help="Directory for --all-stock-targets review packet TSVs.",
+    )
+    parser.add_argument(
+        "--all-stock-targets",
+        action="store_true",
+        help="Generate draft-only review packets for every stock eMule language RC file.",
+    )
+    parser.add_argument(
+        "--require-stock-target",
+        action="store_true",
+        help="Refuse target RC files outside the stock eMule srchybrid/lang directory.",
+    )
+    parser.add_argument(
+        "--ignore-cache",
+        action="store_true",
+        help="Ignore .local translation cache and do not save new cache entries.",
+    )
+    parser.add_argument("--jobs", type=int, default=1, help="Parallel jobs for --all-stock-targets.")
     args = parser.parse_args()
-    run(args)
+    if args.all_stock_targets:
+        run_all_stock_targets(args)
+    else:
+        run(args)
     return 0
 
 

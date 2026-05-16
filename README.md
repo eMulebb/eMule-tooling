@@ -83,7 +83,9 @@ Normalization helpers live here too:
   `--review-packet` TSVs. Use curated `--manual-tsv` input for new labels before
   relying on machine translation drafts; use `--draft-only
   --no-machine-translate` when preparing review packets without touching `.rc`
-  files.
+  files. Parallel processing is supported only for stock eMule `.rc` review
+  packets through `--all-stock-targets`; it intentionally refuses concurrent
+  `.rc` writes and machine-translation calls.
 - `helpers\rc-release-languages.json` is the canonical machine-readable release
   language manifest. Prefer it over hand-written repeated `--target-rc` lists
   in audits.
@@ -118,6 +120,12 @@ Missing managed-label report:
 
 ```powershell
 python helpers\rc-string-table.py --missing-report --fail-on-missing --english-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --require-ids helpers\rc-release-localization-ids.txt --release-languages helpers\rc-release-languages.json
+```
+
+Stock-language review packets, safe to run in parallel:
+
+```powershell
+python helpers\rc-translate-missing.py --source-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --require-ids helpers\rc-release-localization-ids.txt --all-stock-targets --draft-only --no-machine-translate --ignore-cache --review-dir $env:TEMP\emule-rc-review --jobs 8
 ```
 
 Release-facing Windows operator scripts are the only tracked PowerShell files

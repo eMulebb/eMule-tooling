@@ -584,6 +584,9 @@ The canonical workspace currently materializes these app worktrees:
   write, and support review-packet/draft-only workflows. Prefer curated
   `--manual-tsv` translations for new labels before falling back to machine
   translation drafts.
+- Parallel localization work is allowed only for draft/review artifacts from
+  stock eMule `.rc` files. Do not run concurrent `.rc` writes, and do not add
+  release languages that are not present as stock eMule resource files.
 - Other legacy translation files are best-effort maintenance targets and are
   not release-blocking unless this policy explicitly promotes them into the
   canonical supported set.
