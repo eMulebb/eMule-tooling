@@ -77,6 +77,12 @@ Supported request shape:
 | `season`, `ep`, `year` | Optional unsigned decimal filters bounded to `0..9999`. |
 | `offset`, `limit` | Optional unsigned decimal paging controls. `limit` is bounded to `0..100`, with `0` using the default `100`; `offset` is bounded to `0..1000000`. Non-zero offsets page only a cached first-page result set for the same normalized query, category, media family, and native method set. If no cached result set exists, the adapter returns an empty accepted feed instead of launching a new native search for that later page. |
 
+Unknown Torznab/Newznab extension query parameters are ignored after strict URL
+decoding and duplicate-name rejection. This keeps compatibility with Arr-family
+clients that send provider-specific IDs while still rejecting malformed escapes,
+duplicate parameters after lowercase normalization, unsupported `t` values, and
+invalid numeric fields.
+
 Supported responses:
 
 - `200 application/xml` for caps and accepted searches.
