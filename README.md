@@ -72,6 +72,9 @@ Normalization helpers live here too:
 
 - `helpers\source-normalizer.py` checks or rewrites tracked text files to match
   repo `.editorconfig` and `.gitattributes`
+- `helpers\pages-site-tools.py` validates the static `eMulebb-pages` HTML,
+  canonical locale links, sitemap, and page asset policy; it can also render
+  `sitemap.xml` from the canonical locale table
 - `hooks\pre-commit` is the shared workspace pre-commit hook entrypoint
 - `python -m emule_workspace sync` configures repo-local `core.hooksPath` to
   use that shared hook
