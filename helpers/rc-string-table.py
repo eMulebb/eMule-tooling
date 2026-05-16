@@ -145,6 +145,30 @@ def find_resource_endif(text: str) -> re.Match[str]:
     raise SystemExit("Could not find the language resource #endif marker.")
 
 
+def resource_endif_structure_warnings(path: Path) -> list[str]:
+    """Return warnings for non-canonical language resource block endings."""
+
+    lines = read_rc(path).text.splitlines()
+    candidates: list[tuple[int, str]] = []
+    for index, line in enumerate(lines):
+        if not line.strip().startswith("#endif"):
+            continue
+        tail = "\n".join(lines[index : index + 12])
+        if "#ifndef APSTUDIO_INVOKED" in tail:
+            candidates.append((index + 1, line))
+    if len(candidates) != 1:
+        return [f"expected one language resource #endif before TEXTINCLUDE 3, got {len(candidates)}"]
+    line_no, line = candidates[0]
+    if not re.fullmatch(r"\s*#endif\s+// .+ resources\s*", line):
+        return [f"line {line_no}: expected '#endif    // <language> resources', got {line.strip()}"]
+    separator_index = line_no
+    while separator_index < len(lines) and not lines[separator_index].strip():
+        separator_index += 1
+    if separator_index >= len(lines) or lines[separator_index].strip() != "/////////////////////////////////////////////////////////////////////////////":
+        return [f"line {line_no}: expected separator before TEXTINCLUDE 3 block"]
+    return []
+
+
 def strip_managed_or_probe_block(text: str, probe_start: str, probe_end: str) -> str:
     """Remove a previous managed block or one matching the probe ids."""
 
@@ -525,6 +549,9 @@ def cross_reference(args: argparse.Namespace) -> None:
                 quality_warnings.append(f"{key}: {warning}")
         if target.duplicates:
             errors.append(f"{target_path}: duplicate ids:\n" + "\n".join(target.duplicates))
+        structure_warnings = resource_endif_structure_warnings(target_path)
+        if structure_warnings:
+            errors.append(f"{target_path}: resource block structure:\n" + "\n".join(structure_warnings))
         if missing:
             errors.append(f"{target_path}: missing ids:\n" + "\n".join(missing))
         if structural_errors:
