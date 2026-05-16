@@ -58,18 +58,51 @@ class PageSpec:
 
 CANONICAL_PAGES = (
     PageSpec("en", "en", "", "1.0"),
+    PageSpec("ar-AE", "ar-AE", "ar-ae", "0.8"),
+    PageSpec("eu", "eu", "eu", "0.8"),
+    PageSpec("bg", "bg", "bg", "0.8"),
+    PageSpec("ca", "ca", "ca", "0.8"),
+    PageSpec("cs", "cs", "cs", "0.8"),
+    PageSpec("da", "da", "da", "0.8"),
+    PageSpec("el", "el", "el", "0.8"),
     PageSpec("es", "es", "es", "0.8"),
+    PageSpec("ast", "ast", "ast", "0.8"),
+    PageSpec("et", "et", "et", "0.8"),
+    PageSpec("fa", "fa", "fa", "0.8"),
+    PageSpec("fi", "fi", "fi", "0.8"),
+    PageSpec("br", "br", "br", "0.8"),
     PageSpec("pt-BR", "pt-BR", "pt-br", "0.8"),
     PageSpec("pt-PT", "pt-PT", "pt-pt", "0.8"),
+    PageSpec("gl", "gl", "gl", "0.8"),
+    PageSpec("he", "he", "he", "0.8"),
+    PageSpec("hu", "hu", "hu", "0.8"),
     PageSpec("it", "it", "it", "0.8"),
+    PageSpec("ja", "ja", "ja", "0.8"),
+    PageSpec("ko", "ko", "ko", "0.8"),
+    PageSpec("lt", "lt", "lt", "0.8"),
+    PageSpec("lv", "lv", "lv", "0.8"),
+    PageSpec("mt", "mt", "mt", "0.8"),
+    PageSpec("nb", "nb", "nb", "0.8"),
     PageSpec("ru", "ru", "ru", "0.8"),
     PageSpec("de", "de", "de", "0.8"),
     PageSpec("fr", "fr", "fr", "0.8"),
     PageSpec("pl", "pl", "pl", "0.8"),
     PageSpec("nl", "nl", "nl", "0.8"),
+    PageSpec("nn", "nn", "nn", "0.8"),
+    PageSpec("ro", "ro", "ro", "0.8"),
+    PageSpec("sl", "sl", "sl", "0.8"),
+    PageSpec("sq", "sq", "sq", "0.8"),
+    PageSpec("sv", "sv", "sv", "0.8"),
     PageSpec("tr", "tr", "tr", "0.8"),
+    PageSpec("uk", "uk", "uk", "0.8"),
+    PageSpec("ug-CN", "ug-CN", "ug-cn", "0.8"),
+    PageSpec("ca-ES-valencia", "ca-ES-valencia", "ca-valencia", "0.8"),
+    PageSpec("ca-ES-valencia-x-racv", "ca-ES-valencia-x-racv", "ca-valencia-racv", "0.8"),
+    PageSpec("vi", "vi", "vi", "0.8"),
+    PageSpec("zh-CN", "zh-CN", "zh-cn", "0.8"),
+    PageSpec("zh-TW", "zh-TW", "zh-tw", "0.8"),
 )
-PT_SELECTOR_FILE = Path("pt") / "index.html"
+LANGUAGE_PAGE = PageSpec("en", "en", "languages", "0.7")
 EXPECTED_HREFLANGS = {page.hreflang for page in CANONICAL_PAGES} | {"x-default"}
 
 
@@ -262,21 +295,28 @@ def validate_page(pages_root: Path, page: PageSpec, errors: list[str]) -> None:
             expect(errors, href[1:] in parsed.ids, f"{page.relative_file}: missing anchor target {href}")
 
 
-def validate_pt_selector(pages_root: Path, errors: list[str]) -> None:
-    """Validate the Portuguese regional selector stub."""
+def validate_language_page(pages_root: Path, errors: list[str]) -> None:
+    """Validate the indexable language selector page."""
 
-    path = pages_root / PT_SELECTOR_FILE
-    expect(errors, path.is_file(), f"{PT_SELECTOR_FILE}: missing selector page")
+    path = pages_root / LANGUAGE_PAGE.relative_file
+    expect(errors, path.is_file(), f"{LANGUAGE_PAGE.relative_file}: missing language page")
     if not path.is_file():
         return
 
     text = read_text(path)
     parsed = parse_page(path)
-    expect(errors, text.lower().count("<!doctype html>") == 1, f"{PT_SELECTOR_FILE}: expected one doctype")
-    expect(errors, parsed.html_lang == "pt", f"{PT_SELECTOR_FILE}: html lang should be pt")
-    expect(errors, parsed.robots == ["noindex,follow"], f"{PT_SELECTOR_FILE}: robots should be noindex,follow")
-    expect(errors, parsed.canonicals == [f"{SITE_BASE_URL}/pt/"], f"{PT_SELECTOR_FILE}: canonical mismatch")
-    expect(errors, set(parsed.alternates) == EXPECTED_HREFLANGS, f"{PT_SELECTOR_FILE}: hreflang set mismatch")
+    expect(errors, text.lower().count("<!doctype html>") == 1, f"{LANGUAGE_PAGE.relative_file}: expected one doctype")
+    expect(errors, parsed.html_lang == "en", f"{LANGUAGE_PAGE.relative_file}: html lang should be en")
+    expect(errors, parsed.robots == ["index,follow"], f"{LANGUAGE_PAGE.relative_file}: robots should be index,follow")
+    expect(errors, parsed.canonicals == [LANGUAGE_PAGE.url], f"{LANGUAGE_PAGE.relative_file}: canonical mismatch")
+    expect(errors, parsed.og_urls == [LANGUAGE_PAGE.url], f"{LANGUAGE_PAGE.relative_file}: og:url should be {LANGUAGE_PAGE.url}")
+    expect(errors, set(parsed.alternates) == EXPECTED_HREFLANGS, f"{LANGUAGE_PAGE.relative_file}: hreflang set mismatch")
+    expect(errors, PICO_CDN in parsed.stylesheets, f"{LANGUAGE_PAGE.relative_file}: missing Pico CSS CDN")
+    expect(errors, LANGUAGE_PAGE.stylesheet_href in parsed.stylesheets, f"{LANGUAGE_PAGE.relative_file}: missing {LANGUAGE_PAGE.stylesheet_href}")
+    for page in CANONICAL_PAGES:
+        expected_href = f"../{page.directory}/" if page.directory else "../"
+        expect(errors, expected_href in parsed.hrefs, f"{LANGUAGE_PAGE.relative_file}: missing link to {page.url}")
+    expect(errors, not (pages_root / "pt" / "index.html").exists(), "pt/index.html: generic chooser should not exist")
 
 
 def validate_sitemap(pages_root: Path, errors: list[str]) -> None:
@@ -295,12 +335,12 @@ def validate_sitemap(pages_root: Path, errors: list[str]) -> None:
 
     namespace = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
     locs = [node.text or "" for node in root.findall(".//sm:loc", namespace)]
-    expected_locs = [page.url for page in CANONICAL_PAGES]
+    expected_locs = [page.url for page in (*CANONICAL_PAGES, LANGUAGE_PAGE)]
     expect(errors, locs == expected_locs, "sitemap.xml: loc list does not match canonical locale order")
     priorities = [node.text or "" for node in root.findall(".//sm:priority", namespace)]
     expect(
         errors,
-        priorities == [page.priority for page in CANONICAL_PAGES],
+        priorities == [page.priority for page in (*CANONICAL_PAGES, LANGUAGE_PAGE)],
         "sitemap.xml: priority list does not match canonical locale order",
     )
 
@@ -308,7 +348,7 @@ def validate_sitemap(pages_root: Path, errors: list[str]) -> None:
 def validate_prohibited_assets(pages_root: Path, errors: list[str]) -> None:
     """Ensure static pages do not regain committed bitmap/logo dependencies."""
 
-    paths = [pages_root / "styles.css", pages_root / "index.html", pages_root / PT_SELECTOR_FILE]
+    paths = [pages_root / "styles.css", pages_root / "index.html", pages_root / LANGUAGE_PAGE.relative_file]
     paths.extend(pages_root / page.relative_file for page in CANONICAL_PAGES if page.directory)
     for path in paths:
         if not path.is_file():
@@ -325,7 +365,7 @@ def validate_site(pages_root: Path) -> int:
     errors: list[str] = []
     for page in CANONICAL_PAGES:
         validate_page(pages_root, page, errors)
-    validate_pt_selector(pages_root, errors)
+    validate_language_page(pages_root, errors)
     validate_sitemap(pages_root, errors)
     validate_prohibited_assets(pages_root, errors)
 
@@ -342,7 +382,7 @@ def render_sitemap(lastmod: str) -> str:
 
     lines = ['<?xml version="1.0" encoding="UTF-8"?>']
     lines.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
-    for page in CANONICAL_PAGES:
+    for page in (*CANONICAL_PAGES, LANGUAGE_PAGE):
         lines.extend(
             [
                 "  <url>",
