@@ -3119,6 +3119,7 @@ components:
           type: string
         method:
           type: string
+          description: Resolved native search method.
           enum: [automatic, server, global, kad]
         type:
           type: string
@@ -3148,6 +3149,7 @@ components:
           type: string
         method:
           type: string
+          description: Resolved native search method.
           enum: [automatic, server, global, kad]
         type:
           type: string
@@ -3174,6 +3176,10 @@ components:
           maxLength: 160
         method:
           type: string
+          description: >
+            Requested native search method. automatic resolves from live network
+            state: connected eD2K uses global, Kad-only uses kad, and offline
+            searches are rejected as not connected.
           enum: [automatic, server, global, kad]
         type:
           type: string

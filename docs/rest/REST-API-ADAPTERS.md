@@ -88,6 +88,8 @@ Supported responses:
 Movie and TV searches dispatch REST `video` searches through connected
 `global` first and connected `kad` second, combining eD2K hashes from the
 available networks. Other Torznab families keep the REST file-family mapping
-and default automatic search policy used by `POST /api/v1/searches`. The
+and default automatic search policy used by `POST /api/v1/searches`: connected
+eD2K resolves to `global`, Kad-only resolves to `kad`, and offline searches are
+rejected as not connected. The
 adapter-side result filter for extension, size, and Torznab family only narrows
 returned rows; it does not replace the REST `type` field sent to REST v1.
