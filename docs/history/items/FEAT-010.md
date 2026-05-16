@@ -7,7 +7,7 @@ category: feature
 labels: [longpath, max-path, windows, filesystem, shell, ui]
 milestone: ~
 created: 2026-04-08
-source: GUIDE-LONGPATHS.md + feature/windows-long-paths audit
+source: docs/history/features/GUIDE-LONGPATHS-IMPLEMENTATION.md + feature/windows-long-paths audit
 ---
 
 ## Summary
@@ -135,7 +135,7 @@ This item intentionally stops short of a full filesystem-object identity model f
 
 ## Reference
 
-- Core implementation spec: `docs/GUIDE-LONGPATHS.md`
+- Core implementation spec: `docs/history/features/GUIDE-LONGPATHS-IMPLEMENTATION.md`
 - Microsoft shell/file API notes:
   - <https://learn.microsoft.com/en-us/windows/win32/api/shellapi/ns-shellapi-shfileopstructa>
   - <https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createdirectoryw>

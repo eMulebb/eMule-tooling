@@ -107,8 +107,8 @@ Deep trees can exceed older Windows path assumptions. eMule BB includes
 long-path hardening in important file operations, but the OS, filesystem, and
 external tools still matter.
 
-Use [Long Path Guide](GUIDE-LONGPATHS.md) for the deep implementation and setup
-details. In normal operation:
+Use [Long Path Guide](GUIDE-LONGPATHS.md) for setup, product behavior, limits,
+and troubleshooting. In normal operation:
 
 - keep paths meaningful but not unnecessarily deep
 - avoid mixing short-name aliases and long names for the same root

@@ -56,7 +56,7 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 | [reference/GUIDE-PREFERENCES](reference/GUIDE-PREFERENCES.md) | Complete `preferences.ini` reference, preference storage, persistence, schema, and REST mutation |
 | [reference/GUIDE-CONTROLLERS-REST](reference/GUIDE-CONTROLLERS-REST.md) | REST, aMuTorrent, Arr, qBit, and Torznab controller guidance |
 | [reference/GUIDE-IP-FILTERS](reference/GUIDE-IP-FILTERS.md) | IP filter storage, seeded URLs, formats, and practical use |
-| [reference/GUIDE-LONGPATHS](reference/GUIDE-LONGPATHS.md) | Long-path implementation guide |
+| [reference/GUIDE-LONGPATHS](reference/GUIDE-LONGPATHS.md) | Long-path product behavior, setup, limits, and troubleshooting |
 | [reference/KEYBOARD-SHORTCUTS](reference/KEYBOARD-SHORTCUTS.md) | Main shell and list keyboard shortcut reference |
 | [dependencies/DEP-STATUS](dependencies/DEP-STATUS.md) | Current third-party dependency decision record |
 | [rest/REST-API-CONTRACT](rest/REST-API-CONTRACT.md) | Human-readable broadband REST contract |
