@@ -27,7 +27,7 @@ is:
 - documentation ownership policy: [`docs/DOCS_POLICY.md`](docs/DOCS_POLICY.md)
 - reference-doc index: [`docs/INDEX.md`](docs/INDEX.md)
 - active backlog index: [`docs/active/INDEX.md`](docs/active/INDEX.md)
-- broadband feature notes: [`docs/reference/FEATURE-BROADBAND.md`](docs/reference/FEATURE-BROADBAND.md)
+- product guide: [`docs/reference/GUIDE-EMULEBB.md`](docs/reference/GUIDE-EMULEBB.md)
 - historical API sidecar plan:
   [`docs/history/rest/HIST-PLAN-API-SERVER.md`](docs/history/rest/HIST-PLAN-API-SERVER.md)
 - modernization idea:

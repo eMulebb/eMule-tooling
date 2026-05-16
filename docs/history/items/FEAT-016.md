@@ -7,7 +7,7 @@ category: feature
 labels: [preferences, defaults, performance, connections, upload, broadband]
 milestone: ~
 created: 2026-04-08
-source: `main` commit `860d7a5` (`Modernize fixed runtime limits for broadband defaults`); historical rationale in `docs/FEATURE-MODERN-LIMITS.md`
+source: `main` commit `860d7a5` (`Modernize fixed runtime limits for broadband defaults`); historical rationale in `docs/history/features/FEATURE-MODERN-LIMITS.md`
 ---
 
 > Historical reference only: `stale-v0.72a-experimental-clean` and
@@ -158,7 +158,7 @@ Expose in `Preferences > Tweaks` (advanced tree) without adding a new subtree:
 
 ## Reference
 
-Full rationale and per-setting analysis: `docs/FEATURE-MODERN-LIMITS.md`
+Full rationale and per-setting analysis: `docs/history/features/FEATURE-MODERN-LIMITS.md`
 
 ## Experimental Reference Implementation
 

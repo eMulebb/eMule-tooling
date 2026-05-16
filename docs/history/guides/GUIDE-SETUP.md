@@ -79,8 +79,9 @@ defaults. Examples include server.met update sources and IP filter update
 suggestions. Existing non-empty user files are preserved.
 
 The default server.met update source is HTTPS. Kad bootstrap also uses an HTTPS
-source by default where available. See [Network Guide](GUIDE-NETWORK.md) and
-[IP Filter Guide](GUIDE-IP-FILTERS.md).
+source by default where available. See the current
+[Network Guide](../../reference/GUIDE-NETWORK.md) and
+[IP Filter Guide](../../reference/GUIDE-IP-FILTERS.md).
 
 ## Backup Model
 

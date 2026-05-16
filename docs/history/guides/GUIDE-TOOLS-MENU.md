@@ -143,6 +143,6 @@ are required for private diagnosis.
 
 ## Keyboard Notes
 
-`Alt+T` opens the Tools popup. Keyboard shortcut details are maintained in
-[Keyboard Shortcuts](KEYBOARD-SHORTCUTS.md) and are intentionally not duplicated
-here.
+`Alt+T` opens the Tools popup. Keyboard shortcut details are maintained in the
+current [Keyboard Shortcuts](../../reference/KEYBOARD-SHORTCUTS.md) and are
+intentionally not duplicated here.

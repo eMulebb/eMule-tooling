@@ -1,111 +1,152 @@
 # Sharing Guide
 
-This guide covers shared directories, monitored shares, large libraries, long
-paths, and share policy files.
+This guide covers shared directories, monitored shares, share-ignore rules,
+large libraries, startup cache behavior, long paths, and recovery.
 
 ## Sharing Model
 
-eMule BB keeps classic eMule sharing behavior: files in configured shared
-directories are published through eD2K/Kad according to normal network state and
-local queue policy.
+eMule BB keeps classic eMule sharing behavior. Files in configured shared
+directories are published through eD2K/Kad according to network state and local
+queue policy.
 
-Good sharing starts with intentional directories:
+Good sharing starts with intentional roots:
 
-- avoid sharing broad roots such as entire drives
-- keep incomplete downloads in Temp, not in shared roots
+- avoid sharing whole drives or broad home directories
+- keep incomplete downloads in Temp, not shared roots
 - keep completed downloads in Incoming or curated share roots
-- use stable paths where possible
+- use stable paths and stable drive letters
 - avoid high-churn directories unless monitoring is intentional
 
-## Shared Directory Files
+## Sharing Files
 
 Important sharing files:
 
 | File | Purpose |
 |---|---|
 | `shareddir.dat` | Main shared directory list |
-| `shareddir.monitored.dat` | Directories watched for automatic share changes |
-| `shareddir.monitor-owned.dat` | Directories added by monitor ownership |
-| `shareignore.dat` | Ignore rules for share scanning |
+| `shareddir.monitored.dat` | Roots watched for automatic share changes |
+| `shareddir.monitor-owned.dat` | Roots added by monitor ownership |
+| `shareignore.dat` | BB-specific ignore rules for share scanning |
 | `sharedcache.dat` | Startup cache for large shared libraries |
 | `shareddups.dat` | Duplicate path cache |
+| `known.met`, `known2.met` | Known shared-file metadata and AICH state |
 
-Use Tools menu editors for careful maintenance and the Shared Files page for
-normal operation.
-
-## Monitored Shares
-
-Monitored shares are useful when another workflow deposits files into a known
-directory. They reduce manual reload work, but they should be scoped narrowly.
-
-Good monitored-share targets:
-
-- a curated completed media folder
-- a dedicated incoming archive folder
-- a stable folder controlled by a trusted automation tool
-
-Poor monitored-share targets:
-
-- a whole drive
-- temp build directories
-- browser download folders
-- cloud-sync roots with constant churn
+Use the Shared Files page for normal operation. Use text-file editors from
+Tools only for controlled maintenance.
 
 ## Share Ignore Rules
 
-Use `shareignore.dat` to avoid publishing unwanted file patterns or paths.
-After editing, use Tools maintenance to reload share-ignore rules.
+`shareignore.dat` prevents unwanted paths or patterns from being published.
 
-Share-ignore is BB-specific policy. Older stock clients do not understand why a
-directory or file was ignored by eMule BB.
+Use it for:
+
+- temporary files
+- generated artifacts
+- private sidecar files
+- folders managed by another tool
+- file patterns that should never be shared
+
+After editing, use the matching Tools reload action. Share-ignore is eMule
+BB-specific policy; older stock clients do not understand why BB ignored a
+matched file.
+
+## Monitored Shares
+
+Monitored shares are useful when another trusted workflow deposits files into a
+known directory. They reduce manual reload work but should be scoped narrowly.
+
+Good monitored-share targets:
+
+- curated completed media folders
+- dedicated incoming archive folders
+- stable automation output folders
+
+Poor targets:
+
+- whole drives
+- build/temp directories
+- browser download folders
+- cloud-sync roots with constant churn
+
+The current watcher has practical Windows handle limits. If many roots are
+needed, prefer fewer higher-quality curated roots rather than monitoring every
+folder independently.
 
 ## Large Library Operation
 
 Large libraries need predictable scanning:
 
+- add roots gradually
 - keep roots stable
 - avoid recursive noise
 - use long-path capable Windows setup for deep trees
-- let startup cache settle
-- avoid judging performance during first scan
-- rescan explicitly after major directory changes
+- let the first scan and hash queue finish
+- avoid judging performance during first-run cache creation
 
-Startup cache and duplicate path cache are acceleration files. If removed, the
+Released startup-cache behavior stores verified shared-library state so later
+starts can avoid repeating expensive work. If cache sidecars are deleted, the
 app can rebuild them, but the next startup or scan may be slower.
-
-## Long Paths
-
-Deep library trees can exceed old Windows path limits. eMule BB has long-path
-hardening, but the host system and target filesystem still matter. For details,
-use [Long Path Guide](GUIDE-LONGPATHS.md).
 
 ## Shared Files UI
 
-The Shared Files page is the main user-facing view for:
+The Shared Files page is the main view for:
 
 - visible shared files
 - file details
 - ED2K links
 - open file/folder actions
 - reload/rescan behavior
-- sorting and curation columns
+- sort and curation columns
+- large-list operation after virtualization/hardening work
 
 Use view presets if old profiles hide useful columns or preserve cramped widths.
 
+## Long Paths
+
+Deep trees can exceed older Windows path assumptions. eMule BB includes
+long-path hardening in important file operations, but the OS, filesystem, and
+external tools still matter.
+
+Use [Long Path Guide](GUIDE-LONGPATHS.md) for the deep implementation and setup
+details. In normal operation:
+
+- keep paths meaningful but not unnecessarily deep
+- avoid mixing short-name aliases and long names for the same root
+- check diagnostics before assuming a deep tree is stuck
+
 ## REST Sharing Surface
 
-REST exposes shared files and shared directories for trusted controllers. Native
-UI state remains authoritative. If REST and UI appear to disagree, wait for
-hashing/scanning to settle, then compare current REST shared-file snapshots with
-the Shared Files page.
+REST exposes shared files and shared directories to trusted controllers. The
+native UI and hashing/scanning state remain authoritative.
+
+If REST and UI appear to disagree:
+
+1. Wait for hashing/scanning to settle.
+2. Compare current REST shared-file snapshots with the Shared Files page.
+3. Check startup cache and hash queue diagnostics.
+4. Rescan shared files if the filesystem changed outside the app.
+
+## Diagnostics
+
+For sharing problems, collect:
+
+- redacted diagnostic snapshot
+- share root list
+- monitored-root state
+- hash queue count
+- startup cache status and reject reason
+- duplicate path cache status
+- recent share/log lines
+- long-path status if paths are deep
 
 ## Recovery
 
 If sharing behavior looks wrong:
 
-1. Check the configured share roots.
+1. Check configured share roots.
 2. Check `shareignore.dat`.
 3. Reload share-ignore rules.
 4. Rescan shared files.
 5. Review diagnostics for startup cache state.
-6. Remove stale cache sidecars only if you intentionally want a rebuild.
+6. Remove cache sidecars only when intentionally forcing a rebuild.
+7. Restore from a config backup if the share list itself was edited wrongly.

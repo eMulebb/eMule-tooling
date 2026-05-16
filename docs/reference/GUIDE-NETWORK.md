@@ -1,7 +1,7 @@
 # Network Guide
 
-This guide covers connection setup, eD2K, Kad, binding, UPnP, firewall rules,
-and practical network diagnosis.
+This guide covers eD2K, Kad, listen ports, binding, UPnP, firewall rules,
+WebServer/REST listener behavior, geolocation, and network diagnosis.
 
 ## Network Surfaces
 
@@ -9,62 +9,67 @@ eMule BB uses the classic eMule network model:
 
 - eD2K server connections for server-indexed search and source discovery
 - Kad for decentralized search, source discovery, and firewall state
-- TCP for incoming client connections
-- UDP for Kad, source exchange, and protocol support traffic
+- TCP for incoming peer/client connections
+- UDP for Kad, source exchange, server support traffic, and firewall tests
 - optional WebServer/REST listener for trusted local controllers
 
-Low ID, firewalled Kad, or missing listen sockets usually means the app is
-running but not reachable as intended.
+Low ID, firewalled Kad, or missing listen sockets means the app is running but
+is not reachable as intended.
 
 ## Bootstrap Sources
 
-New or blank profiles use HTTPS bootstrap/update defaults:
+New or blank profiles seed practical HTTPS defaults where available:
 
-- `addresses.dat` seeds server.met update URLs when missing or blank.
-- The server page manual update field defaults to the primary HTTPS server.met URL.
-- Kad bootstrap defaults to an HTTPS `nodes.dat` source.
+- `addresses.dat` seeds server.met update URLs when missing or blank
+- server.met manual update defaults to a direct machine-readable HTTPS source
+- Kad bootstrap defaults to an HTTPS `nodes.dat` source
+- IP filter URL history can be seeded separately
 
-Only direct machine-readable `server.met` and `nodes.dat` endpoints should be
-used as built-in defaults. HTML download pages and stale direct files are not
-good bootstrap sources.
+Use direct `server.met` and `nodes.dat` files as bootstrap defaults. Avoid HTML
+download pages or stale mirrors as built-in sources.
 
 ## Ports
 
-The main user-facing ports are:
+Main user-facing ports:
 
-- TCP client port: incoming client connections
-- UDP client port: Kad and UDP protocol traffic
-- server UDP port: legacy server UDP support
-- WebServer/REST port: controller and web listener, if enabled
+| Port | Purpose |
+|---|---|
+| TCP client port | incoming peer/client connections |
+| UDP client port | Kad and UDP protocol traffic |
+| Server UDP port | legacy server UDP support |
+| WebServer/REST port | controller and optional legacy web listener |
 
-Changing ports while connected can be confusing. After changing TCP/UDP ports,
-restart the session or reconnect, then re-run port tests.
+Changing peer ports while connected can be confusing. After changing TCP or UDP
+ports, reconnect or restart the session, then re-run reachability checks.
 
-## Binding
+## Binding Policy
 
-Binding is optional. Leave it empty unless you intentionally need a specific
-interface or IP address.
+Leave binding empty unless a specific interface or address is required.
 
 Use interface binding when:
 
 - the machine has multiple network interfaces
 - a VPN interface must be used for P2P traffic
-- you want startup to block networking if the target interface is unavailable
+- startup should block networking if the target interface is unavailable
 
 Use address binding only when:
 
-- the selected interface has multiple IPv4 addresses and one must be chosen
-- you understand that the address may disappear after network changes
+- the selected interface has multiple IPv4 addresses
+- a specific local address must be chosen
+- you understand the address can disappear after network changes
 
-If the configured binding target cannot be resolved, eMule BB reports the
-active bind state in the UI and diagnostics. With startup bind blocking enabled,
-P2P networking stays offline for that session instead of silently falling back.
+Released bind behavior covers peer TCP, client UDP, server UDP, pinger-adjacent
+network paths, and UPnP discovery where applicable. The WebServer/REST bind
+address is separate from the P2P bind address.
+
+If the configured bind target cannot be resolved, eMule BB reports the active
+bind state in UI/diagnostics. With startup bind blocking enabled, P2P networking
+stays offline for that session instead of silently falling back.
 
 ## Windows Firewall
 
-eMule BB includes an explicit Windows Firewall repair action. It launches an
-elevated PowerShell repair script and creates broad allow rules for the eMule BB
-executable:
+The Windows Firewall repair action launches an elevated PowerShell script and
+creates broad allow rules for the eMule BB executable:
 
 - inbound TCP
 - inbound UDP
@@ -73,69 +78,126 @@ executable:
 - all profiles
 - all local/remote ports and addresses
 
-The repair action deletes exact-name eMule BB rules before recreating them, so
-stale rules with the same names do not survive. It does not remove unrelated
-legacy rules.
-
-The repair output is visible in the elevated PowerShell window and is also
-included in diagnostic snapshots after a repair attempt.
+The repair action deletes exact-name eMule BB rules before recreating them. It
+does not remove unrelated legacy rules. The repair result appears in the
+elevated PowerShell window and in diagnostic snapshots.
 
 ## UPnP
 
 UPnP can map ports automatically when the router supports it and local policy
-allows it. It is useful on home networks but not a substitute for knowing your
-firewall and bind state.
+allows it. It is useful on home networks but is not a substitute for knowing
+the firewall, router, and bind state.
 
 If UPnP fails:
 
-- verify the router supports UPnP
-- check whether Windows Firewall allows eMule BB
-- verify the app is bound to the expected interface
-- test manual port forwarding
+1. Confirm the router supports UPnP.
+2. Confirm Windows Firewall allows eMule BB.
+3. Confirm bind settings point to the expected interface.
+4. Test manual port forwarding.
+
+UPnP enablement, close-on-exit behavior, and backend mode are persisted under
+the `UPnP` section in `preferences.ini`.
 
 ## eD2K Status
 
 A healthy eD2K session has:
 
-- a current server connection or deliberate disconnected state
+- connected or intentionally disconnected state
 - no unexpected Low ID
 - a trusted server list
 - stable server.met update source
+- TCP reachability through firewall/router/VPN path
 
 Low ID usually points to incoming TCP reachability: firewall, router forwarding,
-VPN/bind mismatch, or wrong external path.
+VPN/bind mismatch, wrong port, or wrong public path after a network change.
 
 ## Kad Status
 
 A healthy Kad session has:
 
 - Kad running and connected
-- nonzero users/files after bootstrap settles
-- no persistent firewalled state when reachable inbound UDP is expected
+- useful contact state after bootstrap settles
+- nonzero users/files when expected
+- no persistent firewalled state when reachable UDP is expected
 
 Use Kad firewall recheck after changing ports, firewall rules, UPnP, router
 mapping, or bind settings.
 
+Kad SafeKad and broader trust-scoring plans remain active backlog/future work
+unless marked done in the active index. This product guide documents released
+runtime behavior only.
+
+## Flood And Abuse Guards
+
+The released TCP listen-socket flood-defense slice keeps the app more resilient
+against TCP error flooding without requiring the full future CShield engine.
+Security and anti-leecher ideas that are still open remain out of the product
+guide until they ship.
+
+Protocol obfuscation, secure ident, spam filters, message validation, and share
+visibility settings are persisted preferences and documented in
+[Preferences Guide](GUIDE-PREFERENCES.md).
+
+## Geolocation
+
+Geolocation is optional network metadata. It can show peer location data and
+uses update settings stored in `preferences.ini`.
+
+Use it as informational context only. It does not prove identity, trust, or
+legal status of a peer. If the database is missing or stale, peer transfers
+still work.
+
 ## WebServer And REST
 
-REST uses the WebServer listener and `/api/v1` JSON contract. Legacy template
-web UI is separate and should be enabled only explicitly when needed. REST is
-the default controller path for eMule BB integrations.
+WebServer and REST share the embedded listener infrastructure but serve
+different purposes:
 
-Bind REST deliberately and keep API-key access on trusted networks.
+- REST `/api/v1` is the preferred trusted-controller API.
+- Legacy template WebServer UI is optional compatibility behavior.
+- WebServer bind address and port are separate from P2P bind settings.
+- HTTPS requires configured certificate/key files.
+- API key authentication protects native REST routes.
 
-## Practical Network Diagnosis
+Do not expose REST broadly on untrusted networks. Use deliberate binding,
+firewall rules, and controller-side API-key handling.
 
-When connectivity is wrong:
+## Diagnostics
 
-1. Check current bind status.
-2. Check whether TCP and UDP listen sockets exist in diagnostics.
-3. Run the open ports test.
-4. Recheck Kad firewall.
-5. Repair Windows Firewall rules if local firewall state is suspect.
-6. Check router/NAT forwarding.
-7. Confirm server/Kad bootstrap files are current.
-8. Review recent logs before changing more settings.
+For network issues, collect:
 
-See [Diagnostics Guide](GUIDE-DIAGNOSTICS.md) and
-[Troubleshooting Guide](GUIDE-TROUBLESHOOTING.md).
+- redacted diagnostic snapshot
+- current TCP/UDP/WebServer ports
+- bind interface/address and resolved bind state
+- eD2K server status and Low ID state
+- Kad status and firewall state
+- UPnP result
+- Windows Firewall repair result
+- recent log lines around connection attempts
+
+## Troubleshooting
+
+Low ID:
+
+1. Check TCP port.
+2. Run open-port test.
+3. Repair Windows Firewall rules.
+4. Check bind status.
+5. Check router/VPN forwarding.
+6. Check current server connection.
+
+Kad firewalled:
+
+1. Check UDP port.
+2. Confirm Kad is bootstrapped.
+3. Run Kad firewall recheck.
+4. Check UPnP/router mapping.
+5. Check bind target and firewall repair result.
+
+REST fails:
+
+1. Confirm WebServer/REST is enabled.
+2. Check bind address and port.
+3. Check API key.
+4. Confirm route shape in [REST API Contract](../rest/REST-API-CONTRACT.md).
+5. Check startup/shutdown lifecycle state.
+6. Review logs and diagnostics.

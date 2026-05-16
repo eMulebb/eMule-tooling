@@ -7,7 +7,7 @@ category: feature
 labels: [upload, broadband, performance, upload-queue, throttler, preferences]
 milestone: ~
 created: 2026-04-08
-source: `main` commit `d731bbe` (`Stabilize broadband upload slot allocation`); historical design in `docs/FEATURE-BROADBAND.md`
+source: `main` commit `d731bbe` (`Stabilize broadband upload slot allocation`); historical design in `docs/history/features/FEATURE-BROADBAND.md`
 ---
 
 > Historical reference only: `stale-v0.72a-experimental-clean` and
@@ -175,6 +175,6 @@ Replace fixed `75 KiB/s` / `100 KiB/s` thresholds in `UploadDiskIOThread.cpp`:
 
 ## Reference
 
-Full design and rationale: `docs/FEATURE-BROADBAND.md`
+Full design and rationale: `docs/history/features/FEATURE-BROADBAND.md`
 Stale branch reference: `archive/v0.72a-experimental-clean-provisional-20260404`
 eMuleAI Ratio columns: `analysis/emuleai/srchybrid/KnownFile.h:124-133`, `UploadListCtrl.cpp:355-362`

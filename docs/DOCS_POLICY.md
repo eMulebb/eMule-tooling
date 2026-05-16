@@ -21,7 +21,7 @@ status.
 
 - `docs/architecture/`: durable architecture notes
 - `docs/rest/`: current REST contract and API reference
-- `docs/reference/`: durable current product, feature, and guide background
+- `docs/reference/`: durable current product guides and specialist references
 - `docs/dependencies/`: current dependency health and decision records
 - `docs/history/`: closed item records, dated review findings, historical
   comparisons, source salvage, old ledgers, dated audits, stale dependency

@@ -108,8 +108,8 @@ REST failures should be diagnosed with:
 - recent REST errors/logs
 - current OpenAPI contract
 
-Use [Controllers and REST Guide](GUIDE-CONTROLLERS-REST.md) and
-[REST API Contract](../rest/REST-API-CONTRACT.md).
+Use the current [Controllers and REST Guide](../../reference/GUIDE-CONTROLLERS-REST.md) and
+[REST API Contract](../../rest/REST-API-CONTRACT.md).
 
 ## Privacy
 

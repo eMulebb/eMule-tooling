@@ -924,6 +924,44 @@ MFC window operations (SendMessage, Invalidate, SetItemText) must only be called
 
 ---
 
+## 2026-05-16 Current Main Stability Recheck
+
+This addendum records a focused recheck of
+`EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` on `main`.
+It is audit evidence only. It does not create release scope, change active
+backlog counts, or reopen Wont-Fix items; current implementation status remains
+owned by `docs/active/`.
+
+The highest-value remaining work is not cosmetic modernization. The material
+quality and runtime-stability gains are ownership, bounded parsing, deterministic
+shutdown, and explicit cross-thread contracts.
+
+| Priority | Area | Current-main evidence | Existing doc relationship | Recommended direction |
+|---|---|---|---|---|
+| 1 | Packet buffer ownership | `srchybrid/packets.h:43`, `srchybrid/packets.h:68`, `srchybrid/packets.cpp:52` expose mutable raw `Packet` buffers and manual detach semantics. | Extends `CPP_003`, `CPP_032`, `CPP_033`, `CPP_035`, `CPP_037`; related to [REF-010](../../active/items/REF-010.md) and [REF-036](../../active/items/REF-036.md). | Introduce a RAII-backed packet buffer with private storage, checked factories, and explicit boundary-only detach. |
+| 2 | WebSocket request buffering | `srchybrid/WebSocket.cpp:409` grows a raw receive buffer with `DWORD` arithmetic; `srchybrid/WebSocket.cpp:413` has no obvious checked-addition or total request-size cap at the allocation boundary. | Extends `CPP_033`, `CPP_034`, `CPP_035`; related to [REF-010](../../active/items/REF-010.md). | Replace the raw receive buffer with owned storage, use checked `size_t` arithmetic, and enforce a strict maximum HTTP/WebSocket request size. |
+| 3 | WebSocket/TLS runtime ownership | `srchybrid/WebSocket.cpp:23` keeps listener, termination, accepted-thread, and mbedTLS state in process globals; shutdown still has timeout/deferred state at `srchybrid/WebSocket.cpp:927`. | Follows closed WebSocket shutdown hardening items but leaves architectural ownership risk; related to [ARCH-THREADING](../../architecture/ARCH-THREADING.md). | Move listener thread, accepted clients, terminate event, and TLS context into one RAII runtime/state-machine owner. |
+| 4 | Upload disk I/O lifetime and lock protocol | `srchybrid/UploadDiskIOThread.cpp:140` returns and locks an internal upload-list reference; completion revalidates raw upload structures at `srchybrid/UploadDiskIOThread.cpp:319`. | Extends `CPP_021`, `CPP_022`, `CPP_023`, `CPP_037`; related to [ARCH-THREADING](../../architecture/ARCH-THREADING.md). | Replace raw list exposure with scoped visitor/snapshot APIs and explicit upload-entry lifetime handles. |
+| 5 | Upload compression exception safety | `srchybrid/UploadDiskIOThread.cpp:465` builds compressed packets around a manually owned `BYTE*` allocated at `srchybrid/UploadDiskIOThread.cpp:474`. | Extends `CPP_032`, `CPP_035`, `CPP_038`. | Use `std::vector<BYTE>` or `std::unique_ptr<BYTE[]>` through packet construction so exceptions cannot leak intermediate buffers. |
+| 6 | Worker-to-UI dispatch consistency | REST dispatch manually owns a heap context at `srchybrid/WebServerJson.cpp:91` and waits in `srchybrid/WebServerJson.cpp:3906`; legacy web still has synchronous UI `SendMessage` calls such as `srchybrid/WebServer.cpp:347`. | Extends `CPP_024`; related to [ARCH-THREADING](../../architecture/ARCH-THREADING.md). | Standardize old worker/web/UI handoffs on the posted owner-token pattern already present in `srchybrid/WorkerUiMessageSeams.h`. |
+| 7 | Archive preview/recovery disposition | `srchybrid/ArchivePreviewDlg.cpp:998` invalidates scanner state with a raw flag; `srchybrid/ArchivePreviewDlg.cpp:1058` allocates scanner state manually; `srchybrid/ArchivePreviewDlg.cpp:1146` completes through synchronous UI handoff. | Existing product disposition keeps archive preview frozen: [BUG-074](../items/BUG-074.md), [BUG-098](../items/BUG-098.md); parser-boundary hardening is related to [REF-036](../../active/items/REF-036.md). | Do not reopen by default. If retained later, require atomic cancellation, posted completion, RAII parser data, strict archive-derived length validation, and malformed-input tests. |
+| 8 | Global app subsystem ownership | `srchybrid/Emule.cpp:1331` starts a long sequence of raw `new` subsystem allocations; thread pointers remain raw in `srchybrid/Emule.h:229`. | Extends `CPP_003`, `CPP_035`, `CPP_037`, `CPP_038`. | Introduce an `AppServices` owner with explicit initialization phases, teardown order, and accessor assertions. |
+| 9 | Bounded parser utilities | Packet, web, archive, and compression paths still duplicate raw pointer/size interpretation despite earlier bounded slices. | Extends `CPP_031`, `CPP_033`, `CPP_034`, `CPP_036`; related to [REF-036](../../active/items/REF-036.md). | Add reusable bounded readers and schema validators, then migrate externally reachable packet/web/archive paths first. |
+
+Recommended implementation order if these are promoted later:
+
+1. Packet buffer RAII.
+2. WebSocket request-size limits and checked arithmetic.
+3. Upload disk I/O ownership contract.
+4. Unified worker/UI dispatch.
+5. Archive preview decision: keep frozen/remove, or explicitly reopen and harden.
+6. App subsystem RAII ownership.
+7. Bounded parser utility migration and fuzz/regression coverage.
+
+This recheck intentionally does not modify the consolidated item statuses below.
+
+---
+
 ## Consolidated Item Index
 
 | ID | Summary | Severity | Priority | Status |

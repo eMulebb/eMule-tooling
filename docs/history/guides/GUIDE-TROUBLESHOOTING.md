@@ -156,7 +156,7 @@ Check:
 2. loaded rule count and filter level.
 3. Tools > Reload IP Filter.
 4. update URL and update log.
-5. [IP Filter Guide](GUIDE-IP-FILTERS.md).
+5. Current [IP Filter Guide](../../reference/GUIDE-IP-FILTERS.md).
 
 ## Collecting Evidence
 
