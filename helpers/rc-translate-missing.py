@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Translate missing Windows RC string resources into a managed string table."""
+"""Translate missing Windows RC string resources into a managed string table.
+
+Existing target translations are preserved by default. Use --manual-tsv for
+curated translations of newly missing ids before falling back to machine
+translation.
+"""
 
 from __future__ import annotations
 
@@ -258,10 +263,13 @@ def run(args: argparse.Namespace) -> None:
     """Translate missing strings and update the target RC managed block."""
 
     rc_helper = load_rc_helper()
-    translator = load_translator(args.target_lang)
     source = rc_helper.collect_rc_strings(args.source_rc)
     target = rc_helper.collect_rc_strings(args.target_rc)
     required = rc_helper.parse_id_list(args.require_ids)
+    manual_rows = rc_helper.parse_tsv(args.manual_tsv) if args.manual_tsv else []
+    manual_map = dict(manual_rows)
+    if manual_rows:
+        rc_helper.validate_placeholders(args.source_rc, manual_rows)
     existing_rows = managed_rows(rc_helper, args.target_rc)
     existing_map = dict(existing_rows)
     missing = collect_missing_ids(source.values, target.values, required)
@@ -270,7 +278,13 @@ def run(args: argparse.Namespace) -> None:
     cache.setdefault(cache_key, {})
 
     new_rows: list[tuple[str, str]] = []
+    manual_keys = [key for key in missing if key in manual_map and key not in existing_map]
+    for key in manual_keys:
+        cache[cache_key][key] = manual_map[key]
+    if manual_keys:
+        save_cache(args.cache, cache)
     uncached_keys = [key for key in missing if key not in existing_map and key not in cache[cache_key]]
+    translator = load_translator(args.target_lang) if uncached_keys else None
     for start in range(0, len(uncached_keys), args.batch_size):
         chunk_keys = uncached_keys[start : start + args.batch_size]
         translated_values = translate_values_batch(
@@ -295,7 +309,10 @@ def run(args: argparse.Namespace) -> None:
     if not args.dry_run:
         rc_helper.validate_placeholders(args.source_rc, rows)
         apply_rows(rc_helper, args.target_rc, rows)
-    print(f"{args.target_rc}: added {len(new_rows)} rows, managed rows {len(rows)}")
+    print(
+        f"{args.target_rc}: preserved {len(target.values) - len(missing)} existing rows, "
+        f"added {len(new_rows)} rows ({len(manual_keys)} manual), managed rows {len(rows)}"
+    )
 
 
 def main() -> int:
@@ -306,6 +323,11 @@ def main() -> int:
     parser.add_argument("--target-rc", type=Path, required=True, help="Target language RC file.")
     parser.add_argument("--target-lang", required=True, help="deep-translator target language code.")
     parser.add_argument("--require-ids", type=Path, help="Optional one-id-per-line resource id list.")
+    parser.add_argument(
+        "--manual-tsv",
+        type=Path,
+        help="Optional KEY<TAB>VALUE file with curated translations for newly missing ids.",
+    )
     parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE, help="Translation cache path.")
     parser.add_argument("--protect-term", action="append", default=[], help="Additional literal term to preserve.")
     parser.add_argument("--progress", type=int, default=25, help="Progress interval; 0 disables progress.")

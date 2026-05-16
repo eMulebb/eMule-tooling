@@ -167,12 +167,36 @@ def build_string_table(rows: list[tuple[str, str]]) -> str:
 
 
 PLACEHOLDER_RE = re.compile(r"%(?:%|[-+ #0]*\d*(?:\.\d+)?[hlI64]*[A-Za-z])")
+TRANSLATABLE_RE = re.compile(r"[A-Za-z]")
 
 
 def placeholders(value: str) -> list[str]:
     """Return printf-style placeholders, ignoring literal percent escapes."""
 
     return [item for item in PLACEHOLDER_RE.findall(value) if item != "%%"]
+
+
+def _quality_normalize(value: str) -> str:
+    """Normalize text enough to spot clearly untranslated rows."""
+
+    value = value.replace("&", "")
+    value = PLACEHOLDER_RE.sub("", value)
+    value = re.sub(r"\b[\w.-]+\.(?:ini|dat|met|dll|exe|log|txt|xml|tmpl|css|js|html|zip|rar|7z|part|bak)\b", "", value, flags=re.IGNORECASE)
+    value = re.sub(r"\b(?:https?|ed2k)://[^\s\"<>]+", "", value, flags=re.IGNORECASE)
+    value = re.sub(r"[^A-Za-z]+", " ", value)
+    return " ".join(value.casefold().split())
+
+
+def untranslated_warning(source_value: str, target_value: str) -> str | None:
+    """Return a warning when target text looks like an unreviewed English copy."""
+
+    source_norm = _quality_normalize(source_value)
+    if not source_norm or not TRANSLATABLE_RE.search(source_norm):
+        return None
+    target_norm = _quality_normalize(target_value)
+    if source_norm == target_norm:
+        return "same normalized English text"
+    return None
 
 
 def collect_strings(path: Path) -> dict[str, str]:
@@ -243,6 +267,7 @@ def cross_reference(args: argparse.Namespace) -> None:
 
     source = collect_rc_strings(args.english_rc)
     required_ids = _required_or_source_ids(parse_id_list(args.require_ids), source.values)
+    allowed_identical_ids = set(parse_id_list(args.allow_identical_ids))
     missing_in_source = [key for key in required_ids if key not in source.values]
     if source.duplicates:
         raise SystemExit(
@@ -260,6 +285,7 @@ def cross_reference(args: argparse.Namespace) -> None:
         missing = [key for key in required_ids if key not in target_ids]
         extra = sorted(key for key in target_ids if key not in source.values)
         placeholder_errors = []
+        quality_warnings = []
         for key in required_ids:
             if key not in target.values:
                 continue
@@ -267,13 +293,25 @@ def cross_reference(args: argparse.Namespace) -> None:
             actual = placeholders(target.values[key])
             if expected != actual:
                 placeholder_errors.append(f"{key}: expected {expected}, got {actual}")
+            if args.quality_audit and key not in allowed_identical_ids:
+                warning = untranslated_warning(source.values[key], target.values[key])
+                if warning:
+                    quality_warnings.append(f"{key}: {warning}")
         if target.duplicates:
             errors.append(f"{target_path}: duplicate ids:\n" + "\n".join(target.duplicates))
         if missing:
             errors.append(f"{target_path}: missing ids:\n" + "\n".join(missing))
         if placeholder_errors:
             errors.append(f"{target_path}: placeholder mismatch:\n" + "\n".join(placeholder_errors))
+        if quality_warnings:
+            message = f"{target_path}: quality warnings:\n" + "\n".join(quality_warnings)
+            if args.fail_on_quality_warning:
+                errors.append(message)
+            else:
+                print(message)
         extra_text = f", {len(extra)} ids not present in source" if extra else ""
+        if extra and args.show_extra:
+            extra_text += " (" + ", ".join(extra) + ")"
         print(f"OK {target_path}: {len(required_ids) - len(missing)}/{len(required_ids)} required ids{extra_text}")
     if errors:
         raise SystemExit("\n\n".join(errors))
@@ -361,6 +399,26 @@ def main() -> int:
         "--cross-reference",
         action="store_true",
         help="Compare English/source resource ids against target RC files.",
+    )
+    parser.add_argument(
+        "--quality-audit",
+        action="store_true",
+        help="During --cross-reference, report required ids that still look like copied English.",
+    )
+    parser.add_argument(
+        "--allow-identical-ids",
+        type=Path,
+        help="Optional one-id-per-line list of resource ids where identical text is acceptable.",
+    )
+    parser.add_argument(
+        "--fail-on-quality-warning",
+        action="store_true",
+        help="Turn --quality-audit warnings into errors.",
+    )
+    parser.add_argument(
+        "--show-extra",
+        action="store_true",
+        help="During --cross-reference, print target ids that are not present in the English source.",
     )
     parser.add_argument("--probe-start", default=DEFAULT_PROBE_START)
     parser.add_argument("--probe-end", default=DEFAULT_PROBE_END)
