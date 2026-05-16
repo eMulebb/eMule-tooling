@@ -2,7 +2,7 @@
 
 > Historical analysis only. This document is not current release policy and
 > must not be used as an active dependency-removal plan. The current decision
-> record is [DEP-STATUS.md](DEP-STATUS.md): Crypto++ stays on 8.4 for now,
+> record is [DEP-STATUS.md](../../dependencies/DEP-STATUS.md): Crypto++ stays on 8.4 for now,
 > id3lib stays as-is for the future, nlohmann-json stays as-is for now, and
 > miniupnp/libpcpnatpmp stay as-is for now.
 

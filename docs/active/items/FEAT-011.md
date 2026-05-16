@@ -1,7 +1,7 @@
 ---
 id: FEAT-011
 title: CShield — integrate ED2K anti-leecher engine (44 bad-client categories)
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [cshield, anti-leecher, ed2k, banning, security]

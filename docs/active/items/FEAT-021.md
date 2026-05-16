@@ -1,7 +1,7 @@
 ---
 id: FEAT-021
 title: SourceSaver — persist download source lists between sessions
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [download, sources, persistence, recovery]

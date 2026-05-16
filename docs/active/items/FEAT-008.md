@@ -1,7 +1,7 @@
 ---
 id: FEAT-008
 title: Oracle protocol guard seams — integrate stale branch test scaffolding
-status: Open
+status: OPEN
 priority: Trivial
 category: feature
 labels: [testing, protocol, oracle, stale-branch]

@@ -1,7 +1,7 @@
 ---
 id: FEAT-039
 title: Download checker — duplicate and near-duplicate intake guard
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [downloads, duplicates, file-handling, safety, blacklist, intake]

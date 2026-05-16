@@ -1,7 +1,7 @@
 ---
 id: FEAT-019
 title: Dark mode UI — system-aware Windows 10 dark theme integration
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [ui, dark-mode, dwm, win10, theming]

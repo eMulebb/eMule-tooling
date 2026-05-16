@@ -241,8 +241,8 @@ The same lifecycle command policy is reused by qBit-compatible and Torznab
 bridge calls that invoke native REST commands in-process, so adapter bridges do
 not bypass startup/shutdown safety gates.
 
-Use [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md) for residual
-release-gate and live-smoke tracking. Runtime route completeness is expected to
+Use [REST-API-PARITY-INVENTORY.md](REST-API-PARITY-INVENTORY.md) for the
+completed WebServer-to-REST action parity ledger. Runtime route completeness is expected to
 match [REST-API-OPENAPI.yaml](REST-API-OPENAPI.yaml).
 
 ## Retired Before Public Release

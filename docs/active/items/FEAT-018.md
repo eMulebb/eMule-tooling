@@ -1,7 +1,7 @@
 ---
 id: FEAT-018
 title: µTP (Micro Transport Protocol) transport layer — CUtpSocket / libutp
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [network, utp, transport, congestion-control, libutp]

@@ -1,6 +1,6 @@
 # eMule BB REST API Migrated Action Inventory
 
-**Status:** pre-release implementation checklist
+**Status:** current completed parity ledger
 **Contract:** [REST-API-OPENAPI.yaml](REST-API-OPENAPI.yaml)
 **Scope:** controller-relevant runtime capabilities historically reachable
 through WebServer command handlers, plus explicit exclusions for
@@ -16,12 +16,10 @@ gates.
 | Status | Meaning |
 |---|---|
 | `implemented` | Current `main` exposes the route through the OpenAPI contract and matching native route seam. |
-| `deferred` | Required before the complete broadband REST release, but not yet implemented or not yet verified against the OpenAPI contract. |
 | `obsolete` | Intentionally excluded from REST because it is deprecated web-page presentation state, session plumbing, binary streaming, host OS control, or outside the adapter's declared purpose. |
 
-`deferred` does not mean optional. It means the work is still required unless
-the user explicitly approves removing that runtime capability from the release
-contract.
+This ledger currently has no deferred rows. Future controller-relevant gaps should
+be tracked as active item IDs before being added here as pending work.
 
 ## Contract-Wide Release Requirements
 
@@ -220,8 +218,7 @@ one of them part of the adapter purpose.
 
 ## Release Gate
 
-The complete REST release is not done until all of these pass from supported
-workspace entrypoints:
+The completed REST parity surface is kept current by these supported workspace entrypoints:
 
 | Gate | Status |
 |---|---|

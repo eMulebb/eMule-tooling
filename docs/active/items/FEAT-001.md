@@ -1,7 +1,7 @@
 ---
 id: FEAT-001
 title: Kad FastKad — add diversity-aware bootstrap ranking and aggressive stale decay
-status: Deferred
+status: DEFERRED
 priority: Minor
 category: feature
 labels: [kad, fastkad, routing, bootstrap]

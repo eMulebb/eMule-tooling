@@ -1,7 +1,7 @@
 ---
 id: FEAT-036
 title: NAT traversal and extended source exchange for LowID-to-LowID connectivity
-status: Open
+status: OPEN
 priority: Major
 category: feature
 labels: [networking, nat-traversal, lowid, source-exchange, relay, udp, connectivity]

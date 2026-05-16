@@ -1,7 +1,7 @@
 ---
 id: FEAT-014
 title: REST API follow-up — OpenAPI docs and optional external gateway
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [api, rest, openapi, tooling, sidecar]

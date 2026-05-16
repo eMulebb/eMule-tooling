@@ -1,7 +1,7 @@
 ---
 id: FEAT-041
 title: Download Inspector automation for stale downloads and majority-name rename
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [downloads, inspector, cleanup, rename, automation, emuleai]

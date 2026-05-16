@@ -17,8 +17,9 @@ Every workspace session starts from this contract:
   current-state decisions or edited.
 - Use repo-local `AGENTS.md` files only for local deltas after this policy has
   been read.
-- Treat `docs\RESUME.md` as a short handoff note only. It is not policy, not
-  backlog authority, and not a substitute for this document.
+- Treat historical session handoff notes under `docs\history` as provenance
+  only. They are not policy, not backlog authority, and not a substitute for
+  this document.
 - Revalidate backlog and release docs against current `main`, current
   dependency pins, and this policy before implementation.
 
@@ -383,9 +384,10 @@ The canonical workspace currently materializes these app worktrees:
   active docs under `docs\active`, exploratory ideas under `docs\ideas`,
   current reference material under role-specific folders, and stale or
   historical material under `docs\history`.
-- `repos\eMule-tooling\docs\RESUME.md` is the short current handoff pointer.
-  Update it only when terminating a session or when the user explicitly asks
-  for a current handoff. Detailed durable analysis belongs in tooling docs.
+- Historical handoff notes live under `repos\eMule-tooling\docs\history`.
+  Create or refresh a current handoff only when terminating a session or when
+  the user explicitly asks for one. Detailed durable analysis belongs in
+  tooling docs.
 - Repo-local `AGENTS.md` files should stay thin and repo-specific.
 - Repo-local docs must point to this policy rather than restating workspace
   branch, worktree, setup, or dependency authority.

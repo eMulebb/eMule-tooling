@@ -1,7 +1,7 @@
 ---
 id: FEAT-064
 title: Curated post-0.7.3 future release roadmap
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [future-roadmap, product-scope, post-beta-0.7.3, planning]

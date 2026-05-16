@@ -35,7 +35,6 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 
 | Folder | Role |
 |---|---|
-| [architecture/](architecture/) | Durable architecture notes |
 | [dependencies/](dependencies/) | Current dependency health and decision records |
 | [history/](history/) | Closed item records, dated reviews, historical comparisons, source salvage, and old ledgers |
 | [ideas/](ideas/) | Exploratory proposals only, not active implementation plans |
@@ -46,7 +45,6 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 
 | Document | Description |
 |---|---|
-| [architecture/ARCH-NETWORKING](architecture/ARCH-NETWORKING.md) | Networking-stack reference |
 | [reference/GUIDE-EMULEBB](reference/GUIDE-EMULEBB.md) | eMule BB product manual entry point, setup, tools, diagnostics, and compatibility |
 | [reference/GUIDE-NETWORK](reference/GUIDE-NETWORK.md) | eD2K, Kad, binding, ports, UPnP, firewall, and REST listener basics |
 | [reference/GUIDE-SHARING](reference/GUIDE-SHARING.md) | Shared directories, monitored shares, large libraries, and share-ignore policy |
@@ -59,7 +57,7 @@ If a status claim outside `docs/active/` conflicts with `docs/active/`, treat
 | [dependencies/DEP-STATUS](dependencies/DEP-STATUS.md) | Current third-party dependency decision record |
 | [rest/REST-API-CONTRACT](rest/REST-API-CONTRACT.md) | Human-readable broadband REST contract |
 | [rest/REST-API-OPENAPI](rest/REST-API-OPENAPI.yaml) | Canonical machine-readable `/api/v1` OpenAPI contract |
-| [rest/REST-API-PARITY-INVENTORY](rest/REST-API-PARITY-INVENTORY.md) | Legacy WebServer runtime-action parity checklist |
+| [rest/REST-API-PARITY-INVENTORY](rest/REST-API-PARITY-INVENTORY.md) | Completed REST/WebServer action parity ledger |
 
 ## Exploratory Ideas
 

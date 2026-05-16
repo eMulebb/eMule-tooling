@@ -1,7 +1,7 @@
 ---
 id: FEAT-031
 title: Auto-browse compatible remote shared-file inventories with persisted cache
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [browse, clients, cache, ui, automation, networking]

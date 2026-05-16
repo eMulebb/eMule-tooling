@@ -1,7 +1,7 @@
 ---
 id: FEAT-009
 title: Mirror audit guard seam — WIP work from stale branch parent commit
-status: Open
+status: OPEN
 priority: Trivial
 category: feature
 labels: [testing, audit, mirror, stale-branch]

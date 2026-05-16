@@ -10,8 +10,8 @@ path, not by filename alone.
 - `docs/active/INDEX.md`: active backlog dashboard and item tables
 - `docs/active/RELEASE-0.7.3*.md`: Beta release control, checklist, runbook,
   and release operator docs
-- `docs/active/items/`: active item records for Open, In Progress, Blocked,
-  and Deferred work
+- `docs/active/items/`: active item records for `OPEN`, `IN_PROGRESS`,
+  `BLOCKED`, and `DEFERRED` work
 - `docs/active/plans/`: the single current beta release execution plan
 
 If another doc conflicts with `docs/active/`, `docs/active/` wins for current
@@ -42,7 +42,8 @@ Examples: CMake adoption and Boost adoption.
 ## Writing Rules
 
 - Keep current decisions in `docs/active/`, not in historical reference docs.
-- Move closed item records (Done, Passed, Wont-Fix) to `docs/history/items/`.
+- Move closed item records (`DONE`, `PASSED`, `WONT_DO`) to
+  `docs/history/items/`.
 - Move dated review reports to `docs/history/reviews/` after they stop driving
   active execution.
 - Move stale audit reports to `docs/history/audits/`; move release-specific
@@ -58,3 +59,42 @@ Examples: CMake adoption and Boost adoption.
   or navigation entry points.
 - Add new exploratory proposals under `docs/ideas/` with an explicit
   exploratory-only banner.
+
+## Item IDs And Statuses
+
+Item IDs use a typed key format: `PREFIX-###`. Prefixes are uppercase, followed
+by a hyphen and a zero-padded numeric sequence. IDs are never reused; skipped
+ranges stay skipped.
+
+Canonical core prefixes:
+
+- `BUG`: user-visible or runtime correctness defects
+- `FEAT`: product behavior, UX, or capability work
+- `REF`: refactoring, architecture cleanup, and internal modernization
+- `CI`: build, packaging, validation, release proof, and tooling gates
+
+Integration-specific prefixes are allowed only when they name an external
+consumer or adapter surface. Current accepted integration prefixes are `AMUT`
+and `ARR`.
+
+Canonical active statuses:
+
+- `OPEN`: accepted backlog item that is not currently being worked
+- `IN_PROGRESS`: active implementation, validation, or investigation is
+  underway
+- `BLOCKED`: cannot proceed without an external decision, dependency, or proof
+- `DEFERRED`: intentionally postponed but still a valid item
+
+Canonical closed statuses:
+
+- `DONE`: implementation or documentation work landed
+- `PASSED`: validation, audit, proof, or gate succeeded without necessarily
+  landing an implementation
+- `WONT_DO`: explicitly rejected or accepted as not worth doing
+
+Legacy title-case status spellings in historical files are provenance only.
+`Wont-Fix` maps to `WONT_DO`.
+
+Use `python scripts\docs-item-taxonomy-check.py` after item or active-index
+changes to validate item IDs, statuses, duplicate front matter IDs, and active
+index consistency.

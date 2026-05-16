@@ -1,7 +1,7 @@
 ---
 id: FEAT-002
 title: Kad SafeKad — evolve from coarse same-IP gate into layered trust model (CGNAT fix)
-status: Open
+status: OPEN
 priority: Major
 category: feature
 labels: [kad, safekad, routing, cgnat, trust]

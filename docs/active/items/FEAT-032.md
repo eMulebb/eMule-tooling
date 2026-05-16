@@ -1,7 +1,7 @@
 ---
 id: FEAT-032
 title: NAT mapping modernization — keep MiniUPnP, drop WinServ, add PCP/NAT-PMP
-status: Deferred
+status: DEFERRED
 priority: Minor
 category: feature
 labels: [networking, upnp, nat-pmp, pcp, miniupnp, preferences]

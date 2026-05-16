@@ -1,7 +1,7 @@
 ---
 id: FEAT-006
 title: Kad — Add explicit trust, budget, and bootstrap observability counters
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [kad, observability, diagnostics, counters]

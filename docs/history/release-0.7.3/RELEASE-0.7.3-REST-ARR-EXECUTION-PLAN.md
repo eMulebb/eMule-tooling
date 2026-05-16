@@ -221,7 +221,7 @@ Latest beta 0.7.3 REST closure proof:
     aMuTorrent served `127.0.0.1:57415` from its persistent server config while
     the harness waited on generated port `127.0.0.1:55939`:
     `repos\eMule-build-tests\reports\amutorrent-browser-smoke\20260510-225224-eMule-main-release`.
-    This is tracked in [BUG-102](../../active/items/BUG-102.md) as aMuTorrent/harness
+    This is tracked in [BUG-102](../items/BUG-102.md) as aMuTorrent/harness
     configuration drift, not native REST contract drift.
 
 Latest native route/OpenAPI drift proof:

@@ -1,7 +1,7 @@
 ---
 id: FEAT-044
 title: IP filter input policy - PeerGuardian lists, whitelist, and private-IP exemption
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [ipfilter, security, peerguardian, whitelist, private-ip, emuleai]

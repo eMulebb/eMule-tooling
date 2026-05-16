@@ -1,7 +1,7 @@
 ---
 id: FEAT-017
 title: DPI awareness — Per-Monitor V2 manifest + hardcoded pixel audit
-status: Open
+status: OPEN
 priority: Major
 category: feature
 labels: [dpi, hdpi, manifest, ui, win10]

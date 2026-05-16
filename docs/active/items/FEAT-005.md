@@ -1,7 +1,7 @@
 ---
 id: FEAT-005
 title: Kad — Restore network-change grace handling around routing persistence and probing
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [kad, resilience, network-change, vpn, mobile]

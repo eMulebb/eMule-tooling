@@ -1,7 +1,7 @@
 ---
 id: FEAT-056
 title: Post-beta-0.7.3 release proof automation and operator evidence UX
-status: Deferred
+status: DEFERRED
 priority: Minor
 category: feature
 labels: [post-beta-0.7.3, release-proof, automation, operator-evidence]

@@ -1,7 +1,7 @@
 ---
 id: FEAT-043
 title: Known Clients history and incremental list refresh performance
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [clients, known-clients, history, list-performance, ui, emuleai]

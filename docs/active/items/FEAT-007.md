@@ -1,7 +1,7 @@
 ---
 id: FEAT-007
 title: Windows Property Store integration for non-media file metadata
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [metadata, windows-api, exploratory]

@@ -1,7 +1,7 @@
 ---
 id: FEAT-003
 title: Kad — Add response usefulness scoring and subnet-diversity search fanout
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [kad, search, routing, quality]

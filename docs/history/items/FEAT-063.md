@@ -1,3 +1,13 @@
+---
+id: FEAT-063
+title: Web Interface preferences layout polish
+status: DONE
+priority: Minor
+category: feature
+labels: [preferences, webserver, ui-polish]
+milestone: beta-0.7.3
+---
+
 # FEAT-063 - Web Interface Preferences Layout Polish
 
 ## Status

@@ -1,7 +1,7 @@
 ---
 id: FEAT-040
 title: Headless core with modern web/mobile controller and multi-user permissions
-status: Open
+status: OPEN
 priority: Major
 category: feature
 labels: [daemon, web, mobile, remote-control, multi-user, permissions, api]

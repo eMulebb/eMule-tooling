@@ -1,7 +1,7 @@
 ---
 id: FEAT-035
 title: IPv6 dual-stack networking for peers, friends, Kad, and server surfaces
-status: Open
+status: OPEN
 priority: Major
 category: feature
 labels: [ipv6, networking, dual-stack, kad, sockets, friends]

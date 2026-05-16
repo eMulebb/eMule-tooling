@@ -27,7 +27,7 @@ The eMule networking stack is a mature **Windows-native asynchronous I/O archite
 
 **Current bind audit:** the latest current-main outbound bind classification is
 tracked in
-[`../history/reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md`](../history/reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md).
+[`../reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md`](../reviews/REVIEW-2026-05-02-outbound-bind-compliance-audit.md).
 It records the accepted current state: core P2P traffic is bind-compliant,
 while auxiliary WinInet, SMTP, IRC, browser-handoff, and separately-bound web
 traffic are documented as non-P2P/system or user traffic.

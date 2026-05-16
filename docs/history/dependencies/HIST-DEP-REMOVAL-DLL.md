@@ -2,7 +2,7 @@
 
 > Historical analysis only. This document is not current release policy and
 > must not be used as an active DLL-conversion plan. The current decision record
-> is [DEP-STATUS.md](DEP-STATUS.md): dependency forks stay as-is for beta
+> is [DEP-STATUS.md](../../dependencies/DEP-STATUS.md): dependency forks stay as-is for beta
 > `0.7.3`, with no DLL conversion, removal, or update work selected.
 
 **Target platform: Windows 10+ x64 ONLY**

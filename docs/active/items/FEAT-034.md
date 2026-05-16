@@ -1,7 +1,7 @@
 ---
 id: FEAT-034
 title: Shared-files reload should stop blocking the UI on large trees
-status: In Progress
+status: IN_PROGRESS
 priority: Minor
 category: feature
 labels: [performance, shared-files, reload, threading, ui]

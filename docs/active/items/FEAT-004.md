@@ -1,7 +1,7 @@
 ---
 id: FEAT-004
 title: Kad — Generalise KadPublishGuard abuse budget beyond PUBLISH_SOURCE
-status: Open
+status: OPEN
 priority: Minor
 category: feature
 labels: [kad, abuse-prevention, throttling, resource-budget]
