@@ -1,0 +1,76 @@
+{
+  "languages": [
+    {
+      "code": "es",
+      "name": "Spanish",
+      "rc": "es_ES_T.rc"
+    },
+    {
+      "code": "pt_BR",
+      "name": "Portuguese (Brazil)",
+      "rc": "pt_BR.rc"
+    },
+    {
+      "code": "pt_PT",
+      "name": "Portuguese (Portugal)",
+      "rc": "pt_PT.rc"
+    },
+    {
+      "code": "it",
+      "name": "Italian",
+      "rc": "it_IT.rc"
+    },
+    {
+      "code": "ru",
+      "name": "Russian",
+      "rc": "ru_RU.rc"
+    },
+    {
+      "code": "de",
+      "name": "German",
+      "rc": "de_DE.rc"
+    },
+    {
+      "code": "fr",
+      "name": "French",
+      "rc": "fr_FR.rc"
+    },
+    {
+      "code": "pl",
+      "name": "Polish",
+      "rc": "pl_PL.rc"
+    },
+    {
+      "code": "nl",
+      "name": "Dutch",
+      "rc": "nl_NL.rc"
+    },
+    {
+      "code": "tr",
+      "name": "Turkish",
+      "rc": "tr_TR.rc"
+    },
+    {
+      "code": "cs_CZ",
+      "name": "Czech",
+      "rc": "cz_CZ.rc",
+      "note": "Keep the historical file name for app compatibility; policy code uses cs_CZ."
+    },
+    {
+      "code": "uk_UA",
+      "name": "Ukrainian",
+      "rc": "ua_UA.rc",
+      "note": "Keep the historical file name for app compatibility; policy code uses uk_UA."
+    },
+    {
+      "code": "hu_HU",
+      "name": "Hungarian",
+      "rc": "hu_HU.rc"
+    },
+    {
+      "code": "ro_RO",
+      "name": "Romanian",
+      "rc": "ro_RO.rc"
+    }
+  ]
+}

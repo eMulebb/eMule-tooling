@@ -208,6 +208,47 @@ def load_quality_rules(path: Path | None) -> dict:
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
+def load_release_language_targets(path: Path | None, english_rc: Path | None) -> list[Path]:
+    """Load target RC files from the canonical release language manifest."""
+
+    if path is None:
+        return []
+    if english_rc is None:
+        raise SystemExit("--release-languages requires --english-rc so the lang directory can be inferred.")
+    data = json.loads(path.read_text(encoding="utf-8-sig"))
+    languages = data.get("languages")
+    if not isinstance(languages, list):
+        raise SystemExit(f"{path} must contain a 'languages' list.")
+    lang_dir = english_rc.parent / "lang"
+    targets: list[Path] = []
+    seen: set[Path] = set()
+    errors: list[str] = []
+    for index, item in enumerate(languages, 1):
+        if not isinstance(item, dict):
+            errors.append(f"language entry {index} must be an object")
+            continue
+        code = item.get("code")
+        rc_file = item.get("rc")
+        if not isinstance(code, str) or not code:
+            errors.append(f"language entry {index} is missing a non-empty code")
+            continue
+        if not isinstance(rc_file, str) or not rc_file.endswith(".rc"):
+            errors.append(f"language entry {code} is missing an .rc file name")
+            continue
+        target = lang_dir / rc_file
+        if target in seen:
+            errors.append(f"language entry {code} duplicates target {target}")
+            continue
+        if not target.is_file():
+            errors.append(f"language entry {code} points to missing file {target}")
+            continue
+        seen.add(target)
+        targets.append(target)
+    if errors:
+        raise SystemExit(f"{path} has invalid release language entries:\n" + "\n".join(errors))
+    return targets
+
+
 def _rules_for_target(rules: dict, target_path: Path) -> list[dict]:
     """Return global and target-language rule groups."""
 
@@ -317,10 +358,12 @@ def cross_reference(args: argparse.Namespace) -> None:
     if not args.english_rc:
         raise SystemExit("--cross-reference requires --english-rc.")
     targets = list(args.target_rc or [])
+    targets.extend(load_release_language_targets(args.release_languages, args.english_rc))
     if args.rc:
         targets.append(args.rc)
     if not targets:
-        raise SystemExit("--cross-reference requires at least one --target-rc or --rc.")
+        raise SystemExit("--cross-reference requires at least one --target-rc, --release-languages, or --rc.")
+    targets = list(dict.fromkeys(targets))
 
     source = collect_rc_strings(args.english_rc)
     required_ids = _required_or_source_ids(parse_id_list(args.require_ids), source.values)
@@ -444,6 +487,11 @@ def main() -> int:
         type=Path,
         action="append",
         help="Target RC file for --cross-reference. Can be passed more than once.",
+    )
+    parser.add_argument(
+        "--release-languages",
+        type=Path,
+        help="JSON release language manifest whose RC files are added as --target-rc entries.",
     )
     parser.add_argument(
         "--require-ids",

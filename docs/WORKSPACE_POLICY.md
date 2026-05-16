@@ -537,7 +537,8 @@ The canonical workspace currently materializes these app worktrees:
 ## Release Localization Policy
 
 - The canonical supported release language set is:
-  `es`, `pt_BR`, `pt_PT`, `it`, `ru`, `de`, `fr`, `pl`, `nl`, and `tr`.
+  `es`, `pt_BR`, `pt_PT`, `it`, `ru`, `de`, `fr`, `pl`, `nl`, `tr`,
+  `cs_CZ`, `uk_UA`, `hu_HU`, and `ro_RO`.
 - The corresponding app resource files are:
   - `es` -> `srchybrid\lang\es_ES_T.rc`
   - `pt_BR` -> `srchybrid\lang\pt_BR.rc`
@@ -549,6 +550,12 @@ The canonical workspace currently materializes these app worktrees:
   - `pl` -> `srchybrid\lang\pl_PL.rc`
   - `nl` -> `srchybrid\lang\nl_NL.rc`
   - `tr` -> `srchybrid\lang\tr_TR.rc`
+  - `cs_CZ` -> `srchybrid\lang\cz_CZ.rc`
+  - `uk_UA` -> `srchybrid\lang\ua_UA.rc`
+  - `hu_HU` -> `srchybrid\lang\hu_HU.rc`
+  - `ro_RO` -> `srchybrid\lang\ro_RO.rc`
+  The Czech and Ukrainian file names are historical compatibility names; use
+  the canonical language codes above in release policy and tooling.
 - New release-facing user-visible strings must land in `srchybrid\emule.rc`
   and every canonical supported release language file above before release
   proof.

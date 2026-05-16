@@ -211,6 +211,150 @@
           "message": "redacted should be gizlenmiş/temizlenmiş, not redakte"
         }
       ]
+    },
+    "cz_CZ.rc": {
+      "id_rules": {
+        "IDS_TOOLS_SESSION": {
+          "forbidden_regex": [
+            {
+              "pattern": "Zasedání",
+              "message": "session should be a UI/network relace, not a meeting/sitting"
+            }
+          ]
+        },
+        "IDS_VIEW_PRESET_STOCK_KEEP_WIDTHS": {
+          "forbidden_regex": [
+            {
+              "pattern": "Sklad",
+              "message": "stock preset means standard/original eMule layout, not warehouse inventory"
+            }
+          ]
+        },
+        "IDS_VIEW_PRESET_STOCK_RESET_WIDTHS": {
+          "forbidden_regex": [
+            {
+              "pattern": "Sklad",
+              "message": "stock preset means standard/original eMule layout, not warehouse inventory"
+            }
+          ]
+        },
+        "IDS_TOOLS_STATUS_VIEW_PRESET_STOCK": {
+          "forbidden_regex": [
+            {
+              "pattern": "sklad",
+              "message": "stock preset means standard/original eMule layout, not warehouse inventory"
+            }
+          ]
+        }
+      }
+    },
+    "ua_UA.rc": {
+      "id_rules": {
+        "IDS_SPEED_ACTION_BOTH_UPLOAD_DOWNLOAD": {
+          "forbidden_regex": [
+            {
+              "pattern": "завантаження\\s*\\+\\s*завантаження",
+              "message": "upload and download must be distinct in Ukrainian"
+            }
+          ]
+        },
+        "IDS_DL_BATCH": {
+          "forbidden_regex": [
+            {
+              "pattern": "партія",
+              "message": "batch action should use пакет/пакетно, not party/batch of goods"
+            }
+          ]
+        },
+        "IDS_VIEW_PRESET_STOCK_KEEP_WIDTHS": {
+          "forbidden_regex": [
+            {
+              "pattern": "Запас",
+              "message": "stock preset means default/original layout, not reserve stock"
+            }
+          ]
+        },
+        "IDS_VIEW_PRESET_STOCK_RESET_WIDTHS": {
+          "forbidden_regex": [
+            {
+              "pattern": "Запас",
+              "message": "stock preset means default/original layout, not reserve stock"
+            }
+          ]
+        }
+      }
+    },
+    "hu_HU.rc": {
+      "id_rules": {
+        "IDS_DL_BATCH": {
+          "forbidden_regex": [
+            {
+              "pattern": "Batch",
+              "message": "batch should be localized for Hungarian UI"
+            }
+          ]
+        },
+        "IDS_TOOLS_SESSION": {
+          "forbidden_regex": [
+            {
+              "pattern": "Ülés",
+              "message": "session should be munkamenet, not a meeting/sitting"
+            }
+          ]
+        },
+        "IDS_SEARCH_KAD_TRUST_INFOTIP": {
+          "forbidden_regex": [
+            {
+              "pattern": "megjelenítő",
+              "message": "publisher/name consistency should refer to közzétevő/név, not display/viewer"
+            }
+          ]
+        },
+        "IDS_VIEW_PRESET_STOCK_KEEP_WIDTHS": {
+          "forbidden_regex": [
+            {
+              "pattern": "Készlet|Stock",
+              "message": "stock preset means default/original layout, not inventory"
+            }
+          ]
+        },
+        "IDS_VIEW_PRESET_STOCK_RESET_WIDTHS": {
+          "forbidden_regex": [
+            {
+              "pattern": "Készlet|Stock",
+              "message": "stock preset means default/original layout, not inventory"
+            }
+          ]
+        }
+      }
+    },
+    "ro_RO.rc": {
+      "id_rules": {
+        "IDS_SEARCH_KAD_TRUST_INFOTIP": {
+          "forbidden_regex": [
+            {
+              "pattern": "editor/nume",
+              "message": "publisher/name consistency should not be translated as editor/name"
+            }
+          ]
+        },
+        "IDS_VIEW_PRESET_STOCK_KEEP_WIDTHS": {
+          "forbidden_regex": [
+            {
+              "pattern": "Stoc",
+              "message": "stock preset means standard/original layout, not inventory stock"
+            }
+          ]
+        },
+        "IDS_VIEW_PRESET_STOCK_RESET_WIDTHS": {
+          "forbidden_regex": [
+            {
+              "pattern": "Stoc",
+              "message": "stock preset means standard/original layout, not inventory stock"
+            }
+          ]
+        }
+      }
     }
   }
 }

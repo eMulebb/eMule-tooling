@@ -80,6 +80,9 @@ Normalization helpers live here too:
   to supported language `.rc` files. It preserves existing translations by
   default; use curated `--manual-tsv` input for new labels before relying on
   machine translation drafts.
+- `helpers\rc-release-languages.json` is the canonical machine-readable release
+  language manifest. Prefer it over hand-written repeated `--target-rc` lists
+  in audits.
 - `helpers\rc-release-localization-ids.txt` lists the release-facing eMule BB
   resource IDs that every supported language must contain.
 - `helpers\rc-translation-identical-ok-ids.txt` allow-lists IDs where identical
@@ -102,7 +105,7 @@ as an unreviewed final result.
 Typical release localization audit:
 
 ```powershell
-python helpers\rc-string-table.py --cross-reference --quality-audit --fail-on-quality-warning --show-extra --allow-identical-ids helpers\rc-translation-identical-ok-ids.txt --quality-rules helpers\rc-translation-quality-rules.json --english-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --require-ids helpers\rc-release-localization-ids.txt --target-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\lang\es_ES_T.rc
+python helpers\rc-string-table.py --cross-reference --quality-audit --fail-on-quality-warning --show-extra --allow-identical-ids helpers\rc-translation-identical-ok-ids.txt --quality-rules helpers\rc-translation-quality-rules.json --english-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --require-ids helpers\rc-release-localization-ids.txt --release-languages helpers\rc-release-languages.json
 ```
 
 Release-facing Windows operator scripts are the only tracked PowerShell files
