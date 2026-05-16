@@ -136,6 +136,9 @@ The Tools menu is the operational shortcut surface. It groups:
 - view presets: stock, extended, full, with optional width reset
 - diagnostics: logs, redacted/raw snapshots, mini dump, full dump
 
+The top-level Tools groups have native Alt mnemonics so keyboard users can open
+Tools with `Alt+T` and continue by letter.
+
 Direct text edits are not always live. Prefer matching reload actions when they
 exist, and restart after startup, bind, listener, or layout-state edits.
 

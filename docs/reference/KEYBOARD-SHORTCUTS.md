@@ -38,6 +38,7 @@ selected downloads and do not become global app accelerators.
 | `Ctrl+T` | Stops selected downloads that can be stopped. |
 | `Ctrl+Shift+P` | Pauses all pausable downloads in the current category. |
 | `Ctrl+Shift+S` | Resumes all resumable downloads in the current category. |
+| `Ctrl+Shift+T` | Stops all stoppable downloads in the current category. |
 | `Ctrl++` / `Ctrl+-` | Raises or lowers selected download priority one manual step. |
 | `Ctrl+Shift++` / `Ctrl+Shift+-` | Sets selected download priority to High or Low. |
 | `Ctrl+O` | Opens the selected completed download when it can be opened. |
@@ -79,6 +80,8 @@ These shortcuts are local to the Shared Files list.
 | `Ctrl+Shift+C` | Copies selected shared-file summaries. |
 | `Ctrl+F` | Starts list find. |
 | `F5` | Reloads the shared-files list. |
+| `F2` | Renames the selected shared file through the existing rename action. |
+| `Delete` | Runs the existing Delete action for selected shared files. |
 
 ## Shared Directories Shortcuts
 
@@ -158,8 +161,8 @@ When Search is the active main pane, the Search parameter bar owns:
 - `Alt+U` should open the floating hotmenu.
 - `Alt+T` should open the Tools popup.
 - `Alt+O` should open Options.
-- In Downloads, `Ctrl+Shift+P` and `Ctrl+Shift+S` should act on the current
-  transfer category, even when no row is selected.
+- In Downloads, `Ctrl+Shift+P`, `Ctrl+Shift+S`, and `Ctrl+Shift+T` should act on
+  the current transfer category, even when no row is selected.
 - In Downloads, `Ctrl++`, `Ctrl+-`, `Ctrl+Shift++`, and `Ctrl+Shift+-` should
   update selected download priorities without changing unrelated rows.
 - In Search, `Alt+N` should focus the Name textbox without selecting existing
@@ -173,6 +176,8 @@ When Search is the active main pane, the Search parameter bar owns:
   navigate matches without changing transfer state.
 - In Shared Files, `F5` should reload the shared-files list through the same
   path as the existing reload button.
+- In Shared Files, the context menu should show native hints for `F2` rename
+  and `Delete`.
 - Outside Search, `Alt+N` should not switch panes or steal focus.
 - Preferences, About, and confirmation dialogs should retain their normal
   local keyboard handling.
