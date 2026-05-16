@@ -39,6 +39,12 @@ are needed by the operator environment, for example
 Record certification reports, command summaries, commits, log paths, package
 paths, and SHA-256 hashes in [CI-035](items/CI-035.md).
 
+`package-release` is the package verification gate. It must fail instead of
+writing accepted manifests when a ZIP is missing a required runtime/doc file,
+does not contain the full stock language DLL set, contains a language DLL for
+the wrong architecture, contains source/build/debug artifacts, or cannot record
+per-file SHA-256 hashes in the package manifest.
+
 Current state: non-live build/test rows have partial passing evidence in
 [CI-035](items/CI-035.md). Live proof, final package refresh, clean-worktree
 confirmation, and final hash recording remain incomplete.
@@ -99,6 +105,14 @@ This add-on does not replace the required overnight certification row above.
 - [ ] Annotated beta tag points at the selected reviewed `main` commit.
 - [ ] x64 beta asset is `eMule-broadband-0.7.3-x64.zip`.
 - [ ] ARM64 beta asset is `eMule-broadband-0.7.3-arm64.zip`.
+- [ ] Each ZIP contains exactly the full stock language DLL set under
+      `eMule\lang`.
+- [ ] Each ZIP contains package-facing README, release notes, GPL text,
+      third-party notices, REST docs, and the legacy web template.
+- [ ] Package manifests record the ZIP hash, `emule.exe` hash, expected
+      language DLL list/count, and per-file package hashes.
+- [ ] Package notes state that ZIPs are not code-signed, contain no debug
+      symbols, and do not bundle optional `MediaInfo.dll`.
 
 ## Final Operator Steps
 

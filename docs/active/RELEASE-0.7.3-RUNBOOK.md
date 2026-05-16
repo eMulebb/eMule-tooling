@@ -97,6 +97,22 @@ eMule-broadband-0.7.3-x64.zip
 eMule-broadband-0.7.3-arm64.zip
 ```
 
+The packaging command is intentionally strict. It builds the selected
+architecture, builds the stock language resource DLLs, stages the portable ZIP,
+then verifies the package before writing the manifest. Verification covers:
+
+- `emule.exe`, full stock `lang\*.dll` set, `webserver\eMule.tmpl`, package
+  README, release notes, GPL text, third-party notices, and REST docs;
+- x64 packages containing only x64 PE files and ARM64 packages containing only
+  ARM64 PE files for `emule.exe` and language DLLs;
+- no source files, project files, debug symbols, intermediates, or build logs in
+  the ZIP; and
+- manifest fields for ZIP hash, executable hash, expected language DLL
+  list/count, and per-file package hashes.
+
+`MediaInfo.dll` remains optional and external. The release ZIPs are not
+code-signed and do not include debug symbols.
+
 ## Ship Decision
 
 After the final proof:
