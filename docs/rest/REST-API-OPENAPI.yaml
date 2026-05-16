@@ -2056,7 +2056,7 @@ components:
     FakeFileAnalysis:
       type: object
       additionalProperties: false
-      required: [score, severity, reasons, pendingHeaderCheck, observedNames, observedExtensions, claimedType, extensionType, detectedHeaderType, cached]
+      required: [score, severity, reasons, pendingHeaderCheck, observedNames, observedExtensions, canonicalNames, ignoredNameTokens, nameDivergenceGroups, claimedType, extensionType, detectedHeaderType, cached]
       properties:
         score:
           type: integer
@@ -2069,7 +2069,7 @@ components:
           type: array
           items:
             type: string
-            enum: [multiple_names, bad_signal_name, bad_signal_comment, header_extension_mismatch, claimed_type_mismatch, spam_score, spam_status, bad_rating, fake_rating, multiple_aich, executable_masquerade, archive_masquerade, pending_header_check]
+            enum: [multiple_names, bad_signal_name, bad_signal_comment, header_extension_mismatch, claimed_type_mismatch, spam_score, spam_status, bad_rating, fake_rating, multiple_aich, executable_masquerade, archive_masquerade, pending_header_check, implausible_media_length, implausible_media_bitrate]
         pendingHeaderCheck:
           type: boolean
         observedNames:
@@ -2077,6 +2077,18 @@ components:
           items:
             type: string
         observedExtensions:
+          type: array
+          items:
+            type: string
+        canonicalNames:
+          type: array
+          items:
+            type: string
+        ignoredNameTokens:
+          type: array
+          items:
+            type: string
+        nameDivergenceGroups:
           type: array
           items:
             type: string
@@ -2094,6 +2106,147 @@ components:
             - "null"
         cached:
           type: boolean
+    SearchResultEvidence:
+      type: object
+      additionalProperties: false
+      required: [riskEvidence, availabilityEvidence, nameEvidence, kadPublisherEvidence, integrityEvidence]
+      properties:
+        riskEvidence:
+          $ref: "#/components/schemas/SearchRiskEvidence"
+        availabilityEvidence:
+          $ref: "#/components/schemas/SearchAvailabilityEvidence"
+        nameEvidence:
+          $ref: "#/components/schemas/SearchNameEvidence"
+        kadPublisherEvidence:
+          $ref: "#/components/schemas/SearchKadPublisherEvidence"
+        integrityEvidence:
+          $ref: "#/components/schemas/SearchIntegrityEvidence"
+    SearchRiskEvidence:
+      type: object
+      additionalProperties: false
+      required: [band, bucket, score, severity, spam, reasons]
+      properties:
+        band:
+          type: string
+          enum: [ok, caution, warning, high_risk, spam]
+        bucket:
+          type: integer
+          minimum: 0
+          maximum: 4
+        score:
+          type: integer
+          minimum: 0
+          maximum: 100
+        severity:
+          type: string
+          enum: [none, low, medium, high, critical]
+        spam:
+          type: boolean
+        reasons:
+          type: array
+          items:
+            type: string
+    SearchAvailabilityEvidence:
+      type: object
+      additionalProperties: false
+      required: [sources, completeSources, complete, clientCount, serverCount, kadPublishers]
+      properties:
+        sources:
+          type: integer
+          minimum: 0
+        completeSources:
+          type: integer
+          minimum: 0
+        complete:
+          type:
+            - boolean
+            - "null"
+        clientCount:
+          type: integer
+          minimum: 0
+        serverCount:
+          type: integer
+          minimum: 0
+        kadPublishers:
+          type: integer
+          minimum: 0
+    SearchNameEvidence:
+      type: object
+      additionalProperties: false
+      required: [observedNames, observedExtensions, canonicalNames, ignoredNameTokens, divergenceGroups, divergent]
+      properties:
+        observedNames:
+          type: array
+          items:
+            type: string
+        observedExtensions:
+          type: array
+          items:
+            type: string
+        canonicalNames:
+          type: array
+          items:
+            type: string
+        ignoredNameTokens:
+          type: array
+          items:
+            type: string
+        divergenceGroups:
+          type: array
+          items:
+            type: string
+        divergent:
+          type: boolean
+    SearchKadPublisherEvidence:
+      type: object
+      additionalProperties: false
+      required: [available, band, publishers, differentNames, rawTrustValueCent, rawTrustValue, source]
+      properties:
+        available:
+          type: boolean
+        band:
+          type: string
+          enum: [unknown, low, normal, high]
+        publishers:
+          type: integer
+          minimum: 0
+        differentNames:
+          type: integer
+          minimum: 0
+        rawTrustValueCent:
+          type: integer
+          minimum: 0
+        rawTrustValue:
+          type: number
+          minimum: 0
+        source:
+          type: string
+          enum: [kad_publish_info, not_kad]
+    SearchIntegrityEvidence:
+      type: object
+      additionalProperties: false
+      required: [hasAichHash, multipleAich, pendingHeaderCheck, cachedHeaderEvidence, claimedType, extensionType, detectedHeaderType]
+      properties:
+        hasAichHash:
+          type: boolean
+        multipleAich:
+          type: boolean
+        pendingHeaderCheck:
+          type: boolean
+        cachedHeaderEvidence:
+          type: boolean
+        claimedType:
+          type:
+            - string
+            - "null"
+        extensionType:
+          type:
+            - string
+            - "null"
+        detectedHeaderType:
+          type:
+            - string
+            - "null"
     SharedFilePriority:
       type: string
       enum: [auto, verylow, low, normal, high, release]
@@ -3267,8 +3420,8 @@ components:
           type: boolean
         spam:
           type: boolean
-        fakeFile:
-          $ref: "#/components/schemas/FakeFileAnalysis"
+        evidence:
+          $ref: "#/components/schemas/SearchResultEvidence"
     SearchResultDownloadRequest:
       type: object
       additionalProperties: false

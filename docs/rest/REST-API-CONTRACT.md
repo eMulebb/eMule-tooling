@@ -166,8 +166,26 @@ Each native result also carries the resolved search method and selected search
 type when the result is returned through a search resource. `SearchResult.fileType`
 is the raw native file-type tag reported for that row; `SearchResult.fileType`
 remains row metadata and is not constrained to or remapped through the
-search-filter token enum. Search creation does not clear existing searches as a
-side effect; controllers must call
+search-filter token enum.
+
+Search results expose grouped `SearchResult.evidence` instead of a single
+risk score. Controllers must treat this as explanatory evidence, not a
+safety guarantee:
+
+- `riskEvidence` covers local fake-file, spam, rating, header, media-plausibility,
+  and AICH-conflict warnings.
+- `availabilityEvidence` covers source counts, complete-source counts, observed
+  clients/servers, and Kad publisher counts.
+- `nameEvidence` covers observed names, canonical names, ignored tokens, and
+  meaningful name divergence groups.
+- `kadPublisherEvidence` decodes Kad publish metadata into publisher count,
+  different-name count, raw Kad value, and a low/normal/high evidence band.
+- `integrityEvidence` covers AICH presence, multiple-AICH conflicts, pending or
+  cached header checks, and claimed/detected file type evidence.
+
+Unknown evidence is neutral, not positive; clients must not display it as
+trusted or safe. Search creation does not clear existing searches as a side
+effect; controllers must call
 `DELETE /api/v1/searches` with `confirmDeleteAllSearches: true` when they need a
 clean search set.
 

@@ -24,6 +24,11 @@ preferences; exact keys and ranges are in [Preferences Guide](GUIDE-PREFERENCES.
 Search results can include bad names, misleading extensions, spam, or fake-file
 signals. Treat the visible row as a candidate, not proof.
 
+eMule BB separates **risk** from **evidence** in the search result list. Risk is
+local evidence that a row may be spam, fake, mislabeled, or internally
+inconsistent. Evidence is support for a specific claim about the row; it is not
+a guarantee that the file is safe or authentic.
+
 Check:
 
 - filename agreement across sources
@@ -35,6 +40,29 @@ Check:
 
 Do not rely on one signal. File details and comments matter most for rare or
 ambiguous files.
+
+The compact **Risk** column summarizes local bad-signal evidence. Ctrl-hover a
+search result for the desktop WHY view: risk, availability, complete-source
+count, Kad publisher/name consistency when present, AICH hash when present, and
+the detailed fake-file report.
+
+The REST search result payload exposes the same model structurally:
+
+- risk evidence: fake-file filter hits, spam score/status, bad or fake ratings,
+  header/extension mismatches, executable/archive masquerade, implausible media
+  metadata, and conflicting AICH hashes
+- availability evidence: total sources, complete sources, directly observed
+  clients, server observations, and Kad publisher counts
+- name evidence: observed names, canonical-name agreement, ignored release/junk
+  tokens, and meaningful name disagreement groups for the same hash
+- Kad publisher evidence: Kad `TAG_PUBLISHINFO` decoded as publisher count,
+  different-name count, raw Kad value, and a low/normal/high evidence band
+- integrity evidence: AICH hash presence, pending header checks, cached header
+  evidence, and detected-vs-claimed file type
+
+Unknown evidence is neutral, not positive. For example, unknown Kad publisher
+evidence means the row did not provide useful Kad publisher data; it does not
+mean the row is trusted.
 
 ## Download Actions
 
@@ -76,7 +104,7 @@ Review before batch changes when:
 - the filename becomes generic
 - the extension does not match the expected type
 - sources disagree
-- fake/trust feedback is mixed
+- risk/evidence feedback is mixed
 - the result came from a controller import rather than manual selection
 
 Filename cleanup settings and threshold preferences are documented in
@@ -151,7 +179,7 @@ Use details for:
 - comments
 - hashes and ED2K links
 - category, priority, and path review
-- fake/trust warnings
+- risk/evidence warnings
 
 Use plain ED2K links for import/controller workflows. Use summary-copy actions
 for support notes or manual audits.
@@ -166,7 +194,7 @@ Native distinctions matter:
 - paused vs started add
 - delete/cancel semantics
 - completed vs incomplete files
-- source/fake/trust feedback
+- source/risk/evidence feedback
 - local path and profile ownership
 
 When controller behavior surprises you, compare the request with the native REST
@@ -193,6 +221,6 @@ Slow uploads:
 Poor names:
 
 1. Compare source names.
-2. Check fake/trust signals.
+2. Check risk/evidence signals.
 3. Review comments and file details.
-4. Avoid batch cleanup until selected rows are trustworthy.
+4. Avoid batch cleanup until selected rows have enough supporting evidence.
