@@ -12,9 +12,9 @@ This directory is the active backlog and revalidation layer for this repo. Use
 ## Current Snapshot
 
 **Source of truth:** `EMULE_WORKSPACE_ROOT\workspaces\v0.72a\app\eMule-main` (`main` branch)  
-**Current non-done count:** `60`
+**Current non-done count:** `61`
 **Latest release-doc refresh:** 2026-05-13
-**Non-done by status:** `37` Open, `7` In Progress, `16` Deferred, `0` Blocked.
+**Non-done by status:** `38` Open, `7` In Progress, `16` Deferred, `0` Blocked.
 **Backlog counts:** item tables below are authoritative.
 **Beta 0.7.3 relevance:** Most non-done items below are future or deferred work;
 current beta gate and proof status is controlled by [RELEASE-0.7.3](RELEASE-0.7.3.md).
@@ -25,6 +25,7 @@ evidence only and must not be published.
 **Beta-release checklist:** [RELEASE-0.7.3-CHECKLIST](RELEASE-0.7.3-CHECKLIST.md)
 **Beta-release runbook:** [RELEASE-0.7.3-RUNBOOK](RELEASE-0.7.3-RUNBOOK.md)
 **Beta controller surface matrix:** [CONTROLLER-SURFACE-MATRIX](CONTROLLER-SURFACE-MATRIX.md)
+**Future release roadmap:** [FUTURE-ROADMAP](FUTURE-ROADMAP.md)
 **Beta-release execution plan:** [RELEASE-0.7.3-EXECUTION-PLAN](plans/RELEASE-0.7.3-EXECUTION-PLAN.md)
 **Historical beta evidence:** [release-0.7.3](../history/release-0.7.3/)
 **Historical reviews:** [reviews](../history/reviews/)
@@ -319,6 +320,7 @@ not active item docs.
 | [FEAT-061](../history/items/FEAT-061.md) | Minor | Done | Strong preference schema validation |
 | [FEAT-062](../history/items/FEAT-062.md) | Minor | Done | Category management dialog polish and robustness |
 | [FEAT-063](../history/items/FEAT-063.md) | Minor | Done | Web Interface preferences layout polish |
+| [FEAT-064](items/FEAT-064.md) | Minor | Open | Curated post-0.7.3 future release roadmap |
 
 ---
 
