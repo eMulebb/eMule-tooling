@@ -116,12 +116,21 @@ def require_ids(rows: list[tuple[str, str]], required_ids: list[str], label: str
         raise SystemExit(f"{label} is missing required resource ids:\n" + "\n".join(missing))
 
 
+def normalize_control_escapes(value: str) -> str:
+    """Normalize control characters to explicit RC escape markers."""
+
+    return (
+        value.replace("\r\n", r"\r\n")
+        .replace("\r", r"\r\n")
+        .replace("\n", r"\r\n")
+        .replace("\t", r"\t")
+    )
+
+
 def escape_rc_string(value: str) -> str:
     """Escape a Python string value for a single-line RC string literal."""
 
-    if "\r" in value or "\n" in value:
-        raise SystemExit("Multiline RC values are intentionally not accepted by this helper.")
-    return value.replace('"', '""')
+    return normalize_control_escapes(value).replace('"', '""')
 
 
 def find_resource_endif(text: str) -> re.Match[str]:
@@ -200,7 +209,7 @@ def format_markers(value: str) -> list[str]:
 def escape_markers(value: str) -> list[str]:
     """Return RC line/tab escape markers that must retain paragraph shape."""
 
-    return ESCAPE_RE.findall(value)
+    return ESCAPE_RE.findall(normalize_control_escapes(value))
 
 
 def accelerator_counts(value: str) -> tuple[int, int]:
