@@ -365,6 +365,7 @@ not active item docs.
 | [CI-034](../history/items/CI-034.md) | Major | DONE | Package-release provenance and dirty-input guard |
 | [CI-035](items/CI-035.md) | Major | OPEN | Final current-head beta proof and fresh package hashes |
 | [CI-036](../history/items/CI-036.md) | Major | DONE | Release certification test matrix |
+| [CI-037](items/CI-037.md) | Major | IN_PROGRESS | Expanded live UI and E2E weak-path stress gate |
 
 ---
 

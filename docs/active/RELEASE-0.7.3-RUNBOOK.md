@@ -46,6 +46,23 @@ No release-blocking certification step may fail. A live-network step may be
 accepted as inconclusive only when the aggregate and child reports prove the app
 and harness behaved correctly and the checklist records the external condition.
 
+## Expanded Weak-Path Gate
+
+Before packaging, run the bounded weak-path live gate with the operator-owned
+live-wire inputs:
+
+```powershell
+python -m emule_workspace test live-e2e --profile release-expanded --fail-fast `
+  --live-wire-inputs-file repos\eMule-build-tests\live-wire-inputs.local.json
+```
+
+This profile covers Preferences directory-tree stress, Shared Files,
+shared-hash shutdown/recovery, Search UI, shared-directories REST, REST
+adversity, cold-start telemetry, local dump/crash smoke, and aMuTorrent browser
+smoke. It requires 50 server searches, 50 Kad searches, and 100 successful
+paused download triggers. Success means each triggered download is accepted and
+materializes in the transfer queue; completion is not required.
+
 ## Focused Stabilization Stress
 
 When release proof resumes and the operator wants extra crash, leak, CPU, REST

@@ -27,6 +27,7 @@ checklist.
 
 - [ ] `python -m emule_workspace test certification --profile fast`
 - [ ] `python -m emule_workspace test certification --profile overnight`
+- [ ] `python -m emule_workspace test live-e2e --profile release-expanded --fail-fast --live-wire-inputs-file repos\eMule-build-tests\live-wire-inputs.local.json`
 - [ ] `python -m emule_workspace package-release --config Release --platform x64`
 - [ ] `python -m emule_workspace package-release --config Release --platform ARM64`
 - [ ] `python repos\eMule-tooling\ci\check-clean-worktree.py`
@@ -69,7 +70,8 @@ lands.
 When proof resumes, run the remaining queue in this order:
 
 1. Revalidate the active release docs and item dispositions.
-2. Run the required command rows above on the selected current app `main` head.
+2. Run the required command rows above on the selected current app `main` head,
+   including the expanded weak-path live gate.
 3. Regenerate x64 and ARM64 packages only after proof succeeds.
 4. Record fresh package paths, manifests, SHA-256 hashes, and repo commits in
    [CI-035](items/CI-035.md).
