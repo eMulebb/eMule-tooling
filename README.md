@@ -80,15 +80,16 @@ Normalization helpers live here too:
 - `helpers\rc-translate-missing.py` adds only missing eMule BB managed strings
   to supported language `.rc` files. It preserves existing translations by
   default, refuses stock-string drift after writing, and can produce
-  `--review-packet` TSVs. Use curated `--manual-tsv` input for new labels before
+  `--review-packet` TSVs. Use curated `--manual-tsv` input for one language or
+  `--manual-dir` per-language TSVs for all stock languages before
   relying on machine translation drafts; use `--draft-only
   --no-machine-translate` when preparing review packets without touching `.rc`
   files. Parallel processing is supported only for stock eMule `.rc` review
   packets through `--all-stock-targets`; it intentionally refuses concurrent
   `.rc` writes and machine-translation calls.
 - `helpers\rc-release-languages.json` is the canonical machine-readable release
-  language manifest. Prefer it over hand-written repeated `--target-rc` lists
-  in audits.
+  language manifest. It must enumerate every stock `srchybrid\lang\*.rc` file;
+  release validation rejects a smaller language subset.
 - `helpers\rc-release-localization-ids.txt` lists the release-facing eMule BB
   resource IDs that every supported language must contain.
 - `helpers\rc-translation-identical-ok-ids.txt` allow-lists IDs where identical
@@ -110,10 +111,23 @@ as an unreviewed final result. Historical or external translation engines,
 including the eMuleAI analysis tree, may inspire validation checks but are not
 translation sources for release `.rc` files.
 
+Deterministic label update flow: add the English string to `emule.rc`, add its
+ID to `helpers\rc-release-localization-ids.txt`, generate all-stock review
+packets, review/translate each new label using stock terminology in the same
+language first, compare external material only as a sanity check, apply curated
+per-language TSVs through `--manual-dir`, then run the release localization
+audit. Do not hand-edit broad legacy translations during a label update.
+
 Typical release localization audit:
 
 ```powershell
 python helpers\rc-string-table.py --cross-reference --quality-audit --fail-on-quality-warning --show-extra --allow-identical-ids helpers\rc-translation-identical-ok-ids.txt --quality-rules helpers\rc-translation-quality-rules.json --english-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --require-ids helpers\rc-release-localization-ids.txt --release-languages helpers\rc-release-languages.json
+```
+
+Release language manifest audit:
+
+```powershell
+python helpers\rc-string-table.py --audit-release-manifest --english-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --release-languages helpers\rc-release-languages.json
 ```
 
 Missing managed-label report:
@@ -126,6 +140,12 @@ Stock-language review packets, safe to run in parallel:
 
 ```powershell
 python helpers\rc-translate-missing.py --source-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --require-ids helpers\rc-release-localization-ids.txt --all-stock-targets --draft-only --no-machine-translate --ignore-cache --review-dir $env:TEMP\emule-rc-review --jobs 8
+```
+
+Apply curated per-language TSVs after review:
+
+```powershell
+python helpers\rc-translate-missing.py --source-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --require-ids helpers\rc-release-localization-ids.txt --all-stock-targets --no-machine-translate --ignore-cache --manual-dir $env:TEMP\emule-rc-reviewed --jobs 1
 ```
 
 Release-facing Windows operator scripts are the only tracked PowerShell files

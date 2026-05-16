@@ -274,6 +274,21 @@ def load_quality_rules(path: Path | None) -> dict:
     return json.loads(path.read_text(encoding="utf-8-sig"))
 
 
+def stock_lang_dir(english_rc: Path) -> Path:
+    """Return the stock eMule language directory next to the English RC file."""
+
+    return english_rc.parent / "lang"
+
+
+def stock_rc_files(english_rc: Path) -> list[Path]:
+    """Return all stock eMule language RC files available for release gating."""
+
+    lang_dir = stock_lang_dir(english_rc)
+    if not lang_dir.is_dir():
+        raise SystemExit(f"Stock language directory does not exist: {lang_dir}")
+    return sorted(path for path in lang_dir.glob("*.rc") if path.is_file())
+
+
 def load_release_language_targets(path: Path | None, english_rc: Path | None) -> list[Path]:
     """Load target RC files from the canonical release language manifest."""
 
@@ -313,6 +328,46 @@ def load_release_language_targets(path: Path | None, english_rc: Path | None) ->
     if errors:
         raise SystemExit(f"{path} has invalid release language entries:\n" + "\n".join(errors))
     return targets
+
+
+def collect_target_rcs(args: argparse.Namespace, purpose: str) -> list[Path]:
+    """Collect explicit, manifest, and all-stock target RC files."""
+
+    if not args.english_rc:
+        raise SystemExit(f"--{purpose} requires --english-rc.")
+    targets = list(args.target_rc or [])
+    targets.extend(load_release_language_targets(args.release_languages, args.english_rc))
+    if args.all_stock_targets:
+        targets.extend(stock_rc_files(args.english_rc))
+    if args.rc:
+        targets.append(args.rc)
+    if not targets:
+        raise SystemExit(
+            f"--{purpose} requires at least one --target-rc, --release-languages, "
+            "--all-stock-targets, or --rc."
+        )
+    return list(dict.fromkeys(targets))
+
+
+def audit_release_language_manifest(args: argparse.Namespace) -> None:
+    """Fail unless the release manifest covers every stock language RC file."""
+
+    if not args.english_rc:
+        raise SystemExit("--audit-release-manifest requires --english-rc.")
+    if not args.release_languages:
+        raise SystemExit("--audit-release-manifest requires --release-languages.")
+    manifest_targets = set(load_release_language_targets(args.release_languages, args.english_rc))
+    stock_targets = set(stock_rc_files(args.english_rc))
+    missing = sorted(stock_targets - manifest_targets)
+    stale = sorted(manifest_targets - stock_targets)
+    errors: list[str] = []
+    if missing:
+        errors.append("manifest is missing stock language RC files:\n" + "\n".join(str(path) for path in missing))
+    if stale:
+        errors.append("manifest references non-stock language RC files:\n" + "\n".join(str(path) for path in stale))
+    if errors:
+        raise SystemExit("\n\n".join(errors))
+    print(f"OK {args.release_languages}: {len(stock_targets)} stock language RC files")
 
 
 def _rules_for_target(rules: dict, target_path: Path) -> list[dict]:
@@ -421,15 +476,7 @@ def _required_or_source_ids(required_ids: list[str], source: dict[str, str]) -> 
 def cross_reference(args: argparse.Namespace) -> None:
     """Cross-reference source and target RC string resources."""
 
-    if not args.english_rc:
-        raise SystemExit("--cross-reference requires --english-rc.")
-    targets = list(args.target_rc or [])
-    targets.extend(load_release_language_targets(args.release_languages, args.english_rc))
-    if args.rc:
-        targets.append(args.rc)
-    if not targets:
-        raise SystemExit("--cross-reference requires at least one --target-rc, --release-languages, or --rc.")
-    targets = list(dict.fromkeys(targets))
+    targets = collect_target_rcs(args, "cross-reference")
 
     source = collect_rc_strings(args.english_rc)
     required_ids = _required_or_source_ids(parse_id_list(args.require_ids), source.values)
@@ -487,15 +534,7 @@ def cross_reference(args: argparse.Namespace) -> None:
 def missing_report(args: argparse.Namespace) -> None:
     """Print required release ids missing from target RC files."""
 
-    if not args.english_rc:
-        raise SystemExit("--missing-report requires --english-rc.")
-    targets = list(args.target_rc or [])
-    targets.extend(load_release_language_targets(args.release_languages, args.english_rc))
-    if args.rc:
-        targets.append(args.rc)
-    if not targets:
-        raise SystemExit("--missing-report requires at least one --target-rc, --release-languages, or --rc.")
-    targets = list(dict.fromkeys(targets))
+    targets = collect_target_rcs(args, "missing-report")
 
     source = collect_rc_strings(args.english_rc)
     required_ids = _required_or_source_ids(parse_id_list(args.require_ids), source.values)
@@ -591,6 +630,11 @@ def main() -> int:
         help="JSON release language manifest whose RC files are added as --target-rc entries.",
     )
     parser.add_argument(
+        "--all-stock-targets",
+        action="store_true",
+        help="Add every stock eMule srchybrid/lang/*.rc file as a target.",
+    )
+    parser.add_argument(
         "--require-ids",
         type=Path,
         help="Optional one-id-per-line file of resource ids that must be present.",
@@ -609,6 +653,11 @@ def main() -> int:
         "--missing-report",
         action="store_true",
         help="Print required ids missing from target RC files.",
+    )
+    parser.add_argument(
+        "--audit-release-manifest",
+        action="store_true",
+        help="Require --release-languages to enumerate every stock eMule language RC file.",
     )
     parser.add_argument(
         "--fail-on-missing",
@@ -643,7 +692,9 @@ def main() -> int:
     parser.add_argument("--probe-start", default=DEFAULT_PROBE_START)
     parser.add_argument("--probe-end", default=DEFAULT_PROBE_END)
     args = parser.parse_args()
-    if args.cross_reference:
+    if args.audit_release_manifest:
+        audit_release_language_manifest(args)
+    elif args.cross_reference:
         cross_reference(args)
     elif args.missing_report:
         missing_report(args)

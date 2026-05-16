@@ -586,6 +586,61 @@ def audit_warning_policy(root: Path) -> None:
     print("Warning policy audit passed.")
 
 
+def audit_localization_policy(root: Path) -> None:
+    """Runs release localization manifest and required-id coverage checks."""
+
+    tooling_root = resolve_workspace_path(root, r"repos\eMule-tooling")
+    helper = tooling_root / r"helpers\rc-string-table.py"
+    english_rc = resolve_workspace_path(root, r"workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc")
+    release_languages = tooling_root / r"helpers\rc-release-languages.json"
+    require_ids = tooling_root / r"helpers\rc-release-localization-ids.txt"
+    allow_identical = tooling_root / r"helpers\rc-translation-identical-ok-ids.txt"
+    quality_rules = tooling_root / r"helpers\rc-translation-quality-rules.json"
+    for path in (helper, english_rc, release_languages, require_ids, allow_identical, quality_rules):
+        if not path.is_file():
+            raise RuntimeError(f"Required localization policy file is missing: {path}")
+
+    commands = (
+        (
+            "release language manifest audit",
+            [
+                sys.executable,
+                str(helper),
+                "--audit-release-manifest",
+                "--english-rc",
+                str(english_rc),
+                "--release-languages",
+                str(release_languages),
+            ],
+        ),
+        (
+            "release localization coverage audit",
+            [
+                sys.executable,
+                str(helper),
+                "--cross-reference",
+                "--quality-audit",
+                "--fail-on-quality-warning",
+                "--allow-identical-ids",
+                str(allow_identical),
+                "--quality-rules",
+                str(quality_rules),
+                "--english-rc",
+                str(english_rc),
+                "--require-ids",
+                str(require_ids),
+                "--release-languages",
+                str(release_languages),
+            ],
+        ),
+    )
+    for label, command in commands:
+        completed = subprocess.run(command, cwd=tooling_root, check=False)
+        if completed.returncode != 0:
+            raise RuntimeError(f"{label} failed.")
+    print("Release localization policy audit passed.")
+
+
 def tracked_powershell_paths(repo_root: Path) -> tuple[str, ...]:
     """Returns tracked PowerShell script paths for one repo."""
 
@@ -836,6 +891,7 @@ AUDITS = {
     "dependency-pins": audit_dependency_pins,
     "doc-paths": audit_doc_paths,
     "editorconfig-policy": audit_editorconfig_policy,
+    "localization-policy": audit_localization_policy,
     "project-entrypoints": audit_project_entrypoints,
     "powershell-boundary": audit_powershell_boundary,
     "warning-policy": audit_warning_policy,

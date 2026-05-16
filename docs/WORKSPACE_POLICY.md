@@ -536,29 +536,17 @@ The canonical workspace currently materializes these app worktrees:
 
 ## Release Localization Policy
 
-- The canonical supported release language set is:
-  `es`, `pt_BR`, `pt_PT`, `it`, `ru`, `de`, `fr`, `pl`, `nl`, `tr`,
-  `cs_CZ`, `uk_UA`, `hu_HU`, and `ro_RO`.
-- The corresponding app resource files are:
-  - `es` -> `srchybrid\lang\es_ES_T.rc`
-  - `pt_BR` -> `srchybrid\lang\pt_BR.rc`
-  - `pt_PT` -> `srchybrid\lang\pt_PT.rc`
-  - `it` -> `srchybrid\lang\it_IT.rc`
-  - `ru` -> `srchybrid\lang\ru_RU.rc`
-  - `de` -> `srchybrid\lang\de_DE.rc`
-  - `fr` -> `srchybrid\lang\fr_FR.rc`
-  - `pl` -> `srchybrid\lang\pl_PL.rc`
-  - `nl` -> `srchybrid\lang\nl_NL.rc`
-  - `tr` -> `srchybrid\lang\tr_TR.rc`
-  - `cs_CZ` -> `srchybrid\lang\cz_CZ.rc`
-  - `uk_UA` -> `srchybrid\lang\ua_UA.rc`
-  - `hu_HU` -> `srchybrid\lang\hu_HU.rc`
-  - `ro_RO` -> `srchybrid\lang\ro_RO.rc`
-  The Czech and Ukrainian file names are historical compatibility names; use
-  the canonical language codes above in release policy and tooling.
+- Every stock eMule resource file under `srchybrid\lang\*.rc` in the active
+  app worktree is a supported eMule BB release language and is part of release
+  gating. There is no smaller "core" language subset for release-facing labels.
+- `repos\eMule-tooling\helpers\rc-release-languages.json` is the
+  machine-readable release manifest and must enumerate exactly the current
+  stock `srchybrid\lang\*.rc` file set. Historical compatibility file names,
+  such as `cz_CZ.rc`, `ua_UA.rc`, `jp_JP.rc`, and `es_ES_T.rc`, must stay as
+  file names even when their policy language code is more canonical.
 - New release-facing user-visible strings must land in `srchybrid\emule.rc`
-  and every canonical supported release language file above before release
-  proof.
+  and every stock `srchybrid\lang\*.rc` language file before release proof.
+  Missing managed labels in any stock language are release blockers.
 - Existing stock/eMule translation strings in supported `.rc` files must be
   preserved. Do not mass-retranslate legacy labels, do not replace established
   community wording just because a machine translation suggests different text,
@@ -577,19 +565,22 @@ The canonical workspace currently materializes these app worktrees:
   auditing release localization coverage, duplicate ids, printf/literal-percent
   marker parity, line-break escape parity, mnemonic accelerator parity,
   copied-English mistakes, missing managed ids, and curated semantic quality
-  rules.
+  rules. The release gate must use the full stock language set, either through
+  `--release-languages helpers\rc-release-languages.json` or
+  `--all-stock-targets`.
 - `repos\eMule-tooling\helpers\rc-translate-missing.py` is a convenience helper
   for adding only missing managed strings. It must preserve existing target
   translations by default, verify that stock strings did not change after a
-  write, and support review-packet/draft-only workflows. Prefer curated
-  `--manual-tsv` translations for new labels before falling back to machine
+  write, support review-packet/draft-only workflows, and support curated
+  per-language `--manual-dir` updates for the full stock language set. Prefer
+  curated manual translations for new labels before falling back to machine
   translation drafts.
 - Parallel localization work is allowed only for draft/review artifacts from
   stock eMule `.rc` files. Do not run concurrent `.rc` writes, and do not add
   release languages that are not present as stock eMule resource files.
-- Other legacy translation files are best-effort maintenance targets and are
-  not release-blocking unless this policy explicitly promotes them into the
-  canonical supported set.
+- Workspace validation must run the localization policy audit so manifest drift
+  and missing required managed labels across stock languages fail before release
+  proof.
 
 ## Tags
 

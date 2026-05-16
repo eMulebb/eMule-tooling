@@ -1,76 +1,47 @@
 {
   "languages": [
-    {
-      "code": "es",
-      "name": "Spanish",
-      "rc": "es_ES_T.rc"
-    },
-    {
-      "code": "pt_BR",
-      "name": "Portuguese (Brazil)",
-      "rc": "pt_BR.rc"
-    },
-    {
-      "code": "pt_PT",
-      "name": "Portuguese (Portugal)",
-      "rc": "pt_PT.rc"
-    },
-    {
-      "code": "it",
-      "name": "Italian",
-      "rc": "it_IT.rc"
-    },
-    {
-      "code": "ru",
-      "name": "Russian",
-      "rc": "ru_RU.rc"
-    },
-    {
-      "code": "de",
-      "name": "German",
-      "rc": "de_DE.rc"
-    },
-    {
-      "code": "fr",
-      "name": "French",
-      "rc": "fr_FR.rc"
-    },
-    {
-      "code": "pl",
-      "name": "Polish",
-      "rc": "pl_PL.rc"
-    },
-    {
-      "code": "nl",
-      "name": "Dutch",
-      "rc": "nl_NL.rc"
-    },
-    {
-      "code": "tr",
-      "name": "Turkish",
-      "rc": "tr_TR.rc"
-    },
-    {
-      "code": "cs_CZ",
-      "name": "Czech",
-      "rc": "cz_CZ.rc",
-      "note": "Keep the historical file name for app compatibility; policy code uses cs_CZ."
-    },
-    {
-      "code": "uk_UA",
-      "name": "Ukrainian",
-      "rc": "ua_UA.rc",
-      "note": "Keep the historical file name for app compatibility; policy code uses uk_UA."
-    },
-    {
-      "code": "hu_HU",
-      "name": "Hungarian",
-      "rc": "hu_HU.rc"
-    },
-    {
-      "code": "ro_RO",
-      "name": "Romanian",
-      "rc": "ro_RO.rc"
-    }
+    { "code": "ar_AE", "name": "Arabic", "rc": "ar_AE.rc" },
+    { "code": "ba_BA", "name": "Basque", "rc": "ba_BA.rc" },
+    { "code": "bg_BG", "name": "Bulgarian", "rc": "bg_BG.rc" },
+    { "code": "ca_ES", "name": "Catalan", "rc": "ca_ES.rc" },
+    { "code": "cs_CZ", "name": "Czech", "rc": "cz_CZ.rc", "note": "Keep the historical file name for app compatibility; policy code uses cs_CZ." },
+    { "code": "da_DK", "name": "Danish", "rc": "da_DK.rc" },
+    { "code": "de_DE", "name": "German", "rc": "de_DE.rc" },
+    { "code": "el_GR", "name": "Greek", "rc": "el_GR.rc" },
+    { "code": "es_AS", "name": "Asturian", "rc": "es_AS.rc" },
+    { "code": "es_ES", "name": "Spanish", "rc": "es_ES_T.rc", "note": "Keep the historical file name for app compatibility." },
+    { "code": "et_EE", "name": "Estonian", "rc": "et_EE.rc" },
+    { "code": "fa_IR", "name": "Persian", "rc": "fa_IR.rc" },
+    { "code": "fi_FI", "name": "Finnish", "rc": "fi_FI.rc" },
+    { "code": "fr_BR", "name": "Breton", "rc": "fr_BR.rc" },
+    { "code": "fr_FR", "name": "French", "rc": "fr_FR.rc" },
+    { "code": "gl_ES", "name": "Galician", "rc": "gl_ES.rc" },
+    { "code": "he_IL", "name": "Hebrew", "rc": "he_IL.rc" },
+    { "code": "hu_HU", "name": "Hungarian", "rc": "hu_HU.rc" },
+    { "code": "it_IT", "name": "Italian", "rc": "it_IT.rc" },
+    { "code": "ja_JP", "name": "Japanese", "rc": "jp_JP.rc", "note": "Keep the historical file name for app compatibility." },
+    { "code": "ko_KR", "name": "Korean", "rc": "ko_KR.rc" },
+    { "code": "lt_LT", "name": "Lithuanian", "rc": "lt_LT.rc" },
+    { "code": "lv_LV", "name": "Latvian", "rc": "lv_LV.rc" },
+    { "code": "mt_MT", "name": "Maltese", "rc": "mt_MT.rc" },
+    { "code": "nb_NO", "name": "Norwegian Bokmal", "rc": "nb_NO.rc" },
+    { "code": "nl_NL", "name": "Dutch", "rc": "nl_NL.rc" },
+    { "code": "nn_NO", "name": "Norwegian Nynorsk", "rc": "nn_NO.rc" },
+    { "code": "pl_PL", "name": "Polish", "rc": "pl_PL.rc" },
+    { "code": "pt_BR", "name": "Portuguese (Brazil)", "rc": "pt_BR.rc" },
+    { "code": "pt_PT", "name": "Portuguese (Portugal)", "rc": "pt_PT.rc" },
+    { "code": "ro_RO", "name": "Romanian", "rc": "ro_RO.rc" },
+    { "code": "ru_RU", "name": "Russian", "rc": "ru_RU.rc" },
+    { "code": "sl_SI", "name": "Slovenian", "rc": "sl_SI.rc" },
+    { "code": "sq_AL", "name": "Albanian", "rc": "sq_AL.rc" },
+    { "code": "sv_SE", "name": "Swedish", "rc": "sv_SE.rc" },
+    { "code": "tr_TR", "name": "Turkish", "rc": "tr_TR.rc" },
+    { "code": "uk_UA", "name": "Ukrainian", "rc": "ua_UA.rc", "note": "Keep the historical file name for app compatibility; policy code uses uk_UA." },
+    { "code": "ug_CN", "name": "Uyghur", "rc": "ug_CN.rc" },
+    { "code": "va_ES", "name": "Valencian", "rc": "va_ES.rc" },
+    { "code": "va_ES_RACV", "name": "Valencian RACV", "rc": "va_ES_RACV.rc" },
+    { "code": "vi_VN", "name": "Vietnamese", "rc": "vi_VN.rc" },
+    { "code": "zh_CN", "name": "Chinese (Simplified)", "rc": "zh_CN.rc" },
+    { "code": "zh_TW", "name": "Chinese (Traditional)", "rc": "zh_TW.rc" }
   ]
 }

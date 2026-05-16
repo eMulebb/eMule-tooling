@@ -417,15 +417,18 @@ def run(args: argparse.Namespace) -> None:
 
     rows = existing_rows + new_rows
     if not args.dry_run and not args.draft_only:
-        rc_helper.validate_placeholders(args.source_rc, rows)
-        original_values = dict(target.values)
-        apply_rows(rc_helper, args.target_rc, rows)
-        verify_non_managed_unchanged(
-            rc_helper,
-            args.target_rc,
-            original_values,
-            {key for key, _ in rows},
-        )
+        if new_rows:
+            rc_helper.validate_placeholders(args.source_rc, rows)
+            original_values = dict(target.values)
+            apply_rows(rc_helper, args.target_rc, rows)
+            verify_non_managed_unchanged(
+                rc_helper,
+                args.target_rc,
+                original_values,
+                {key for key, _ in rows},
+            )
+        else:
+            print(f"{args.target_rc}: no new curated managed rows")
     print(
         f"{args.target_rc}: preserved {len(target.values) - len(missing)} existing rows, "
         f"added {len(new_rows)} rows ({len(manual_keys)} manual), "
@@ -445,28 +448,54 @@ def _batch_one(base_args: argparse.Namespace, target_rc: Path) -> str:
     return str(child_args.review_packet)
 
 
-def run_all_stock_targets(args: argparse.Namespace) -> None:
-    """Generate stock-language review packets in parallel without RC writes."""
+def _apply_one_stock_target(base_args: argparse.Namespace, target_rc: Path) -> str:
+    """Apply curated managed translations to one stock language RC file."""
 
-    if not args.draft_only or not args.no_machine_translate:
-        raise SystemExit("--all-stock-targets requires --draft-only --no-machine-translate.")
-    if not args.review_dir:
-        raise SystemExit("--all-stock-targets requires --review-dir.")
+    child_args = argparse.Namespace(**vars(base_args))
+    child_args.target_rc = target_rc
+    child_args.target_lang = target_rc.stem
+    child_args.review_packet = None
+    child_args.progress = 0
+    candidate = base_args.manual_dir / f"{target_rc.stem}.tsv"
+    child_args.manual_tsv = candidate if candidate.is_file() else None
+    run(child_args)
+    return str(target_rc)
+
+
+def run_all_stock_targets(args: argparse.Namespace) -> None:
+    """Generate or apply stock-language managed translation updates."""
+
+    if not args.no_machine_translate:
+        raise SystemExit("--all-stock-targets requires --no-machine-translate; all-language release updates must use curated TSVs.")
     if args.manual_tsv:
-        raise SystemExit("--all-stock-targets does not accept --manual-tsv; review packets are input for later manual TSVs.")
+        raise SystemExit("--all-stock-targets does not accept --manual-tsv; use --manual-dir for per-language TSVs.")
     if args.jobs < 1:
         raise SystemExit("--jobs must be at least 1.")
 
     targets = stock_rc_files(args.source_rc)
-    args.review_dir.mkdir(parents=True, exist_ok=True)
-    print(f"Generating {len(targets)} stock eMule review packet(s) under {args.review_dir}")
-    if args.jobs == 1:
-        outputs = [_batch_one(args, target) for target in targets]
-    else:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=args.jobs) as executor:
-            outputs = list(executor.map(lambda target: _batch_one(args, target), targets))
-    for output in outputs:
-        print(f"REVIEW {output}")
+    if args.draft_only:
+        if not args.review_dir:
+            raise SystemExit("--all-stock-targets --draft-only requires --review-dir.")
+        args.review_dir.mkdir(parents=True, exist_ok=True)
+        print(f"Generating {len(targets)} stock eMule review packet(s) under {args.review_dir}")
+        if args.jobs == 1:
+            outputs = [_batch_one(args, target) for target in targets]
+        else:
+            with concurrent.futures.ThreadPoolExecutor(max_workers=args.jobs) as executor:
+                outputs = list(executor.map(lambda target: _batch_one(args, target), targets))
+        for output in outputs:
+            print(f"REVIEW {output}")
+        return
+
+    if args.dry_run:
+        raise SystemExit("--all-stock-targets apply mode does not support --dry-run; use --draft-only for review packets.")
+    if not args.manual_dir:
+        raise SystemExit("--all-stock-targets apply mode requires --manual-dir with one <lang-rc-stem>.tsv file per target needing rows.")
+    if args.jobs != 1:
+        raise SystemExit("--all-stock-targets apply mode writes RC files and must run with --jobs 1.")
+    print(f"Applying curated managed translations to {len(targets)} stock eMule RC file(s)")
+    for target in targets:
+        print(f"APPLY {_apply_one_stock_target(args, target)}")
 
 
 def main() -> int:
@@ -481,6 +510,11 @@ def main() -> int:
         "--manual-tsv",
         type=Path,
         help="Optional KEY<TAB>VALUE file with curated translations for newly missing ids.",
+    )
+    parser.add_argument(
+        "--manual-dir",
+        type=Path,
+        help="Directory containing <target-rc-stem>.tsv files for --all-stock-targets apply mode.",
     )
     parser.add_argument("--cache", type=Path, default=DEFAULT_CACHE, help="Translation cache path.")
     parser.add_argument("--protect-term", action="append", default=[], help="Additional literal term to preserve.")
