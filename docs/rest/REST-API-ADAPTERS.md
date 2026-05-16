@@ -75,6 +75,7 @@ Supported request shape:
 | `q` | Search text, normalized through native REST search validation. |
 | `cat` | Comma-separated Torznab categories mapped to native eMule file families. |
 | `season`, `ep`, `year` | Optional unsigned decimal filters bounded to `0..9999`. |
+| `offset`, `limit` | Optional unsigned decimal paging controls. `limit` is bounded to `0..100`, with `0` using the default `100`; `offset` is bounded to `0..1000000`. Non-zero offsets page only a cached first-page result set for the same normalized query, category, media family, and native method set. If no cached result set exists, the adapter returns an empty accepted feed instead of launching a new native search for that later page. |
 
 Supported responses:
 
