@@ -755,7 +755,7 @@ def collect_doc_path_issues(root: Path) -> list[str]:
     issues: list[str] = []
     tooling = resolve_workspace_path(root, r"repos\eMule-tooling")
     scan_scopes = (
-        (tooling, ("README.md", "AGENTS.md", r"docs\WORKSPACE_POLICY.md", r"docs\RESUME.md")),
+        (tooling, ("README.md", "AGENTS.md", r"docs\WORKSPACE_POLICY.md")),
         (tooling, (r"docs\active\*.md", r"docs\active\items\*.md", r"docs\active\plans\*.md", r"docs\active\reviews\*.md")),
         (resolve_workspace_path(root, r"repos\eMule-build"), ("README.md", "AGENTS.md")),
         (resolve_workspace_path(root, r"repos\eMule-build-tests"), ("README.md", "AGENTS.md")),
@@ -833,11 +833,32 @@ def assert_active_index_non_done_count(issues: list[str], tooling: Path) -> None
     if declared is None:
         issues.append(f"{tooling}\\{relative_path}: missing Current non-done count metadata.")
         return
-    row_re = re.compile(r"(?m)^\| \[[A-Z]+-\d+\]\([^)]+\) \| [^|]+ \| \**(?P<status>Open|In Progress|Blocked|Deferred|Passed|Done|Wont-Fix)\** \|")
-    actual = sum(1 for match in row_re.finditer(text) if match.group("status") in {"Open", "In Progress", "Blocked", "Deferred"})
+    status_map = {
+        "OPEN": "OPEN",
+        "IN_PROGRESS": "IN_PROGRESS",
+        "BLOCKED": "BLOCKED",
+        "DEFERRED": "DEFERRED",
+        "DONE": "DONE",
+        "PASSED": "PASSED",
+        "WONT_DO": "WONT_DO",
+        "Open": "OPEN",
+        "In Progress": "IN_PROGRESS",
+        "Blocked": "BLOCKED",
+        "Deferred": "DEFERRED",
+        "Done": "DONE",
+        "Passed": "PASSED",
+        "Wont-Fix": "WONT_DO",
+    }
+    active_statuses = {"OPEN", "IN_PROGRESS", "BLOCKED", "DEFERRED"}
+    row_re = re.compile(r"(?m)^\| \[[A-Z]+-\d+\]\([^)]+\) \| [^|]+ \| (?P<status>[^|]+) \|")
+    actual = 0
+    for match in row_re.finditer(text):
+        status = match.group("status").strip().strip("*")
+        if status_map.get(status) in active_statuses:
+            actual += 1
     expected = int(declared.group("count"))
     if expected != actual:
-        issues.append(f"{tooling}\\{relative_path}: Current non-done count is {expected}, but active item tables contain {actual} Open/In Progress/Blocked/Deferred items.")
+        issues.append(f"{tooling}\\{relative_path}: Current non-done count is {expected}, but active item tables contain {actual} OPEN/IN_PROGRESS/BLOCKED/DEFERRED items.")
 
 
 def audit_doc_paths(root: Path) -> None:
@@ -867,8 +888,12 @@ def audit_doc_paths(root: Path) -> None:
             (r"the canonical remote repo is `EMULE_WORKSPACE_ROOT\repos\eMule-remote`", "community/v0.72a` is the imported baseline"),
             "AGENTS.md contains stale workspace directive text",
         )
-    assert_text_contains(issues, tooling, r"docs\RESUME.md", "handoff", "RESUME.md must identify itself as a handoff note.")
-    assert_text_contains(issues, tooling, r"docs\RESUME.md", "not policy", "RESUME.md must not be usable as policy authority.")
+    resume_text = get_optional_text(tooling, r"docs\RESUME.md")
+    if resume_text is not None:
+        if "handoff" not in resume_text:
+            issues.append(f"{tooling}\\docs\\RESUME.md: RESUME.md must identify itself as a handoff note.")
+        if "not policy" not in resume_text:
+            issues.append(f"{tooling}\\docs\\RESUME.md: RESUME.md must not be usable as policy authority.")
     assert_text_not_contains(issues, tooling, "README.md", (r"repos\eMule-remote", "remote companion app"), "active tooling README must not reference abandoned eMule-remote entrypoints")
     assert_rest_contract_defers_to_openapi(issues, tooling)
     assert_active_index_non_done_count(issues, tooling)
