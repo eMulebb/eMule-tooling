@@ -567,16 +567,23 @@ The canonical workspace currently materializes these app worktrees:
   Machine translation may be used only as a draft source; the committed text
   must be reviewed for product context, false friends, menu/action style,
   placeholders, protected product/protocol names, and target-language idiom.
+- External or historical translation engines, including the eMuleAI analysis
+  tree, may inspire validation techniques but are not authoritative translation
+  sources for release `.rc` files.
 - eMule BB managed translation blocks may be updated to add or improve new
   eMule BB strings. Such edits must stay scoped to those new/managed labels
   unless the user explicitly asks for a broader translation refresh.
 - `repos\eMule-tooling\helpers\rc-string-table.py` is the canonical helper for
-  auditing release localization coverage, placeholder parity, copied-English
-  mistakes, and curated semantic quality rules.
+  auditing release localization coverage, duplicate ids, printf/literal-percent
+  marker parity, line-break escape parity, mnemonic accelerator parity,
+  copied-English mistakes, missing managed ids, and curated semantic quality
+  rules.
 - `repos\eMule-tooling\helpers\rc-translate-missing.py` is a convenience helper
   for adding only missing managed strings. It must preserve existing target
-  translations by default; prefer curated `--manual-tsv` translations for new
-  labels before falling back to machine translation.
+  translations by default, verify that stock strings did not change after a
+  write, and support review-packet/draft-only workflows. Prefer curated
+  `--manual-tsv` translations for new labels before falling back to machine
+  translation drafts.
 - Other legacy translation files are best-effort maintenance targets and are
   not release-blocking unless this policy explicitly promotes them into the
   canonical supported set.

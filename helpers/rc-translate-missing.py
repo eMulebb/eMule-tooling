@@ -9,6 +9,7 @@ translation.
 from __future__ import annotations
 
 import argparse
+import csv
 import importlib.util
 import json
 import re
@@ -259,6 +260,56 @@ def apply_rows(rc_helper, path: Path, rows: list[tuple[str, str]]) -> None:
     rc_helper.write_rc(path, rc_text, before + rc_helper.build_string_table(rows) + rc_text.text[endif.start() :])
 
 
+def verify_non_managed_unchanged(
+    rc_helper,
+    path: Path,
+    before: dict[str, str],
+    managed_keys: set[str],
+) -> None:
+    """Fail if applying a managed block changed stock/non-managed strings."""
+
+    after = rc_helper.collect_rc_strings(path).values
+    changed = [
+        key
+        for key in sorted(set(before) & set(after))
+        if key not in managed_keys and before[key] != after[key]
+    ]
+    removed = [key for key in sorted(set(before) - set(after)) if key not in managed_keys]
+    if changed or removed:
+        details = []
+        if changed:
+            details.append("changed non-managed ids:\n" + "\n".join(changed))
+        if removed:
+            details.append("removed non-managed ids:\n" + "\n".join(removed))
+        raise SystemExit(f"{path}: managed update touched stock translations:\n" + "\n\n".join(details))
+
+
+def write_review_packet(
+    path: Path,
+    source: dict[str, str],
+    keys: list[str],
+    drafts: dict[str, str],
+    manual_keys: set[str],
+    cached_before: set[str],
+) -> None:
+    """Write a review TSV with English source, draft translation, and provenance."""
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.writer(handle, delimiter="\t", lineterminator="\n")
+        writer.writerow(["KEY", "ENGLISH", "DRAFT", "NOTES"])
+        for key in keys:
+            if key in manual_keys:
+                note = "manual"
+            elif key in cached_before:
+                note = "cache"
+            elif drafts.get(key):
+                note = "machine-draft"
+            else:
+                note = "missing-manual-translation"
+            writer.writerow([key, source[key], drafts.get(key, ""), note])
+
+
 def run(args: argparse.Namespace) -> None:
     """Translate missing strings and update the target RC managed block."""
 
@@ -276,6 +327,7 @@ def run(args: argparse.Namespace) -> None:
     cache = load_cache(args.cache)
     cache_key = f"{args.target_lang}:{args.target_rc.name}"
     cache.setdefault(cache_key, {})
+    cached_before = set(cache[cache_key])
 
     new_rows: list[tuple[str, str]] = []
     manual_keys = [key for key in missing if key in manual_map and key not in existing_map]
@@ -284,9 +336,11 @@ def run(args: argparse.Namespace) -> None:
     if manual_keys:
         save_cache(args.cache, cache)
     uncached_keys = [key for key in missing if key not in existing_map and key not in cache[cache_key]]
-    translator = load_translator(args.target_lang) if uncached_keys else None
+    translator = load_translator(args.target_lang) if uncached_keys and not args.no_machine_translate else None
     for start in range(0, len(uncached_keys), args.batch_size):
         chunk_keys = uncached_keys[start : start + args.batch_size]
+        if args.no_machine_translate:
+            break
         translated_values = translate_values_batch(
             translator,
             [source.values[key] for key in chunk_keys],
@@ -300,18 +354,47 @@ def run(args: argparse.Namespace) -> None:
         if args.progress:
             print(f"{args.target_rc.name}: cached {translated_count}/{len(uncached_keys)} new translations")
 
+    missing_translation_keys = [
+        key for key in missing if key not in existing_map and key not in cache[cache_key]
+    ]
+    if args.review_packet:
+        review_keys = [key for key in missing if key not in existing_map]
+        write_review_packet(
+            args.review_packet,
+            source.values,
+            review_keys,
+            cache[cache_key],
+            set(manual_keys),
+            cached_before,
+        )
+    if missing_translation_keys and not (args.draft_only or args.dry_run):
+        raise SystemExit(
+            "Missing translations; provide --manual-tsv, allow machine translation, or use --draft-only:\n"
+            + "\n".join(missing_translation_keys)
+        )
+
     for key in missing:
         if key in existing_map:
+            continue
+        if key not in cache[cache_key]:
             continue
         new_rows.append((key, cache[cache_key][key]))
 
     rows = existing_rows + new_rows
-    if not args.dry_run:
+    if not args.dry_run and not args.draft_only:
         rc_helper.validate_placeholders(args.source_rc, rows)
+        original_values = dict(target.values)
         apply_rows(rc_helper, args.target_rc, rows)
+        verify_non_managed_unchanged(
+            rc_helper,
+            args.target_rc,
+            original_values,
+            {key for key, _ in rows},
+        )
     print(
         f"{args.target_rc}: preserved {len(target.values) - len(missing)} existing rows, "
-        f"added {len(new_rows)} rows ({len(manual_keys)} manual), managed rows {len(rows)}"
+        f"added {len(new_rows)} rows ({len(manual_keys)} manual), "
+        f"missing drafts {len(missing_translation_keys)}, managed rows {len(rows)}"
     )
 
 
@@ -333,6 +416,21 @@ def main() -> int:
     parser.add_argument("--progress", type=int, default=25, help="Progress interval; 0 disables progress.")
     parser.add_argument("--batch-size", type=int, default=25, help="Number of strings to request per batch.")
     parser.add_argument("--dry-run", action="store_true", help="Translate/cache but do not rewrite the target RC.")
+    parser.add_argument(
+        "--draft-only",
+        action="store_true",
+        help="Create cache/review output only; never rewrite the target RC.",
+    )
+    parser.add_argument(
+        "--no-machine-translate",
+        action="store_true",
+        help="Do not call machine translation; require manual TSV or existing cache.",
+    )
+    parser.add_argument(
+        "--review-packet",
+        type=Path,
+        help="Write KEY/ENGLISH/DRAFT/NOTES TSV for manual or Codex review.",
+    )
     args = parser.parse_args()
     run(args)
     return 0

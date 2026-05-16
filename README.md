@@ -74,12 +74,16 @@ Normalization helpers live here too:
   repo `.editorconfig` and `.gitattributes`
 - `helpers\rc-string-table.py` audits and edits Windows `.rc` string tables.
   For release localization it is the coverage/quality gate: it checks required
-  resource IDs, duplicate IDs, printf placeholder parity, copied-English
-  strings, and optional semantic quality rules.
+  resource IDs, duplicate IDs, printf/literal-percent marker parity, line-break
+  escape parity, mnemonic accelerator parity, copied-English strings, and
+  optional semantic quality rules.
 - `helpers\rc-translate-missing.py` adds only missing eMule BB managed strings
   to supported language `.rc` files. It preserves existing translations by
-  default; use curated `--manual-tsv` input for new labels before relying on
-  machine translation drafts.
+  default, refuses stock-string drift after writing, and can produce
+  `--review-packet` TSVs. Use curated `--manual-tsv` input for new labels before
+  relying on machine translation drafts; use `--draft-only
+  --no-machine-translate` when preparing review packets without touching `.rc`
+  files.
 - `helpers\rc-release-languages.json` is the canonical machine-readable release
   language manifest. Prefer it over hand-written repeated `--target-rc` lists
   in audits.
@@ -100,12 +104,20 @@ Normalization helpers live here too:
 Release translation rule: preserve stock/eMule translations as they are; add
 or refine only new eMule BB labels, and make those translations meaningful for
 the target language. Machine translation is acceptable only as a draft, never
-as an unreviewed final result.
+as an unreviewed final result. Historical or external translation engines,
+including the eMuleAI analysis tree, may inspire validation checks but are not
+translation sources for release `.rc` files.
 
 Typical release localization audit:
 
 ```powershell
 python helpers\rc-string-table.py --cross-reference --quality-audit --fail-on-quality-warning --show-extra --allow-identical-ids helpers\rc-translation-identical-ok-ids.txt --quality-rules helpers\rc-translation-quality-rules.json --english-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --require-ids helpers\rc-release-localization-ids.txt --release-languages helpers\rc-release-languages.json
+```
+
+Missing managed-label report:
+
+```powershell
+python helpers\rc-string-table.py --missing-report --fail-on-missing --english-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --require-ids helpers\rc-release-localization-ids.txt --release-languages helpers\rc-release-languages.json
 ```
 
 Release-facing Windows operator scripts are the only tracked PowerShell files

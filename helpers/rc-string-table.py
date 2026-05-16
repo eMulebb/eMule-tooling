@@ -167,7 +167,8 @@ def build_string_table(rows: list[tuple[str, str]]) -> str:
     return "\n".join(lines)
 
 
-PLACEHOLDER_RE = re.compile(r"%(?:%|[-+ #0]*\d*(?:\.\d+)?[hlI64]*[A-Za-z])")
+PLACEHOLDER_RE = re.compile(r"%(?:%|[-+#0]*\d*(?:\.\d+)?(?:I64|I32|ll|l|h|z|t|j|L)?[A-Za-z])")
+ESCAPE_RE = re.compile(r"\\r\\n|\\[nrt]")
 TRANSLATABLE_RE = re.compile(r"[A-Za-z]")
 
 
@@ -175,6 +176,71 @@ def placeholders(value: str) -> list[str]:
     """Return printf-style placeholders, ignoring literal percent escapes."""
 
     return [item for item in PLACEHOLDER_RE.findall(value) if item != "%%"]
+
+
+def format_markers(value: str) -> list[str]:
+    """Return printf placeholders and literal percent markers in order."""
+
+    markers: list[str] = []
+    index = 0
+    while index < len(value):
+        if value[index] != "%":
+            index += 1
+            continue
+        match = PLACEHOLDER_RE.match(value, index)
+        if match:
+            markers.append(match.group(0))
+            index = match.end()
+        else:
+            markers.append("%")
+            index += 1
+    return markers
+
+
+def escape_markers(value: str) -> list[str]:
+    """Return RC line/tab escape markers that must retain paragraph shape."""
+
+    return ESCAPE_RE.findall(value)
+
+
+def accelerator_counts(value: str) -> tuple[int, int]:
+    """Return mnemonic and literal ampersand counts for a resource string."""
+
+    mnemonics = 0
+    literals = 0
+    index = 0
+    while index < len(value):
+        if value[index] != "&":
+            index += 1
+            continue
+        if index + 1 < len(value) and value[index + 1] == "&":
+            literals += 1
+            index += 2
+        else:
+            mnemonics += 1
+            index += 1
+    return mnemonics, literals
+
+
+def structural_warnings(source_value: str, target_value: str) -> list[str]:
+    """Return structural localization issues that can break formatting or menus."""
+
+    warnings: list[str] = []
+    expected_format = format_markers(source_value)
+    actual_format = format_markers(target_value)
+    if expected_format != actual_format:
+        warnings.append(f"format markers expected {expected_format}, got {actual_format}")
+
+    expected_escapes = escape_markers(source_value)
+    actual_escapes = escape_markers(target_value)
+    if expected_escapes != actual_escapes:
+        warnings.append(f"escape markers expected {expected_escapes}, got {actual_escapes}")
+
+    expected_mnemonics, _ = accelerator_counts(source_value)
+    actual_mnemonics, _ = accelerator_counts(target_value)
+    if expected_mnemonics != actual_mnemonics:
+        warnings.append(f"mnemonic accelerators expected {expected_mnemonics}, got {actual_mnemonics}")
+    return warnings
 
 
 def _quality_normalize(value: str) -> str:
@@ -385,15 +451,13 @@ def cross_reference(args: argparse.Namespace) -> None:
         target_ids = set(target.values)
         missing = [key for key in required_ids if key not in target_ids]
         extra = sorted(key for key in target_ids if key not in source.values)
-        placeholder_errors = []
+        structural_errors = []
         quality_warnings = []
         for key in required_ids:
             if key not in target.values:
                 continue
-            expected = placeholders(source.values[key])
-            actual = placeholders(target.values[key])
-            if expected != actual:
-                placeholder_errors.append(f"{key}: expected {expected}, got {actual}")
+            for warning in structural_warnings(source.values[key], target.values[key]):
+                structural_errors.append(f"{key}: {warning}")
             if args.quality_audit and key not in allowed_identical_ids:
                 warning = untranslated_warning(source.values[key], target.values[key])
                 if warning:
@@ -404,8 +468,8 @@ def cross_reference(args: argparse.Namespace) -> None:
             errors.append(f"{target_path}: duplicate ids:\n" + "\n".join(target.duplicates))
         if missing:
             errors.append(f"{target_path}: missing ids:\n" + "\n".join(missing))
-        if placeholder_errors:
-            errors.append(f"{target_path}: placeholder mismatch:\n" + "\n".join(placeholder_errors))
+        if structural_errors:
+            errors.append(f"{target_path}: structural mismatch:\n" + "\n".join(structural_errors))
         if quality_warnings:
             message = f"{target_path}: quality warnings:\n" + "\n".join(quality_warnings)
             if args.fail_on_quality_warning:
@@ -420,20 +484,53 @@ def cross_reference(args: argparse.Namespace) -> None:
         raise SystemExit("\n\n".join(errors))
 
 
+def missing_report(args: argparse.Namespace) -> None:
+    """Print required release ids missing from target RC files."""
+
+    if not args.english_rc:
+        raise SystemExit("--missing-report requires --english-rc.")
+    targets = list(args.target_rc or [])
+    targets.extend(load_release_language_targets(args.release_languages, args.english_rc))
+    if args.rc:
+        targets.append(args.rc)
+    if not targets:
+        raise SystemExit("--missing-report requires at least one --target-rc, --release-languages, or --rc.")
+    targets = list(dict.fromkeys(targets))
+
+    source = collect_rc_strings(args.english_rc)
+    required_ids = _required_or_source_ids(parse_id_list(args.require_ids), source.values)
+    missing_in_source = [key for key in required_ids if key not in source.values]
+    if missing_in_source:
+        raise SystemExit(
+            f"{args.english_rc} is missing required resource ids:\n" + "\n".join(missing_in_source)
+        )
+
+    any_missing = False
+    for target_path in targets:
+        target = collect_rc_strings(target_path)
+        missing = [key for key in required_ids if key not in target.values]
+        status = "MISSING" if missing else "OK"
+        print(f"{status} {target_path}: {len(missing)}/{len(required_ids)} missing")
+        if missing:
+            any_missing = True
+            for key in missing:
+                print(f"  {key}\t{source.values[key]}")
+    if any_missing and args.fail_on_missing:
+        raise SystemExit("Missing release localization ids found.")
+
+
 def validate_placeholders(english_rc: Path, rows: list[tuple[str, str]]) -> None:
-    """Fail when translated printf placeholders differ from English."""
+    """Fail when translated structural markers differ from English."""
 
     english = collect_strings(english_rc)
     errors: list[str] = []
     for key, value in rows:
         if key not in english:
             continue
-        expected = placeholders(english[key])
-        actual = placeholders(value)
-        if expected != actual:
-            errors.append(f"{key}: expected {expected}, got {actual}")
+        for warning in structural_warnings(english[key], value):
+            errors.append(f"{key}: {warning}")
     if errors:
-        raise SystemExit("Placeholder mismatch:\n" + "\n".join(errors))
+        raise SystemExit("Structural marker mismatch:\n" + "\n".join(errors))
 
 
 def apply_block(args: argparse.Namespace) -> None:
@@ -509,6 +606,16 @@ def main() -> int:
         help="Compare English/source resource ids against target RC files.",
     )
     parser.add_argument(
+        "--missing-report",
+        action="store_true",
+        help="Print required ids missing from target RC files.",
+    )
+    parser.add_argument(
+        "--fail-on-missing",
+        action="store_true",
+        help="Make --missing-report exit non-zero when any target is missing ids.",
+    )
+    parser.add_argument(
         "--quality-audit",
         action="store_true",
         help="During --cross-reference, report required ids that still look like copied English.",
@@ -538,6 +645,8 @@ def main() -> int:
     args = parser.parse_args()
     if args.cross_reference:
         cross_reference(args)
+    elif args.missing_report:
+        missing_report(args)
     elif args.audit:
         audit_block(args)
     else:
