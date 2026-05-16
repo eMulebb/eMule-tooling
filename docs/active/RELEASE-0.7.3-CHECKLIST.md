@@ -28,6 +28,7 @@ checklist.
 - [ ] `python -m emule_workspace test certification --profile fast`
 - [ ] `python -m emule_workspace test certification --profile overnight`
 - [ ] `python -m emule_workspace test live-e2e --profile release-expanded --fail-fast --live-wire-inputs-file repos\eMule-build-tests\live-wire-inputs.local.json`
+- [ ] `python -m emule_workspace test live-e2e --profile ui-resource-depth --fail-fast`
 - [ ] `python -m emule_workspace package-release --config Release --platform x64`
 - [ ] `python -m emule_workspace package-release --config Release --platform ARM64`
 - [ ] `python repos\eMule-tooling\ci\check-clean-worktree.py`
