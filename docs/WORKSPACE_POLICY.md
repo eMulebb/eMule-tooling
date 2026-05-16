@@ -475,8 +475,6 @@ The canonical workspace currently materializes these app worktrees:
   `#Requires -Version 5.1`.
 - Executable PowerShell scripts in `repos\eMule-tooling\scripts\` must have
   matching `.cmd` wrappers that launch Windows PowerShell `5.1` explicitly.
-  Dot-sourced support modules, such as `app-emule-support.ps1`, do not need a
-  direct wrapper.
 - New tracked PowerShell files must not be added anywhere else in workspace-owned
   repos or managed app worktrees.
 - Workspace hygiene checks must fail when tracked PowerShell appears outside
