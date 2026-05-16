@@ -1,0 +1,216 @@
+{
+  "languages": {
+    "de_DE.rc": {
+      "forbidden_regex": [
+        {
+          "pattern": "redigier|redigiert",
+          "message": "redacted should be translated as bereinigt/anonymisiert, not redigiert"
+        }
+      ],
+      "id_rules": {
+        "IDS_OPEN_TEMP_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Öffnen Sie",
+              "message": "menu action should use concise infinitive form"
+            }
+          ]
+        },
+        "IDS_OPEN_WEBSERVER_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Öffnen Sie",
+              "message": "menu action should use concise infinitive form"
+            }
+          ]
+        },
+        "IDS_OPEN_SKINS_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Öffnen Sie",
+              "message": "menu action should use concise infinitive form"
+            }
+          ]
+        },
+        "IDS_OPEN_TOOLBAR_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Öffnen Sie",
+              "message": "menu action should use concise infinitive form"
+            }
+          ]
+        },
+        "IDS_OPEN_EXECUTABLE_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Öffnen Sie",
+              "message": "menu action should use concise infinitive form"
+            }
+          ]
+        },
+        "IDS_TOOLS_STATUS_MINIMIZE_TO_TRAY": {
+          "forbidden_regex": [
+            {
+              "pattern": "Taskleiste",
+              "message": "tray means Infobereich/Systemtray, not taskbar"
+            }
+          ]
+        },
+        "IDS_SPEED_LIMIT_BOTH_FMT": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Limit:",
+              "message": "keep speed-limit wording localized as Begrenzung"
+            }
+          ]
+        }
+      }
+    },
+    "es_ES_T.rc": {
+      "id_rules": {
+        "IDS_OPEN_TEMP_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Abra\\b",
+              "message": "menu action should use Abrir, not a formal sentence"
+            }
+          ]
+        }
+      }
+    },
+    "pt_BR.rc": {
+      "forbidden_regex": [
+        {
+          "pattern": "redigid|redigido|redigida",
+          "message": "redacted should be expurgado/com dados removidos, not redigido"
+        }
+      ],
+      "id_rules": {
+        "IDS_OPEN_TEMP_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Abra\\b",
+              "message": "menu action should use Abrir, not a formal sentence"
+            }
+          ]
+        },
+        "IDS_OPEN_WEBSERVER_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Abra\\b",
+              "message": "menu action should use Abrir, not a formal sentence"
+            }
+          ]
+        },
+        "IDS_OPEN_SKINS_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Abra\\b",
+              "message": "menu action should use Abrir, not a formal sentence"
+            }
+          ]
+        },
+        "IDS_OPEN_EXECUTABLE_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Abra\\b",
+              "message": "menu action should use Abrir, not a formal sentence"
+            }
+          ]
+        }
+      }
+    },
+    "pt_PT.rc": {
+      "forbidden_regex": [
+        {
+          "pattern": "redigid|redigido|redigida",
+          "message": "redacted should be expurgado/com dados removidos, not redigido"
+        }
+      ],
+      "id_rules": {
+        "IDS_OPEN_TEMP_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Abra\\b",
+              "message": "menu action should use Abrir, not a formal sentence"
+            }
+          ]
+        },
+        "IDS_OPEN_WEBSERVER_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Abra\\b",
+              "message": "menu action should use Abrir, not a formal sentence"
+            }
+          ]
+        },
+        "IDS_OPEN_SKINS_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Abra\\b",
+              "message": "menu action should use Abrir, not a formal sentence"
+            }
+          ]
+        },
+        "IDS_OPEN_EXECUTABLE_DIR": {
+          "forbidden_regex": [
+            {
+              "pattern": "^Abra\\b",
+              "message": "menu action should use Abrir, not a formal sentence"
+            }
+          ]
+        }
+      }
+    },
+    "it_IT.rc": {
+      "forbidden_regex": [
+        {
+          "pattern": "redatt[aoei]",
+          "message": "redacted should be oscurato/depurato, not redatto"
+        }
+      ],
+      "id_rules": {
+        "IDS_TOOLS_STATUS_MINIMIZE_TO_TRAY": {
+          "forbidden_regex": [
+            {
+              "pattern": "barra delle applicazioni",
+              "message": "tray means area di notifica, not taskbar"
+            }
+          ]
+        }
+      }
+    },
+    "ru_RU.rc": {
+      "forbidden_regex": [
+        {
+          "pattern": "отредактир",
+          "message": "redacted should be очищенный/с удаленными данными, not edited"
+        }
+      ]
+    },
+    "pl_PL.rc": {
+      "forbidden_regex": [
+        {
+          "pattern": "zredagow",
+          "message": "redacted should be oczyszczony/zanonimizowany, not edited"
+        }
+      ]
+    },
+    "nl_NL.rc": {
+      "forbidden_regex": [
+        {
+          "pattern": "geredigeer",
+          "message": "redacted should be gezuiverd/geanonimiseerd, not geredigeerd"
+        }
+      ]
+    },
+    "tr_TR.rc": {
+      "forbidden_regex": [
+        {
+          "pattern": "redakte",
+          "message": "redacted should be gizlenmiş/temizlenmiş, not redakte"
+        }
+      ]
+    }
+  }
+}

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from collections import Counter
@@ -199,6 +200,62 @@ def untranslated_warning(source_value: str, target_value: str) -> str | None:
     return None
 
 
+def load_quality_rules(path: Path | None) -> dict:
+    """Load optional semantic translation quality rules."""
+
+    if path is None:
+        return {}
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+def _rules_for_target(rules: dict, target_path: Path) -> list[dict]:
+    """Return global and target-language rule groups."""
+
+    groups: list[dict] = []
+    if isinstance(rules.get("global"), dict):
+        groups.append(rules["global"])
+    languages = rules.get("languages", {})
+    if isinstance(languages, dict):
+        for name in (target_path.name, target_path.stem):
+            group = languages.get(name)
+            if isinstance(group, dict):
+                groups.append(group)
+    return groups
+
+
+def _rule_entries(group: dict, key: str, field: str) -> list[dict]:
+    """Return generic and id-specific rule entries for a target string."""
+
+    entries: list[dict] = []
+    generic = group.get(field, [])
+    if isinstance(generic, list):
+        entries.extend(item for item in generic if isinstance(item, dict))
+    id_rules = group.get("id_rules", {})
+    if isinstance(id_rules, dict):
+        id_group = id_rules.get(key, {})
+        if isinstance(id_group, dict):
+            specific = id_group.get(field, [])
+            if isinstance(specific, list):
+                entries.extend(item for item in specific if isinstance(item, dict))
+    return entries
+
+
+def semantic_quality_warnings(target_path: Path, key: str, value: str, rules: dict) -> list[str]:
+    """Apply curated language/id rules that catch common bad translations."""
+
+    warnings: list[str] = []
+    for group in _rules_for_target(rules, target_path):
+        for item in _rule_entries(group, key, "forbidden_regex"):
+            pattern = item.get("pattern")
+            if isinstance(pattern, str) and re.search(pattern, value, flags=re.IGNORECASE):
+                warnings.append(item.get("message", f"forbidden pattern matched: {pattern}"))
+        for item in _rule_entries(group, key, "required_regex"):
+            pattern = item.get("pattern")
+            if isinstance(pattern, str) and not re.search(pattern, value, flags=re.IGNORECASE):
+                warnings.append(item.get("message", f"required pattern missing: {pattern}"))
+    return warnings
+
+
 def collect_strings(path: Path) -> dict[str, str]:
     """Collect RC string literals by resource id."""
 
@@ -268,6 +325,7 @@ def cross_reference(args: argparse.Namespace) -> None:
     source = collect_rc_strings(args.english_rc)
     required_ids = _required_or_source_ids(parse_id_list(args.require_ids), source.values)
     allowed_identical_ids = set(parse_id_list(args.allow_identical_ids))
+    quality_rules = load_quality_rules(args.quality_rules)
     missing_in_source = [key for key in required_ids if key not in source.values]
     if source.duplicates:
         raise SystemExit(
@@ -297,6 +355,8 @@ def cross_reference(args: argparse.Namespace) -> None:
                 warning = untranslated_warning(source.values[key], target.values[key])
                 if warning:
                     quality_warnings.append(f"{key}: {warning}")
+            for warning in semantic_quality_warnings(target_path, key, target.values[key], quality_rules):
+                quality_warnings.append(f"{key}: {warning}")
         if target.duplicates:
             errors.append(f"{target_path}: duplicate ids:\n" + "\n".join(target.duplicates))
         if missing:
@@ -409,6 +469,11 @@ def main() -> int:
         "--allow-identical-ids",
         type=Path,
         help="Optional one-id-per-line list of resource ids where identical text is acceptable.",
+    )
+    parser.add_argument(
+        "--quality-rules",
+        type=Path,
+        help="Optional JSON file with language/id-specific semantic translation quality rules.",
     )
     parser.add_argument(
         "--fail-on-quality-warning",
