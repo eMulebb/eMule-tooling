@@ -552,6 +552,24 @@ The canonical workspace currently materializes these app worktrees:
 - New release-facing user-visible strings must land in `srchybrid\emule.rc`
   and every canonical supported release language file above before release
   proof.
+- Existing stock/eMule translation strings in supported `.rc` files must be
+  preserved. Do not mass-retranslate legacy labels, do not replace established
+  community wording just because a machine translation suggests different text,
+  and do not rewrite unrelated strings during a release-label pass.
+- New eMule BB labels must be translated meaningfully for the target language.
+  Machine translation may be used only as a draft source; the committed text
+  must be reviewed for product context, false friends, menu/action style,
+  placeholders, protected product/protocol names, and target-language idiom.
+- eMule BB managed translation blocks may be updated to add or improve new
+  eMule BB strings. Such edits must stay scoped to those new/managed labels
+  unless the user explicitly asks for a broader translation refresh.
+- `repos\eMule-tooling\helpers\rc-string-table.py` is the canonical helper for
+  auditing release localization coverage, placeholder parity, copied-English
+  mistakes, and curated semantic quality rules.
+- `repos\eMule-tooling\helpers\rc-translate-missing.py` is a convenience helper
+  for adding only missing managed strings. It must preserve existing target
+  translations by default; prefer curated `--manual-tsv` translations for new
+  labels before falling back to machine translation.
 - Other legacy translation files are best-effort maintenance targets and are
   not release-blocking unless this policy explicitly promotes them into the
   canonical supported set.

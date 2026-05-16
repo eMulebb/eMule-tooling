@@ -72,12 +72,38 @@ Normalization helpers live here too:
 
 - `helpers\source-normalizer.py` checks or rewrites tracked text files to match
   repo `.editorconfig` and `.gitattributes`
+- `helpers\rc-string-table.py` audits and edits Windows `.rc` string tables.
+  For release localization it is the coverage/quality gate: it checks required
+  resource IDs, duplicate IDs, printf placeholder parity, copied-English
+  strings, and optional semantic quality rules.
+- `helpers\rc-translate-missing.py` adds only missing eMule BB managed strings
+  to supported language `.rc` files. It preserves existing translations by
+  default; use curated `--manual-tsv` input for new labels before relying on
+  machine translation drafts.
+- `helpers\rc-release-localization-ids.txt` lists the release-facing eMule BB
+  resource IDs that every supported language must contain.
+- `helpers\rc-translation-identical-ok-ids.txt` allow-lists IDs where identical
+  English-looking text is intentional, such as acronyms or common protocol/UI
+  terms.
+- `helpers\rc-translation-quality-rules.json` records language-specific traps
+  for meaningful translations, such as false friends and tray/taskbar wording.
 - `helpers\pages-site-tools.py` validates the static `eMulebb-pages` HTML,
   canonical locale links, sitemap, and page asset policy; it can also render
   `sitemap.xml` from the canonical locale table
 - `hooks\pre-commit` is the shared workspace pre-commit hook entrypoint
 - `python -m emule_workspace sync` configures repo-local `core.hooksPath` to
   use that shared hook
+
+Release translation rule: preserve stock/eMule translations as they are; add
+or refine only new eMule BB labels, and make those translations meaningful for
+the target language. Machine translation is acceptable only as a draft, never
+as an unreviewed final result.
+
+Typical release localization audit:
+
+```powershell
+python helpers\rc-string-table.py --cross-reference --quality-audit --fail-on-quality-warning --show-extra --allow-identical-ids helpers\rc-translation-identical-ok-ids.txt --quality-rules helpers\rc-translation-quality-rules.json --english-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\emule.rc --require-ids helpers\rc-release-localization-ids.txt --target-rc ..\..\workspaces\v0.72a\app\eMule-main\srchybrid\lang\es_ES_T.rc
+```
 
 Release-facing Windows operator scripts are the only tracked PowerShell files
 allowed in the active workspace. They live under `scripts\`, must stay Windows
